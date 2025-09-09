@@ -2,6 +2,7 @@
 import { client } from '../../sanity.client'
 import { pageQuery } from '../sanity/utils/pageQueries'
 import { notFound } from 'next/navigation'
+import { SanityImage, SanityVideo } from '../types/sanity'
 
 // Import section components
 import HomeHeroMedia from './HomeHeroMedia'
@@ -113,15 +114,15 @@ export default async function DynamicPage({ params }: PageProps) {
           return (
             <Component 
               key={section._key} 
-              desktopTitle={desktopTitle}
-              mobileTitle={mobileTitle}
-              backgroundMediaType={backgroundMediaType}
-              desktopBackgroundImage={desktopBackgroundImage}
-              mobileBackgroundImage={mobileBackgroundImage}
-              desktopBackgroundVideo={desktopBackgroundVideo}
-              mobileBackgroundVideo={mobileBackgroundVideo}
-              showControls={showControls}
-              overlayDarkness={overlayDarkness}
+              desktopTitle={desktopTitle as string | undefined}
+              mobileTitle={mobileTitle as string | undefined}
+              backgroundMediaType={backgroundMediaType as 'image' | 'video' | undefined}
+              desktopBackgroundImage={desktopBackgroundImage as SanityImage | undefined}
+              mobileBackgroundImage={mobileBackgroundImage as SanityImage | undefined}
+              desktopBackgroundVideo={desktopBackgroundVideo as SanityVideo | undefined}
+              mobileBackgroundVideo={mobileBackgroundVideo as SanityVideo | undefined}
+              showControls={showControls as boolean | undefined}
+              overlayDarkness={overlayDarkness as number | undefined}
             />
           )
         }
