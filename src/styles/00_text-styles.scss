@@ -1,0 +1,56 @@
+@use '00_mixins' as *;
+@use '00_base' as *;
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 0px;
+  font-weight: normal;
+}
+
+h1 {
+  font-family: 'Millionaire-Roman';  
+  line-height: 140%;
+  @include font-size(40px, 35px, 50px);
+
+  &.smaller {
+    @include font-size(25px, 35px, 50px);
+    line-height: 150%;
+  }
+}
+
+h2 {
+  font-family: 'Millionaire-Roman';  
+  line-height: 150%;
+  @include font-size(25px, 25px, 35px);
+}
+
+.site-header {
+  font-family: 'Millionaire-Roman';  
+  line-height: normal;
+  @include font-size(28px, 15px, 20px);
+}
+
+.site-footer {
+  font-family: 'Dia';  
+  line-height: normal;
+  letter-spacing: 0.02em;
+  @include font-size(17px, 13px, 18px);
+
+  .uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+}
+
+.caption-font {
+  font-family: 'Dia';  
+  line-height: 140%;
+  @include font-size(12px, 13px, 15px);
+}
+
+.cta-font {
+  font-family: 'Dia';  
+  line-height: 140%;
+  @include font-size(12px, 12px, 15px);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}

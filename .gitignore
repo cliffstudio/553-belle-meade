@@ -1,6 +1,5 @@
 /.DS_Store
 /.env.local
 /.next
-/README.md
 /next-env.d.ts
 /node_modules
