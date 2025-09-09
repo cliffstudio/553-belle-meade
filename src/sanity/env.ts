@@ -6,6 +6,13 @@ export const dataset = assertValue(
   'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET'
 )
 
+// Validate dataset format
+if (dataset && !/^[a-z0-9-]+$/.test(dataset)) {
+  throw new Error(
+    `Invalid Sanity dataset: "${dataset}". Dataset can only contain lowercase letters (a-z), numbers (0-9), and dashes (-).`
+  )
+}
+
 export const projectId = assertValue(
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'

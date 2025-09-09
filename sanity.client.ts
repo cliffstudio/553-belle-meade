@@ -1,9 +1,10 @@
 // sanity.client.ts
 import { createClient } from 'next-sanity'
+import { projectId, dataset } from './src/sanity/env'
 
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId,
+  dataset,
   apiVersion: '2023-10-01',
   useCdn: true,
 })
