@@ -1,0 +1,15 @@
+@use '00_mixins' as *;
+@use '00_base' as *;
+
+.page-carousel {
+
+  .text-with-artefacts,
+  .full-bleed-media-block,
+  .image-masonry-block,
+  .cta-banner-block,
+  .site-footer {
+    position: relative;
+    z-index: 6;
+  }
+
+}

@@ -23,7 +23,28 @@ h2 {
   @include font-size(25px, 25px, 35px);
 }
 
-.site-header {
+h3 {
+  font-family: 'Millionaire-Roman';  
+  line-height: 140%;
+  @include font-size(20px, 20px, 28px);
+
+  @media only screen and (max-width: 768px) {
+    line-height: 150%;
+  }
+}
+
+.press-header {
+  font-family: 'Millionaire-Roman';  
+  line-height: 140%;
+  @include font-size(25px, 20px, 28px);
+
+  @media only screen and (max-width: 768px) {
+    line-height: 150%;
+  }
+}
+
+.site-header,
+.carousel-close {
   font-family: 'Millionaire-Roman';  
   line-height: normal;
   @include font-size(28px, 15px, 20px);
@@ -47,10 +68,20 @@ h2 {
   @include font-size(12px, 13px, 15px);
 }
 
-.cta-font {
+.cta-font,
+.spark-registration-form input,
+.spark-registration-form select,
+.spark-registration-form textarea,
+.spark-registration-form button,
+.spark-registration-form .rs__control,
+.spark-registration-form .rs__option {
   font-family: 'Dia';  
   line-height: 140%;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   @include font-size(12px, 12px, 15px);
+}
+
+.dropdown-content {
+  @include font-size(18px, 15px, 16px);
 }

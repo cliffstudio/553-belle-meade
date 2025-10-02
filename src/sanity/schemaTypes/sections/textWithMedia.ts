@@ -5,6 +5,19 @@ export default defineType({
   title: 'Text with Media',
   type: 'object',
   fields: [
+    defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      initialValue: 'layout-1',
+      options: { 
+        list: [
+          { title: 'Layout 1', value: 'layout-1' },
+          { title: 'Layout 2', value: 'layout-2' },
+          { title: 'Layout 3', value: 'layout-3' }
+        ]
+      }
+    }),
     defineField({ name: 'heading', type: 'string' }),
     defineField({ name: 'body', type: 'richPortableText' }),
     defineField({ 

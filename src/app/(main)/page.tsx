@@ -3,8 +3,9 @@ import { homepageQuery } from '../../sanity/lib/queries'
 import HomeHeroMedia from '../../components/HomeHeroMedia'
 import LinkTiles from '../../components/LinkTiles'
 import FullWidthMedia from '../../components/FullWidthMedia'
-import TextWithMedia from '../../components/TextWithMedia'
+import LargeMediaText from '../../components/LargeMediaText'
 import ImageMasonry from '../../components/ImageMasonry'
+import BodyClassProvider from '../../components/BodyClassProvider'
 
 export default async function Home() {
   const homepage = await client.fetch(homepageQuery)
@@ -20,10 +21,14 @@ export default async function Home() {
 
   return (
     <>
+      <BodyClassProvider 
+        pageType={homepage.pageType} 
+        slug={homepage.slug?.current} 
+      />
       {homepage.homepageHero && <HomeHeroMedia {...homepage.homepageHero} />}
       {homepage.homepageLinkTiles && <LinkTiles {...homepage.homepageLinkTiles} />}
       {homepage.homepageFullWidthMedia && <FullWidthMedia {...homepage.homepageFullWidthMedia} />}
-      {homepage.homepageTextWithMedia && <TextWithMedia {...homepage.homepageTextWithMedia} pageType="homepage" />}
+      {homepage.homepageLargeMediaText && <LargeMediaText {...homepage.homepageLargeMediaText} pageType="homepage" />}
       {homepage.homepageImageMasonry && <ImageMasonry {...homepage.homepageImageMasonry} />}
     </>
   )

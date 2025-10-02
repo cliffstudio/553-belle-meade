@@ -42,6 +42,7 @@ export default defineType({
     }),
     defineField({ 
       name: 'showControls', 
+      title: 'Show Video Controls',
       type: 'boolean', 
       initialValue: false,
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'

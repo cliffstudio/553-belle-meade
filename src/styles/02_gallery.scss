@@ -1,0 +1,264 @@
+@use '00_mixins' as *;
+@use '00_base' as *;
+
+.page-gallery {
+
+  .gallery-block {
+    padding-top: get-rem-desktop(294);
+
+    @media (max-width: 1366px) {
+      padding-top: get-rem-tablet(204);
+    }
+
+    @media (max-width: 768px) {
+      padding-top: get-rem-mobile(180);
+      padding-left: get-rem-mobile(15);
+      padding-right: get-rem-mobile(15);
+    }
+
+    .gallery-grid {
+      .gallery-item {
+        position: relative;
+        width: calc(33.333% - 100px);
+        margin-bottom: get-rem-desktop(150);
+
+        @media (max-width: 1366px) {
+          width: calc(33.333% - 66.67px);
+          margin-bottom: get-rem-desktop(100);
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+          margin-bottom: get-rem-mobile(75);
+        }
+      }
+
+      .gallery-image {
+        position: relative;
+        width: 100%;
+
+        &.aspect-16-9 {
+          aspect-ratio: 16/9;
+        }
+
+        &.aspect-1-1 {
+          aspect-ratio: 1/1;
+        }
+
+        &.aspect-4-3 {
+          aspect-ratio: 4/3;
+        }
+
+        &.aspect-2-3 {
+          aspect-ratio: 2/3;
+        }
+      }
+    }
+  }
+
+  .carousel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $colour-cream;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: get-rem-desktop(150) get-rem-desktop(50);
+
+    @media (max-width: 1366px) {
+      padding: get-rem-tablet(100) get-rem-tablet(30);
+    }
+
+    @media (max-width: 768px) {
+      padding: get-rem-mobile(150) get-rem-mobile(15);
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      @include flex;
+      @include justify-content(center);
+      @include align-items(center);
+      overflow: hidden;
+
+      .carousel-close {
+        position: fixed;
+        top: get-rem-desktop(54);
+        right: get-rem-desktop(50);
+        cursor: pointer;
+        z-index: 10000;
+
+        @media (max-width: 1366px) {
+          top: get-rem-tablet(48);
+          right: get-rem-tablet(30);
+        }
+
+        @media (max-width: 768px) {
+          top: get-rem-mobile(77);
+          left: get-rem-mobile(15);
+          right: unset;
+
+          .menu-bar {
+            position: absolute;
+            width: 30px;
+            height: 1px;
+            background: $colour-burgundy;
+          
+            &[data-position=top] {
+              transform: translateY(0) rotate(45deg) scaleX(1.05);
+            }
+      
+            &[data-position=bottom] {
+              transform: translateY(0) rotate(-45deg) scaleX(1.05);
+            }
+          }
+        }
+      }
+
+      .carousel {
+        width: calc(100% - get-rem-desktop(150));
+        height: 100%;
+
+        @media (max-width: 1366px) {
+          width: calc(100% - get-rem-tablet(96));
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+
+        .carousel-cell {
+          width: 100%;
+          height: 100%;
+          @include flex;
+          @include justify-content(center);
+          @include align-items(center);
+
+          .carousel-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            @include flex;
+            @include flex-direction(column);
+            @include justify-content(center);
+            @include align-items(center);
+
+            .carousel-img {
+              max-width: 100%;
+              max-height: 100%;
+              width: auto;
+              height: auto;
+              object-fit: contain;
+              display: block;
+            }
+
+          }
+        }
+      }
+
+      .carousel-arrows {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include flex;
+        @include justify-content(space-between);
+        width: 100%;
+        pointer-events: none;
+        z-index: 1000;
+
+        @media (max-width: 768px) {
+          position: fixed;
+          top: unset;
+          bottom: get-rem-mobile(42);
+          padding: 0 get-rem-mobile(15);
+        }
+
+        .left-arrow,
+        .right-arrow {
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          background: transparent;
+          border: none;
+          pointer-events: auto;
+          @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+          @media (min-width: 769px) {
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+
+          &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+          }
+
+          svg {
+            fill: none;
+            stroke: $colour-burgundy;
+            stroke-width: 1px;
+            width: 25px;
+            height: auto;
+            display: block;
+
+            @media (max-width: 1366px) {
+              width: 18px;
+            }
+
+            @media (max-width: 768px) {
+              width: 7.5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .carousel-caption {
+    position: absolute;
+    bottom: get-rem-desktop(40);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 1000;
+
+    @media (max-width: 1366px) {
+      bottom: get-rem-tablet(40);
+    }
+
+    @media (max-width: 768px) {
+      bottom: get-rem-mobile(45);
+    }
+  }
+
+  .carousel {
+    .flickity-viewport {
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+    }
+
+    .flickity-slider {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .flickity-button {
+      display: none !important;
+    }
+  }
+
+}

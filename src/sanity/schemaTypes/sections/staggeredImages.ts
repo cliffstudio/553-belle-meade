@@ -9,8 +9,8 @@ export default defineType({
     defineField({ name: 'body', type: 'richPortableText' }),
     defineField({
       name: 'layout',
+      title: 'Layout',
       type: 'string',
-      title: 'Layout Variant',
       options: {
         list: [
           { title: 'Layout 1', value: 'layout-1' },
