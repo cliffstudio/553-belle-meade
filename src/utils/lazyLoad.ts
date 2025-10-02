@@ -12,7 +12,9 @@ export default function mediaLazyloading() {
 
   lazyLoadInstance = new LazyLoad({
     threshold: 500,
+    load_delay: 100, // Slightly longer delay to allow aspect ratio to be set
     callback_loaded: (el: HTMLElement) => {
+      // Hide loading overlays quickly since we already have the aspect ratio
       setTimeout(() => {
         hideSiblings(el, '.loading-overlay')
         hideChildren(el, '.loading-overlay')
@@ -22,6 +24,9 @@ export default function mediaLazyloading() {
         hideSiblings(el, '.video-placeholder')
         hideChildren(el, '.video-placeholder')
       }, 250)
+      
+      // Trigger a custom event for orientation updates
+      el.dispatchEvent(new CustomEvent('imageLoaded'))
     },
   })
 
