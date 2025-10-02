@@ -7,23 +7,28 @@ export default defineType({
   fields: [
     defineField({
       name: 'linkType',
+      title: 'Link Type',
       type: 'string',
+      initialValue: 'internal',
       options: { 
         list: ['internal','external'] 
       }
     }),
     defineField({ 
-      name: 'label', 
+      name: 'label',
+      title: 'Label',
       type: 'string',
-      hidden: ({ parent }) => parent?.linkType === 'internal'
+      hidden: ({ parent }) => parent?.linkType !== 'external'
     }),
     defineField({ 
       name: 'href',
+      title: 'Href',
       type: 'url',
-      hidden: ({ parent }) => parent?.linkType === 'internal'
+      hidden: ({ parent }) => parent?.linkType !== 'external'
     }),
     defineField({
       name: 'pageLink',
+      title: 'Page Link',
       type: 'reference',
       to: [{ type: 'page' }],
       hidden: ({ parent }) => parent?.linkType === 'external'

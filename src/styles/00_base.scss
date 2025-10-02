@@ -27,6 +27,22 @@ body {
   @include font-size(15px, 15px, 19px);
 }
 
+p, ul, ol {
+  margin-bottom: get-rem-desktop(26.6);
+
+  @media only screen and (max-width: 1366px) {
+    margin-bottom: get-rem-tablet(21);
+  }
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: get-rem-mobile(21);
+  }
+
+  &:last-child {
+		margin-bottom: 0px !important;
+	}
+}
+
 input,
 textarea,
 button,
@@ -102,7 +118,7 @@ LOADING OVERLAY(S) ------------------
 	left: 0;
 	z-index: 10;
 	background-color: $colour-burgundy; 
-	@include transition(opacity 0.4s cubic-bezier(0.25,0.1,0.25,1));
+	@include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
 	will-change: opacity;
 	
 	&.hidden {
@@ -135,7 +151,7 @@ VIDEO CONTENT ------------------
   left: 0;
 	@extend %background-cover;
 	z-index: 10;
-	@include transition(opacity 0.4s cubic-bezier(0.25,0.1,0.25,1));
+	@include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
 	will-change: opacity;
 
 	&.hidden {

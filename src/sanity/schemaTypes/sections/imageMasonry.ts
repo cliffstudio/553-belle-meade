@@ -5,9 +5,34 @@ export default defineType({
   title: 'Image Masonry',
   type: 'object',
   fields: [
-    defineField({ name: 'heading', type: 'string' }),
-    defineField({ name: 'body', type: 'richPortableText' }),
-    defineField({ name: 'cta', title: 'CTA', type: 'link' }),
+    defineField({ 
+      name: 'heading',
+      title: 'Heading',
+      type: 'string'
+    }),
+    defineField({ 
+      name: 'body',
+      title: 'Body',
+      type: 'richPortableText'
+    }),
+    defineField({ 
+      name: 'cta',
+      title: 'CTA',
+      type: 'link'
+    }),
+    defineField({
+      name: 'layout',
+      title: 'Image Layout',
+      type: 'string',
+      initialValue: 'layout-1',
+      options: {
+        list: [
+          { title: 'Layout 1', value: 'layout-1' },
+          { title: 'Layout 2', value: 'layout-2' },
+          { title: 'Layout 3', value: 'layout-3' }
+        ]
+      }
+    }),
     defineField({ 
       name: 'mediaType1', 
       title: 'Media Type',
@@ -64,12 +89,12 @@ export default defineType({
   fieldsets: [
     {
       name: 'media1',
-      title: 'Media 1',
+      title: 'Media',
       options: { collapsible: true, collapsed: false }
     },
     {
       name: 'media2',
-      title: 'Media 2',
+      title: 'Media',
       options: { collapsible: true, collapsed: false }
     }
   ]

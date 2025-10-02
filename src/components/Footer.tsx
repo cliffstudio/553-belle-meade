@@ -34,17 +34,25 @@ export default function Footer({ footer }: FooterProps) {
                 <div className="cta-font heading">{footer.socialLinks.heading}</div>
               )}
               <div className="social-links">
-                {footer.socialLinks.links?.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    target={link.isExternal ? '_blank' : undefined}
-                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                    className=""
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {footer.socialLinks.links?.map((link, index) => {
+                  const href = link.isExternal ? link.href : `/${link.pageLink?.slug}`
+                  const label = link.label || link.pageLink?.title
+                  
+                  // Skip rendering if href is undefined
+                  if (!href) return null
+                  
+                  return (
+                    <Link
+                      key={index}
+                      href={href}
+                      target={link.isExternal ? '_blank' : undefined}
+                      rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                      className=""
+                    >
+                      {label}
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -53,17 +61,25 @@ export default function Footer({ footer }: FooterProps) {
         {footer.footerNav && footer.footerNav.length > 0 && (
           <div className="column-2 col-6-12_lg uppercase">
             <div className="text-wrap">
-              {footer.footerNav.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.href}
-                  target={link.isExternal ? '_blank' : undefined}
-                  rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                  className=""
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {footer.footerNav.map((link, index) => {
+                const href = link.isExternal ? link.href : `/${link.pageLink?.slug}`
+                const label = link.label || link.pageLink?.title
+                
+                // Skip rendering if href is undefined
+                if (!href) return null
+                
+                return (
+                  <Link
+                    key={index}
+                    href={href}
+                    target={link.isExternal ? '_blank' : undefined}
+                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                    className=""
+                  >
+                    {label}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         )}

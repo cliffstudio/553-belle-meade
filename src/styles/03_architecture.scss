@@ -1,0 +1,120 @@
+@use '00_mixins' as *;
+@use '00_base' as *;
+
+.page-architecture {
+
+  .stacked-media-text-block {
+    padding-top: 0;
+    padding-bottom: get-rem-desktop(145);
+    background-color: transparent;
+
+    @media only screen and (max-width: 1366px) {
+      padding-bottom: get-rem-tablet(95);
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding-bottom: get-rem-mobile(70);
+    }
+
+    .media-wrap {
+      margin-top: 0;
+      margin-bottom: get-rem-desktop(48);
+
+      @media only screen and (max-width: 1366px) {
+        margin-bottom: get-rem-tablet(30);
+      }
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: get-rem-mobile(45);
+      }
+    }
+  }
+
+  .large-media-text-block {
+    .media-wrap {
+      margin-right: get-rem-desktop(153);
+
+      @media only screen and (max-width: 1366px) {
+        margin-right: get-rem-tablet(110);
+      }
+
+      @media only screen and (max-width: 768px) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .architects-block {
+    background-color: $colour-white;
+    padding-top: get-rem-desktop(150);
+    padding-bottom: get-rem-desktop(165);
+
+    @media only screen and (max-width: 1366px) {
+      padding-top: get-rem-tablet(95);
+      padding-bottom: get-rem-tablet(95);
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding-top: get-rem-mobile(70);
+      padding-bottom: get-rem-mobile(70);
+    }
+    
+    .heading {
+      max-width: get-rem-desktop(300);
+
+      @media only screen and (max-width: 1366px) {
+        max-width: get-rem-tablet(220);
+      }
+
+      @media only screen and (max-width: 768px) {
+        max-width: get-rem-mobile(215);
+        margin-bottom: get-rem-mobile(60);
+      }
+    }
+
+    .architects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: get-rem-desktop(15);
+      row-gap: get-rem-desktop(165);
+
+      @media only screen and (max-width: 1366px) {
+        row-gap: get-rem-tablet(95);
+      }
+
+      @media only screen and (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+        row-gap: get-rem-mobile(35);
+      }
+
+      .architect-item {
+        @media only screen and (max-width: 768px) {
+          border-top: 1px solid rgba($colour-burgundy, 0.5);
+          padding-top: get-rem-mobile(18);
+        }
+
+        .architect-content {
+          max-width: get-rem-desktop(510);
+  
+          @media only screen and (max-width: 1366px) {
+            max-width: get-rem-tablet(370);
+          }
+  
+          .architect-name {
+            margin-bottom: get-rem-desktop(20);
+  
+            @media only screen and (max-width: 1366px) {
+              margin-bottom: get-rem-tablet(10);
+            }
+
+            @media only screen and (max-width: 768px) {
+              margin-bottom: get-rem-mobile(25);
+              max-width: get-rem-mobile(220);
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

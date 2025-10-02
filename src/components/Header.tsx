@@ -48,6 +48,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   
   // Menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [headerExtraHeight, setHeaderExtraHeight] = useState(0)
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   
   // Check if we're on homepage for initial state
   const isHomepage = pathname === '/' || pathname === ''
@@ -151,34 +153,126 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     return cleanPathname === cleanHref || cleanPathname.startsWith(cleanHref + '/')
   }
 
-  // Convert menu items to Link format
-  const convertMenuItemsToLinks = (items: MenuItem[]): { label: string; href: string; isExternal?: boolean; isActive?: boolean }[] => {
-    return items.map(item => {
-      if (item.itemType === 'pageLink' && item.pageLink) {
-        const href = `/${item.pageLink.slug || ''}`
-        return {
-          label: item.pageLink.title || 'Untitled',
-          href,
-          isExternal: false,
-          isActive: isActive(href)
+  // Helper function to check if any sub-item is active
+  const hasActiveSubItem = (item: MenuItem): boolean => {
+    if (item.itemType === 'titleWithSubItems' && item.subItems) {
+      return item.subItems.some(subItem => {
+        const href = `/${subItem.pageLink?.slug || ''}`
+        return isActive(href)
+      })
+    }
+    return false
+  }
+
+  // Check if we're on a smaller screen (1366px and below)
+  const isSmallScreen = () => {
+    return window.innerWidth <= 1366
+  }
+
+  // Handle dropdown interaction (hover on desktop, click on mobile/tablet)
+  const handleDropdownEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Only handle hover on larger screens
+    if (isSmallScreen()) return
+    
+    const dropdownContent = event.currentTarget.querySelector('.dropdown-content') as HTMLElement
+    if (dropdownContent) {
+      // Get all dropdown contents to find the tallest one
+      const allDropdowns = document.querySelectorAll('.dropdown-content')
+      let maxHeight = 0
+      
+      allDropdowns.forEach(dropdown => {
+        const height = (dropdown as HTMLElement).scrollHeight
+        if (height > maxHeight) {
+          maxHeight = height
         }
-      } else if (item.itemType === 'titleWithSubItems' && item.heading) {
-        // For title with sub-items, we'll use the heading as the label
-        // and create a dropdown or expandable menu (for now, just use the heading)
-        return {
-          label: item.heading,
-          href: '#', // Placeholder - could be expanded to show sub-items
-          isExternal: false,
-          isActive: false
+      })
+      
+      setHeaderExtraHeight(maxHeight)
+    }
+  }
+
+  const handleDropdownLeave = () => {
+    // Only handle hover on larger screens
+    if (isSmallScreen()) return
+    setHeaderExtraHeight(0)
+  }
+
+  const handleDropdownClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Only handle click on smaller screens
+    if (!isSmallScreen()) return
+    
+    event.preventDefault()
+    const dropdownIndex = parseInt(event.currentTarget.dataset.dropdownIndex || '0')
+    
+    if (activeDropdown === dropdownIndex) {
+      // Close the dropdown if it's already open
+      setActiveDropdown(null)
+      setHeaderExtraHeight(0)
+    } else {
+      // Open this dropdown and close others
+      setActiveDropdown(dropdownIndex)
+      
+      // Get all dropdown contents to find the tallest one (same as desktop behavior)
+      const allDropdowns = document.querySelectorAll('.dropdown-content')
+      let maxHeight = 0
+      
+      allDropdowns.forEach(dropdown => {
+        const height = (dropdown as HTMLElement).scrollHeight
+        if (height > maxHeight) {
+          maxHeight = height
         }
-      }
-      return {
-        label: 'Untitled',
-        href: '#',
-        isExternal: false,
-        isActive: false
-      }
-    })
+      })
+      
+      setHeaderExtraHeight(maxHeight)
+    }
+  }
+
+  // Render a menu item (handles both regular links and dropdowns)
+  const renderMenuItem = (item: MenuItem, index: number) => {
+    if (item.itemType === 'pageLink' && item.pageLink) {
+      const href = `/${item.pageLink.slug || ''}`
+      return (
+        <Link
+          key={index}
+          href={href}
+          className={isActive(href) ? 'active' : ''}
+        >
+          {item.pageLink.title || 'Untitled'}
+        </Link>
+      )
+    } else if (item.itemType === 'titleWithSubItems' && item.heading) {
+      const hasActive = hasActiveSubItem(item)
+      const isDropdownActive = activeDropdown === index
+      return (
+        <div 
+          key={index} 
+          className={`dropdown-menu ${hasActive ? 'has-active' : ''} ${isDropdownActive ? 'active' : ''}`}
+          data-dropdown-index={index}
+          onMouseEnter={handleDropdownEnter}
+          onMouseLeave={handleDropdownLeave}
+          onClick={handleDropdownClick}
+        >
+          <span className="dropdown-title">
+            {item.heading}
+          </span>
+          <div className="dropdown-content">
+            {item.subItems?.map((subItem, subIndex) => {
+              const href = `/${subItem.pageLink?.slug || ''}`
+              return (
+                <Link
+                  key={subIndex}
+                  href={href}
+                  className={isActive(href) ? 'active' : ''}
+                >
+                  {subItem.pageLink?.title || 'Untitled'}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )
+    }
+    return null
   }
 
   useEffect(() => {
@@ -188,33 +282,97 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       navContainers.forEach(container => {
         if (!container) return
         
-        const links = container.querySelectorAll('a')
-        links.forEach(link => {
+        // Handle both direct links and dropdown titles
+        const items = container.querySelectorAll('a, .dropdown-title')
+        items.forEach(item => {
           // Clear any existing fixed widths to allow natural resizing
-          link.style.width = ''
-          link.style.minWidth = ''
-          
-          // Force a reflow to get the natural width with current font size
-          link.offsetHeight
-          
-          // Set the width to the current font width (Millionaire-Roman)
-          const currentWidth = link.offsetWidth
-          link.style.width = `${currentWidth}px`
-          link.style.minWidth = `${currentWidth}px`
+          if (item instanceof HTMLElement) {
+            item.style.width = ''
+            item.style.minWidth = ''
+            
+            // Force a reflow to get the natural width with current font size
+            item.offsetHeight
+            
+            // Set the width to the current font width (Millionaire-Roman)
+            const currentWidth = item.offsetWidth
+            item.style.width = `${currentWidth}px`
+            item.style.minWidth = `${currentWidth}px`
+          }
         })
       })
     }
 
-    // Set widths after component mounts
+    const setDropdownItemHeights = () => {
+      const dropdownContents = document.querySelectorAll('.dropdown-content')
+      
+      dropdownContents.forEach(dropdown => {
+        const links = dropdown.querySelectorAll('a')
+        links.forEach(link => {
+          if (link instanceof HTMLElement) {
+            // Clear any existing fixed heights to allow natural resizing
+            link.style.height = ''
+            link.style.minHeight = ''
+            
+            // Force a reflow to get the natural height with current font size
+            link.offsetHeight
+            
+            // Set the height to accommodate both Millionaire-Roman and Millionaire-Script
+            // We'll use the taller of the two fonts to prevent jumping
+            const currentHeight = link.offsetHeight
+            
+            // Temporarily switch to Millionaire-Script to measure height
+            const originalFont = link.style.fontFamily
+            link.style.fontFamily = 'Millionaire-Script'
+            const scriptHeight = link.offsetHeight
+            
+            // Restore original font
+            link.style.fontFamily = originalFont
+            
+            // Use the taller height to prevent jumping
+            const maxHeight = Math.max(currentHeight, scriptHeight)
+            link.style.height = `${maxHeight}px`
+            link.style.minHeight = `${maxHeight}px`
+          }
+        })
+      })
+    }
+
+    const handleResize = () => {
+      setNavItemWidths()
+      setDropdownItemHeights()
+      
+      // Close any open dropdowns when screen size changes
+      setActiveDropdown(null)
+      setHeaderExtraHeight(0)
+    }
+
+    // Set widths and heights after component mounts
     setNavItemWidths()
+    setDropdownItemHeights()
     
     // Recalculate on window resize
-    window.addEventListener('resize', setNavItemWidths)
+    window.addEventListener('resize', handleResize)
     
     return () => {
-      window.removeEventListener('resize', setNavItemWidths)
+      window.removeEventListener('resize', handleResize)
     }
   }, [leftMenu, rightMenu])
+
+  // Apply extra height and background to header when dropdown is hovered
+  useEffect(() => {
+    if (headerRef.current) {
+      headerRef.current.style.paddingBottom = headerExtraHeight > 0 
+        ? `${headerExtraHeight}px` 
+        : ''
+      
+      // Add background color when dropdown is hovered (if header doesn't already have one)
+      if (headerExtraHeight > 0) {
+        headerRef.current.classList.add('dropdown-hovered')
+      } else {
+        headerRef.current.classList.remove('dropdown-hovered')
+      }
+    }
+  }, [headerExtraHeight])
 
   // Handle scroll-based class addition
   useEffect(() => {
@@ -222,7 +380,17 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       if (!headerRef.current) return
       
       const headerHeight = headerRef.current.offsetHeight
-      const scrollThreshold = window.innerHeight - headerHeight // 100vh - header height
+      let scrollThreshold = window.innerHeight - headerHeight // Default: 100vh - header height
+      
+      // Check for hero media block layout and adjust threshold accordingly
+      const heroMediaBlock = document.querySelector('.hero-media-block')
+      if (heroMediaBlock) {
+        if (heroMediaBlock.classList.contains('layout-2') || heroMediaBlock.classList.contains('layout-3')) {
+          scrollThreshold = 50 // 50px from top for layout-2 and layout-3
+        }
+        // layout-1 keeps the default threshold (window.innerHeight - headerHeight)
+      }
+      
       const scrollY = window.scrollY
       
       if (scrollY >= scrollThreshold) {
@@ -281,9 +449,59 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
   }, [pathname, isHomepage])
 
-  // Convert menus to links
-  const leftNav = leftMenu?.items ? convertMenuItemsToLinks(leftMenu.items) : []
-  const rightNav = rightMenu?.items ? convertMenuItemsToLinks(rightMenu.items) : []
+  // Render mobile menu items (accordion dropdowns for mobile overlay)
+  const renderMobileMenuItem = (item: MenuItem, index: number) => {
+    if (item.itemType === 'pageLink' && item.pageLink) {
+      const href = `/${item.pageLink.slug || ''}`
+      return (
+        <Link
+          key={index}
+          href={href}
+          className={`header-menu-item ${isActive(href) ? 'active' : ''}`}
+          onClick={closeMenu}
+        >
+          {item.pageLink.title || 'Untitled'}
+        </Link>
+      )
+    } else if (item.itemType === 'titleWithSubItems' && item.heading) {
+      const isExpanded = activeDropdown === index
+      return (
+        <div key={index} className="mobile-dropdown-section">
+          <div 
+            className={`mobile-dropdown-title ${isExpanded ? 'expanded' : ''}`}
+            onClick={() => {
+              if (activeDropdown === index) {
+                setActiveDropdown(null)
+              } else {
+                setActiveDropdown(index)
+              }
+            }}
+          >
+            {item.heading}
+            <svg className={`dropdown-caret ${isExpanded ? 'expanded' : ''}`} xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
+              <path d="M1 6L6.00013 1L11 6" stroke="#FFF9F2"/>
+            </svg>
+          </div>
+          <div className={`mobile-dropdown-content ${isExpanded ? 'expanded' : ''}`}>
+            {item.subItems?.map((subItem, subIndex) => {
+              const href = `/${subItem.pageLink?.slug || ''}`
+              return (
+                <Link
+                  key={subIndex}
+                  href={href}
+                  className={`header-menu-item sub-item ${isActive(href) ? 'active' : ''}`}
+                  onClick={closeMenu}
+                >
+                  {subItem.pageLink?.title || 'Untitled'}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )
+    }
+    return null
+  }
 
   // Handle case where both menus are undefined
   if (!leftMenu && !rightMenu) {
@@ -317,17 +535,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           <div className="col-5-12_lg col-1-5_sm">
             <div className="desktop">
               <nav ref={leftNavRef} className="left-nav">
-                {leftNav.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    target={link.isExternal ? '_blank' : undefined}
-                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                    className={link.isActive ? 'active' : ''}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {leftMenu?.items?.map((item, index) => renderMenuItem(item, index))}
               </nav>
             </div>
 
@@ -350,17 +558,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           <div className="col-5-12_lg col-1-5_sm">
             <div className="desktop">
               <nav ref={rightNavRef} className="right-nav">
-                {rightNav.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    target={link.isExternal ? '_blank' : undefined}
-                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                    className={link.isActive ? 'active' : ''}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {rightMenu?.items?.map((item, index) => renderMenuItem(item, index))}
               </nav>
             </div>
           </div>
@@ -370,31 +568,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
 
       <div className="menu-overlay z-400 h-pad" ref={menuOverlayRef}>
         <div className="inner-wrap" ref={menuOverlayInnerRef}>
-          {leftNav.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              target={link.isExternal ? '_blank' : undefined}
-              rel={link.isExternal ? 'noopener noreferrer' : undefined}
-              className={`header-menu-item ${link.isActive ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          {rightNav.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              target={link.isExternal ? '_blank' : undefined}
-              rel={link.isExternal ? 'noopener noreferrer' : undefined}
-              className={`header-menu-item ${link.isActive ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {leftMenu?.items?.map((item, index) => renderMobileMenuItem(item, index))}
+          {rightMenu?.items?.map((item, index) => renderMobileMenuItem(item, index))}
         </div>
       </div>
     </>

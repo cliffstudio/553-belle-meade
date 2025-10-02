@@ -21,5 +21,12 @@ export default defineType({
       },
       hidden: ({ parent }) => parent?.mediaType !== 'video'
     }),
+    defineField({ 
+      name: 'showControls',
+      title: 'Show Video Controls',
+      type: 'boolean',
+      initialValue: false,
+      hidden: ({ parent }) => parent?.mediaType !== 'video'
+    }),
   ],
 })
