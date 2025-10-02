@@ -24,6 +24,8 @@ interface TextWithArtefactsProps {
   artefact4?: Artefact
 }
 
+
+
 export default function TextWithArtefacts({
   layout = 'layout-1',
   body,
@@ -46,41 +48,63 @@ export default function TextWithArtefacts({
        const footer = document.querySelector('.site-footer')
        
        if (pageCarouselHeroElements.length > 0 && textBlock && artefactsGrid && footer) {
-        // 1. Pin hero / media block elements when they reach viewport top
-        pageCarouselHeroElements.forEach((element: Element) => {
+        // Wait for lazy images to load before setting up ScrollTriggers
+        const setupScrollTriggers = () => {
+          // 1. Pin hero / media block elements when they reach viewport top
+          pageCarouselHeroElements.forEach((element: Element) => {
+            ScrollTrigger.create({
+              trigger: element,
+              start: "top top",
+              end: () => footer.getBoundingClientRect().top,
+              pin: true,
+              pinSpacing: false,
+            })
+          })
+        
+          // 2. Pin text block when it reaches viewport top
           ScrollTrigger.create({
-            trigger: element,
+            trigger: textBlock,
             start: "top top",
-            end: () => footer.getBoundingClientRect().top,
+            endTrigger: artefactsGrid,
+            end: "bottom bottom",
             pin: true,
             pinSpacing: false,
           })
-        })
-      
-        // 2. Pin text block when it reaches viewport top
-         ScrollTrigger.create({
-           trigger: textBlock,
-           start: "top top",
-           endTrigger: artefactsGrid,
-           end: "bottom+=100px bottom",  // Add 100px buffer to bottom of artefacts grid trigger
-           pin: true,
-           pinSpacing: false,
-           invalidateOnRefresh: true,
-           refreshPriority: -1
-         })
-         
-         // Force multiple refreshes to ensure accurate dimensions
-         setTimeout(() => {
-           ScrollTrigger.refresh()
-         }, 500)
-         
-         setTimeout(() => {
-           ScrollTrigger.refresh()
-         }, 1500)
-         
-         setTimeout(() => {
-           ScrollTrigger.refresh()
-         }, 3000)
+        }
+
+        // Check if lazy images exist and wait for them to load
+        const lazyImages = artefactsGrid.querySelectorAll('img.lazy')
+        if (lazyImages.length > 0) {
+          let loadedImages = 0
+          const totalImages = lazyImages.length
+          
+          const checkAllImagesLoaded = () => {
+            loadedImages++
+            if (loadedImages === totalImages) {
+              // All lazy images loaded, now setup ScrollTrigger
+              setTimeout(setupScrollTriggers, 100) // small delay to ensure layout is complete
+            }
+          }
+          
+          lazyImages.forEach((img: Element) => {
+            img.addEventListener('load', checkAllImagesLoaded)
+            // Also check if already loaded
+            if ((img as HTMLImageElement).complete) {
+              checkAllImagesLoaded()
+            }
+          })
+          
+          // Fallback: setup triggers after timeout even if images don't all load
+          setTimeout(() => {
+            if (loadedImages < totalImages) {
+              console.warn('Some lazy images failed to load, setting up ScrollTrigger anyway')
+              setupScrollTriggers()
+            }
+          }, 3000)
+        } else {
+          // No lazy images, setup triggers immediately
+          setupScrollTriggers()
+        }
       }
     }
     
@@ -119,27 +143,47 @@ export default function TextWithArtefacts({
           }
         }
 
-        // For lazy loaded images, we need to handle them differently
+        // For lazy loaded images, prevent layout jumps by setting aspect ratio immediately
         if (img.classList.contains('lazy') && img.dataset.src) {
-          // Create a temporary image to get dimensions
-          const tempImg = new Image()
-          tempImg.onload = () => {
-            // Now we can determine orientation from the temp image
-            const { naturalWidth: width, naturalHeight: height } = tempImg
+          // Extract dimensions from URL if possible (Sanity URLs include dimensions)
+          const urlParams = new URLSearchParams(img.dataset.src.split('?')[1])
+          const width = urlParams.get('w') || urlParams.get('width')
+          const height = urlParams.get('h') || urlParams.get('height')
+          
+          if (width && height) {
+            // Set CSS aspect-ratio to prevent layout jumps
+            img.style.aspectRatio = `${width} / ${height}`
             
-            // Remove existing orientation classes
+            // Still apply orientation classes for styling
+            const aspectRatio = parseInt(width) / parseInt(height)
             artefact.classList.remove('landscape', 'portrait', 'square')
-            
-            // Add appropriate class based on orientation
-            if (width === height) {
+            if (Math.abs(aspectRatio - 1) < 0.1) {
               artefact.classList.add('square')
-            } else if (width > height) {
+            } else if (aspectRatio > 1) {
               artefact.classList.add('landscape')
             } else {
               artefact.classList.add('portrait')
             }
+          } else {
+            // Fallback: preload to get dimensions
+            const preloader = new Image()
+            preloader.onload = () => {
+              const { naturalWidth: w, naturalHeight: h } = preloader
+              
+              // Set aspect ratio to prevent layout jump when real image loads
+              img.style.aspectRatio = `${w} / ${h}`
+              
+              artefact.classList.remove('landscape', 'portrait', 'square')
+              if (w === h) {
+                artefact.classList.add('square')
+              } else if (w > h) {
+                artefact.classList.add('landscape')
+              } else {
+                artefact.classList.add('portrait')
+              }
+            }
+            preloader.src = img.dataset.src
           }
-          tempImg.src = img.dataset.src
         } else {
           // Regular image loading
           if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
