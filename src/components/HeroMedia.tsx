@@ -214,7 +214,7 @@ export default function HeroMedia({
                   ref={desktopVideoRef}
                   src={videoUrlFor(desktopBackgroundVideo)}
                   className="desktop"
-                  // autoPlay
+                  autoPlay
                   muted
                   loop
                   playsInline
