@@ -3,6 +3,14 @@
 
 .page-heritage {
 
+  .artefacts-grid,
+  .image-carousel-block,
+  .cta-banner-block,
+  .site-footer {
+    position: relative;
+    z-index: 6;
+  }
+
   .full-bleed-media-block  {
     height: 100dvh;
   }
@@ -10,6 +18,7 @@
   .image-carousel-block {
     padding-bottom: get-rem-desktop(142);
     overflow: hidden;
+    background-color: $colour-cream;
 
     @media (max-width: 1366px) {
       padding-bottom: get-rem-tablet(85);

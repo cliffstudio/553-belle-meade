@@ -109,9 +109,7 @@ export default async function DynamicPage({ params }: PageProps) {
         break
 
       case 'heritage':
-        addSection(sections, page.heritageHero, 'heroMedia', 'heritage-hero')
         addSection(sections, page.heritageTextWithArtefacts, 'textWithArtefacts', 'heritage-text-with-artefacts')
-        addSection(sections, page.heritageFullWidthMedia, 'fullWidthMedia', 'heritage-full-width-media')
         addSection(sections, page.heritageTextWithArtefacts2, 'textWithArtefacts', 'heritage-text-with-artefacts-2')
         addSection(sections, page.heritageImageCarousel, 'imageCarousel', 'heritage-image-carousel')
         addSection(sections, page.heritageCta, 'ctaBanner', 'heritage-cta')
@@ -126,7 +124,6 @@ export default async function DynamicPage({ params }: PageProps) {
         break
 
       case 'carousel':
-        addSection(sections, page.carouselHero, 'heroMedia', 'carousel-hero')
         addSection(sections, page.carouselTextWithArtefacts, 'textWithArtefacts', 'carousel-text-with-artefacts')
         addSection(sections, page.carouselFullWidthMedia, 'fullWidthMedia', 'carousel-full-width-media')
         addSection(sections, page.carouselImageMasonry, 'imageMasonry', 'carousel-image-masonry')
