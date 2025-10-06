@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import mediaLazyloading from '../utils/lazyLoad'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function LazyLoadInitializer() {
   const pathname = usePathname()
@@ -17,6 +18,12 @@ export default function LazyLoadInitializer() {
     // Small delay to ensure DOM is updated
     const timer = setTimeout(() => {
       mediaLazyloading()
+      
+      // Refresh ScrollTrigger after route change to recalculate positions
+      // This ensures scroll effects work correctly when navigating from other pages
+      if (typeof window !== 'undefined' && ScrollTrigger) {
+        ScrollTrigger.refresh()
+      }
     }, 100)
     
     return () => clearTimeout(timer)

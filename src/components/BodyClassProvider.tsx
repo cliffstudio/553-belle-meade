@@ -34,6 +34,10 @@ export default function BodyClassProvider({
       if (pageType === 'carousel') {
         document.body.classList.add('page-carousel')
       }
+
+      if (pageType === 'heritage') {
+        document.body.classList.add('page-heritage')
+      }
     }
     
     if (slug) {

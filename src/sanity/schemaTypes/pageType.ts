@@ -144,12 +144,6 @@ export const pageType = defineType({
 
     // Heritage specific fields
     defineField({
-      name: 'heritageHero',
-      title: 'Hero',
-      type: 'heroMedia',
-      hidden: ({ document }) => document?.pageType !== 'heritage',
-    }),
-    defineField({
       name: 'heritageTextWithArtefacts',
       title: 'Text with Artefacts',
       type: 'textWithArtefacts',
@@ -213,12 +207,6 @@ export const pageType = defineType({
     }),
 
     // Carousel specific fields
-    defineField({
-      name: 'carouselHero',
-      title: 'Hero',
-      type: 'heroMedia',
-      hidden: ({ document }) => document?.pageType !== 'carousel',
-    }),
     defineField({
       name: 'carouselTextWithArtefacts',
       title: 'Text with Artefacts',

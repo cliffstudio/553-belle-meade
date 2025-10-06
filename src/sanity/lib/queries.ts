@@ -223,7 +223,7 @@ export const pageQuery = groq`
 
     // Heritage fields
     pageType == "heritage" => {
-      heritageHero {
+      heritageTextWithArtefacts {
         layout,
         desktopTitle,
         mobileTitle,
@@ -234,11 +234,6 @@ export const pageQuery = groq`
         mobileBackgroundVideo ${videoFragment},
         showControls,
         overlayDarkness,
-        body,
-        cta ${linkFragment}
-      },
-      heritageTextWithArtefacts {
-        layout,
         body,
         artefact1 {
           image ${imageFragment},
@@ -265,9 +260,17 @@ export const pageQuery = groq`
           description
         }
       },
-      heritageFullWidthMedia ${mediaFragment},
       heritageTextWithArtefacts2 {
         layout,
+        desktopTitle,
+        mobileTitle,
+        backgroundMediaType,
+        desktopBackgroundImage ${imageFragment},
+        mobileBackgroundImage ${imageFragment},
+        desktopBackgroundVideo ${videoFragment},
+        mobileBackgroundVideo ${videoFragment},
+        showControls,
+        overlayDarkness,
         body,
         artefact1 {
           image ${imageFragment},
@@ -367,7 +370,7 @@ export const pageQuery = groq`
 
     // Carousel fields
     pageType == "carousel" => {
-      carouselHero {
+      carouselTextWithArtefacts {
         layout,
         desktopTitle,
         mobileTitle,
@@ -378,11 +381,6 @@ export const pageQuery = groq`
         mobileBackgroundVideo ${videoFragment},
         showControls,
         overlayDarkness,
-        body,
-        cta ${linkFragment}
-      },
-      carouselTextWithArtefacts {
-        layout,
         body,
         artefact1 {
           image ${imageFragment},

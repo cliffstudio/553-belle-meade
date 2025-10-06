@@ -1209,6 +1209,12 @@
   }
 
   .layout-1 {
+    padding-bottom: get-rem-desktop(12);
+
+    @media only screen and (max-width: 768px) {
+      padding-bottom: get-rem-mobile(12);
+    }
+
     .artefacts-row-1 {
       @media only screen and (max-width: 768px) {
         @include flex;
@@ -1336,6 +1342,12 @@
   }
 
   .layout-2 {
+    padding-bottom: get-rem-desktop(12);
+
+    @media only screen and (max-width: 768px) {
+      padding-bottom: get-rem-mobile(12);
+    }
+    
     .artefacts-row-1 {
       @media only screen and (max-width: 768px) {
         @include flex;
