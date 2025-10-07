@@ -23,6 +23,7 @@ import PressSection from './PressSection'
 import TextWithArtefacts from './TextWithArtefacts'
 import ImageCarousel from './ImageCarousel'
 import ContactForm from './ContactForm'
+import LeasingMap from './LeasingMap'
 
 interface PageProps {
   params: Promise<{
@@ -47,6 +48,7 @@ const sectionComponents = {
   textWithArtefacts: TextWithArtefacts,
   imageCarousel: ImageCarousel,
   contactForm: ContactForm,
+  leasingMap: LeasingMap,
 }
 
 
@@ -103,6 +105,13 @@ export default async function DynamicPage({ params }: PageProps) {
 
       case 'spaces':
         addSection(sections, page.spacesHero, 'heroMedia', 'spaces-hero')
+        // Add LeasingMap component directly (not from CMS)
+        sections.push({ 
+          _type: 'leasingMap', 
+          _key: 'spaces-leasing-map',
+          // You can customize these props as needed
+          heading: 'Available Spaces'
+        })
         addSection(sections, page.spacesFullWidthMedia, 'fullWidthMedia', 'spaces-full-width-media')
         addSection(sections, page.spacesContactForm, 'contactForm', 'spaces-contact-form')
         addSection(sections, page.spacesCta, 'ctaBanner', 'spaces-cta')
