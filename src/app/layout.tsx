@@ -148,6 +148,60 @@ export default function RootLayout({
                   childList: true,
                   subtree: true
                 });
+                
+                // Smooth scroll functionality for hash links
+                function initSmoothScroll() {
+                  // Handle initial page load with hash
+                  if (window.location.hash) {
+                    setTimeout(function() {
+                      const target = document.querySelector(window.location.hash);
+                      if (target) {
+                        target.scrollIntoView({ 
+                          behavior: 'smooth',
+                          block: 'start'
+                        });
+                      }
+                    }, 100);
+                  }
+                  
+                  // Handle clicks on links with hash
+                  $(document).on('click', 'a[href*="#"]', function(e) {
+                    const href = $(this).attr('href');
+                    if (href && href.includes('#')) {
+                      const hash = href.split('#')[1];
+                      const target = document.getElementById(hash);
+                      
+                      if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ 
+                          behavior: 'smooth',
+                          block: 'start'
+                        });
+                        
+                        // Update URL without triggering scroll
+                        history.pushState(null, null, href);
+                      }
+                    }
+                  });
+                  
+                  // Handle browser back/forward with hash
+                  window.addEventListener('popstate', function() {
+                    if (window.location.hash) {
+                      setTimeout(function() {
+                        const target = document.querySelector(window.location.hash);
+                        if (target) {
+                          target.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                          });
+                        }
+                      }, 100);
+                    }
+                  });
+                }
+                
+                // Initialize smooth scroll
+                initSmoothScroll();
               }
             `
           }}

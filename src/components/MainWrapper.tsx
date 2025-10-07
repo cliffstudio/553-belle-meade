@@ -11,8 +11,8 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
   
   // Generate page-specific class based on pathname
   const getPageClass = () => {
-    // Remove leading slash and convert to kebab-case
-    const cleanPath = pathname.replace(/^\//, '').replace(/\//g, '-')
+    // Remove leading slash, trailing slash, and convert to kebab-case
+    const cleanPath = pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-')
     
     if (cleanPath === '') return 'page-home'
     return `page-${cleanPath}`
