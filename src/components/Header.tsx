@@ -124,9 +124,9 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
     
     // Animate text-wrap and down-arrow
-    const textWrap = document.querySelector('.text-wrap')
-    const downArrow = document.querySelector('.down-arrow')
-    const videoControls = document.querySelector('.video-controls')
+    const textWrap = document.querySelector('.page-type-homepage .text-wrap')
+    const downArrow = document.querySelector('.page-type-homepage .down-arrow')
+    const videoControls = document.querySelector('.page-type-homepage .video-controls')
     
     if (textWrap) {
       textWrap.classList.add('fade-in')

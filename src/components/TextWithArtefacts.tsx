@@ -157,15 +157,34 @@ export default function TextWithArtefacts({
               })
             })
           
-            // 2. Pin text block when it reaches viewport top
-            ScrollTrigger.create({
-              trigger: textBlock,
-              start: "top top",
-              endTrigger: artefactsGrid,
-              end: "bottom bottom",
-              pin: true,
-              pinSpacing: false,
-            })
+            // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
+            if (window.innerWidth > 768) {
+              ScrollTrigger.create({
+                trigger: textBlock,
+                start: "top top",
+                endTrigger: artefactsGrid,
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false,
+              })
+            }
+
+            // 3. Animate artefacts on mobile when artefacts-grid comes into view (only once)
+            if (window.innerWidth <= 768) {
+              const artefacts = sectionRef.current?.querySelectorAll('.artefact')
+              if (artefacts && artefacts.length > 0) {
+                artefacts.forEach((artefact) => {
+                  ScrollTrigger.create({
+                    trigger: artefactsGrid,
+                    start: "top 60%",
+                    once: true,
+                    onEnter: () => {
+                      artefact.classList.add('animate-in')
+                    }
+                  })
+                })
+              }
+            }
           }
 
           // Check if lazy images exist and wait for them to load
@@ -210,9 +229,18 @@ export default function TextWithArtefacts({
       setupScrollTriggerEffects()
     }, 200)
     
+    // Handle window resize to reinitialize animations if needed
+    const handleResize = () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      setTimeout(setupScrollTriggerEffects, 100)
+    }
+
+    window.addEventListener('resize', handleResize)
+
     // Cleanup function
     return () => {
       clearTimeout(initialTimer)
+      window.removeEventListener('resize', handleResize)
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     }
   }, [pathname]) // Add pathname as dependency to re-run on route changes
@@ -445,7 +473,7 @@ export default function TextWithArtefacts({
           {mobileTitle && <div className="mobile"><h1>{mobileTitle}</h1></div>}
         </div> )}
 
-        {showControls && ( <div className="video-controls z-4">
+        {showControls && ( <div className="video-controls z-7 out-of-view">
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
               <line x1="0.5" x2="0.5" y2="20"/>
