@@ -24,6 +24,7 @@ import TextWithArtefacts from './TextWithArtefacts'
 import ImageCarousel from './ImageCarousel'
 import ContactForm from './ContactForm'
 import LeasingMap from './LeasingMap'
+import IssuuEmbed from './IssuuEmbed'
 
 interface PageProps {
   params: Promise<{
@@ -49,6 +50,7 @@ const sectionComponents = {
   imageCarousel: ImageCarousel,
   contactForm: ContactForm,
   leasingMap: LeasingMap,
+  issuuEmbed: IssuuEmbed,
 }
 
 
@@ -111,6 +113,11 @@ export default async function DynamicPage({ params }: PageProps) {
           _key: 'spaces-leasing-map',
           // You can customize these props as needed
           heading: 'Available Spaces'
+        })
+        // Add IssuuEmbed component directly (not from CMS)
+        sections.push({ 
+          _type: 'issuuEmbed', 
+          _key: 'spaces-issuu-embed'
         })
         addSection(sections, page.spacesFullWidthMedia, 'fullWidthMedia', 'spaces-full-width-media')
         addSection(sections, page.spacesContactForm, 'contactForm', 'spaces-contact-form')

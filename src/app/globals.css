@@ -32,3 +32,8 @@ html.scroll-enabled,
 html.scroll-enabled body {
   overflow: auto;
 }
+
+/* Smooth scrolling for hash links */
+html {
+  scroll-behavior: smooth;
+}

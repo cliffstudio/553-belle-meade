@@ -51,7 +51,7 @@ export default function LeasingMap({
 
 
   return (
-    <section className="leasing-map">
+    <section className="leasing-map out-of-view">
       {/* Tab Navigation */}
       <div className="leasing-map__tabs">
         {floors.map((floor) => (
