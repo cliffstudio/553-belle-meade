@@ -103,11 +103,6 @@
   @include align-items(flex-end);
   padding: get-rem-desktop(50);
   column-gap: get-rem-desktop(30);
-  opacity: 0;
-    
-  &.fade-in {
-    @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
-  }
 
   @media only screen and (max-width: 1366px) {
     padding: get-rem-tablet(50);
@@ -175,6 +170,16 @@
       position: absolute;
       top: 0;
       left: 0;
+    }
+  }
+}
+
+.page-type-homepage {
+  .video-controls {
+    display: none;
+
+    &.fade-in {
+      @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
     }
   }
 }
@@ -958,6 +963,25 @@
       }
     }
 
+    // Initial positioning for mobile animation - artefacts start off-screen
+    @media only screen and (max-width: 768px) {
+      transform: translateX(-100vw);
+      opacity: 0;
+      transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+      
+      // Alternate direction for some artefacts (artefact-2 and artefact-4)
+      &.artefact-2,
+      &.artefact-4 {
+        transform: translateX(100vw);
+      }
+      
+      // Final position when animated in
+      &.animate-in {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
     @media only screen and (max-width: 1366px) {
       &:not(.has-content) {
         .caption svg {
@@ -1209,12 +1233,6 @@
   }
 
   .layout-1 {
-    padding-bottom: get-rem-desktop(12);
-
-    @media only screen and (max-width: 768px) {
-      padding-bottom: get-rem-mobile(12);
-    }
-
     .artefacts-row-1 {
       @media only screen and (max-width: 768px) {
         @include flex;
@@ -1224,7 +1242,7 @@
       .artefact-1 {
         @include flex;
         @include justify-content(center);
-        margin-top: get-rem-desktop(175);
+        padding-top: get-rem-desktop(175);
 
         .artefact-content {
           .media-wrap {
@@ -1235,12 +1253,12 @@
         }
 
         @media only screen and (max-width: 1366px) {
-          margin-top: get-rem-tablet(137);
+          padding-top: get-rem-tablet(137);
         }
 
         @media only screen and (max-width: 768px) {
           display: unset;
-          margin-top: get-rem-mobile(160);
+          padding-top: get-rem-mobile(160);
           margin-left: get-rem-mobile(21);
         }
 
@@ -1291,14 +1309,16 @@
     }
 
     .artefacts-row-2 {
-      margin-top: get-rem-desktop(480);
+      padding-top: get-rem-desktop(480);
+      padding-bottom: get-rem-desktop(12);
 
       @media only screen and (max-width: 1366px) {
-        margin-top: get-rem-tablet(436);
+        padding-top: get-rem-tablet(436);
+        padding-bottom: get-rem-tablet(12);
       }
 
       @media only screen and (max-width: 768px) {
-        margin-top: get-rem-mobile(114);
+        padding-top: get-rem-mobile(114);
         padding-bottom: get-rem-mobile(115);
       }
 
@@ -1326,15 +1346,15 @@
       }
 
       .artefact-4 {
-        margin-top: get-rem-desktop(314);
+        padding-top: get-rem-desktop(314);
 
         @media only screen and (max-width: 1366px) {
-          margin-top: get-rem-tablet(317);
+          padding-top: get-rem-tablet(317);
         }
 
         @media only screen and (max-width: 768px) {
           max-width: get-rem-mobile(288);
-          margin-top: get-rem-mobile(114);
+          padding-top: get-rem-mobile(114);
           margin-left: auto;
         }
       }
@@ -1342,12 +1362,6 @@
   }
 
   .layout-2 {
-    padding-bottom: get-rem-desktop(12);
-
-    @media only screen and (max-width: 768px) {
-      padding-bottom: get-rem-mobile(12);
-    }
-    
     .artefacts-row-1 {
       @media only screen and (max-width: 768px) {
         @include flex;
@@ -1355,14 +1369,14 @@
       }
 
       .artefact-1 {
-        margin-top: get-rem-desktop(336);
+        padding-top: get-rem-desktop(336);
 
         @media only screen and (max-width: 1366px) {
-          margin-top: get-rem-tablet(444);
+          padding-top: get-rem-tablet(444);
         }
 
         @media only screen and (max-width: 768px) {
-          margin-top: get-rem-mobile(216);
+          padding-top: get-rem-mobile(216);
           max-width: get-rem-mobile(287);
         }
       }
@@ -1383,15 +1397,17 @@
     }
 
     .artefacts-row-2 {
-      margin-top: get-rem-desktop(18);
+      padding-top: get-rem-desktop(18);
+      padding-bottom: get-rem-desktop(90);
 
       @media only screen and (max-width: 1366px) {
-        margin-top: get-rem-tablet(130);
+        padding-top: get-rem-tablet(130);
+        padding-bottom: get-rem-tablet(205);
       }
 
       @media only screen and (max-width: 768px) {
-        margin-top: get-rem-mobile(274);
-        padding-bottom: get-rem-mobile(80);
+        padding-top: get-rem-mobile(274);
+        padding-bottom: get-rem-mobile(300);
       }
 
       .artefact-3 {
@@ -1403,6 +1419,11 @@
             @media only screen and (max-width: 1366px) {
               margin-right: get-rem-tablet(-30);
               width: calc(100% + get-rem-tablet(30));
+            }
+
+            @media only screen and (max-width: 768px) {
+              margin-right: 0;
+              width: 100%;
             }
           }
         }
