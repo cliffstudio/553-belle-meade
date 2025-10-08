@@ -7,11 +7,11 @@ LEASING MAP STYLES --------------------
 
 .leasing-map {
   &__tabs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    @include flex;
   }
 
   &__tab {
+    width: 100%;
     background: $colour-light-purple;
     border-right: 1px solid $colour-burgundy;
     color: $colour-burgundy;
@@ -149,34 +149,263 @@ LEASING MAP STYLES --------------------
 
   &__panel {
     display: none;
-    aspect-ratio: 1920 / 894;
-    overflow: hidden;
-
-    @media only screen and (max-width: 1366px) {
-      aspect-ratio: 1366 / 894;
-    }
-
-    @media only screen and (max-width: 768px) {
-      aspect-ratio: 393 / 393;
-    }
 
     &.active {
       display: block;
     }
 
-    .fill-space-image-wrap {
-      width: 100%;
-      height: 100%;
+    .media-wrap {
       position: relative;
       overflow: hidden;
+      pointer-events: auto;
 
       img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform-origin: center center;
-        @include transition(transform 400ms cubic-bezier(0.25,0.1,0.25,1));
+        pointer-events: none;
       }
+
+      .tablet,
+      .mobile {
+        display: none;
+      }
+
+      @media screen and (max-width: 1366px) {
+        .desktop {
+          display: none;
+        }
+
+        .tablet {
+          display: block;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .tablet {
+          display: none;
+        }
+
+        .mobile {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__base-image {
+    @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+  }
+
+  &__hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    opacity: 0;
+    @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+    
+    &.visible {
+      opacity: 1;
+    }
+  }
+
+  // Clickable Spots
+  &__spot {
+    position: absolute;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    width: get-rem-desktop(40);
+    height: get-rem-desktop(40);
+    @include flex;
+    @include align-items(center);
+    @include justify-content(center);
+    pointer-events: all;
+
+    @media only screen and (min-width: 1367px) {
+      &:hover,
+      &.hovered {
+        .leasing-map__spot-indicator {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &__spot-indicator {
+    width: get-rem-desktop(27);
+    height: get-rem-desktop(27);
+    opacity: 0;
+    @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+    .st0 {
+      fill: none;
+      stroke: $colour-burgundy;
+    }
+
+    .st1 {
+      fill: $colour-cream;
+    }
+  }
+
+  // Popup Styles
+  &__popup {
+    &.visible {
+      .leasing-map__popup-content {
+        pointer-events: all !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
+      position: relative;
+      display: block;
+
+      &.visible {
+        .leasing-map__popup-content {
+          display: block !important;
+        }
+      }
+    }
+  }
+
+  &__popup-content {
+    background-color: $colour-burgundy;
+    color: $colour-cream;
+    position: absolute;
+    top: 50%;
+    left: get-rem-desktop(57);
+    @include transform(translateY(-50%));
+    padding: get-rem-desktop(25) get-rem-desktop(30) get-rem-desktop(30);
+    z-index: 9999;
+    pointer-events: none;
+    will-change: opacity;
+    opacity: 0;
+    @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+    @media only screen and (max-width: 1366px) {
+      left: get-rem-tablet(30);
+      padding: get-rem-tablet(25) get-rem-tablet(30) get-rem-tablet(30);
+    }
+
+    @media only screen and (max-width: 768px) {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      padding: get-rem-mobile(45) get-rem-mobile(18) get-rem-mobile(18);
+      display: none;
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  &__popup-inner {
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-desktop(95);
+    height: 100%;
+
+    @media only screen and (max-width: 1366px) {
+      row-gap: get-rem-tablet(135);
+    }
+
+    @media only screen and (max-width: 768px) {
+      row-gap: get-rem-mobile(45);
+      height: auto;
+    }
+  }
+
+  &__popup-text {
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-desktop(10);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 10001;
+
+    @media only screen and (max-width: 1366px) {
+      row-gap: get-rem-tablet(10);
+    }
+
+    @media only screen and (max-width: 768px) {
+      row-gap: get-rem-mobile(10);
+      height: auto;
+    }
+  }
+
+  &__popup-title-wrap {
+    @include flex;
+    @include justify-content(space-between);
+    @include align-items(flex-start);
+    column-gap: get-rem-desktop(30);
+
+    @media only screen and (max-width: 1366px) {
+      column-gap: get-rem-tablet(30);
+    }
+
+    @media only screen and (max-width: 768px) {
+      column-gap: get-rem-mobile(30);
+    }
+
+    svg {
+      width: get-rem-desktop(20);
+
+      @media only screen and (max-width: 1366px) {
+        width: get-rem-tablet(20);
+      }
+
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  &__popup-title {
+    @include font-size(25px, 35px, 35px);
+  }
+
+  &__popup-description {
+    max-width: get-rem-desktop(150);
+    @include font-size(20px, 28px, 28px);
+
+    @media only screen and (max-width: 1366px) {
+      max-width: get-rem-tablet(150);
+    }
+
+    @media only screen and (max-width: 768px) {
+      max-width: get-rem-mobile(110);
+    }
+  }
+
+  .underline-link {
+    margin-top: get-rem-desktop(5);
+
+    @media only screen and (max-width: 1366px) {
+      margin-top: get-rem-tablet(8);
+    }
+
+    @media only screen and (max-width: 768px) {
+      margin-top: get-rem-mobile(5);
+    }
+
+    svg {
+      stroke: $colour-cream;
+    }
+  }
+
+  &__popup-media {
+    width: get-rem-desktop(440);
+    aspect-ratio: 440 / 248;
+
+    @media only screen and (max-width: 1366px) {
+      width: get-rem-tablet(365);
+    }
+
+    @media only screen and (max-width: 768px) {
+      width: 100%;
     }
   }
 }
