@@ -26,6 +26,7 @@ import pressSection from './sections/pressSection'
 import textWithArtefacts from './sections/textWithArtefacts'
 import imageCarousel from './sections/imageCarousel'
 import contactForm from './sections/contactForm'
+import leasingMap from './sections/leasingMap'
 
 export const schemaTypes = [
   // Global
@@ -56,4 +57,5 @@ export const schemaTypes = [
   textWithArtefacts,
   imageCarousel,
   contactForm,
+  leasingMap,
 ]

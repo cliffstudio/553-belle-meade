@@ -124,6 +124,12 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'spaces',
     }),
     defineField({
+      name: 'spacesLeasingMap',
+      title: 'Leasing Map',
+      type: 'leasingMap',
+      hidden: ({ document }) => document?.pageType !== 'spaces',
+    }),
+    defineField({
       name: 'spacesFullWidthMedia',
       title: 'Full Width Media',
       type: 'fullWidthMedia',

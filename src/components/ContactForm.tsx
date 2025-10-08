@@ -187,7 +187,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
 
 
   return (
-    <div className="contact-form-block h-pad row-lg">
+    <div id="contact-form" className="contact-form-block h-pad row-lg">
       <div className="col-3-12_lg desktop"></div>
 
       <div className="col-6-12_lg out-of-view">

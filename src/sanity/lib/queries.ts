@@ -207,6 +207,35 @@ export const pageQuery = groq`
         body,
         cta ${linkFragment}
       },
+      spacesLeasingMap {
+        heading,
+        floors[] {
+          label,
+          mobileLabel,
+          desktopImage ${imageFragment},
+          tabletImage ${imageFragment},
+          mobileImage ${imageFragment},
+          spots[] {
+            title,
+            description,
+            desktopMarkerImage ${imageFragment},
+            tabletMarkerImage ${imageFragment},
+            mobileMarkerImage ${imageFragment},
+            desktopPosition {
+              top,
+              left
+            },
+            tabletPosition {
+              top,
+              left
+            },
+            mobilePosition {
+              top,
+              left
+            }
+          }
+        }
+      },
       spacesFullWidthMedia ${mediaFragment},
       spacesContactForm {
         body
