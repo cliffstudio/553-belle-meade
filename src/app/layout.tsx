@@ -43,6 +43,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Script
+          id="scroll-reset"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Reset scroll position immediately before anything else runs
+              window.scrollTo(0, 0);
+              // Disable scroll restoration to prevent browser from restoring scroll position
+              if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+              }
+            `
+          }}
+        />
+        <Script
           src="https://code.jquery.com/jquery-3.7.1.min.js"
           strategy="beforeInteractive"
         />

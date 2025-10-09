@@ -27,6 +27,7 @@ const linkFragment = groq`{
   linkType,
   label,
   href,
+  jumpLink,
   pageLink {
     _ref,
     _type,
@@ -677,6 +678,7 @@ export const footerQuery = groq`
         linkType,
         label,
         href,
+        jumpLink,
         "isExternal": linkType == "external",
         pageLink-> {
           title,
@@ -688,6 +690,7 @@ export const footerQuery = groq`
       linkType,
       label,
       href,
+      jumpLink,
       "isExternal": linkType == "external",
       pageLink-> {
         title,

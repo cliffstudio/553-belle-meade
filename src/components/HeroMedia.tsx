@@ -16,10 +16,11 @@ type PageReference = {
 }
 
 type Link = {
-  linkType?: 'internal' | 'external'
+  linkType?: 'internal' | 'external' | 'jump'
   label?: string
   href?: string
   pageLink?: PageReference
+  jumpLink?: string
 }
 
 type HeroMediaProps = {
@@ -43,6 +44,8 @@ const getLinkInfo = (cta?: Link) => {
   
   if (cta.linkType === 'external') {
     return { text: cta.label || '', href: cta.href || '' }
+  } else if (cta.linkType === 'jump') {
+    return { text: cta.label || '', href: cta.jumpLink || '' }
   } else {
     return { text: cta.pageLink?.title || '', href: cta.pageLink?.slug ? `/${cta.pageLink.slug}` : '' }
   }
@@ -336,7 +339,7 @@ export default function HeroMedia({
           <div className="inner-wrap h-pad out-of-view">
             {body && <h2 className="text-wrap"><PortableText value={body} /></h2>}
 
-            {cta && <div className="cta-font underline-link link">
+            {cta && <div className="cta-font underline-link link cream">
               <a href={href}>{text || 'Learn More'}</a>
 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
@@ -350,8 +353,8 @@ export default function HeroMedia({
       {layout === 'layout-3' && (
         <section className="hero-media-block layout-3 flex items-center text-white">
           <div className="h-pad out-of-view">
-            {desktopTitle && <div className="desktop"><h1>{desktopTitle}</h1></div>}
-            {mobileTitle && <div className="mobile"><h1>{mobileTitle}</h1></div>}
+            {desktopTitle && <div className="desktop"><h2>{desktopTitle}</h2></div>}
+            {mobileTitle && <div className="mobile"><h2>{mobileTitle}</h2></div>}
           </div>
         </section>
       )}

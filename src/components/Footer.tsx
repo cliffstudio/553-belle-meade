@@ -35,7 +35,15 @@ export default function Footer({ footer }: FooterProps) {
               )}
               <div className="social-links">
                 {footer.socialLinks.links?.map((link, index) => {
-                  const href = link.isExternal ? link.href : `/${link.pageLink?.slug}`
+                  let href = ''
+                  if (link.linkType === 'external') {
+                    href = link.href || ''
+                  } else if (link.linkType === 'jump') {
+                    href = link.jumpLink || ''
+                  } else {
+                    href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
+                  }
+                  
                   const label = link.label || link.pageLink?.title
                   
                   // Skip rendering if href is undefined
@@ -45,8 +53,8 @@ export default function Footer({ footer }: FooterProps) {
                     <Link
                       key={index}
                       href={href}
-                      target={link.isExternal ? '_blank' : undefined}
-                      rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                      target={link.linkType === 'external' ? '_blank' : undefined}
+                      rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
                       className=""
                     >
                       {label}
@@ -62,7 +70,15 @@ export default function Footer({ footer }: FooterProps) {
           <div className="column-2 col-6-12_lg uppercase">
             <div className="text-wrap">
               {footer.footerNav.map((link, index) => {
-                const href = link.isExternal ? link.href : `/${link.pageLink?.slug}`
+                let href = ''
+                if (link.linkType === 'external') {
+                  href = link.href || ''
+                } else if (link.linkType === 'jump') {
+                  href = link.jumpLink || ''
+                } else {
+                  href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
+                }
+                
                 const label = link.label || link.pageLink?.title
                 
                 // Skip rendering if href is undefined
@@ -72,8 +88,8 @@ export default function Footer({ footer }: FooterProps) {
                   <Link
                     key={index}
                     href={href}
-                    target={link.isExternal ? '_blank' : undefined}
-                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                    target={link.linkType === 'external' ? '_blank' : undefined}
+                    rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
                     className=""
                   >
                     {label}

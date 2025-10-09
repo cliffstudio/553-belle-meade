@@ -45,19 +45,27 @@
     display: block;
     width: fit-content;
     position: relative;
-  }
 
-  // a:after {
-  //   content: "";
-  //   position: absolute;
-  //   width: 100%;
-  //   height: 0.5px;
-  //   bottom: 0;
-  //   left: 0;
-  //   background-color: $colour-burgundy;
-  //   will-change: width;
-  //   @include transition(width 0.4s cubic-bezier(0.25,0.1,0.25,1));
-  // }
+    &:after {
+      content: "";
+      transform-origin: 100%;
+      background: $colour-burgundy;
+      height: 1px;
+      @include transition(transform .83s cubic-bezier(.33, 0, .13, 1));
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      transform: scaleX(0);
+    }
+
+    &:hover {
+      &:after {
+        transform-origin: 0;
+        transform: scaleX(1);
+      }
+    }
+  }
 
   svg {
     width: get-rem-desktop(5);
@@ -67,13 +75,19 @@
     stroke-width: 2px;
   }
 
-  // @media only screen and (min-width: 769px) {
-  //   &:hover {
-  //     a:after {
-  //       width: 100%;
-  //     }
-  //   }
-  // }
+  &.cream {
+    a {
+      color: $colour-cream;
+
+      &:after {
+        background: $colour-cream;
+      }
+    }
+
+    svg {
+      stroke: $colour-cream;
+    }
+  }
 }
 
 .mobile {
@@ -176,7 +190,7 @@
 
 .page-type-homepage {
   .video-controls {
-    display: none;
+    opacity: 0;
 
     &.fade-in {
       @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
@@ -223,10 +237,6 @@
 
     @media only screen and (max-width: 768px) {
       margin-bottom: get-rem-mobile(8);
-    }
-
-    svg {
-      stroke: $colour-cream;
     }
   }
 }
@@ -662,7 +672,7 @@
 }
 
 .stacked-media-text-block {
-  background-color: $colour-green;
+  background-color: transparent;
 
   .media-wrap {
     position: relative;
@@ -707,7 +717,7 @@
   }
 
   &.layout-1 {
-    background-color: $colour-light-purple;
+    background-color: transparent;
 
     .media-1 {
       margin-left: get-rem-desktop(-50);
@@ -871,6 +881,14 @@
         margin-right: get-rem-mobile(30);
         width: calc(100% + get-rem-mobile(15) - get-rem-mobile(30));
       }
+    }
+  }
+}
+
+body.page-type-homepage {
+  .image-masonry-block {
+    h2 {
+      max-width: get-rem-desktop(400);
     }
   }
 }
