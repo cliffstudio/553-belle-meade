@@ -390,10 +390,6 @@ LEASING MAP STYLES --------------------
     @media only screen and (max-width: 768px) {
       margin-top: get-rem-mobile(5);
     }
-
-    svg {
-      stroke: $colour-cream;
-    }
   }
 
   &__popup-media {

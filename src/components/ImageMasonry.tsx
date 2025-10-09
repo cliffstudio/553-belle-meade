@@ -1,9 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+'use client'
 
+import { useEffect, useRef } from 'react'
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { PortableText } from '@portabletext/react'
 import { PortableTextBlock, SanityImage, SanityVideo } from '../types/sanity'
 import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 type ImageMasonryProps = { 
   heading?: string
@@ -31,11 +35,70 @@ export default function ImageMasonry({
   video2 
 }: ImageMasonryProps) {
 
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Only set up scroll trigger for layout-1
+    if (layout !== 'layout-1' || !sectionRef.current) return
+
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger)
+
+    // Store original body background color
+    const originalBgColor = getComputedStyle(document.body).backgroundColor
+
+    // Create scroll trigger to change body background when layout-1 comes into view
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top center",
+      end: "bottom top",
+      onEnter: () => {
+        gsap.to(document.body, {
+          backgroundColor: "#E3DDE7", // purple color
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onLeave: () => {
+        gsap.to(document.body, {
+          backgroundColor: originalBgColor,
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onEnterBack: () => {
+        gsap.to(document.body, {
+          backgroundColor: "#E3DDE7", // purple color
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onLeaveBack: () => {
+        gsap.to(document.body, {
+          backgroundColor: originalBgColor,
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      }
+    })
+
+    // Cleanup
+    return () => {
+      trigger.kill()
+      // Reset body background color on unmount
+      gsap.to(document.body, {
+        backgroundColor: originalBgColor,
+        duration: 0.5,
+        ease: "cubic-bezier(0.25,0.1,0.25,1)"
+      })
+    }
+  }, [layout])
+
   return (
     <>
       
       {layout === 'layout-1' && (
-        <>
+        <div ref={sectionRef}>
           {/* Desktop */}
           <section className="image-masonry-block layout-1 h-pad desktop">
             <div className="row-lg">
@@ -201,7 +264,7 @@ export default function ImageMasonry({
               </div>
             </div>
           </section>
-        </>
+        </div>
       )}
 
       {layout === 'layout-2' && (

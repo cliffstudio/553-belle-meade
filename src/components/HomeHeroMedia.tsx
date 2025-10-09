@@ -138,6 +138,13 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     }
   }
 
+  const handleScrollDown = () => {
+    window.scrollBy({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    })
+  }
+
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -279,13 +286,13 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         <div className="col-3-12_lg"></div>
       </div>
 
-      <div className="down-arrow z-10">
+      <div className="down-arrow z-10" onClick={handleScrollDown} style={{ cursor: 'pointer' }}>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
           <path d="M21 1L11 11L1 0.999999" stroke="#FFF9F2"/>
         </svg>
       </div>
 
-      {showControls && ( <div className="video-controls z-10">
+      <div className={`video-controls ${showControls ? 'visible' : ''} z-10`}>
         <div className="play-pause-button" onClick={togglePlayPause}>
           <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
             <line x1="0.5" x2="0.5" y2="20"/>
@@ -320,7 +327,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
             <path d="M17.9004 18.5992C19.7904 16.9548 20.9852 14.5319 20.9852 11.8299C20.9852 9.06625 19.7352 6.59452 17.7698 4.94922"/>
           </svg>
         </div>
-      </div> )}
+      </div>
     </section>
   )
 }

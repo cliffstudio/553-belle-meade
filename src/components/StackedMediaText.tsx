@@ -6,6 +6,8 @@ import { PortableText } from '@portabletext/react'
 import { SanityImage, PortableTextBlock, SanityVideo } from '../types/sanity'
 import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
 import { useState, useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 type PageReference = {
   _ref: string
@@ -15,10 +17,11 @@ type PageReference = {
 }
 
 type Link = {
-  linkType?: 'internal' | 'external'
+  linkType?: 'internal' | 'external' | 'jump'
   label?: string
   href?: string
   pageLink?: PageReference
+  jumpLink?: string
 }
 
 type StackedMediaTextProps = {
@@ -38,6 +41,8 @@ const getLinkInfo = (cta?: Link) => {
   
   if (cta.linkType === 'external') {
     return { text: cta.label || '', href: cta.href || '' }
+  } else if (cta.linkType === 'jump') {
+    return { text: cta.label || '', href: cta.jumpLink || '' }
   } else {
     return { text: cta.pageLink?.title || '', href: cta.pageLink?.slug ? `/${cta.pageLink.slug}` : '' }
   }
@@ -51,6 +56,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
   const [isFullscreen, setIsFullscreen] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const fullscreenVideoRef = useRef<HTMLVideoElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   const togglePlayPause = () => {
     const video = videoRef.current
@@ -174,11 +180,72 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     }
   }, [isFullscreen])
 
+  // Background color scroll trigger for page-type-creek
+  useEffect(() => {
+    // Only set up scroll trigger if on a page with page-type-creek class
+    if (!sectionRef.current) return
+    
+    const isCreekPage = document.body.classList.contains('page-type-creek')
+    if (!isCreekPage) return
+
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger)
+
+    // Store original body background color
+    const originalBgColor = getComputedStyle(document.body).backgroundColor
+
+    // Create scroll trigger to change body background when section comes into view
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top center",
+      end: "bottom top",
+      onEnter: () => {
+        gsap.to(document.body, {
+          backgroundColor: "#C4C7B2",
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onLeave: () => {
+        gsap.to(document.body, {
+          backgroundColor: originalBgColor,
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onEnterBack: () => {
+        gsap.to(document.body, {
+          backgroundColor: "#C4C7B2",
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      },
+      onLeaveBack: () => {
+        gsap.to(document.body, {
+          backgroundColor: originalBgColor,
+          duration: 0.4,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
+      }
+    })
+
+    // Cleanup
+    return () => {
+      trigger.kill()
+      // Reset body background color on unmount
+      gsap.to(document.body, {
+        backgroundColor: originalBgColor,
+        duration: 0.4,
+        ease: "cubic-bezier(0.25,0.1,0.25,1)"
+      })
+    }
+  }, [])
+
   return (
     <>
     
       {layout === 'layout-1' && (
-        <section className="stacked-media-text-block layout-1 h-pad">
+        <section ref={sectionRef} className="stacked-media-text-block layout-1 h-pad">
           <div className="row-lg">
             <div className="col-4-12_lg">
               <div className="text-wrap out-of-view">
@@ -270,7 +337,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
       )}
 
       {layout === 'layout-2' && (
-        <section className="stacked-media-text-block layout-2 h-pad">
+        <section ref={sectionRef} className="stacked-media-text-block layout-2 h-pad">
           <div className="row-lg">
             <div className="col-9-12_lg">
               {mediaType === 'image' && image && (

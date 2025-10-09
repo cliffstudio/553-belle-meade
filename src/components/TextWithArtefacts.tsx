@@ -473,7 +473,7 @@ export default function TextWithArtefacts({
           {mobileTitle && <div className="mobile"><h1>{mobileTitle}</h1></div>}
         </div> )}
 
-        {showControls && ( <div className="video-controls z-7 out-of-view">
+        {showControls && ( <div className="video-controls z-4 out-of-view">
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
               <line x1="0.5" x2="0.5" y2="20"/>

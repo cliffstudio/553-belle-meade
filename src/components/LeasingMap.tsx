@@ -410,7 +410,7 @@ export default function LeasingMap({
                 {selectedSpot?.popupContent.description && (
                   <h3 className="leasing-map__popup-description">{selectedSpot.popupContent.description}</h3>
                 )}
-                <div className="cta-font underline-link link">
+                <div className="cta-font underline-link link cream">
                   <Link href="#contact-form">Inquire</Link>
 
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">

@@ -9,10 +9,11 @@ type PageReference = {
 }
 
 type Link = {
-  linkType?: 'internal' | 'external'
+  linkType?: 'internal' | 'external' | 'jump'
   label?: string
   href?: string
   pageLink?: PageReference
+  jumpLink?: string
 }
 
 type Architect = {
@@ -32,6 +33,8 @@ const getLinkInfo = (cta?: Link) => {
   
   if (cta.linkType === 'external') {
     return { text: cta.label || '', href: cta.href || '' }
+  } else if (cta.linkType === 'jump') {
+    return { text: cta.label || '', href: cta.jumpLink || '' }
   } else {
     return { text: cta.pageLink?.title || '', href: cta.pageLink?.slug ? `/${cta.pageLink.slug}` : '' }
   }

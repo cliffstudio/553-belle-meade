@@ -6,7 +6,6 @@
   .stacked-media-text-block {
     padding-top: 0;
     padding-bottom: get-rem-desktop(145);
-    background-color: transparent;
 
     @media only screen and (max-width: 1366px) {
       padding-bottom: get-rem-tablet(95);

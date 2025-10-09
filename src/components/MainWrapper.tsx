@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { client } from '../../sanity.client'
 import { groq } from 'next-sanity'
 
@@ -17,6 +17,11 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
     if (cleanPath === '') return 'page-home'
     return `page-${cleanPath}`
   }
+
+  // Scroll to top on route change - useLayoutEffect runs before paint/animations
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   // Fetch page data to get the correct pageType
   useEffect(() => {
