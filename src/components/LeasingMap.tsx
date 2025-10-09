@@ -79,7 +79,9 @@ export default function LeasingMap({
   const [zoomLevel, setZoomLevel] = useState(1)
   const [hoveredSpot, setHoveredSpot] = useState<string | null>(null)
   const [selectedSpot, setSelectedSpot] = useState<ClickableSpot | null>(null)
+  const [displaySpot, setDisplaySpot] = useState<ClickableSpot | null>(null)
   const [currentBreakpoint, setCurrentBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
 
   // Detect current breakpoint
   React.useEffect(() => {
@@ -97,6 +99,20 @@ export default function LeasingMap({
     window.addEventListener('resize', updateBreakpoint)
     return () => window.removeEventListener('resize', updateBreakpoint)
   }, [])
+
+  // Update displaySpot with delay to keep content visible during fade-out
+  React.useEffect(() => {
+    if (selectedSpot) {
+      // Immediately show new content
+      setDisplaySpot(selectedSpot)
+    } else {
+      // Delay clearing content to allow fade-out animation (400ms in CSS)
+      const timeout = setTimeout(() => {
+        setDisplaySpot(null)
+      }, 400)
+      return () => clearTimeout(timeout)
+    }
+  }, [selectedSpot])
 
   // Default floors if no CMS data is provided
   const defaultFloors: Array<{
@@ -215,6 +231,31 @@ export default function LeasingMap({
 
   const activeSpots = buildSpotsFromFloors()
 
+  // Preload all floor images to prevent flashing when switching tabs
+  React.useEffect(() => {
+    const imagesToPreload: string[] = []
+    
+    floors.forEach((floor) => {
+      if (floor.image) imagesToPreload.push(floor.image)
+      if (floor.tabletImage) imagesToPreload.push(floor.tabletImage)
+      if (floor.mobileImage) imagesToPreload.push(floor.mobileImage)
+    })
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [floors])
+
+  const handleImageLoad = (floorId: string) => {
+    setLoadedImages(prev => {
+      const newSet = new Set(prev)
+      newSet.add(floorId)
+      console.log('Image loaded for floor:', floorId, 'Loaded floors:', Array.from(newSet))
+      return newSet
+    })
+  }
+
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.25, 2))
   }
@@ -272,31 +313,55 @@ export default function LeasingMap({
                 {/* Desktop Image */}
                 {floor.image && (
                   <img 
-                    data-src={floor.image} 
+                    src={floor.image} 
                     alt="" 
-                    className="lazy regular desktop leasing-map__base-image"
+                    className="regular desktop leasing-map__base-image"
+                    onLoad={() => handleImageLoad(floor.id)}
+                    ref={(img) => {
+                      // Handle images that are already cached - only update if not already loaded
+                      if (img?.complete && !loadedImages.has(floor.id)) {
+                        handleImageLoad(floor.id)
+                      }
+                    }}
                   />
                 )}
 
                 {/* Tablet Image */}
                 {floor.tabletImage && (
                   <img 
-                    data-src={floor.tabletImage} 
+                    src={floor.tabletImage} 
                     alt="" 
-                    className="lazy regular tablet leasing-map__base-image"
+                    className="regular tablet leasing-map__base-image"
+                    onLoad={() => handleImageLoad(floor.id)}
+                    ref={(img) => {
+                      // Handle images that are already cached - only update if not already loaded
+                      if (img?.complete && !loadedImages.has(floor.id)) {
+                        handleImageLoad(floor.id)
+                      }
+                    }}
                   />
                 )}
 
                 {/* Mobile Image */}
                 {floor.mobileImage && (
                   <img 
-                    data-src={floor.mobileImage} 
+                    src={floor.mobileImage} 
                     alt="" 
-                    className="lazy regular mobile leasing-map__base-image"
+                    className="regular mobile leasing-map__base-image"
+                    onLoad={() => handleImageLoad(floor.id)}
+                    ref={(img) => {
+                      // Handle images that are already cached - only update if not already loaded
+                      if (img?.complete && !loadedImages.has(floor.id)) {
+                        handleImageLoad(floor.id)
+                      }
+                    }}
                   />
                 )}
 
-                <div className="loading-overlay" />
+                {/* Only show loading overlay on the first floor */}
+                {floor.id === 'floor-1' && (
+                  <div className={`loading-overlay ${loadedImages.has(floor.id) ? 'hidden' : ''}`} />
+                )}
                 
                 {/* Hover overlay images - preload all images for this floor */}
                 {activeSpots[floor.id as keyof typeof activeSpots]?.map((spot: ClickableSpot) => {
@@ -391,7 +456,7 @@ export default function LeasingMap({
             <div className="leasing-map__popup-inner">
               <div className="leasing-map__popup-text">
                 <div className="leasing-map__popup-title-wrap">
-                  <h2 className="leasing-map__popup-title">{selectedSpot?.popupContent.title}</h2>
+                  <h2 className="leasing-map__popup-title">{displaySpot?.popupContent.title}</h2>
 
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -407,8 +472,8 @@ export default function LeasingMap({
                   </svg>
                 </div>
                 
-                {selectedSpot?.popupContent.description && (
-                  <h3 className="leasing-map__popup-description">{selectedSpot.popupContent.description}</h3>
+                {displaySpot?.popupContent.description && (
+                  <h3 className="leasing-map__popup-description">{displaySpot.popupContent.description}</h3>
                 )}
                 <div className="cta-font underline-link link cream">
                   <Link href="#contact-form">Inquire</Link>
@@ -420,11 +485,11 @@ export default function LeasingMap({
               </div>
 
               <div className="leasing-map__popup-media relative">
-                {selectedSpot?.popupContent.image && (
+                {displaySpot?.popupContent.image && (
                   <>
                     <img 
-                      src={selectedSpot.popupContent.image} 
-                      alt={selectedSpot.popupContent.title}
+                      src={displaySpot.popupContent.image} 
+                      alt={displaySpot.popupContent.title}
                       className="full-bleed-image"
                     />
                   </>
