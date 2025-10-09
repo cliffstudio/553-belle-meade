@@ -237,66 +237,68 @@ export default function Gallery({ images }: GalleryProps) {
       {/* Carousel overlay */}
       {isCarouselOpen && (
         <div className="carousel-overlay" onClick={closeCarousel}>
-          <div className="carousel-container" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="carousel-close desktop" 
-              onClick={closeCarousel}
-              aria-label="Close carousel"
-            >
-              Close
-            </button>
+          <div className="inner-wrap">
+            <div className="carousel-container" onClick={(e) => e.stopPropagation()}>
+              <button 
+                className="carousel-close desktop" 
+                onClick={closeCarousel}
+                aria-label="Close carousel"
+              >
+                Close
+              </button>
 
-            <button 
-              className="carousel-close mobile" 
-              onClick={closeCarousel}
-              aria-label="Close carousel"
-            >
-              <div className="menu-bar" data-position="top"></div>
-              <div className="menu-bar" data-position="bottom"></div>
-            </button>
+              <button 
+                className="carousel-close mobile" 
+                onClick={closeCarousel}
+                aria-label="Close carousel"
+              >
+                <div className="menu-bar" data-position="top"></div>
+                <div className="menu-bar" data-position="bottom"></div>
+              </button>
 
-            <div ref={carouselRef} className="carousel">
-              {images.map((item, index) => {
-                if (!item.image?.asset) return null
+              <div ref={carouselRef} className="carousel">
+                {images.map((item, index) => {
+                  if (!item.image?.asset) return null
 
-                return (
-                  <div key={index} className="carousel-cell">
-                    <div className="carousel-image">
-                      <img
-                        src={urlFor(item.image).width(1200).url()}
-                        alt={item.caption || ''}
-                        className="carousel-img"
-                      />
+                  return (
+                    <div key={index} className="carousel-cell">
+                      <div className="carousel-image">
+                        <img
+                          src={urlFor(item.image).width(1200).url()}
+                          alt={item.caption || ''}
+                          className="carousel-img"
+                        />
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
+              
+              {/* Custom navigation arrows */}
+              {images.length > 1 && (
+                <div className="carousel-arrows">
+                  <button className="left-arrow" onClick={handlePrevious} type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
+                      <path d="M26 51L1 26L26 0.999998" stroke="#581B25"/>
+                    </svg>
+                  </button>
+
+                  <button className="right-arrow" onClick={handleNext} type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
+                      <path d="M1 1L26 26L1 51" stroke="#581B25"/>
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
             
-            {/* Custom navigation arrows */}
-            {images.length > 1 && (
-              <div className="carousel-arrows">
-                <button className="left-arrow" onClick={handlePrevious} type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
-                    <path d="M26 51L1 26L26 0.999998" stroke="#581B25"/>
-                  </svg>
-                </button>
-
-                <button className="right-arrow" onClick={handleNext} type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
-                    <path d="M1 1L26 26L1 51" stroke="#581B25"/>
-                  </svg>
-                </button>
+            {/* Dynamic caption outside carousel container */}
+            {images[currentSlideIndex]?.caption && (
+              <div className="carousel-caption">
+                {images[currentSlideIndex].caption}
               </div>
             )}
           </div>
-          
-          {/* Dynamic caption outside carousel container */}
-          {images[currentSlideIndex]?.caption && (
-            <div className="carousel-caption">
-              {images[currentSlideIndex].caption}
-            </div>
-          )}
         </div>
       )}
     </>
