@@ -5,16 +5,22 @@ export default defineType({
   title: 'Full Width Media',
   type: 'object',
   fields: [
-    defineField({ name: 'mediaType', type: 'string', initialValue: 'image',
+    defineField({
+      name: 'mediaType',
+      title: 'Media Type',
+      type: 'string',
+      initialValue: 'image',
       options: { list: ['image','video'] } }),
     defineField({ 
-      name: 'image', 
+      name: 'image',
+      title: 'Image',
       type: 'image',
       options: { hotspot: true },
       hidden: ({ parent }) => parent?.mediaType !== 'image'
     }),
     defineField({ 
       name: 'video', 
+      title: 'Video',
       type: 'file', 
       options: { 
         accept: 'video/*' 

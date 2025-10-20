@@ -31,7 +31,9 @@ type HeroMediaProps = {
   desktopBackgroundImage?: SanityImage
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
+  desktopBackgroundVideoPlaceholder?: SanityImage
   mobileBackgroundVideo?: SanityVideo
+  mobileBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
   body?: PortableTextBlock[]
@@ -59,7 +61,9 @@ export default function HeroMedia({
   desktopBackgroundImage, 
   mobileBackgroundImage,
   desktopBackgroundVideo,
+  desktopBackgroundVideoPlaceholder,
   mobileBackgroundVideo,
+  mobileBackgroundVideoPlaceholder,
   showControls = false,
   overlayDarkness = 0.3,
   body,
@@ -216,6 +220,7 @@ export default function HeroMedia({
                 <video
                   ref={desktopVideoRef}
                   src={videoUrlFor(desktopBackgroundVideo)}
+                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                   className="desktop"
                   autoPlay
                   muted
@@ -230,6 +235,7 @@ export default function HeroMedia({
                 <video
                   ref={mobileVideoRef}
                   src={videoUrlFor(mobileBackgroundVideo)}
+                  poster={mobileBackgroundVideoPlaceholder ? urlFor(mobileBackgroundVideoPlaceholder).url() : undefined}
                   className="mobile"
                   autoPlay
                   muted
@@ -244,6 +250,7 @@ export default function HeroMedia({
                 <video
                   ref={mobileVideoRef}
                   src={videoUrlFor(desktopBackgroundVideo)}
+                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                   className="mobile"
                   autoPlay
                   muted

@@ -21,13 +21,13 @@ export default defineType({
     }),
     defineField({ 
       name: 'desktopTitle', 
-      title: 'Desktop Title',
+      title: 'Title (Desktop)',
       type: 'string',
       hidden: ({ parent }) => parent?.layout !== 'layout-1' && parent?.layout !== 'layout-3'
     }),
     defineField({ 
       name: 'mobileTitle',
-      title: 'Mobile Title',
+      title: 'Title (Mobile)',
       type: 'string',
       hidden: ({ parent }) => parent?.layout !== 'layout-1' && parent?.layout !== 'layout-3'
     }),
@@ -43,19 +43,19 @@ export default defineType({
     }),
     defineField({ 
       name: 'desktopBackgroundImage', 
-      title: 'Desktop Background Image',
+      title: 'Background Image (Desktop)',
       type: 'image',
       hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'image'
     }),
     defineField({ 
       name: 'mobileBackgroundImage', 
-      title: 'Mobile Background Image',
+      title: 'Background Image (Mobile)',
       type: 'image',
       hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'image'
     }),
     defineField({ 
       name: 'desktopBackgroundVideo', 
-      title: 'Desktop Background Video',
+      title: 'Background Video (Desktop)',
       type: 'file', 
       options: {
         accept: 'video/*'
@@ -63,12 +63,24 @@ export default defineType({
       hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
     }),
     defineField({ 
+      name: 'desktopBackgroundVideoPlaceholder', 
+      title: 'Background Video Placeholder (Desktop)',
+      type: 'image',
+      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
+    }),
+    defineField({ 
       name: 'mobileBackgroundVideo', 
-      title: 'Mobile Background Video',
+      title: 'Background Video (Mobile)',
       type: 'file', 
       options: {
         accept: 'video/*'
       },
+      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
+    }),
+    defineField({ 
+      name: 'mobileBackgroundVideoPlaceholder', 
+      title: 'Background Video Placeholder (Mobile)',
+      type: 'image',
       hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
     }),
     defineField({ 
