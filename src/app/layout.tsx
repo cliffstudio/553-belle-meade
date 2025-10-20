@@ -163,37 +163,46 @@ export default function RootLayout({
                   subtree: true
                 });
                 
-                // Smooth scroll functionality for hash links
+                // Smooth scroll functionality for hash links with header offset
+                function getHeaderHeight() {
+                  var header = document.querySelector('.site-header');
+                  return header ? header.offsetHeight : 0;
+                }
+                
+                function smoothScrollToElementWithOffset(el) {
+                  if (!el) return;
+                  var rect = el.getBoundingClientRect();
+                  var headerHeight = getHeaderHeight();
+                  var targetY = window.scrollY + rect.top - headerHeight;
+                  if (targetY < 0) targetY = 0;
+                  window.scrollTo({ top: targetY, behavior: 'smooth' });
+                }
+                
                 function initSmoothScroll() {
                   // Handle initial page load with hash
                   if (window.location.hash) {
                     setTimeout(function() {
-                      const target = document.querySelector(window.location.hash);
+                      var target = document.querySelector(window.location.hash);
                       if (target) {
-                        target.scrollIntoView({ 
-                          behavior: 'smooth',
-                          block: 'start'
-                        });
+                        smoothScrollToElementWithOffset(target);
                       }
                     }, 100);
                   }
                   
                   // Handle clicks on links with hash
                   $(document).on('click', 'a[href*="#"]', function(e) {
-                    const href = $(this).attr('href');
+                    var href = $(this).attr('href');
                     if (href && href.includes('#')) {
-                      const hash = href.split('#')[1];
-                      const target = document.getElementById(hash);
+                      var hash = href.split('#')[1];
+                      if (!hash) return; // ignore links that are just '#'
+                      var target = document.getElementById(hash) || document.querySelector('a[name="' + hash + '"]');
                       
                       if (target) {
                         e.preventDefault();
-                        target.scrollIntoView({ 
-                          behavior: 'smooth',
-                          block: 'start'
-                        });
+                        smoothScrollToElementWithOffset(target);
                         
                         // Update URL without triggering scroll
-                        history.pushState(null, null, href);
+                        history.pushState(null, '', href);
                       }
                     }
                   });
@@ -202,12 +211,9 @@ export default function RootLayout({
                   window.addEventListener('popstate', function() {
                     if (window.location.hash) {
                       setTimeout(function() {
-                        const target = document.querySelector(window.location.hash);
+                        var target = document.querySelector(window.location.hash);
                         if (target) {
-                          target.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                          });
+                          smoothScrollToElementWithOffset(target);
                         }
                       }, 100);
                     }
