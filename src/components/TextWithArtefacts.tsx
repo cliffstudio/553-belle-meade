@@ -150,7 +150,7 @@ export default function TextWithArtefacts({
               ScrollTrigger.create({
                 trigger: element,
                 start: "top top",
-                endTrigger: artefactsGrid,
+                endTrigger: footer,
                 end: "bottom bottom",
                 pin: true,
                 pinSpacing: false,
@@ -162,14 +162,26 @@ export default function TextWithArtefacts({
               ScrollTrigger.create({
                 trigger: textBlock,
                 start: "top top",
-                endTrigger: artefactsGrid,
+                endTrigger: footer,
                 end: "bottom bottom",
                 pin: true,
                 pinSpacing: false,
               })
             }
 
-            // 3. Animate artefacts on mobile when artefacts-grid comes into view (only once)
+            // 3. Pin artefacts grid when it reaches viewport bottom
+            if (window.innerWidth > 768) {
+              ScrollTrigger.create({
+                trigger: artefactsGrid,
+                start: "bottom bottom",
+                endTrigger: footer,
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false,
+              })
+            }
+
+            // 4. Animate artefacts on mobile when artefacts-grid comes into view (only once)
             if (window.innerWidth <= 768) {
               const artefacts = sectionRef.current?.querySelectorAll('.artefact')
               if (artefacts && artefacts.length > 0) {
@@ -386,7 +398,7 @@ export default function TextWithArtefacts({
 
   return (
     <section ref={sectionRef} className="text-with-artefacts">
-      <div className="hero-media-block h-svh flex items-center text-white relative">
+      <div className="hero-media-block h-svh flex items-center text-white relative z-6">
         {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
           <div className="fill-space-video-wrap media-wrap z-1">
             {/* Desktop Video */}
