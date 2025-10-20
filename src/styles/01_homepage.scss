@@ -37,14 +37,14 @@
       left: 50%;
       @include transform(translate(-50%, -50%));
       opacity: 0;
-      @include animation(symbolSequenceDesktop 4s cubic-bezier(0.25,0.1,0.25,1) forwards);
+      @include animation(symbolSequenceDesktop 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
 
       @media only screen and (max-width: 1366px) {
-        @include animation(symbolSequenceTablet 4s cubic-bezier(0.25,0.1,0.25,1) forwards);
+        @include animation(symbolSequenceTablet 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
       }
 
       @media only screen and (max-width: 768px) {
-        @include animation(symbolSequenceMobile 4s cubic-bezier(0.25,0.1,0.25,1) forwards);
+        @include animation(symbolSequenceMobile 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
       }
 
       svg {
@@ -409,7 +409,7 @@
     @include transform(translate(-50%, -50%));
     width: get-rem-desktop(175);
   }
-  90% {
+  80% {
     opacity: 1;
     top: 50%;
     @include transform(translate(-50%, -50%));
@@ -434,7 +434,7 @@
     @include transform(translate(-50%, -50%));
     width: get-rem-tablet(125);
   }
-  90% {
+  80% {
     opacity: 1;
     top: 50%;
     @include transform(translate(-50%, -50%));
@@ -459,7 +459,7 @@
     @include transform(translate(-50%, -50%));
     width: get-rem-mobile(100);
   }
-  90% {
+  80% {
     opacity: 1;
     top: 50%;
     @include transform(translate(-50%, -50%));
