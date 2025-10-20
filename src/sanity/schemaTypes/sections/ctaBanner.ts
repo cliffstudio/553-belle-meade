@@ -8,6 +8,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'pageLink',
+      title: 'Page Link',
       type: 'reference',
       to: [{ type: 'page' }],
       hidden: ({ parent }) => parent?.linkType === 'external'

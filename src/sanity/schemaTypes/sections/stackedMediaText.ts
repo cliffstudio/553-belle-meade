@@ -41,12 +41,14 @@ export default defineType({
     }),
     defineField({
       name: 'image',
+      title: 'Image',
       type: 'image',
       options: { hotspot: true },
       hidden: ({ parent }) => parent?.mediaType !== 'image'
     }),
     defineField({ 
       name: 'video',
+      title: 'Video',
       type: 'file',
       options: {
         accept: 'video/*'

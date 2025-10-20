@@ -194,7 +194,9 @@ export default async function DynamicPage({ params }: PageProps) {
             desktopBackgroundImage,
             mobileBackgroundImage,
             desktopBackgroundVideo,
+            desktopBackgroundVideoPlaceholder,
             mobileBackgroundVideo,
+            mobileBackgroundVideoPlaceholder,
             showControls,
             overlayDarkness,
             body,
@@ -212,7 +214,9 @@ export default async function DynamicPage({ params }: PageProps) {
               desktopBackgroundImage={desktopBackgroundImage as SanityImage | undefined}
               mobileBackgroundImage={mobileBackgroundImage as SanityImage | undefined}
               desktopBackgroundVideo={desktopBackgroundVideo as SanityVideo | undefined}
+              desktopBackgroundVideoPlaceholder={desktopBackgroundVideoPlaceholder as SanityImage | undefined}
               mobileBackgroundVideo={mobileBackgroundVideo as SanityVideo | undefined}
+              mobileBackgroundVideoPlaceholder={mobileBackgroundVideoPlaceholder as SanityImage | undefined}
               showControls={showControls as boolean | undefined}
               overlayDarkness={overlayDarkness as number | undefined}
               body={body as PortableTextBlock[] | undefined}

@@ -30,18 +30,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
           name: 'image', 
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -63,18 +66,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
           name: 'image', 
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -96,18 +102,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
           name: 'image', 
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -129,18 +138,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
           name: 'image', 
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -162,18 +174,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
-          name: 'image', 
+          name: 'image',  
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -195,18 +210,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
-          name: 'image', 
+          name: 'image',   
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 
@@ -228,18 +246,21 @@ export default defineType({
       fields: [
         defineField({ 
           name: 'mediaType', 
+          title: 'Media Type',
           type: 'string', 
           initialValue: 'image',
           options: { list: ['image','video'] } 
         }),
         defineField({ 
           name: 'image', 
+          title: 'Image',
           type: 'image',
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({ 
           name: 'video', 
+          title: 'Video',
           type: 'file', 
           options: { 
             accept: 'video/*' 

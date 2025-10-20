@@ -20,12 +20,12 @@ export default defineType({
     }),
     defineField({ 
       name: 'desktopTitle', 
-      title: 'Desktop Title',
+      title: 'Title (Desktop)',
       type: 'string',
     }),
     defineField({ 
       name: 'mobileTitle',
-      title: 'Mobile Title',
+      title: 'Title (Mobile)',
       type: 'string',
     }),
     defineField({
@@ -39,19 +39,19 @@ export default defineType({
     }),
     defineField({ 
       name: 'desktopBackgroundImage', 
-      title: 'Desktop Background Image',
+      title: 'Background Image (Desktop)',
       type: 'image',
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'image'
     }),
     defineField({ 
       name: 'mobileBackgroundImage', 
-      title: 'Mobile Background Image',
+      title: 'Background Image (Mobile)',
       type: 'image',
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'image'
     }),
     defineField({ 
       name: 'desktopBackgroundVideo', 
-      title: 'Desktop Background Video',
+      title: 'Background Video (Desktop)',
       type: 'file', 
       options: {
         accept: 'video/*'
@@ -59,12 +59,24 @@ export default defineType({
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
     }),
     defineField({ 
+      name: 'desktopBackgroundVideoPlaceholder', 
+      title: 'Background Video Placeholder (Desktop)',
+      type: 'image',
+      hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
+    }),
+    defineField({ 
       name: 'mobileBackgroundVideo', 
-      title: 'Mobile Background Video',
+      title: 'Background Video (Mobile)',
       type: 'file', 
       options: {
         accept: 'video/*'
       },
+      hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
+    }),
+    defineField({ 
+      name: 'mobileBackgroundVideoPlaceholder', 
+      title: 'Background Video Placeholder (Mobile)',
+      type: 'image',
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
     }),
     defineField({ 
@@ -83,6 +95,7 @@ export default defineType({
     }),
     defineField({
       name: 'body',
+      title: 'Body',
       type: 'richPortableText'
     }),
     defineField({
