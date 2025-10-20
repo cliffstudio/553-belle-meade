@@ -419,10 +419,10 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       // Hide header immediately on homepage
       headerRef.current.classList.add('header-hidden')
       
-      // Show all final elements after 3.5 seconds (when symbol animation completes)
+      // Show all final elements after 4.5 seconds (when symbol animation completes)
       const timer = setTimeout(() => {
         triggerFinalPhaseAnimation()
-      }, 3500)
+      }, 4500)
       
       return () => clearTimeout(timer)
     } else {
