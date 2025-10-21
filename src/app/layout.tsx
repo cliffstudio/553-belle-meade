@@ -16,19 +16,19 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Belle Meade Village - Where Luxury Meets Community",
-  description: "Discover a premier destination where luxury shopping, exceptional dining, and vibrant lifestyle experiences come together in perfect harmony.",
+  description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
   keywords: "Belle Meade Village, luxury shopping, fine dining, lifestyle, Nashville, boutique shops, restaurants, wellness",
   authors: [{ name: "Belle Meade Village" }],
   openGraph: {
     title: "Belle Meade Village - Where Luxury Meets Community",
-    description: "Discover a premier destination where luxury shopping, exceptional dining, and vibrant lifestyle experiences come together in perfect harmony.",
+    description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Belle Meade Village - Where Luxury Meets Community",
-    description: "Discover a premier destination where luxury shopping, exceptional dining, and vibrant lifestyle experiences come together in perfect harmony.",
+    description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
   },
 };
 
