@@ -22,11 +22,6 @@ const nextConfig: NextConfig = {
       };
     }
     
-    // Ensure proper module resolution for Sanity and React 19 compatibility
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
-    
     // Fix for React 19 useMemoCache issues
     config.resolve.symlinks = false;
     
