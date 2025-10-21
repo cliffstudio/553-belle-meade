@@ -104,12 +104,8 @@ export default function Footer({ footer }: FooterProps) {
         {/* <div className="col-3-12_lg"></div> */}
       </div>
 
-      <div className="desktop">
+      <div>
         <Logo />
-      </div>
-
-      <div className="mobile">
-        <StackedLogo />
       </div>
     </footer>
   )
