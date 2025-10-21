@@ -382,13 +382,30 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       const headerHeight = headerRef.current.offsetHeight
       let scrollThreshold = window.innerHeight - headerHeight // Default: 100vh - header height
       
-      // Check for hero media block layout and adjust threshold accordingly
-      const heroMediaBlock = document.querySelector('.hero-media-block')
-      if (heroMediaBlock) {
-        if (heroMediaBlock.classList.contains('layout-2') || heroMediaBlock.classList.contains('layout-3')) {
-          scrollThreshold = 50 // 50px from top for layout-2 and layout-3
+      // Special handling for heritage and carousel pages - keep header transparent until past all text-with-artefacts blocks
+      const isHeritagePage = document.body.classList.contains('page-heritage')
+      const isCarouselPage = document.body.classList.contains('page-carousel')
+      
+      if (isHeritagePage || isCarouselPage) {
+        const textWithArtefactsBlocks = document.querySelectorAll('.text-with-artefacts')
+        if (textWithArtefactsBlocks.length > 0) {
+          // Find the last text-with-artefacts block
+          const lastTextWithArtefactsBlock = textWithArtefactsBlocks[textWithArtefactsBlocks.length - 1]
+          const lastBlockRect = lastTextWithArtefactsBlock.getBoundingClientRect()
+          const lastBlockBottom = window.scrollY + lastBlockRect.bottom
+          
+          // Set threshold to the bottom of the last text-with-artefacts block
+          scrollThreshold = lastBlockBottom - headerHeight
         }
-        // layout-1 keeps the default threshold (window.innerHeight - headerHeight)
+      } else {
+        // Check for hero media block layout and adjust threshold accordingly
+        const heroMediaBlock = document.querySelector('.hero-media-block')
+        if (heroMediaBlock) {
+          if (heroMediaBlock.classList.contains('layout-2') || heroMediaBlock.classList.contains('layout-3')) {
+            scrollThreshold = 50 // 50px from top for layout-2 and layout-3
+          }
+          // layout-1 keeps the default threshold (window.innerHeight - headerHeight)
+        }
       }
       
       const scrollY = window.scrollY
