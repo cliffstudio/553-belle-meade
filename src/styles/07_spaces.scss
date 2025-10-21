@@ -542,34 +542,34 @@ CONTACT FORM STYLES --------------------
     border-radius: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
-    min-height: get-rem-desktop(27) !important;
+    height: get-rem-desktop(27) !important;
     padding: 0 !important;
     @include flex;
     @include align-items(flex-start);
 
     @media only screen and (max-width: 1366px) {
-      min-height: get-rem-tablet(21) !important;
+      height: get-rem-tablet(21) !important;
     }
 
     @media only screen and (max-width: 768px) {
-      min-height: get-rem-mobile(23) !important;
+      height: get-rem-mobile(23) !important;
     }
   }
 
   .rs__value-container {
     padding: 0 !important;
-    min-height: get-rem-desktop(27) !important;
+    height: get-rem-desktop(27) !important;
     @include flex;
     @include align-items(flex-start);
     row-gap: 0.5em;
     column-gap: 0.5em;
 
     @media only screen and (max-width: 1366px) {
-      min-height: get-rem-tablet(21) !important;
+      height: get-rem-tablet(21) !important;
     }
 
     @media only screen and (max-width: 768px) {
-      min-height: get-rem-mobile(23) !important;
+      height: get-rem-mobile(23) !important;
     }
   }
 
