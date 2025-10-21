@@ -543,22 +543,26 @@ CONTACT FORM STYLES --------------------
     background: transparent !important;
     box-shadow: none !important;
     height: get-rem-desktop(27) !important;
+    max-height: get-rem-desktop(27) !important;
     padding: 0 !important;
     @include flex;
     @include align-items(flex-start);
 
     @media only screen and (max-width: 1366px) {
       height: get-rem-tablet(21) !important;
+      max-height: get-rem-tablet(21) !important;
     }
 
     @media only screen and (max-width: 768px) {
       height: get-rem-mobile(23) !important;
+      max-height: get-rem-mobile(23) !important;
     }
   }
 
   .rs__value-container {
     padding: 0 !important;
     height: get-rem-desktop(27) !important;
+    max-height: get-rem-desktop(27) !important;
     @include flex;
     @include align-items(flex-start);
     row-gap: 0.5em;
@@ -566,10 +570,12 @@ CONTACT FORM STYLES --------------------
 
     @media only screen and (max-width: 1366px) {
       height: get-rem-tablet(21) !important;
+      max-height: get-rem-tablet(21) !important;
     }
 
     @media only screen and (max-width: 768px) {
       height: get-rem-mobile(23) !important;
+      max-height: get-rem-mobile(23) !important;
     }
   }
 
