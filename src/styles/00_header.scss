@@ -39,7 +39,7 @@
       padding-bottom: get-rem-tablet(20);
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 950px) {
       padding-top: get-rem-mobile(17);
       padding-bottom: get-rem-mobile(17);
     }
@@ -59,7 +59,7 @@
         max-width: get-rem-tablet(63);
       }
   
-      @media only screen and (max-width: 768px) {
+      @media only screen and (max-width: 950px) {
         width: get-rem-mobile(42);
       }
     }
@@ -159,7 +159,7 @@
       }
 
       // Hover behavior for larger screens only
-      @media only screen and (min-width: 1367px) {
+      @media only screen and (min-width: 951px) {
         &:hover {
           .dropdown-title {
             font-family: 'Millionaire-Script';
@@ -198,7 +198,7 @@
       }
 
       // On smaller screens, enable click behavior
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 950px) {
         .dropdown-title {
           cursor: pointer;
         }
@@ -260,10 +260,11 @@ body.page-type-gallery .site-header {
 .menu-overlay {
   position: fixed;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   top: 0;
   left: 0;
   padding-top: get-rem-mobile(162);
+  padding-bottom: get-rem-mobile(51);
   background-color: $colour-burgundy;
   pointer-events: none;
   opacity: 0;
@@ -279,6 +280,7 @@ body.page-type-gallery .site-header {
 		opacity: 0;
 		will-change: opacity;
     @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+    overflow-y: scroll;
 
     &.visible {
       pointer-events: all;

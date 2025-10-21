@@ -164,9 +164,9 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     return false
   }
 
-  // Check if we're on a smaller screen (1366px and below)
+  // Check if we're on a smaller screen (950px and below)
   const isSmallScreen = () => {
-    return window.innerWidth <= 1366
+    return window.innerWidth <= 950
   }
 
   // Handle dropdown interaction (hover on desktop, click on mobile/tablet)
