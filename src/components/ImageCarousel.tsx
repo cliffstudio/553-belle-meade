@@ -38,14 +38,12 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
         if (carouselRef.current) {
           flickityRef.current = new Flickity(carouselRef.current, {
           cellAlign: 'left',
-          // wrapAround: true,
           prevNextButtons: false,
           pageDots: false,
           imagesLoaded: true,
           lazyLoad: true,
           on: {
             ready: () => {
-              // Trigger lazy loading after Flickity is ready
               mediaLazyloading()
             }
           }
@@ -158,7 +156,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
                 </div>
 
                 {item.caption && (
-                  <div className="caption">{item.caption}</div>
+                  <div className="caption caption-font">{item.caption}</div>
                 )}
               </div>
             ))}
