@@ -18,7 +18,8 @@
       @include animation(logoSequence 4s cubic-bezier(0.25,0.1,0.25,1) forwards);
   
       svg {
-        width: get-rem-desktop(850);
+        // width: get-rem-desktop(850);
+        width: 44vw;
         fill: $colour-cream;
 
         @media only screen and (max-width: 1366px) {
@@ -400,19 +401,22 @@
 @keyframes symbolSequenceDesktop {
   0%, 50%, 60% {
     opacity: 0;
-    width: get-rem-desktop(175);
+    // width: get-rem-desktop(175);
+    width: 9vw;
   }
   70% {
     opacity: 1;
     top: 50%;
     @include transform(translate(-50%, -50%));
-    width: get-rem-desktop(175);
+    // width: get-rem-desktop(175);
+    width: 9vw;
   }
   80% {
     opacity: 1;
     top: 50%;
     @include transform(translate(-50%, -50%));
-    width: get-rem-desktop(175);
+    // width: get-rem-desktop(175);
+    width: 9vw;
   }
   100% {
     opacity: 1;
