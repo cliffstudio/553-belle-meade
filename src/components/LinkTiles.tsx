@@ -109,7 +109,7 @@ const renderTile = (tile: LinkTile, tileIndex: number, numberOfTiles: number) =>
 
       <h2 className="link-text">{text}</h2>
 
-      {href && <a href={href}></a>}
+      {href && <a href={href} target={tile.cta?.linkType === 'external' ? '_blank' : undefined} rel={tile.cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
     </div>
   )
 }
@@ -293,7 +293,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[0].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[0].cta).href && <a href={getLinkInfo(activeTiles[0].cta).href}></a>}
+                {getLinkInfo(activeTiles[0].cta).href && <a href={getLinkInfo(activeTiles[0].cta).href} target={activeTiles[0].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[0].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
 
               <div className="col-1-5_sm"></div>
@@ -334,7 +334,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[1].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[1].cta).href && <a href={getLinkInfo(activeTiles[1].cta).href}></a>}
+                {getLinkInfo(activeTiles[1].cta).href && <a href={getLinkInfo(activeTiles[1].cta).href} target={activeTiles[1].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[1].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
             </div>
           )}
@@ -371,7 +371,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[2].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[2].cta).href && <a href={getLinkInfo(activeTiles[2].cta).href}></a>}
+                {getLinkInfo(activeTiles[2].cta).href && <a href={getLinkInfo(activeTiles[2].cta).href} target={activeTiles[2].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[2].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
 
               <div className="col-1-5_sm"></div>
@@ -412,7 +412,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[3].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[3].cta).href && <a href={getLinkInfo(activeTiles[3].cta).href}></a>}
+                {getLinkInfo(activeTiles[3].cta).href && <a href={getLinkInfo(activeTiles[3].cta).href} target={activeTiles[3].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[3].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
             </div>
           )}
@@ -448,7 +448,7 @@ export default function LinkTiles({
 
               <h2 className="link-text">{getLinkInfo(activeTiles[4].cta).text}</h2>
 
-              {getLinkInfo(activeTiles[4].cta).href && <a href={getLinkInfo(activeTiles[4].cta).href}></a>}
+              {getLinkInfo(activeTiles[4].cta).href && <a href={getLinkInfo(activeTiles[4].cta).href} target={activeTiles[4].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[4].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
             </div>
           )}
 
@@ -486,7 +486,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[5].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[5].cta).href && <a href={getLinkInfo(activeTiles[5].cta).href}></a>}
+                {getLinkInfo(activeTiles[5].cta).href && <a href={getLinkInfo(activeTiles[5].cta).href} target={activeTiles[5].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[5].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
             </div>
           )}
@@ -523,7 +523,7 @@ export default function LinkTiles({
 
                 <h2 className="link-text">{getLinkInfo(activeTiles[6].cta).text}</h2>
 
-                {getLinkInfo(activeTiles[6].cta).href && <a href={getLinkInfo(activeTiles[6].cta).href}></a>}
+                {getLinkInfo(activeTiles[6].cta).href && <a href={getLinkInfo(activeTiles[6].cta).href} target={activeTiles[6].cta?.linkType === 'external' ? '_blank' : undefined} rel={activeTiles[6].cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}></a>}
               </div>
 
               <div className="col-1-5_sm"></div>
