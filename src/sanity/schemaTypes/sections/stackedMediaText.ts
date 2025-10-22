@@ -62,5 +62,14 @@ export default defineType({
       initialValue: false,
       hidden: ({ parent }) => parent?.mediaType !== 'video'
     }),
+    defineField({
+      name: 'backgroundColour',
+      title: 'Background Colour',
+      type: 'string',
+      initialValue: 'Lilac',
+      options: {
+        list: ['Lilac', 'Green', 'Tan']
+      }
+    }),
   ],
 })

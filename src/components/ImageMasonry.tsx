@@ -14,6 +14,7 @@ type ImageMasonryProps = {
   body?: PortableTextBlock[]
   cta?: { label?: string; href?: string }
   layout?: 'layout-1' | 'layout-2' | 'layout-3'
+  backgroundColour?: 'Lilac' | 'Green' | 'Tan'
   mediaType1?: 'image' | 'video'
   image1?: SanityImage
   video1?: SanityVideo
@@ -27,6 +28,7 @@ export default function ImageMasonry({
   body, 
   cta, 
   layout,
+  backgroundColour = 'Lilac',
   mediaType1 = 'image',
   image1, 
   video1,
@@ -37,6 +39,20 @@ export default function ImageMasonry({
 
   const sectionRef = useRef<HTMLDivElement>(null)
 
+  // Color mapping for background colours
+  const getBackgroundColor = (colour: string) => {
+    switch (colour) {
+      case 'Lilac':
+        return '#E3DDE7' // $colour-light-purple
+      case 'Green':
+        return '#C4C7B2' // $colour-green
+      case 'Tan':
+        return '#E6D3C3' // $colour-tan
+      default:
+        return '#E3DDE7' // Default to Lilac
+    }
+  }
+
   useEffect(() => {
     // Only set up scroll trigger for layout-1
     if (layout !== 'layout-1' || !sectionRef.current) return
@@ -44,17 +60,18 @@ export default function ImageMasonry({
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // Store original body background color
-    const originalBgColor = getComputedStyle(document.body).backgroundColor
+    // Store original body background color (should be cream #FFF9F2)
+    const originalBgColor = '#FFF9F2' // Force cream as the original color
+    const targetBgColor = getBackgroundColor(backgroundColour)
 
     // Create scroll trigger to change body background when layout-1 comes into view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top center",
+      start: "top 15%",
       end: "bottom top",
       onEnter: () => {
         gsap.to(document.body, {
-          backgroundColor: "#E3DDE7", // purple color
+          backgroundColor: targetBgColor,
           duration: 0.4,
           ease: "cubic-bezier(0.25,0.1,0.25,1)"
         })
@@ -68,7 +85,7 @@ export default function ImageMasonry({
       },
       onEnterBack: () => {
         gsap.to(document.body, {
-          backgroundColor: "#E3DDE7", // purple color
+          backgroundColor: targetBgColor,
           duration: 0.4,
           ease: "cubic-bezier(0.25,0.1,0.25,1)"
         })
@@ -92,7 +109,7 @@ export default function ImageMasonry({
         ease: "cubic-bezier(0.25,0.1,0.25,1)"
       })
     }
-  }, [layout])
+  }, [layout, backgroundColour])
 
   return (
     <>
