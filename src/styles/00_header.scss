@@ -59,7 +59,11 @@
         max-width: get-rem-tablet(63);
       }
   
-      @media only screen and (max-width: 950px) {
+      @media only screen and (max-width: 768px) {
+        width: get-rem-mobile(62);
+      }
+
+      @media only screen and (max-width: 950px) and (orientation: landscape) {
         width: get-rem-mobile(42);
       }
     }
