@@ -255,6 +255,16 @@
       }
     }
   }
+
+  @media only screen and (max-width: 950px) {
+    .desktop {
+      display: none;
+    }
+  
+    .mobile {
+      display: block;
+    }
+  }
 }
 
 body.page-type-gallery .site-header {
