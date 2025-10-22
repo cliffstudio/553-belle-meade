@@ -109,6 +109,7 @@ export const pageQuery = groq`
         body,
         cta ${linkFragment},
         layout,
+        backgroundColour,
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
@@ -398,6 +399,7 @@ export const pageQuery = groq`
         heading,
         body,
         cta ${linkFragment},
+        backgroundColour,
         ...${mediaFragment},
         showControls
       },
@@ -511,6 +513,7 @@ export const pageQuery = groq`
         heading,
         body,
         cta ${linkFragment},
+        backgroundColour,
         ...${mediaFragment},
         showControls
       },
@@ -675,6 +678,7 @@ export const homepageQuery = groq`
       body,
       cta ${linkFragment},
       layout,
+      backgroundColour,
       mediaType1,
       image1 ${imageFragment},
       video1 ${videoFragment},

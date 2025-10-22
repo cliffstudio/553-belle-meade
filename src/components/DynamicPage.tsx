@@ -236,7 +236,8 @@ export default async function DynamicPage({ params }: PageProps) {
             heading,
             body,
             cta,
-            showControls
+            showControls,
+            backgroundColour
           } = section
           
           const StackedMediaTextComponent = Component as typeof StackedMediaText
@@ -251,6 +252,7 @@ export default async function DynamicPage({ params }: PageProps) {
               body={body as PortableTextBlock[] | undefined}
               cta={cta as { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } | undefined}
               showControls={showControls as boolean | undefined}
+              backgroundColour={backgroundColour as 'Lilac' | 'Green' | 'Tan' | undefined}
             />
           )
         }

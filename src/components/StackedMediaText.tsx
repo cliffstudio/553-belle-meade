@@ -33,6 +33,7 @@ type StackedMediaTextProps = {
   body?: PortableTextBlock[]
   cta?: Link
   showControls?: boolean
+  backgroundColour?: 'Lilac' | 'Green' | 'Tan'
 }
 
 // Helper function to get link text and href from cta
@@ -48,7 +49,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, heading, body, cta, showControls = false }: StackedMediaTextProps) {
+export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, heading, body, cta, showControls = false, backgroundColour = 'Lilac' }: StackedMediaTextProps) {
   const { text, href } = getLinkInfo(cta)
   
   const [isPlaying, setIsPlaying] = useState(true)
@@ -180,28 +181,44 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     }
   }, [isFullscreen])
 
-  // Background color scroll trigger for page-type-creek
+  // Color mapping for background colours
+  const getBackgroundColor = (colour: string) => {
+    switch (colour) {
+      case 'Lilac':
+        return '#E3DDE7' // $colour-light-purple
+      case 'Green':
+        return '#C4C7B2' // $colour-green
+      case 'Tan':
+        return '#E6D3C3' // $colour-tan
+      default:
+        return '#E3DDE7' // Default to Lilac
+    }
+  }
+
+  // Background color scroll trigger for creek and architecture pages
   useEffect(() => {
-    // Only set up scroll trigger if on a page with page-type-creek class
+    // Only set up scroll trigger if on a page with page-type-creek or page-type-architecture class
     if (!sectionRef.current) return
     
     const isCreekPage = document.body.classList.contains('page-type-creek')
-    if (!isCreekPage) return
+    const isArchitecturePage = document.body.classList.contains('page-type-architecture')
+    if (!isCreekPage && !isArchitecturePage) return
 
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // Store original body background color
-    const originalBgColor = getComputedStyle(document.body).backgroundColor
+    // Store original body background color (should be cream #FFF9F2)
+    const originalBgColor = '#FFF9F2' // Force cream as the original color
+    const targetBgColor = getBackgroundColor(backgroundColour)
 
     // Create scroll trigger to change body background when section comes into view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top center",
+      start: "top 15%",
       end: "bottom top",
       onEnter: () => {
         gsap.to(document.body, {
-          backgroundColor: "#C4C7B2",
+          backgroundColor: targetBgColor,
           duration: 0.4,
           ease: "cubic-bezier(0.25,0.1,0.25,1)"
         })
@@ -215,7 +232,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
       },
       onEnterBack: () => {
         gsap.to(document.body, {
-          backgroundColor: "#C4C7B2",
+          backgroundColor: targetBgColor,
           duration: 0.4,
           ease: "cubic-bezier(0.25,0.1,0.25,1)"
         })
@@ -239,7 +256,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         ease: "cubic-bezier(0.25,0.1,0.25,1)"
       })
     }
-  }, [])
+  }, [backgroundColour])
 
   return (
     <>
