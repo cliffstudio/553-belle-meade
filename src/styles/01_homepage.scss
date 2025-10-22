@@ -48,6 +48,10 @@
         @include animation(symbolSequenceMobile 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
       }
 
+      @media only screen and (max-width: 950px) and (orientation: landscape) {
+        @include animation(symbolSequenceMobileLandscape 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
+      }
+
       svg {
         fill: $colour-cream;
       }
@@ -452,6 +456,31 @@
 }
 
 @keyframes symbolSequenceMobile {
+  0%, 50%, 60% {
+    opacity: 0;
+    width: get-rem-mobile(100);
+  }
+  70% {
+    opacity: 1;
+    top: 50%;
+    @include transform(translate(-50%, -50%));
+    width: get-rem-mobile(100);
+  }
+  80% {
+    opacity: 1;
+    top: 50%;
+    @include transform(translate(-50%, -50%));
+    width: get-rem-mobile(100);
+  }
+  100% {
+    opacity: 1;
+    top: get-rem-mobile(17);
+    @include transform(translate(-50%, 0));
+    width: get-rem-mobile(62);
+  }
+}
+
+@keyframes symbolSequenceMobileLandscape {
   0%, 50%, 60% {
     opacity: 0;
     width: get-rem-mobile(100);
