@@ -264,7 +264,7 @@ export default function LinkTiles({
           {/* Mobile Tile 1 */}
           {activeTiles[0] && (
             <div className="row-sm">
-              <div className="tile-1 tile relative col-3-5_sm out-of-view">
+              <div className="tile-1 tile relative col-4-5_sm out-of-view">
                 {activeTiles[0].mediaType === 'image' && activeTiles[0].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -296,16 +296,16 @@ export default function LinkTiles({
                 {getLinkInfo(activeTiles[0].cta).href && <a href={getLinkInfo(activeTiles[0].cta).href}></a>}
               </div>
 
-              <div className="col-2-5_sm"></div>
+              <div className="col-1-5_sm"></div>
             </div>
           )}
 
           {/* Mobile Tile 2 */}
           {activeTiles[1] && (
             <div className="row-sm">
-              <div className="col-2-5_sm"></div>
+              <div className="col-1-5_sm"></div>
 
-              <div className="tile-2 tile relative col-3-5_sm out-of-view">
+              <div className="tile-2 tile relative col-4-5_sm out-of-view">
                 {activeTiles[1].mediaType === 'image' && activeTiles[1].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -342,7 +342,7 @@ export default function LinkTiles({
           {/* Mobile Tile 3 */}
           {activeTiles[2] && (
             <div className="row-sm">
-              <div className="tile-3 tile relative col-3-5_sm out-of-view">
+              <div className="tile-3 tile relative col-4-5_sm out-of-view">
                 {activeTiles[2].mediaType === 'image' && activeTiles[2].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -374,7 +374,7 @@ export default function LinkTiles({
                 {getLinkInfo(activeTiles[2].cta).href && <a href={getLinkInfo(activeTiles[2].cta).href}></a>}
               </div>
 
-              <div className="col-2-5_sm"></div>
+              <div className="col-1-5_sm"></div>
             </div>
           )}
 
@@ -455,9 +455,9 @@ export default function LinkTiles({
           {/* Mobile Tile 6 */}
           {activeTiles[5] && (
             <div className="row-sm">
-              <div className="col-2-5_sm"></div>
+              <div className="col-1-5_sm"></div>
 
-              <div className="tile-6 tile relative col-3-5_sm out-of-view">
+              <div className="tile-6 tile relative col-4-5_sm out-of-view">
                 {activeTiles[5].mediaType === 'image' && activeTiles[5].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -494,7 +494,7 @@ export default function LinkTiles({
           {/* Mobile Tile 7 */}
           {activeTiles[6] && (
             <div className="row-sm">
-              <div className="tile-7 tile relative col-3-5_sm out-of-view">
+              <div className="tile-7 tile relative col-4-5_sm out-of-view">
                 {activeTiles[6].mediaType === 'image' && activeTiles[6].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -526,7 +526,7 @@ export default function LinkTiles({
                 {getLinkInfo(activeTiles[6].cta).href && <a href={getLinkInfo(activeTiles[6].cta).href}></a>}
               </div>
 
-              <div className="col-2-5_sm"></div>
+              <div className="col-1-5_sm"></div>
             </div>
           )}
         </div>
