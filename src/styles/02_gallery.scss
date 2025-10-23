@@ -12,6 +12,9 @@
 
     @media (max-width: 768px) {
       padding-top: get-rem-mobile(180);
+    }
+
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
       padding-left: get-rem-mobile(15);
       padding-right: get-rem-mobile(15);
     }
@@ -28,8 +31,11 @@
         }
 
         @media (max-width: 768px) {
-          width: 100%;
           margin-bottom: get-rem-mobile(75);
+        }
+
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
+          width: 100%;
         }
       }
 
@@ -84,6 +90,10 @@
       @media (max-width: 768px) {
         padding: get-rem-mobile(150) get-rem-mobile(15);
       }
+
+      @media only screen and (orientation: landscape) {
+        padding: get-rem-mobile(100) get-rem-mobile(15);
+      }
     }
 
     .carousel-container {
@@ -107,7 +117,7 @@
           right: get-rem-tablet(30);
         }
 
-        @media (max-width: 768px) {
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
           top: get-rem-mobile(77);
           left: get-rem-mobile(15);
           right: unset;
@@ -181,7 +191,7 @@
         pointer-events: none;
         z-index: 1000;
 
-        @media (max-width: 768px) {
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
           position: fixed;
           top: unset;
           bottom: get-rem-mobile(42);

@@ -168,7 +168,8 @@ LEASING MAP STYLES --------------------
         display: none;
       }
 
-      @media screen and (max-width: 1366px) {
+      @media screen and (max-width: 1366px),
+      screen and (orientation: landscape) {
         .desktop {
           display: none;
         }
@@ -178,7 +179,7 @@ LEASING MAP STYLES --------------------
         }
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: 768px) and (orientation: portrait) {
         .tablet {
           display: none;
         }

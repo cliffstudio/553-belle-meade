@@ -119,11 +119,12 @@ $gutter_sm: get-rem-mobile(10);
   }
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px),
+only screen and (orientation: landscape) {
   @include grid-generator(12, $gutter_lg, lg);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) and (orientation: portrait) {
   @include grid-generator(5, $gutter_sm, sm);
 }
 

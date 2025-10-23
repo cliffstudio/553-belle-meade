@@ -283,14 +283,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         <Symbol />
       </div>
       
-      <div className="z-10 text-wrap row-lg h-pad">
-        <div className="col-3-12_lg"></div>
-
-        <div className="col-6-12_lg">
-          {introText && <h2 className="intro-text"><PortableText value={introText} /></h2>}
-        </div>
-
-        <div className="col-3-12_lg"></div>
+      <div className="z-10 text-wrap h-pad">
+        {introText && <h2 className="intro-text"><PortableText value={introText} /></h2>}
       </div>
 
       <div className="down-arrow z-10" onClick={handleScrollDown} style={{ cursor: 'pointer' }}>
