@@ -21,9 +21,6 @@
        url('./fonts/Millionaire-Script.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  ascent-override: 86%;
-  descent-override: 34%;
-  line-gap-override: 1%;
 }
 
 /* Overflow control - hidden by default, enabled by JavaScript */
