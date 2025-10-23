@@ -85,15 +85,15 @@ export default function Footer({ footer }: FooterProps) {
                 if (!href) return null
                 
                 return (
-                  <Link
-                    key={index}
-                    href={href}
-                    target={link.linkType === 'external' ? '_blank' : undefined}
-                    rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                    className=""
-                  >
-                    {label}
-                  </Link>
+                  <div key={index} className="underline-link cream">
+                    <Link
+                      href={href}
+                      target={link.linkType === 'external' ? '_blank' : undefined}
+                      rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
+                    >
+                      {label}
+                    </Link>
+                  </div>
                 )
               })}
             </div>

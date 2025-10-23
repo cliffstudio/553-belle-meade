@@ -31,6 +31,10 @@
     row-gap: get-rem-mobile(86);
   }
 
+  .underline-link {
+    margin-top: 0;
+  }
+
   .column-1 {
     @include flex;
     @include flex-direction(column);
