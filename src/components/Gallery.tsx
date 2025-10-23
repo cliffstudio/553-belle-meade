@@ -119,6 +119,11 @@ export default function Gallery({ images }: GalleryProps) {
         const getGutterSize = () => {
           if (window.innerWidth > 1366) return 150
           if (window.innerWidth > 768) return 100
+          // For mobile devices, check if it's landscape orientation
+          // Landscape mobile devices should use tablet layout (100px gutter)
+          if (window.innerWidth <= 768 && window.innerHeight < window.innerWidth) {
+            return 100
+          }
           return 75
         }
 

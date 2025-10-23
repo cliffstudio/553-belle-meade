@@ -86,9 +86,11 @@ export default function LeasingMap({
   // Detect current breakpoint
   React.useEffect(() => {
     const updateBreakpoint = () => {
+      const isLandscape = window.innerWidth > window.innerHeight
+      
       if (window.innerWidth <= 767) {
         setCurrentBreakpoint('mobile')
-      } else if (window.innerWidth <= 1366) {
+      } else if (window.innerWidth <= 1366 || isLandscape) {
         setCurrentBreakpoint('tablet')
       } else {
         setCurrentBreakpoint('desktop')
@@ -97,7 +99,11 @@ export default function LeasingMap({
 
     updateBreakpoint()
     window.addEventListener('resize', updateBreakpoint)
-    return () => window.removeEventListener('resize', updateBreakpoint)
+    window.addEventListener('orientationchange', updateBreakpoint)
+    return () => {
+      window.removeEventListener('resize', updateBreakpoint)
+      window.removeEventListener('orientationchange', updateBreakpoint)
+    }
   }, [])
 
   // Update displaySpot with delay to keep content visible during fade-out
@@ -279,7 +285,6 @@ export default function LeasingMap({
   const closePopup = () => {
     setSelectedSpot(null)
   }
-
 
   return (
     <section className="leasing-map out-of-view">
