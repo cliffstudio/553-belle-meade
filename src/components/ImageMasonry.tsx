@@ -60,53 +60,45 @@ export default function ImageMasonry({
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // Store original body background color (should be cream #FFF9F2)
-    const originalBgColor = '#FFF9F2' // Force cream as the original color
+    // Get the image-masonry-block elements (both desktop and mobile)
+    const masonryBlocks = sectionRef.current.querySelectorAll('.image-masonry-block')
     const targetBgColor = getBackgroundColor(backgroundColour)
 
-    // Create scroll trigger to change body background when layout-1 comes into view
+    // Create scroll trigger to change background color of masonry blocks when layout-1 comes into view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top 15%",
+      start: "top 50%",
       end: "bottom top",
       onEnter: () => {
-        gsap.to(document.body, {
-          backgroundColor: targetBgColor,
-          duration: 0.4,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
-        })
-      },
-      onLeave: () => {
-        gsap.to(document.body, {
-          backgroundColor: originalBgColor,
-          duration: 0.4,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        masonryBlocks.forEach(block => {
+          gsap.to(block, {
+            backgroundColor: targetBgColor,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
         })
       },
       onEnterBack: () => {
-        gsap.to(document.body, {
-          backgroundColor: targetBgColor,
-          duration: 0.4,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        masonryBlocks.forEach(block => {
+          gsap.to(block, {
+            backgroundColor: targetBgColor,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
         })
       },
-      onLeaveBack: () => {
-        gsap.to(document.body, {
-          backgroundColor: originalBgColor,
-          duration: 0.4,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
-        })
-      }
     })
 
     // Cleanup
     return () => {
       trigger.kill()
-      // Reset body background color on unmount
-      gsap.to(document.body, {
-        backgroundColor: originalBgColor,
-        duration: 0.5,
-        ease: "cubic-bezier(0.25,0.1,0.25,1)"
+      // Reset masonry block background colors on unmount
+      masonryBlocks.forEach(block => {
+        gsap.to(block, {
+          backgroundColor: 'transparent',
+          duration: 0.5,
+          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        })
       })
     }
   }, [layout, backgroundColour])
