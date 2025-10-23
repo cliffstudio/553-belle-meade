@@ -92,6 +92,7 @@
       }
 
       @media only screen and (max-width: 768px) {
+        @include transform(translate(-50%, 0));
         bottom: get-rem-mobile(25);
         width: get-rem-mobile(20);
       }
