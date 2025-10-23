@@ -185,22 +185,6 @@ export default function TextWithArtefacts({
               })
             }
 
-            // 4. Animate artefacts on mobile when artefacts-grid comes into view (only once)
-            if (window.innerWidth <= 768) {
-              const artefacts = sectionRef.current?.querySelectorAll('.artefact')
-              if (artefacts && artefacts.length > 0) {
-                artefacts.forEach((artefact) => {
-                  ScrollTrigger.create({
-                    trigger: artefactsGrid,
-                    start: "top 60%",
-                    once: true,
-                    onEnter: () => {
-                      artefact.classList.add('animate-in')
-                    }
-                  })
-                })
-              }
-            }
           }
 
           // Check if lazy images exist and wait for them to load
