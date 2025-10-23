@@ -293,10 +293,21 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
             // Force a reflow to get the natural width with current font size
             item.offsetHeight
             
-            // Set the width to the current font width (Millionaire-Roman)
+            // Temporarily switch to Millionaire-Script to measure width
+            const originalFont = item.style.fontFamily
+            item.style.fontFamily = 'Millionaire-Script'
+            const scriptWidth = item.offsetWidth
+            
+            // Restore original font
+            item.style.fontFamily = originalFont
+            
+            // Use the wider width to prevent cutoff, plus some extra padding
             const currentWidth = item.offsetWidth
-            item.style.width = `${currentWidth}px`
-            item.style.minWidth = `${currentWidth}px`
+            const maxWidth = Math.max(currentWidth, scriptWidth)
+            const paddedWidth = maxWidth + (0.4 * parseFloat(getComputedStyle(item).fontSize)) // 0.4em padding
+            
+            item.style.width = `${paddedWidth}px`
+            item.style.minWidth = `${paddedWidth}px`
           }
         })
       })
@@ -328,10 +339,12 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
             // Restore original font
             link.style.fontFamily = originalFont
             
-            // Use the taller height to prevent jumping
+            // Use the taller height to prevent jumping, plus some extra padding
             const maxHeight = Math.max(currentHeight, scriptHeight)
-            link.style.height = `${maxHeight}px`
-            link.style.minHeight = `${maxHeight}px`
+            const paddedHeight = maxHeight + (0.1 * parseFloat(getComputedStyle(link).fontSize)) // Small extra padding
+            
+            link.style.height = `${paddedHeight}px`
+            link.style.minHeight = `${paddedHeight}px`
           }
         })
       })
@@ -494,11 +507,15 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
               }
             }}
           >
-            {item.heading}
-            <svg className={`dropdown-caret ${isExpanded ? 'expanded' : ''}`} xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-              <path d="M1 6L6.00013 1L11 6" stroke="#FFF9F2"/>
-            </svg>
+            <span className="dropdown-title-text">{item.heading}</span>
+
+            <div className="dropdown-caret">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
+                <path d="M1 6L6.00013 1L11 6" stroke="#FFF9F2"/>
+              </svg>
+            </div>
           </div>
+
           <div className={`mobile-dropdown-content ${isExpanded ? 'expanded' : ''}`}>
             {item.subItems?.map((subItem, subIndex) => {
               const href = `/${subItem.pageLink?.slug || ''}`
