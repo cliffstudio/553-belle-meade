@@ -92,7 +92,8 @@ export default defineType({
       initialValue: 'Lilac',
       options: {
         list: ['Lilac', 'Green', 'Tan']
-      }
+      },
+      hidden: ({ document }) => document?.pageType === 'architecture'
     }),
   ],
   fieldsets: [
