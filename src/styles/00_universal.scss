@@ -981,24 +981,6 @@ body.page-type-homepage {
       }
     }
 
-    // Initial positioning for mobile animation - artefacts start off-screen
-    @media only screen and (max-width: 768px) {
-      transform: translateX(-100vw);
-      opacity: 0;
-      transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-      
-      // Alternate direction for some artefacts (artefact-2 and artefact-4)
-      &.artefact-2,
-      &.artefact-4 {
-        transform: translateX(100vw);
-      }
-      
-      // Final position when animated in
-      &.animate-in {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
 
     @media only screen and (max-width: 1366px) {
       &:not(.has-content) {
