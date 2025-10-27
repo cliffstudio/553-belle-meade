@@ -198,175 +198,282 @@
       height: 100%;
     }
 
-    @media only screen and (min-width: 769px),
-    only screen and (orientation: landscape) {
+    // 2 tiles layout
+    &.tiles-2 {
+      .tile-1 {
+        aspect-ratio: 4 / 3;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 16vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+      }
+    }
+
+    // 3 tiles layout
+    &.tiles-3 {
+      .tile-1 {
+        aspect-ratio: 4 / 3;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 15.5vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+      }
+
+      .tile-3 {
+        aspect-ratio: 3 / 4;
+        margin-top: 15.5vw;
+        margin-right: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+      }
+    }
+
+    // 4 tiles layout
+    &.tiles-4 {
+      .tile-1 {
+        aspect-ratio: 3 / 4;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 23.5vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+        margin-top: 8vw;
+      }
+
+      .tile-3 {
+        aspect-ratio: 1 / 1;
+      }
+
+      .tile-4 {
+        aspect-ratio: 4 / 3;
+        margin-top: -16vw;
+      }
+    }
+
+    // 5 tiles layout
+    &.tiles-5 {
+      .row-2 {
+        margin-top: -16vw;
+      }
+
+      .tile-1 {
+        aspect-ratio: 3 / 4;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 23.5vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+        margin-top: 8vw;
+      }
+
+      .tile-3 {
+        aspect-ratio: 1 / 1;
+      }
+
+      .tile-4 {
+        aspect-ratio: 16 / 9;
+        margin-top: 24vw;
+      }
+
+      .tile-5 {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    // 6 tiles layout
+    &.tiles-6 {
+      .row-2 {
+        margin-top: -16vw;
+      }
+
+      .tile-1 {
+        aspect-ratio: 3 / 4;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 23.5vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+        margin-top: 8vw;
+      }
+
+      .tile-3 {
+        aspect-ratio: 1 / 1;
+      }
+
+      .tile-4 {
+        aspect-ratio: 16 / 9;
+        margin-top: 24vw;
+      }
+
+      .tile-5 {
+        aspect-ratio: 4 / 3;
+      }
+
+      .tile-6 {
+        aspect-ratio: 4 / 3;
+        margin-top: -4.5vw;
+      }
+    }
+
+    // 7 tiles layout
+    &.tiles-7 {
+      .row-2 {
+        margin-top: -16vw;
+      }
+
+      .tile-1 {
+        aspect-ratio: 3 / 4;
+        margin-left: get-rem-desktop(-50);
+        width: calc(100% + get-rem-desktop(50));
+        margin-top: 23.5vw;
+      }
+
+      .tile-2 {
+        aspect-ratio: 3 / 4;
+        margin-top: 8vw;
+      }
+
+      .tile-3 {
+        aspect-ratio: 1 / 1;
+      }
+
+      .tile-4 {
+        aspect-ratio: 16 / 9;
+        margin-top: 24vw;
+      }
+
+      .tile-5 {
+        aspect-ratio: 4 / 3;
+      }
+
+      .tile-6 {
+        aspect-ratio: 1 / 1;
+        margin-top: 8vw;
+      }
+      
+      .tile-7 {
+        aspect-ratio: 4 / 3;
+        margin-top: -4.5vw;
+      }
+    }
+
+    @media only screen and (max-width: 1366px) {
       // 2 tiles layout
       &.tiles-2 {
         .tile-1 {
-          aspect-ratio: 4 / 3;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 16vw;
-        }
-
-        .tile-2 {
-          aspect-ratio: 3 / 4;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
       }
 
       // 3 tiles layout
       &.tiles-3 {
         .tile-1 {
-          aspect-ratio: 4 / 3;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 15.5vw;
-        }
-
-        .tile-2 {
-          aspect-ratio: 3 / 4;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
 
         .tile-3 {
-          aspect-ratio: 3 / 4;
-          margin-top: 15.5vw;
-          margin-right: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
+          margin-right: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
       }
 
       // 4 tiles layout
       &.tiles-4 {
         .tile-1 {
-          aspect-ratio: 3 / 4;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 23.5vw;
-        }
-
-        .tile-2 {
-          aspect-ratio: 3 / 4;
-          margin-top: 8vw;
-        }
-
-        .tile-3 {
-          aspect-ratio: 1 / 1;
-        }
-
-        .tile-4 {
-          aspect-ratio: 4 / 3;
-          margin-top: -16vw;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
       }
 
       // 5 tiles layout
       &.tiles-5 {
-        .row-2 {
-          margin-top: -16vw;
-        }
-
         .tile-1 {
-          aspect-ratio: 3 / 4;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 23.5vw;
-        }
-
-        .tile-2 {
-          aspect-ratio: 3 / 4;
-          margin-top: 8vw;
-        }
-
-        .tile-3 {
-          aspect-ratio: 1 / 1;
-        }
-
-        .tile-4 {
-          aspect-ratio: 16 / 9;
-          margin-top: 24vw;
-        }
-
-        .tile-5 {
-          aspect-ratio: 4 / 3;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
       }
 
       // 6 tiles layout
       &.tiles-6 {
-        .row-2 {
-          margin-top: -16vw;
-        }
-
         .tile-1 {
-          aspect-ratio: 3 / 4;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 23.5vw;
-        }
-
-        .tile-2 {
-          aspect-ratio: 3 / 4;
-          margin-top: 8vw;
-        }
-
-        .tile-3 {
-          aspect-ratio: 1 / 1;
-        }
-
-        .tile-4 {
-          aspect-ratio: 16 / 9;
-          margin-top: 24vw;
-        }
-
-        .tile-5 {
-          aspect-ratio: 4 / 3;
-        }
-
-        .tile-6 {
-          aspect-ratio: 4 / 3;
-          margin-top: -4.5vw;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
       }
 
       // 7 tiles layout
       &.tiles-7 {
-        .row-2 {
-          margin-top: -16vw;
-        }
-
         .tile-1 {
-          aspect-ratio: 3 / 4;
-          margin-left: get-rem-desktop(-50);
-          width: calc(100% + get-rem-desktop(50));
-          margin-top: 23.5vw;
+          margin-left: get-rem-tablet(-30);
+          width: calc(100% + get-rem-tablet(30));
         }
+      }
+    }
 
-        .tile-2 {
-          aspect-ratio: 3 / 4;
-          margin-top: 8vw;
+    @media only screen and (max-width: 769px) and (orientation: landscape) {
+      // 2 tiles layout
+      &.tiles-2 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
+        }
+      }
+
+      // 3 tiles layout
+      &.tiles-3 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
 
         .tile-3 {
-          aspect-ratio: 1 / 1;
+          margin-right: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
+      }
 
-        .tile-4 {
-          aspect-ratio: 16 / 9;
-          margin-top: 24vw;
+      // 4 tiles layout
+      &.tiles-4 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
+      }
 
-        .tile-5 {
-          aspect-ratio: 4 / 3;
+      // 5 tiles layout
+      &.tiles-5 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
+      }
 
-        .tile-6 {
-          aspect-ratio: 1 / 1;
-          margin-top: 8vw;
+      // 6 tiles layout
+      &.tiles-6 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
-        
-        .tile-7 {
-          aspect-ratio: 4 / 3;
-          margin-top: -4.5vw;
+      }
+
+      // 7 tiles layout
+      &.tiles-7 {
+        .tile-1 {
+          margin-left: get-rem-mobile(-15);
+          width: calc(100% + get-rem-mobile(15));
         }
       }
     }
