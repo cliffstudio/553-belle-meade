@@ -444,6 +444,11 @@ export default function TextWithArtefacts({
                 data-src={urlFor(desktopBackgroundImage).url()} 
                 alt="" 
                 className="lazy full-bleed-image desktop"
+                style={{
+                  objectPosition: desktopBackgroundImage?.hotspot
+                    ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                    : "center",
+                }}
               />
             )}
 
@@ -453,6 +458,11 @@ export default function TextWithArtefacts({
                 data-src={urlFor(mobileBackgroundImage).url()} 
                 alt="" 
                 className="lazy full-bleed-image mobile"
+                style={{
+                  objectPosition: mobileBackgroundImage?.hotspot
+                    ? `${mobileBackgroundImage.hotspot.x * 100}% ${mobileBackgroundImage.hotspot.y * 100}%`
+                    : "center",
+                }}
               />
             )}
 
@@ -462,6 +472,11 @@ export default function TextWithArtefacts({
                 data-src={urlFor(desktopBackgroundImage).url()} 
                 alt="" 
                 className="lazy full-bleed-image mobile"
+                style={{
+                  objectPosition: desktopBackgroundImage?.hotspot
+                    ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                    : "center",
+                }}
               />
             )}
 
@@ -544,6 +559,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact1.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact1.image?.hotspot
+                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -584,6 +604,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact1.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact1.image?.hotspot
+                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -621,6 +646,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact2.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact2.image?.hotspot
+                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -661,6 +691,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact2.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact2.image?.hotspot
+                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -699,6 +734,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact3.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact3.image?.hotspot
+                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -741,6 +781,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact3.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact3.image?.hotspot
+                                ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -778,6 +823,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact4.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact4.image?.hotspot
+                            ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -820,6 +870,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact4.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact4.image?.hotspot
+                                ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -860,6 +915,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact1.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact1.image?.hotspot
+                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -900,6 +960,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact1.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact1.image?.hotspot
+                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -937,6 +1002,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact2.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact2.image?.hotspot
+                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -977,6 +1047,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact2.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact2.image?.hotspot
+                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -1019,6 +1094,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact3.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact3.image?.hotspot
+                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -1059,6 +1139,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact3.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact3.image?.hotspot
+                                ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -1099,6 +1184,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact1.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact1.image?.hotspot
+                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -1139,6 +1229,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact1.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact1.image?.hotspot
+                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -1176,6 +1271,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact2.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact2.image?.hotspot
+                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -1216,6 +1316,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact2.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact2.image?.hotspot
+                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>
@@ -1254,6 +1359,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact3.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact3.image?.hotspot
+                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -1333,6 +1443,11 @@ export default function TextWithArtefacts({
                         data-src={urlFor(artefact4.image).url()} 
                         alt="" 
                         className="lazy"
+                        style={{
+                          objectPosition: artefact4.image?.hotspot
+                            ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                            : "center",
+                        }}
                         />
                         <div className="loading-overlay" />
                       </div>
@@ -1373,6 +1488,11 @@ export default function TextWithArtefacts({
                             data-src={urlFor(artefact4.image!).url()} 
                             alt="" 
                             className="lazy"
+                            style={{
+                              objectPosition: artefact4.image?.hotspot
+                                ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                                : "center",
+                            }}
                             />
                             <div className="loading-overlay" />
                           </div>

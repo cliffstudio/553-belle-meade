@@ -57,6 +57,11 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
                 data-src={urlFor(image).url()} 
                 alt="" 
                 className="lazy full-bleed-image"
+                style={{
+                  objectPosition: image?.hotspot
+                    ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+                    : "center",
+                }}
                 />
                 <div className="loading-overlay" />
               </div>
