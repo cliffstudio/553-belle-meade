@@ -207,27 +207,35 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // The sectionRef.current IS the stacked-media-text-block element
-    const stackedBlock = sectionRef.current
-    const targetBgColor = getBackgroundColor(backgroundColour)
+    // Get the colour-background elements
+    const colourBackgrounds = sectionRef.current.querySelectorAll('.colour-background')
 
-    // Create scroll trigger to change background color of stacked block when section comes into view
+    // Initialize opacity to 0 if backgrounds exist
+    if (colourBackgrounds.length > 0) {
+      gsap.set(colourBackgrounds, { opacity: 0 })
+    }
+
+    // Create scroll trigger to fade in colour background when section comes into view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top 50%",
       end: "bottom top",
       onEnter: () => {
-        gsap.to(stackedBlock, {
-          backgroundColor: targetBgColor,
-          duration: 0.8,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
         })
       },
       onEnterBack: () => {
-        gsap.to(stackedBlock, {
-          backgroundColor: targetBgColor,
-          duration: 0.8,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
         })
       },
     })
@@ -235,12 +243,6 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     // Cleanup
     return () => {
       trigger.kill()
-      // Reset stacked block background color on unmount
-      gsap.to(stackedBlock, {
-        backgroundColor: 'transparent',
-        duration: 0.5,
-        ease: "cubic-bezier(0.25,0.1,0.25,1)"
-      })
     }
   }, [backgroundColour])
 
@@ -249,6 +251,10 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     
       {layout === 'layout-1' && (
         <section ref={sectionRef} className="stacked-media-text-block layout-1 h-pad">
+          {backgroundColour && (
+            <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+          )}
+
           <div className="row-lg">
             <div className="col-4-12_lg">
               <div className="text-wrap out-of-view">
@@ -341,6 +347,10 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
 
       {layout === 'layout-2' && (
         <section ref={sectionRef} className="stacked-media-text-block layout-2 h-pad">
+          {backgroundColour && (
+            <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+          )}
+
           <div className="row-lg">
             <div className="col-9-12_lg">
               {mediaType === 'image' && image && (
