@@ -830,6 +830,17 @@ export const randomTestimonialQuery = groq`
   }
 `
 
+// Metadata query
+export const metadataQuery = groq`
+  *[_type == "metaData"][0] {
+    _id,
+    title,
+    description,
+    keywords,
+    socialimage ${imageFragment}
+  }
+`
+
 // Export fragments for reuse in other queries if needed
 export const fragments = {
   imageFragment,

@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import OverflowController from "../components/OverflowController";
+import { client } from "../../sanity.client";
+import { metadataQuery } from "../sanity/lib/queries";
+import { urlFor } from "../sanity/utils/imageUrlBuilder";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,23 +17,36 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Belle Meade Village - Where Luxury Meets Community",
-  description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
-  keywords: "Belle Meade Village, luxury shopping, fine dining, lifestyle, Nashville, boutique shops, restaurants, wellness",
-  authors: [{ name: "Belle Meade Village" }],
-  openGraph: {
-    title: "Belle Meade Village - Where Luxury Meets Community",
-    description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Belle Meade Village - Where Luxury Meets Community",
-    description: "A lively, welcoming space for all ages, blending global brands & local gems with cozy cafés and lush, tranquil surroundings.",
-  },
-};
+// Generate metadata dynamically from Sanity CMS
+export async function generateMetadata(): Promise<Metadata> {
+  const metaData = await client.fetch(metadataQuery);
+  
+  // Build social image URL if available
+  let socialImageUrl: string | undefined;
+  if (metaData?.socialimage?.asset?._ref) {
+    socialImageUrl = urlFor(metaData.socialimage).width(1200).height(630).url();
+  }
+  
+  return {
+    title: metaData?.title,
+    description: metaData?.description,
+    keywords: metaData?.keywords,
+    authors: [{ name: "Belle Meade Village" }],
+    openGraph: {
+      title: metaData?.title,
+      description: metaData?.description,
+      type: "website",
+      locale: "en_US",
+      ...(socialImageUrl && { images: [socialImageUrl] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metaData?.title,
+      description: metaData?.description,
+      ...(socialImageUrl && { images: [socialImageUrl] }),
+    },
+  };
+}
 
 export default function RootLayout({
   children,
