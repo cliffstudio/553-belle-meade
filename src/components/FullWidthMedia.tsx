@@ -155,7 +155,7 @@ export default function FullWidthMedia({ mediaType, image, video, showControls =
   }
 
   return (
-    <section className="full-bleed-media-block relative out-of-view">
+    <section className="full-bleed-media-block relative">
       {mediaType === 'video' && video && (
         <div className="fill-space-video-wrap">
           <video
