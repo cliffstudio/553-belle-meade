@@ -229,6 +229,11 @@ export default function Gallery({ images }: GalleryProps) {
                       data-src={urlFor(item.image).url()}
                       alt=""
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: item.image?.hotspot
+                          ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -272,6 +277,11 @@ export default function Gallery({ images }: GalleryProps) {
                           src={urlFor(item.image).width(1200).url()}
                           alt={item.caption || ''}
                           className="carousel-img"
+                          style={{
+                            objectPosition: item.image?.hotspot
+                              ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
                         />
                       </div>
                     </div>

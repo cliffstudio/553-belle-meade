@@ -151,6 +151,11 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
                     data-src={urlFor(item.image).url()}
                     alt=""
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: item.image?.hotspot
+                        ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
+                        : "center",
+                    }}
                   />
                   <div className="loading-overlay" />
                 </div>

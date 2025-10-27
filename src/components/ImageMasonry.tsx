@@ -138,6 +138,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -168,6 +173,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -223,6 +233,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -253,6 +268,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -314,6 +334,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -347,6 +372,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -405,6 +435,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -435,6 +470,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -494,6 +534,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -524,6 +569,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -579,6 +629,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image2).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image2?.hotspot
+                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -607,6 +662,11 @@ export default function ImageMasonry({
                     data-src={urlFor(image1).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
                     />
                     <div className="loading-overlay" />
                   </div>

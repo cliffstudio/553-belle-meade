@@ -87,6 +87,11 @@ const renderTile = (tile: LinkTile, tileIndex: number, numberOfTiles: number) =>
             data-src={urlFor(tile.image).url()} 
             alt="" 
             className="lazy full-bleed-image"
+            style={{
+              objectPosition: tile.image?.hotspot
+                ? `${tile.image.hotspot.x * 100}% ${tile.image.hotspot.y * 100}%`
+                : "center",
+            }}
           />
           <div className="loading-overlay" />
         </div>
@@ -273,6 +278,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[0].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[0].image?.hotspot
+                          ? `${activeTiles[0].image.hotspot.x * 100}% ${activeTiles[0].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -316,6 +326,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[1].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[1].image?.hotspot
+                          ? `${activeTiles[1].image.hotspot.x * 100}% ${activeTiles[1].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -355,6 +370,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[2].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[2].image?.hotspot
+                          ? `${activeTiles[2].image.hotspot.x * 100}% ${activeTiles[2].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -398,6 +418,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[3].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[3].image?.hotspot
+                          ? `${activeTiles[3].image.hotspot.x * 100}% ${activeTiles[3].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -436,6 +461,11 @@ export default function LinkTiles({
                     data-src={urlFor(activeTiles[4].image).url()} 
                     alt="" 
                     className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: activeTiles[4].image?.hotspot
+                        ? `${activeTiles[4].image.hotspot.x * 100}% ${activeTiles[4].image.hotspot.y * 100}%`
+                        : "center",
+                    }}
                   />
                   <div className="loading-overlay" />
                 </div>
@@ -476,6 +506,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[5].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[5].image?.hotspot
+                          ? `${activeTiles[5].image.hotspot.x * 100}% ${activeTiles[5].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>
@@ -515,6 +550,11 @@ export default function LinkTiles({
                       data-src={urlFor(activeTiles[6].image).url()} 
                       alt="" 
                       className="lazy full-bleed-image"
+                      style={{
+                        objectPosition: activeTiles[6].image?.hotspot
+                          ? `${activeTiles[6].image.hotspot.x * 100}% ${activeTiles[6].image.hotspot.y * 100}%`
+                          : "center",
+                      }}
                     />
                     <div className="loading-overlay" />
                   </div>

@@ -58,6 +58,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
                 data-src={urlFor(image).url()} 
                 alt="" 
                 className="lazy full-bleed-image"
+                style={{
+                  objectPosition: image?.hotspot
+                    ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+                    : "center",
+                }}
                 />
                 <div className="loading-overlay" />
               </div>
@@ -165,6 +170,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
                 data-src={urlFor(image).url()} 
                 alt="" 
                 className="lazy full-bleed-image"
+                style={{
+                  objectPosition: image?.hotspot
+                    ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+                    : "center",
+                }}
                 />
                 <div className="loading-overlay" />
               </div>

@@ -242,6 +242,11 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
               data-src={urlFor(desktopBackgroundImage).url()} 
               alt="" 
               className="lazy full-bleed-image desktop"
+              style={{
+                objectPosition: desktopBackgroundImage?.hotspot
+                  ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                  : "center",
+              }}
             />
           )}
           
@@ -251,6 +256,11 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
               data-src={urlFor(mobileBackgroundImage).url()} 
               alt="" 
               className="lazy full-bleed-image mobile"
+              style={{
+                objectPosition: mobileBackgroundImage?.hotspot
+                  ? `${mobileBackgroundImage.hotspot.x * 100}% ${mobileBackgroundImage.hotspot.y * 100}%`
+                  : "center",
+              }}
             />
           )}
           
@@ -260,6 +270,11 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
               data-src={urlFor(desktopBackgroundImage).url()} 
               alt="" 
               className="lazy full-bleed-image mobile"
+              style={{
+                objectPosition: desktopBackgroundImage?.hotspot
+                  ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                  : "center",
+              }}
             />
           )}
           
