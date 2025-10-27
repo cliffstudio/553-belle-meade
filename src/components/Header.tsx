@@ -127,6 +127,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     const textWrap = document.querySelector('.page-type-homepage .text-wrap')
     const downArrow = document.querySelector('.page-type-homepage .down-arrow')
     const videoControls = document.querySelector('.page-type-homepage .video-controls')
+    const opacityOverlay = document.querySelector('.page-type-homepage .opacity-overlay-home')
     
     if (textWrap) {
       textWrap.classList.add('fade-in')
@@ -136,6 +137,13 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
     if (videoControls) {
       videoControls.classList.add('fade-in')
+    }
+    if (opacityOverlay instanceof HTMLElement) {
+      // Store the initial opacity value as a CSS custom property
+      const computedStyle = window.getComputedStyle(opacityOverlay)
+      const initialOpacity = computedStyle.opacity
+      opacityOverlay.style.setProperty('--initial-opacity', initialOpacity)
+      opacityOverlay.classList.add('fade-out')
     }
     
     // Re-enable scrolling after animation completes
@@ -463,6 +471,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       const textWrap = document.querySelector('.text-wrap')
       const downArrow = document.querySelector('.down-arrow')
       const videoControls = document.querySelector('.video-controls')
+      const opacityOverlay = document.querySelector('.opacity-overlay-home')
       
       if (textWrap instanceof HTMLElement) {
         textWrap.classList.remove('fade-in')
@@ -475,6 +484,9 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       if (videoControls instanceof HTMLElement) {
         videoControls.classList.remove('fade-in')
         videoControls.style.opacity = '1'
+      }
+      if (opacityOverlay instanceof HTMLElement) {
+        opacityOverlay.classList.remove('fade-out')
       }
     }
   }, [pathname, isHomepage])
