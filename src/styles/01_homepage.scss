@@ -74,6 +74,12 @@
       }
     }
 
+    .opacity-overlay-home {
+      &.fade-out {
+        @include animation(finalPhaseFadeOut 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
+      }
+    }
+
     .down-arrow {
       position: absolute;
       bottom: get-rem-desktop(50);
@@ -517,6 +523,15 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes finalPhaseFadeOut {
+  0% {
+    opacity: var(--initial-opacity);
+  }
+  100% {
+    opacity: calc(var(--initial-opacity) * 2);
   }
 }
 

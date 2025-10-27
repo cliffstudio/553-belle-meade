@@ -267,7 +267,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         </div>
       )}
 
-      <div className="opacity-overlay z-5" style={{ opacity: overlayDarkness }} />
+      <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: overlayDarkness }} />
 
       <div className="logo z-10 h-pad">
         <div className="desktop">
