@@ -9,7 +9,10 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('press').title('Press'),
       S.documentTypeListItem('testimonials').title('Testimonials'),
       S.divider(),
+      S.documentTypeListItem('menu').title('Menu'),
+      S.documentTypeListItem('footer').title('Footer'),
+      S.documentTypeListItem('metaData').title('Meta Data'),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['page', 'press', 'testimonials'].includes(item.getId()!),
+        (item) => item.getId() && !['page', 'press', 'testimonials', 'menu', 'footer', 'metaData'].includes(item.getId()!),
       ),
     ])
