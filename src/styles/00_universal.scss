@@ -991,8 +991,24 @@ body.page-type-homepage {
   }
 
   .artefact {
-    &.has-content .artefact-image {
-      cursor: pointer;
+    &.has-content {
+      .artefact-image {
+        cursor: pointer;
+
+        &:hover {
+          img {
+            filter: blur(2px);
+          }
+
+          .opacity-overlay {
+            opacity: 0.5;
+          }
+
+          .learn-more {
+            opacity: 1;
+          }
+        }
+      }
     }
 
     &.visible {
@@ -1016,9 +1032,37 @@ body.page-type-homepage {
       .media-wrap {
         margin-bottom: get-rem-desktop(12);
         box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
+        overflow: hidden;
 
         @media only screen and (max-width: 1366px) {
           margin-bottom: get-rem-tablet(12);
+        }
+
+        img {
+          will-change: filter;
+          @include transition(filter 400ms cubic-bezier(0.25,0.1,0.25,1));
+        }
+
+        .opacity-overlay {
+          pointer-events: none;
+          opacity: 0;
+          will-change: opacity;
+          @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        }
+
+        .learn-more {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          @include transform(translate(-50%, -50%));
+          color: $colour-cream;
+          white-space: nowrap;
+          font-family: 'Millionaire-Script';
+          pointer-events: none;
+          opacity: 0;
+          will-change: opacity;
+          @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
         }
       }
 
@@ -1265,14 +1309,6 @@ body.page-type-homepage {
         @include flex;
         @include justify-content(center);
         padding-top: get-rem-desktop(175);
-
-        .artefact-content {
-          .media-wrap {
-            img {
-              border-radius: 50%;
-            }
-          }
-        }
 
         @media only screen and (max-width: 1366px) {
           padding-top: get-rem-tablet(137);
