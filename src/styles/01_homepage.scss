@@ -76,9 +76,9 @@
 
     .down-arrow {
       position: absolute;
-      bottom: get-rem-desktop(51.5);
+      bottom: get-rem-desktop(50);
       left: 50%;
-      @include transform(translate(-50%, -50%));
+      @include transform(translateX(-50%));
       width: get-rem-desktop(25);
       opacity: 0;
       
@@ -87,12 +87,11 @@
       }
 
       @media only screen and (max-width: 1366px) {
-        bottom: get-rem-tablet(20);
+        bottom: get-rem-tablet(50);
         width: get-rem-tablet(20);
       }
 
       @media only screen and (max-width: 768px) {
-        @include transform(translate(-50%, 0));
         bottom: get-rem-mobile(25);
         width: get-rem-mobile(20);
       }
