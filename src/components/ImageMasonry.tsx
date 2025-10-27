@@ -60,28 +60,32 @@ export default function ImageMasonry({
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // Get the image-masonry-block elements (both desktop and mobile)
-    const masonryBlocks = sectionRef.current.querySelectorAll('.image-masonry-block')
-    const targetBgColor = getBackgroundColor(backgroundColour)
+    // Get the colour-background elements (both desktop and mobile)
+    const colourBackgrounds = sectionRef.current.querySelectorAll('.colour-background')
 
-    // Create scroll trigger to change background color of masonry blocks when layout-1 comes into view
+    // Initialize opacity to 0 if backgrounds exist
+    if (colourBackgrounds.length > 0) {
+      gsap.set(colourBackgrounds, { opacity: 0 })
+    }
+
+    // Create scroll trigger to fade in colour background when layout-1 comes into view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top 50%",
       end: "bottom top",
       onEnter: () => {
-        masonryBlocks.forEach(block => {
-          gsap.to(block, {
-            backgroundColor: targetBgColor,
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
             duration: 0.8,
             ease: "cubic-bezier(0.25,0.1,0.25,1)"
           })
         })
       },
       onEnterBack: () => {
-        masonryBlocks.forEach(block => {
-          gsap.to(block, {
-            backgroundColor: targetBgColor,
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
             duration: 0.8,
             ease: "cubic-bezier(0.25,0.1,0.25,1)"
           })
@@ -92,14 +96,6 @@ export default function ImageMasonry({
     // Cleanup
     return () => {
       trigger.kill()
-      // Reset masonry block background colors on unmount
-      masonryBlocks.forEach(block => {
-        gsap.to(block, {
-          backgroundColor: 'transparent',
-          duration: 0.5,
-          ease: "cubic-bezier(0.25,0.1,0.25,1)"
-        })
-      })
     }
   }, [layout, backgroundColour])
 
@@ -110,6 +106,10 @@ export default function ImageMasonry({
         <div ref={sectionRef}>
           {/* Desktop */}
           <section className="image-masonry-block layout-1 h-pad desktop">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div className="row-lg">
               <div className="col-4-12_lg">
                 <div className="text-wrap out-of-view">
@@ -193,6 +193,10 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-1 h-pad mobile">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div>
               <div className="text-wrap out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
@@ -280,6 +284,10 @@ export default function ImageMasonry({
         <>
           {/* Desktop */}
           <section className="image-masonry-block layout-2 h-pad desktop">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div className="row-lg">
               <div className="col-6-12_lg">
                 <div className="text-wrap out-of-view">
@@ -367,6 +375,10 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-2 h-pad mobile">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div>
               <div className="text-wrap out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
@@ -454,6 +466,10 @@ export default function ImageMasonry({
         <>
           {/* Desktop */}
           <section className="image-masonry-block layout-3 h-pad desktop">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div className="row-lg">
               <div className="col-6-12_lg">
                 <div className="text-wrap out-of-view">
@@ -535,6 +551,10 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-3 h-pad mobile">
+            {backgroundColour && (
+              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            )}
+
             <div>
               <div className="text-wrap out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}

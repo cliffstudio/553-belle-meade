@@ -672,7 +672,17 @@
 }
 
 .stacked-media-text-block {
+  position: relative;
   background-color: transparent;
+
+  .colour-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $colour-cream;
+  }
 
   .media-wrap {
     position: relative;
@@ -704,7 +714,16 @@
 }
 
 .image-masonry-block {
-  background-color: $colour-cream;
+  position: relative;
+
+  .colour-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $colour-cream;
+  }
 
   .heading {
     @media only screen and (max-width: 1366px) {

@@ -279,7 +279,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         </div>
       </div>
 
-      <div className="symbol z-10">
+      <div className="symbol z-500">
         <Symbol />
       </div>
       
