@@ -566,6 +566,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact1.caption && (
@@ -653,6 +655,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact2.caption && (
@@ -741,6 +745,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact3.caption && (
@@ -830,6 +836,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact4.caption && (
@@ -922,6 +930,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact1.caption && (
@@ -1009,6 +1019,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact2.caption && (
@@ -1101,6 +1113,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact3.caption && (
@@ -1191,6 +1205,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact1.caption && (
@@ -1278,6 +1294,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact2.caption && (
@@ -1366,6 +1384,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact3.caption && (
@@ -1450,6 +1470,8 @@ export default function TextWithArtefacts({
                         }}
                         />
                         <div className="loading-overlay" />
+                        <div className="opacity-overlay" />
+                        <div className="learn-more">Learn More</div>
                       </div>
 
                       {artefact4.caption && (

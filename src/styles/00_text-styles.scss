@@ -23,7 +23,8 @@ h2 {
   @include font-size(25px, 25px, 35px);
 }
 
-h3 {
+h3,
+.artefact-image .learn-more {
   font-family: 'Millionaire-Roman';  
   line-height: 140%;
   @include font-size(20px, 20px, 28px);
