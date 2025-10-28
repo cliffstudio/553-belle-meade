@@ -25,6 +25,7 @@ import ImageCarousel from './ImageCarousel'
 import ContactForm from './ContactForm'
 import LeasingMap from './LeasingMap'
 import IssuuEmbed from './IssuuEmbed'
+import VirtualTourEmbed from './VirtualTourEmbed'
 
 interface PageProps {
   params: Promise<{
@@ -51,6 +52,7 @@ const sectionComponents = {
   contactForm: ContactForm,
   leasingMap: LeasingMap,
   issuuEmbed: IssuuEmbed,
+  virtualTourEmbed: VirtualTourEmbed,
 }
 
 
@@ -102,6 +104,10 @@ export default async function DynamicPage({ params }: PageProps) {
         
       case 'walkthrough':
         addSection(sections, page.walkthroughHero, 'heroMedia', 'walkthrough-hero')
+        sections.push({ 
+          _type: 'virtualTourEmbed', 
+          _key: 'spaces-virtual-tour-embed'
+        })
         addSection(sections, page.walkthroughCta, 'ctaBanner', 'walkthrough-cta')
         break
 
@@ -109,7 +115,6 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.spacesHero, 'heroMedia', 'spaces-hero')
         addSection(sections, page.spacesLeasingMap, 'leasingMap', 'spaces-leasing-map')
         addSection(sections, page.spacesFullWidthMedia, 'fullWidthMedia', 'spaces-full-width-media')
-        // Add IssuuEmbed component directly (not from CMS)
         sections.push({ 
           _type: 'issuuEmbed', 
           _key: 'spaces-issuu-embed'
