@@ -70,7 +70,7 @@ export default defineType({
       options: {
         list: ['Lilac', 'Green', 'Tan']
       },
-      hidden: ({ document }) => document?.pageType === 'architecture'
+      hidden: ({ document }) => document?.pageType !== 'creek'
     }),
   ],
 })
