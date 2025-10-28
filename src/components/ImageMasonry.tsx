@@ -304,10 +304,6 @@ export default function ImageMasonry({
         <>
           {/* Desktop */}
           <section className="image-masonry-block layout-2 h-pad desktop">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-            )}
-
             <div className="row-lg">
               <div className="col-6-12_lg">
                 <div className="text-wrap out-of-view">
@@ -405,10 +401,6 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-2 h-pad mobile">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-            )}
-
             <div>
               <div className="text-wrap out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
@@ -506,10 +498,6 @@ export default function ImageMasonry({
         <>
           {/* Desktop */}
           <section className="image-masonry-block layout-3 h-pad desktop">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-            )}
-
             <div className="row-lg">
               <div className="col-6-12_lg">
                 <div className="text-wrap out-of-view">
@@ -601,10 +589,6 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-3 h-pad mobile">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-            )}
-
             <div>
               <div className="text-wrap out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
