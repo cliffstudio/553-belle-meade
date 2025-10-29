@@ -82,6 +82,16 @@
   .right-nav {
     @include flex;
     column-gap: get-rem-desktop(50);
+    visibility: hidden;
+    opacity: 0;
+    will-change: opacity, visibility;
+    @include transition-multiple(opacity 0ms, visibility 0ms);
+    
+    &.ready {
+      visibility: visible;
+      opacity: 1;
+      @include transition-multiple(opacity 100ms ease-out, visibility 0ms);
+    }
 
     .menu-item {
       position: relative;
