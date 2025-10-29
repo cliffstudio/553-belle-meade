@@ -240,13 +240,15 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     if (item.itemType === 'pageLink' && item.pageLink) {
       const href = `/${item.pageLink.slug || ''}`
       return (
-        <Link
-          key={index}
-          href={href}
-          className={isActive(href) ? 'active' : ''}
-        >
-          {item.pageLink.title || 'Untitled'}
-        </Link>
+        <div className="menu-item" key={index}>
+          <Link
+            href={href}
+            className={isActive(href) ? 'active' : ''}
+          >
+            {item.pageLink.title || 'Untitled'}
+          </Link>
+          <div className="active-indicator"></div>
+        </div>
       )
     } else if (item.itemType === 'titleWithSubItems' && item.heading) {
       const hasActive = hasActiveSubItem(item)
@@ -290,32 +292,112 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       navContainers.forEach(container => {
         if (!container) return
         
-        // Handle both direct links and dropdown titles
-        const items = container.querySelectorAll('a, .dropdown-title')
-        items.forEach(item => {
-          // Clear any existing fixed widths to allow natural resizing
+        // Handle menu items (regular links) and dropdown titles
+        const menuItems = container.querySelectorAll('.menu-item')
+        const dropdownTitles = container.querySelectorAll('.dropdown-title')
+        
+        // Process menu items (regular links wrapped in .menu-item)
+        menuItems.forEach(menuItem => {
+          if (!(menuItem instanceof HTMLElement)) return
+          
+          const link = menuItem.querySelector('a')
+          if (!link || !(link instanceof HTMLElement)) return
+          
+          // Clear any existing fixed widths and heights to allow natural resizing
+          menuItem.style.width = ''
+          menuItem.style.minWidth = ''
+          menuItem.style.height = ''
+          menuItem.style.minHeight = ''
+          link.style.width = ''
+          link.style.minWidth = ''
+          link.style.height = ''
+          link.style.minHeight = ''
+          
+          // Force a reflow to get the natural dimensions with current font size
+          link.offsetHeight
+          
+          const computedStyle = getComputedStyle(link)
+          const fontSize = parseFloat(computedStyle.fontSize)
+          
+          // Get the original font width and height (Millionaire-Roman)
+          const originalWidth = link.offsetWidth
+          const originalHeight = link.offsetHeight
+          
+          // Temporarily switch to Millionaire-Script to measure dimensions
+          const originalFont = link.style.fontFamily
+          link.style.fontFamily = 'Millionaire-Script'
+          const scriptWidth = link.offsetWidth
+          const scriptHeight = link.offsetHeight
+          
+          // Restore original font
+          link.style.fontFamily = originalFont
+          
+          // Store the original width as a CSS custom property for the active-indicator
+          menuItem.style.setProperty('--original-width', `${originalWidth}px`)
+          
+          // Use the wider width to prevent cutoff, plus some extra padding
+          const currentWidth = link.offsetWidth
+          const maxWidth = Math.max(currentWidth, scriptWidth)
+          const paddedWidth = maxWidth + (0.4 * fontSize) // 0.4em padding
+          
+          // Apply width to the parent .menu-item container
+          menuItem.style.width = `${paddedWidth}px`
+          menuItem.style.minWidth = `${paddedWidth}px`
+          
+          // Use the smaller height to keep the container tight
+          // The transform just repositions the text, it doesn't change the element's height
+          const minHeight = Math.min(originalHeight, scriptHeight)
+          
+          // Apply height to the parent .menu-item container
+          menuItem.style.height = `${minHeight}px`
+          menuItem.style.minHeight = `${minHeight}px`
+        })
+        
+        // Process dropdown titles
+        dropdownTitles.forEach(item => {
+          // Clear any existing fixed widths and heights to allow natural resizing
           if (item instanceof HTMLElement) {
             item.style.width = ''
             item.style.minWidth = ''
+            item.style.height = ''
+            item.style.minHeight = ''
             
-            // Force a reflow to get the natural width with current font size
+            // Force a reflow to get the natural dimensions with current font size
             item.offsetHeight
             
-            // Temporarily switch to Millionaire-Script to measure width
+            const computedStyle = getComputedStyle(item)
+            const fontSize = parseFloat(computedStyle.fontSize)
+            
+            // Get the original font width and height (Millionaire-Roman)
+            const originalWidth = item.offsetWidth
+            const originalHeight = item.offsetHeight
+            
+            // Temporarily switch to Millionaire-Script to measure dimensions
             const originalFont = item.style.fontFamily
             item.style.fontFamily = 'Millionaire-Script'
             const scriptWidth = item.offsetWidth
+            const scriptHeight = item.offsetHeight
             
             // Restore original font
             item.style.fontFamily = originalFont
             
+            // Store the original width as a CSS custom property for the :after element
+            item.style.setProperty('--original-width', `${originalWidth}px`)
+            
             // Use the wider width to prevent cutoff, plus some extra padding
             const currentWidth = item.offsetWidth
             const maxWidth = Math.max(currentWidth, scriptWidth)
-            const paddedWidth = maxWidth + (0.4 * parseFloat(getComputedStyle(item).fontSize)) // 0.4em padding
+            const paddedWidth = maxWidth + (0.4 * fontSize) // 0.4em padding
             
             item.style.width = `${paddedWidth}px`
             item.style.minWidth = `${paddedWidth}px`
+            
+            // Use the smaller height to keep the container tight
+            // The transform just repositions the text, it doesn't change the element's height
+            const minHeight = Math.min(originalHeight, scriptHeight)
+            
+            item.style.height = `${minHeight}px`
+            item.style.minHeight = `${minHeight}px`
           }
         })
       })
