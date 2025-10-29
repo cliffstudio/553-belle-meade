@@ -50,6 +50,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [headerExtraHeight, setHeaderExtraHeight] = useState(0)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+  const [isNavReady, setIsNavReady] = useState(false)
   
   // Check if we're on homepage for initial state
   const isHomepage = pathname === '/' || pathname === ''
@@ -441,6 +442,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
 
     const handleResize = () => {
+      // Recalculate on resize (no need to hide/show, just recalculate)
       setNavItemWidths()
       setDropdownItemHeights()
       
@@ -449,9 +451,36 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       setHeaderExtraHeight(0)
     }
 
+    // Nav containers start hidden via CSS, we'll show them after calculations
+    const navContainers = [leftNavRef.current, rightNavRef.current]
+    
     // Set widths and heights after component mounts
-    setNavItemWidths()
-    setDropdownItemHeights()
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      // Perform all measurements while elements are hidden
+      setNavItemWidths()
+      setDropdownItemHeights()
+      
+      // Force a synchronous layout recalculation after all styles are applied
+      // This ensures browser has processed all the style changes
+      navContainers.forEach(container => {
+        if (container) {
+          // Force layout recalculation to ensure measurements are applied
+          void container.offsetHeight
+        }
+      })
+      
+      // Use double requestAnimationFrame to ensure all paint operations complete
+      requestAnimationFrame(() => {
+        // Show nav items after calculations are complete
+        navContainers.forEach(container => {
+          if (container) {
+            container.classList.add('ready')
+          }
+        })
+        setIsNavReady(true)
+      })
+    })
     
     // Recalculate on window resize
     window.addEventListener('resize', handleResize)
