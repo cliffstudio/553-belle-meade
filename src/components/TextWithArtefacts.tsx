@@ -163,14 +163,48 @@ export default function TextWithArtefacts({
           
             // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
             if (window.innerWidth > 768) {
-              ScrollTrigger.create({
-                trigger: textBlock,
-                start: "top top",
-                endTrigger: footer,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-              })
+              // Get opacity overlay and store initial opacity
+              const opacityOverlay = sectionRef.current?.querySelector('.hero-media-block .opacity-overlay') as HTMLElement
+              
+              if (opacityOverlay) {
+                const computedStyle = window.getComputedStyle(opacityOverlay)
+                const initialOpacity = parseFloat(computedStyle.opacity) || overlayDarkness || 0.3
+                
+                ScrollTrigger.create({
+                  trigger: textBlock,
+                  start: "top top",
+                  endTrigger: footer,
+                  end: "bottom bottom",
+                  pin: true,
+                  pinSpacing: false,
+                  onEnter: () => {
+                    // Double the opacity when text block pins
+                    gsap.to(opacityOverlay, {
+                      opacity: initialOpacity * 2,
+                      duration: 1,
+                      ease: "cubic-bezier(0.25,0.1,0.25,1)"
+                    })
+                  },
+                  onLeaveBack: () => {
+                    // Restore original opacity when scrolling back up
+                    gsap.to(opacityOverlay, {
+                      opacity: initialOpacity,
+                      duration: 1,
+                      ease: "cubic-bezier(0.25,0.1,0.25,1)"
+                    })
+                  }
+                })
+              } else {
+                // Fallback: pin without opacity animation if overlay not found
+                ScrollTrigger.create({
+                  trigger: textBlock,
+                  start: "top top",
+                  endTrigger: footer,
+                  end: "bottom bottom",
+                  pin: true,
+                  pinSpacing: false,
+                })
+              }
             }
 
             // 3. Pin artefacts grid when it reaches viewport bottom
@@ -243,7 +277,7 @@ export default function TextWithArtefacts({
       window.removeEventListener('resize', handleResize)
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     }
-  }, [pathname]) // Add pathname as dependency to re-run on route changes
+  }, [pathname, overlayDarkness]) // Add pathname as dependency to re-run on route changes
 
   useEffect(() => {
     const addOrientationClasses = () => {
