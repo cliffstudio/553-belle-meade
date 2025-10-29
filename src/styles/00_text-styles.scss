@@ -23,8 +23,7 @@ h2 {
   @include font-size(25px, 25px, 35px);
 }
 
-h3,
-.artefact-image .learn-more {
+h3 {
   font-family: 'Millionaire-Roman';  
   line-height: 140%;
   @include font-size(20px, 20px, 28px);
@@ -49,6 +48,12 @@ h3,
   font-family: 'Millionaire-Roman';  
   line-height: normal;
   @include font-size(28px, 15px, 20px);
+}
+
+.artefact-image .learn-more {
+  font-family: 'Millionaire-Roman';  
+  line-height: normal;
+  @include font-size(15px, 15px, 20px);
 }
 
 .site-footer {
