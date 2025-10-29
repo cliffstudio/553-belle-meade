@@ -992,6 +992,8 @@ body.page-type-homepage {
   }
 
   .artefact {
+    max-width: get-rem-desktop(280);
+
     &.has-content {
       .artefact-image {
         cursor: pointer;
