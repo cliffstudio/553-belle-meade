@@ -34,6 +34,12 @@ html.scroll-enabled body {
   overflow: auto;
 }
 
+/* Prevent overscroll bounce to stop fixed content from being visible during overscroll */
+html,
+body {
+  overscroll-behavior: none;
+}
+
 /* Smooth scrolling for hash links */
 html {
   scroll-behavior: smooth;
