@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import OverflowController from "../components/OverflowController";
-import { client } from "../../sanity.client";
+import { clientNoCdn } from "../../sanity.client";
 import { metadataQuery } from "../sanity/lib/queries";
 import { urlFor } from "../sanity/utils/imageUrlBuilder";
 
@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 
 // Generate metadata dynamically from Sanity CMS
 export async function generateMetadata(): Promise<Metadata> {
-  const metaData = await client.fetch(metadataQuery);
+  // Use non-CDN client to ensure fresh metadata bypasses Sanity CDN caching
+  const metaData = await clientNoCdn.fetch(metadataQuery, {}, {
+    next: { revalidate: 0 }
+  });
   
   // Build social image URL if available
   let socialImageUrl: string | undefined;

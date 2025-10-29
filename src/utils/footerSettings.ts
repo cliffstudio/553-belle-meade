@@ -1,4 +1,4 @@
-import { client } from '../../sanity.client'
+import { clientNoCdn } from '../../sanity.client'
 import { footerQuery, leftMenuQuery, rightMenuQuery } from '../sanity/lib/queries'
 import { FooterSettings } from '../types/footerSettings'
 
@@ -26,7 +26,10 @@ type Menu = {
 
 export async function getFooterSettings(): Promise<FooterSettings | null> {
   try {
-    const footer = await client.fetch(footerQuery)
+    // Use non-CDN client to ensure fresh footer content bypasses Sanity CDN caching
+    const footer = await clientNoCdn.fetch(footerQuery, {}, {
+      next: { revalidate: 0 }
+    })
     return footer
   } catch (error) {
     console.error('Error fetching footer settings:', error)
@@ -36,7 +39,10 @@ export async function getFooterSettings(): Promise<FooterSettings | null> {
 
 export async function getLeftMenu(): Promise<Menu | null> {
   try {
-    const menu = await client.fetch(leftMenuQuery)
+    // Use non-CDN client to ensure fresh menu content bypasses Sanity CDN caching
+    const menu = await clientNoCdn.fetch(leftMenuQuery, {}, {
+      next: { revalidate: 0 }
+    })
     return menu
   } catch (error) {
     console.error('Error fetching left menu:', error)
@@ -46,7 +52,10 @@ export async function getLeftMenu(): Promise<Menu | null> {
 
 export async function getRightMenu(): Promise<Menu | null> {
   try {
-    const menu = await client.fetch(rightMenuQuery)
+    // Use non-CDN client to ensure fresh menu content bypasses Sanity CDN caching
+    const menu = await clientNoCdn.fetch(rightMenuQuery, {}, {
+      next: { revalidate: 0 }
+    })
     return menu
   } catch (error) {
     console.error('Error fetching right menu:', error)
