@@ -1,6 +1,6 @@
 // src/components/DynamicPage.tsx
 import React from 'react'
-import { client } from '../../sanity.client'
+import { clientNoCdn } from '../../sanity.client'
 import { pageQuery } from '../sanity/lib/queries'
 import { notFound } from 'next/navigation'
 import { SanityImage, SanityVideo, PortableTextBlock } from '../types/sanity'
@@ -70,7 +70,10 @@ const addSection = (
 
 export default async function DynamicPage({ params }: PageProps) {
   const resolvedParams = await params
-  const page = await client.fetch(pageQuery, { slug: resolvedParams.slug })
+  // Use non-CDN client to ensure fresh content bypasses Sanity CDN caching
+  const page = await clientNoCdn.fetch(pageQuery, { slug: resolvedParams.slug }, {
+    next: { revalidate: 0 }
+  })
 
   if (!page) {
     notFound()

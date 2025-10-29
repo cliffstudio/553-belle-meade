@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { client } from '../../../../../sanity.client'
+import { client, clientNoCdn } from '../../../../../sanity.client'
 import { pressPostQuery, pressPostsQuery } from '../../../../sanity/lib/queries'
 import PressPost from '../../../../components/PressPost'
 import BodyClassProvider from '../../../../components/BodyClassProvider'
@@ -11,6 +11,7 @@ interface PressPostPageProps {
 }
 
 export async function generateStaticParams() {
+  // Keep CDN for build-time static generation (runs at build time, CDN is fine)
   const posts = await client.fetch(`
     *[_type == "press"] {
       "slug": slug.current
@@ -22,13 +23,19 @@ export async function generateStaticParams() {
   }))
 }
 
+export const revalidate = 0 // Ensure fresh content for press posts
+
 export default async function PressPostPage({ params }: PressPostPageProps) {
   const resolvedParams = await params
   
-  // Fetch the current post and all posts to determine navigation
+  // Use non-CDN client to ensure fresh content bypasses Sanity CDN caching
   const [post, allPosts] = await Promise.all([
-    client.fetch(pressPostQuery, { slug: resolvedParams.slug }),
-    client.fetch(pressPostsQuery)
+    clientNoCdn.fetch(pressPostQuery, { slug: resolvedParams.slug }, {
+      next: { revalidate: 0 }
+    }),
+    clientNoCdn.fetch(pressPostsQuery, {}, {
+      next: { revalidate: 0 }
+    })
   ])
 
   if (!post) {

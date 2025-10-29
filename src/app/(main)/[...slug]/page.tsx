@@ -11,6 +11,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  // Keep CDN for build-time static generation
   const pages = await client.fetch(pageSlugsQuery)
   
   return pages
@@ -22,6 +23,9 @@ export async function generateStaticParams() {
       slug: page.slug.current.split('/'),
     }))
 }
+
+// Ensure fresh content for dynamic pages
+export const revalidate = 0
 
 export default async function Page({ params }: PageProps) {
   // Convert array to string for the slug

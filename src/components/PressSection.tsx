@@ -1,5 +1,5 @@
 import React from 'react'
-import { client } from '../../sanity.client'
+import { clientNoCdn } from '../../sanity.client'
 import { pressPostsQuery, randomTestimonialQuery } from '../sanity/lib/queries'
 import PressLayout from './PressLayout'
 
@@ -10,10 +10,14 @@ interface PressSectionProps {
 }
 
 const PressSection: React.FC<PressSectionProps> = async () => {
-  // Fetch all press posts and a random testimonial
+  // Use non-CDN client to ensure fresh content bypasses Sanity CDN caching
   const [allPosts, randomTestimonial] = await Promise.all([
-    client.fetch(pressPostsQuery),
-    client.fetch(randomTestimonialQuery)
+    clientNoCdn.fetch(pressPostsQuery, {}, {
+      next: { revalidate: 0 }
+    }),
+    clientNoCdn.fetch(randomTestimonialQuery, {}, {
+      next: { revalidate: 0 }
+    })
   ])
 
   return (
