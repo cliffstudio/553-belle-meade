@@ -248,6 +248,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           >
             {item.pageLink.title || 'Untitled'}
           </Link>
+
           <div className="active-indicator"></div>
         </div>
       )
@@ -263,9 +264,14 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           onMouseLeave={handleDropdownLeave}
           onClick={handleDropdownClick}
         >
-          <span className="dropdown-title">
-            {item.heading}
-          </span>
+          <div className="dropdown-title">
+            <div className="dropdown-title-text">
+              {item.heading}
+            </div>
+            
+            <div className="active-indicator"></div>
+          </div>
+
           <div className="dropdown-content">
             {item.subItems?.map((subItem, subIndex) => {
               const href = `/${subItem.pageLink?.slug || ''}`
@@ -354,52 +360,61 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           menuItem.style.minHeight = `${minHeight}px`
         })
         
-        // Process dropdown titles
-        dropdownTitles.forEach(item => {
+        // Process dropdown titles (now with .dropdown-title-text inside)
+        dropdownTitles.forEach(dropdownTitle => {
+          if (!(dropdownTitle instanceof HTMLElement)) return
+          
+          const titleText = dropdownTitle.querySelector('.dropdown-title-text')
+          if (!titleText || !(titleText instanceof HTMLElement)) return
+          
           // Clear any existing fixed widths and heights to allow natural resizing
-          if (item instanceof HTMLElement) {
-            item.style.width = ''
-            item.style.minWidth = ''
-            item.style.height = ''
-            item.style.minHeight = ''
-            
-            // Force a reflow to get the natural dimensions with current font size
-            item.offsetHeight
-            
-            const computedStyle = getComputedStyle(item)
-            const fontSize = parseFloat(computedStyle.fontSize)
-            
-            // Get the original font width and height (Millionaire-Roman)
-            const originalWidth = item.offsetWidth
-            const originalHeight = item.offsetHeight
-            
-            // Temporarily switch to Millionaire-Script to measure dimensions
-            const originalFont = item.style.fontFamily
-            item.style.fontFamily = 'Millionaire-Script'
-            const scriptWidth = item.offsetWidth
-            const scriptHeight = item.offsetHeight
-            
-            // Restore original font
-            item.style.fontFamily = originalFont
-            
-            // Store the original width as a CSS custom property for the :after element
-            item.style.setProperty('--original-width', `${originalWidth}px`)
-            
-            // Use the wider width to prevent cutoff, plus some extra padding
-            const currentWidth = item.offsetWidth
-            const maxWidth = Math.max(currentWidth, scriptWidth)
-            const paddedWidth = maxWidth + (0.4 * fontSize) // 0.4em padding
-            
-            item.style.width = `${paddedWidth}px`
-            item.style.minWidth = `${paddedWidth}px`
-            
-            // Use the smaller height to keep the container tight
-            // The transform just repositions the text, it doesn't change the element's height
-            const minHeight = Math.min(originalHeight, scriptHeight)
-            
-            item.style.height = `${minHeight}px`
-            item.style.minHeight = `${minHeight}px`
-          }
+          dropdownTitle.style.width = ''
+          dropdownTitle.style.minWidth = ''
+          dropdownTitle.style.height = ''
+          dropdownTitle.style.minHeight = ''
+          titleText.style.width = ''
+          titleText.style.minWidth = ''
+          titleText.style.height = ''
+          titleText.style.minHeight = ''
+          
+          // Force a reflow to get the natural dimensions with current font size
+          titleText.offsetHeight
+          
+          const computedStyle = getComputedStyle(titleText)
+          const fontSize = parseFloat(computedStyle.fontSize)
+          
+          // Get the original font width and height (Millionaire-Roman)
+          const originalWidth = titleText.offsetWidth
+          const originalHeight = titleText.offsetHeight
+          
+          // Temporarily switch to Millionaire-Script to measure dimensions
+          const originalFont = titleText.style.fontFamily
+          titleText.style.fontFamily = 'Millionaire-Script'
+          const scriptWidth = titleText.offsetWidth
+          const scriptHeight = titleText.offsetHeight
+          
+          // Restore original font
+          titleText.style.fontFamily = originalFont
+          
+          // Store the original width as a CSS custom property for the active-indicator
+          dropdownTitle.style.setProperty('--original-width', `${originalWidth}px`)
+          
+          // Use the wider width to prevent cutoff, plus some extra padding
+          const currentWidth = titleText.offsetWidth
+          const maxWidth = Math.max(currentWidth, scriptWidth)
+          const paddedWidth = maxWidth + (0.4 * fontSize) // 0.4em padding
+          
+          // Apply width to the parent .dropdown-title container
+          dropdownTitle.style.width = `${paddedWidth}px`
+          dropdownTitle.style.minWidth = `${paddedWidth}px`
+          
+          // Use the smaller height to keep the container tight
+          // The transform just repositions the text, it doesn't change the element's height
+          const minHeight = Math.min(originalHeight, scriptHeight)
+          
+          // Apply height to the parent .dropdown-title container
+          dropdownTitle.style.height = `${minHeight}px`
+          dropdownTitle.style.minHeight = `${minHeight}px`
         })
       })
     }
