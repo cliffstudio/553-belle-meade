@@ -385,1046 +385,414 @@ export default function TextWithArtefacts({
   }, [artefact1, artefact2, artefact3, artefact4])
 
   return (
-    <section ref={sectionRef} className="text-with-artefacts">
-      <div className="hero-media-block h-svh flex items-center text-white relative z-6">
-        {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
-          <div className="fill-space-video-wrap media-wrap z-1">
-            {/* Desktop Video */}
-            {desktopBackgroundVideo && (
-              <video
-                ref={desktopVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
-                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                className="desktop"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              />
-            )}
-            
-            {/* Mobile Video */}
-            {mobileBackgroundVideo && (
-              <video
-                ref={mobileVideoRef}
-                src={videoUrlFor(mobileBackgroundVideo)}
-                poster={mobileBackgroundVideoPlaceholder ? urlFor(mobileBackgroundVideoPlaceholder).url() : undefined}
-                className="mobile"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              />
-            )}
-            
-            {/* Fallback to desktop video for mobile if no mobile video provided */}
-            {!mobileBackgroundVideo && desktopBackgroundVideo && (
-              <video
-                ref={mobileVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
-                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                className="mobile"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              />
-            )}
-          </div>
-        )}
+    <>
+      <section ref={sectionRef} className="text-with-artefacts">
+        <div className="hero-media-block h-svh flex items-center text-white relative z-6">
+          {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
+            <div className="fill-space-video-wrap media-wrap z-1">
+              {/* Desktop Video */}
+              {desktopBackgroundVideo && (
+                <video
+                  ref={desktopVideoRef}
+                  src={videoUrlFor(desktopBackgroundVideo)}
+                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                  className="desktop"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              )}
+              
+              {/* Mobile Video */}
+              {mobileBackgroundVideo && (
+                <video
+                  ref={mobileVideoRef}
+                  src={videoUrlFor(mobileBackgroundVideo)}
+                  poster={mobileBackgroundVideoPlaceholder ? urlFor(mobileBackgroundVideoPlaceholder).url() : undefined}
+                  className="mobile"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              )}
+              
+              {/* Fallback to desktop video for mobile if no mobile video provided */}
+              {!mobileBackgroundVideo && desktopBackgroundVideo && (
+                <video
+                  ref={mobileVideoRef}
+                  src={videoUrlFor(desktopBackgroundVideo)}
+                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                  className="mobile"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              )}
+            </div>
+          )}
 
-        {backgroundMediaType === 'image' && (desktopBackgroundImage || mobileBackgroundImage) && (
-          <div className="fill-space-image-wrap media-wrap z-1">
-            {/* Desktop Image */}
-            {desktopBackgroundImage && (
-              <img 
-                data-src={urlFor(desktopBackgroundImage).url()} 
-                alt="" 
-                className="lazy full-bleed-image desktop"
-                style={{
-                  objectPosition: desktopBackgroundImage?.hotspot
-                    ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
-                    : "center",
-                }}
-              />
-            )}
+          {backgroundMediaType === 'image' && (desktopBackgroundImage || mobileBackgroundImage) && (
+            <div className="fill-space-image-wrap media-wrap z-1">
+              {/* Desktop Image */}
+              {desktopBackgroundImage && (
+                <img 
+                  data-src={urlFor(desktopBackgroundImage).url()} 
+                  alt="" 
+                  className="lazy full-bleed-image desktop"
+                  style={{
+                    objectPosition: desktopBackgroundImage?.hotspot
+                      ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                      : "center",
+                  }}
+                />
+              )}
 
-            {/* Mobile Image */}
-            {mobileBackgroundImage && (
-              <img 
-                data-src={urlFor(mobileBackgroundImage).url()} 
-                alt="" 
-                className="lazy full-bleed-image mobile"
-                style={{
-                  objectPosition: mobileBackgroundImage?.hotspot
-                    ? `${mobileBackgroundImage.hotspot.x * 100}% ${mobileBackgroundImage.hotspot.y * 100}%`
-                    : "center",
-                }}
-              />
-            )}
+              {/* Mobile Image */}
+              {mobileBackgroundImage && (
+                <img 
+                  data-src={urlFor(mobileBackgroundImage).url()} 
+                  alt="" 
+                  className="lazy full-bleed-image mobile"
+                  style={{
+                    objectPosition: mobileBackgroundImage?.hotspot
+                      ? `${mobileBackgroundImage.hotspot.x * 100}% ${mobileBackgroundImage.hotspot.y * 100}%`
+                      : "center",
+                  }}
+                />
+              )}
 
-            {/* Fallback to desktop image for mobile if no mobile image provided */}
-            {!mobileBackgroundImage && desktopBackgroundImage && (
-              <img 
-                data-src={urlFor(desktopBackgroundImage).url()} 
-                alt="" 
-                className="lazy full-bleed-image mobile"
-                style={{
-                  objectPosition: desktopBackgroundImage?.hotspot
-                    ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
-                    : "center",
-                }}
-              />
-            )}
+              {/* Fallback to desktop image for mobile if no mobile image provided */}
+              {!mobileBackgroundImage && desktopBackgroundImage && (
+                <img 
+                  data-src={urlFor(desktopBackgroundImage).url()} 
+                  alt="" 
+                  className="lazy full-bleed-image mobile"
+                  style={{
+                    objectPosition: desktopBackgroundImage?.hotspot
+                      ? `${desktopBackgroundImage.hotspot.x * 100}% ${desktopBackgroundImage.hotspot.y * 100}%`
+                      : "center",
+                  }}
+                />
+              )}
 
-            <div className="loading-overlay" />
-          </div>
-        )}
+              <div className="loading-overlay" />
+            </div>
+          )}
 
-        <div className="opacity-overlay z-2" style={{ opacity: overlayDarkness }}></div>
-        
-        {(desktopTitle || mobileTitle) && ( <div className="z-3 h-pad out-of-view">
-          {desktopTitle && <div className="desktop"><h1>{desktopTitle}</h1></div>}
-          {mobileTitle && <div className="mobile"><h1>{mobileTitle}</h1></div>}
-        </div> )}
-
-        {showControls && ( <div className="video-controls z-4 out-of-view">
-          <div className="play-pause-button" onClick={togglePlayPause}>
-            <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
-              <line x1="0.5" x2="0.5" y2="20"/>
-              <line x1="10.5" x2="10.5" y2="20"/>
-            </svg>
-
-            <svg className={`play ${!isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
-              <path d="M0.5 1L10.5 10L0.5 19"/>
-            </svg>
-          </div>
+          <div className="opacity-overlay z-2" style={{ opacity: overlayDarkness }}></div>
           
-          <div className="full-screen-button" onClick={toggleFullscreen}>
-            <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-              <path d="M1 9V1H9"/>
-              <path d="M1 13V21H9"/>
-              <path d="M21 9V1H13"/>
-              <path d="M21 13V21H13"/>
-            </svg>
-          </div>
+          {(desktopTitle || mobileTitle) && ( <div className="z-3 h-pad out-of-view">
+            {desktopTitle && <div className="desktop"><h1>{desktopTitle}</h1></div>}
+            {mobileTitle && <div className="mobile"><h1>{mobileTitle}</h1></div>}
+          </div> )}
 
-          <div className="volume-button" onClick={toggleMute}>
-            <svg className={`mute button ${!isMuted ? 'active' : ''}`} xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
-              <path d="M2.02539 14.876L2.03068 8.44525H5.75376L12.5177 2.69141V20.4607L5.74846 14.876H2.02539Z"/>
-              <line x1="0.353553" y1="0.646447" x2="22.3536" y2="22.6464"/>
-              <path d="M15.0615 7.66797C16.204 8.69055 16.9231 10.1766 16.9231 11.8306C16.9231 13.4308 16.25 14.8739 15.1715 15.8921"/>
-              <path d="M17.9004 18.5992C19.7904 16.9548 20.9852 14.5319 20.9852 11.8299C20.9852 9.06625 19.7352 6.59452 17.7698 4.94922"/>
-            </svg>
+          {showControls && ( <div className="video-controls z-4 out-of-view">
+            <div className="play-pause-button" onClick={togglePlayPause}>
+              <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
+                <line x1="0.5" x2="0.5" y2="20"/>
+                <line x1="10.5" x2="10.5" y2="20"/>
+              </svg>
 
-            <svg className={`volume button ${isMuted ? 'active' : ''}`} xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
-              <path d="M2.02539 14.876L2.03068 8.44525H5.75376L12.5177 2.69141V20.4607L5.74846 14.876H2.02539Z"/>
-              <path d="M15.0615 7.66797C16.204 8.69055 16.9231 10.1766 16.9231 11.8306C16.9231 13.4308 16.25 14.8739 15.1715 15.8921"/>
-              <path d="M17.9004 18.5992C19.7904 16.9548 20.9852 14.5319 20.9852 11.8299C20.9852 9.06625 19.7352 6.59452 17.7698 4.94922"/>
-            </svg>
-          </div>
-        </div> )}
-      </div>
-
-      {body && (
-        <div className="text-block h-pad z-5">
-          <div className="row-lg">
-            <div className="col-3-12_lg desktop"></div>
-
-            <div className="col-6-12_lg">
-              <h2 className="text-wrap">
-                <PortableText value={body} />
-              </h2>
+              <svg className={`play ${!isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
+                <path d="M0.5 1L10.5 10L0.5 19"/>
+              </svg>
+            </div>
+            
+            <div className="full-screen-button" onClick={toggleFullscreen}>
+              <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+                <path d="M1 9V1H9"/>
+                <path d="M1 13V21H9"/>
+                <path d="M21 9V1H13"/>
+                <path d="M21 13V21H13"/>
+              </svg>
             </div>
 
-            <div className="col-3-12_lg desktop"></div>
-          </div>
+            <div className="volume-button" onClick={toggleMute}>
+              <svg className={`mute button ${!isMuted ? 'active' : ''}`} xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+                <path d="M2.02539 14.876L2.03068 8.44525H5.75376L12.5177 2.69141V20.4607L5.74846 14.876H2.02539Z"/>
+                <line x1="0.353553" y1="0.646447" x2="22.3536" y2="22.6464"/>
+                <path d="M15.0615 7.66797C16.204 8.69055 16.9231 10.1766 16.9231 11.8306C16.9231 13.4308 16.25 14.8739 15.1715 15.8921"/>
+                <path d="M17.9004 18.5992C19.7904 16.9548 20.9852 14.5319 20.9852 11.8299C20.9852 9.06625 19.7352 6.59452 17.7698 4.94922"/>
+              </svg>
+
+              <svg className={`volume button ${isMuted ? 'active' : ''}`} xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+                <path d="M2.02539 14.876L2.03068 8.44525H5.75376L12.5177 2.69141V20.4607L5.74846 14.876H2.02539Z"/>
+                <path d="M15.0615 7.66797C16.204 8.69055 16.9231 10.1766 16.9231 11.8306C16.9231 13.4308 16.25 14.8739 15.1715 15.8921"/>
+                <path d="M17.9004 18.5992C19.7904 16.9548 20.9852 14.5319 20.9852 11.8299C20.9852 9.06625 19.7352 6.59452 17.7698 4.94922"/>
+              </svg>
+            </div>
+          </div> )}
         </div>
-      )}
-        
-      <div className={`artefacts-grid ${layout} h-pad z-6`}>
-        {layout === 'layout-1' ? (
-          <>
-            {/* Row 1 */}
-            <div className="artefacts-row-1 row-lg">
-              {artefact1 && (
-                <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
-                  {artefact1.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact1.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact1.image?.hotspot
-                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
 
-                      {artefact1.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact1.caption}</div>
+        {body && (
+          <div className="text-block h-pad z-5">
+            <div className="row-lg">
+              <div className="col-3-12_lg desktop"></div>
 
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact1.title || artefact1.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
+              <div className="col-6-12_lg">
+                <h2 className="text-wrap">
+                  <PortableText value={body} />
+                </h2>
+              </div>
 
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact1.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-                          
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact1.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact1.image?.hotspot
-                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact1.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-
-              <div className="col-6-12_lg desktop"></div>
-
-              {artefact2 && (
-                <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
-                  {artefact2.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact2.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact2.image?.hotspot
-                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact2.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact2.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact2.title || artefact2.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact2.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact2.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact2.image?.hotspot
-                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact2.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
+              <div className="col-3-12_lg desktop"></div>
             </div>
-            
-            {/* Row 2 */}
-            <div className="artefacts-row-2 row-lg">
-              {artefact3 && (
-                <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
-                  {artefact3.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact3.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact3.image?.hotspot
-                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
+          </div>
+        )}
+          
+        <div className={`artefacts-grid ${layout} h-pad z-6`}>
+          {layout === 'layout-1' ? (
+            <>
+              {/* Row 1 */}
+              <div className="artefacts-row-1 row-lg">
+                {artefact1 && (
+                  <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                    {artefact1.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact1.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact1.image?.hotspot
+                              ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
 
-                      {artefact3.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact3.caption}</div>
+                        {artefact1.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact1.caption}</div>
 
-                          {(artefact3.title || artefact3.description) && ( 
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
                               <line x1="5.5" y1="11" x2="5.5" y2="0"/>
                               <line y1="5.5" x2="11" y2="5.5"/>
                             </svg>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact3.title || artefact3.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact3.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
                           </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact3.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact3.image?.hotspot
-                                ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact3.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-
-              <div className="col-4-12_lg desktop"></div>
-
-              {artefact4 && (
-                <div className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
-                  {artefact4.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact4.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact4.image?.hotspot
-                            ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
+                        )}
                       </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact1.title || artefact1.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
 
-                      {artefact4.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact4.caption}</div>
-
-                          {(artefact4.title || artefact4.description) && ( 
-                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                              <line y1="5.5" x2="11" y2="5.5"/>
-                            </svg>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact4.title || artefact4.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact4.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact4.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact4.image?.hotspot
-                                ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact4.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact4.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-            </div>
-          </>
-        ) : layout === 'layout-2' ? (
-          <>
-            {/* Row 1 */}
-            <div className="artefacts-row-1 row-lg">
-              {artefact1 && (
-                <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
-                  {artefact1.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact1.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact1.image?.hotspot
-                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact1.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact1.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact1.title || artefact1.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact1.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact1.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact1.image?.hotspot
-                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact1.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-
-              <div className="col-6-12_lg desktop"></div>
-
-              {artefact2 && (
-                <div className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
-                  {artefact2.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact2.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact2.image?.hotspot
-                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact2.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact2.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact2.title || artefact2.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact2.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact2.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact2.image?.hotspot
-                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact2.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-
-              <div className="col-1-12_lg desktop"></div>
-            </div>
-            
-            {/* Row 2 */}
-            <div className="artefacts-row-2 row-lg">
-              <div className="col-9-12_lg desktop"></div>
-
-              {artefact3 && (
-                <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
-                  {artefact3.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact3.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact3.image?.hotspot
-                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact3.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact3.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact3.title || artefact3.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact3.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact3.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact3.image?.hotspot
-                                ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact3.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-            </div>
-          </>
-        ) : layout === 'layout-3' ? (
-          <>
-            {/* Row 1 */}
-            <div className="artefacts-row-1 row-lg">
-              {artefact1 && (
-                <div className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
-                  {artefact1.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact1.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact1.image?.hotspot
-                            ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact1.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact1.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact1.title || artefact1.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact1.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact1.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact1.image?.hotspot
-                                ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact1.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-
-              <div className="col-7-12_lg desktop"></div>
-
-              {artefact2 && (
-                <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
-                  {artefact2.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact2.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact2.image?.hotspot
-                            ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact2.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact2.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact2.title || artefact2.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact2.title}</h2>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
-                            </div>
-                          </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact2.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact2.image?.hotspot
-                                ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <p className="artefact-description">{artefact2.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-            </div>
-            
-            {/* Row 2 */}
-            <div className="artefacts-row-2 row-lg">
-              {artefact3 && (
-                <div className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
-                  {artefact3.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact3.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact3.image?.hotspot
-                            ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact3.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact3.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact3.title || artefact3.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
                         <div className="artefact-content">
                           <div className="inner-wrap">
                             <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact3.title}</h2>
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact1.title}</h2>
 
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                              </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+                            
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact1.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact1.image?.hotspot
+                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact1.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact1.description}</p>
                             </div>
                           </div>
+                        </div>
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+
+                <div className="col-6-12_lg desktop"></div>
+
+                {artefact2 && (
+                  <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                    {artefact2.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact2.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact2.image?.hotspot
+                              ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact2.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact2.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact2.title || artefact2.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact2.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact2.image?.hotspot
+                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact2.description}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+              </div>
+              
+              {/* Row 2 */}
+              <div className="artefacts-row-2 row-lg">
+                {artefact3 && (
+                  <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                    {artefact3.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact3.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact3.image?.hotspot
+                              ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact3.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact3.caption}</div>
+
+                            {(artefact3.title || artefact3.description) && ( 
+                              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                                <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                                <line y1="5.5" x2="11" y2="5.5"/>
+                              </svg>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact3.title || artefact3.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact3.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
 
                             <div className="media-wrap relative">
                               <img 
                               data-src={urlFor(artefact3.image!).url()} 
                               alt="" 
                               className="lazy"
+                              style={{
+                                objectPosition: artefact3.image?.hotspot
+                                  ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
                               />
                               <div className="loading-overlay" />
                             </div>
@@ -1445,82 +813,57 @@ export default function TextWithArtefacts({
                             </div>
                           </div>
                         </div> 
-                      </div>
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
 
-              <div className="col-8-12_lg desktop"></div>
+                <div className="col-4-12_lg desktop"></div>
 
-              {artefact4 && (
-                <div className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
-                  {artefact4.image && (
-                    <div className="artefact-image">
-                      <div className="media-wrap relative">
-                        <img 
-                        data-src={urlFor(artefact4.image).url()} 
-                        alt="" 
-                        className="lazy"
-                        style={{
-                          objectPosition: artefact4.image?.hotspot
-                            ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                            : "center",
-                        }}
-                        />
-                        <div className="loading-overlay" />
-                        <div className="opacity-overlay" />
-                        <div className="learn-more">Learn More</div>
-                      </div>
-
-                      {artefact4.caption && (
-                        <div className="caption">
-                          <div className="caption-font">{artefact4.caption}</div>
-
-                          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
-                            <line x1="5.5" y1="11" x2="5.5" y2="0"/>
-                            <line y1="5.5" x2="11" y2="5.5"/>
-                          </svg>
+                {artefact4 && (
+                  <div className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
+                    {artefact4.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact4.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact4.image?.hotspot
+                              ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
                         </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Start Popup */}
-                  {(artefact4.title || artefact4.description) && ( 
-                    <>
-                      <div className="artefact-overlay"></div>
-                      
-                      <div className="artefact-content">
-                        <div className="inner-wrap">
-                          <div className="mobile">
-                            <div className="title-wrap">
-                              <h2 className="artefact-title">{artefact4.title}</h2>
 
-                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                        {artefact4.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact4.caption}</div>
+
+                            {(artefact4.title || artefact4.description) && ( 
+                              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                                <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                                <line y1="5.5" x2="11" y2="5.5"/>
                               </svg>
-                            </div>
+                            )}
                           </div>
-
-                          <div className="media-wrap relative">
-                            <img 
-                            data-src={urlFor(artefact4.image!).url()} 
-                            alt="" 
-                            className="lazy"
-                            style={{
-                              objectPosition: artefact4.image?.hotspot
-                                ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                                : "center",
-                            }}
-                            />
-                            <div className="loading-overlay" />
-                          </div>
-
-                          <div className="text-wrap">
-                            <div className="desktop">
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact4.title || artefact4.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
                               <div className="title-wrap">
                                 <h2 className="artefact-title">{artefact4.title}</h2>
 
@@ -1530,24 +873,685 @@ export default function TextWithArtefacts({
                                 </svg>
                               </div>
                             </div>
-                            
-                            <p className="artefact-description">{artefact4.description}</p>
-                          </div>
-                        </div>
-                      </div> 
-                    </>
-                  )}
-                  {/* End Popup */}
-                </div>
-              )}
-            </div>
 
-            <div className="carousel-image">
-              <img src="/images/carousel.png" alt="" />
-            </div>
-          </>
-        ) : null}
-      </div>
-    </section>
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact4.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact4.image?.hotspot
+                                  ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact4.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact4.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+              </div>
+            </>
+          ) : layout === 'layout-2' ? (
+            <>
+              {/* Row 1 */}
+              <div className="artefacts-row-1 row-lg">
+                {artefact1 && (
+                  <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                    {artefact1.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact1.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact1.image?.hotspot
+                              ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact1.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact1.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact1.title || artefact1.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact1.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact1.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact1.image?.hotspot
+                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact1.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact1.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+
+                <div className="col-6-12_lg desktop"></div>
+
+                {artefact2 && (
+                  <div className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                    {artefact2.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact2.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact2.image?.hotspot
+                              ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact2.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact2.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact2.title || artefact2.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact2.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact2.image?.hotspot
+                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact2.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+
+                <div className="col-1-12_lg desktop"></div>
+              </div>
+              
+              {/* Row 2 */}
+              <div className="artefacts-row-2 row-lg">
+                <div className="col-9-12_lg desktop"></div>
+
+                {artefact3 && (
+                  <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                    {artefact3.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact3.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact3.image?.hotspot
+                              ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact3.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact3.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact3.title || artefact3.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact3.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact3.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact3.image?.hotspot
+                                  ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact3.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact3.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+              </div>
+            </>
+          ) : layout === 'layout-3' ? (
+            <>
+              {/* Row 1 */}
+              <div className="artefacts-row-1 row-lg">
+                {artefact1 && (
+                  <div className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                    {artefact1.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact1.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact1.image?.hotspot
+                              ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact1.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact1.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact1.title || artefact1.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact1.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact1.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact1.image?.hotspot
+                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact1.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact1.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+
+                <div className="col-7-12_lg desktop"></div>
+
+                {artefact2 && (
+                  <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                    {artefact2.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact2.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact2.image?.hotspot
+                              ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact2.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact2.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact2.title || artefact2.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact2.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact2.image?.hotspot
+                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact2.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact2.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+              </div>
+              
+              {/* Row 2 */}
+              <div className="artefacts-row-2 row-lg">
+                {artefact3 && (
+                  <div className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                    {artefact3.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact3.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact3.image?.hotspot
+                              ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact3.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact3.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact3.title || artefact3.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="artefact-content">
+                            <div className="inner-wrap">
+                              <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact3.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                              <div className="media-wrap relative">
+                                <img 
+                                data-src={urlFor(artefact3.image!).url()} 
+                                alt="" 
+                                className="lazy"
+                                />
+                                <div className="loading-overlay" />
+                              </div>
+
+                              <div className="text-wrap">
+                                <div className="desktop">
+                                  <div className="title-wrap">
+                                    <h2 className="artefact-title">{artefact3.title}</h2>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                      <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                      <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    </svg>
+                                  </div>
+                                </div>
+                                
+                                <p className="artefact-description">{artefact3.description}</p>
+                              </div>
+                            </div>
+                          </div> 
+                        </div>
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+
+                <div className="col-8-12_lg desktop"></div>
+
+                {artefact4 && (
+                  <div className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
+                    {artefact4.image && (
+                      <div className="artefact-image">
+                        <div className="media-wrap relative">
+                          <img 
+                          data-src={urlFor(artefact4.image).url()} 
+                          alt="" 
+                          className="lazy"
+                          style={{
+                            objectPosition: artefact4.image?.hotspot
+                              ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                          />
+                          <div className="loading-overlay" />
+                          <div className="opacity-overlay" />
+                          <div className="learn-more">Learn More</div>
+                        </div>
+
+                        {artefact4.caption && (
+                          <div className="caption">
+                            <div className="caption-font">{artefact4.caption}</div>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 11 11">
+                              <line x1="5.5" y1="11" x2="5.5" y2="0"/>
+                              <line y1="5.5" x2="11" y2="5.5"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Start Popup */}
+                    {(artefact4.title || artefact4.description) && ( 
+                      <>
+                        <div className="artefact-overlay"></div>
+                        
+                        <div className="artefact-content">
+                          <div className="inner-wrap">
+                            <div className="mobile">
+                              <div className="title-wrap">
+                                <h2 className="artefact-title">{artefact4.title}</h2>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            <div className="media-wrap relative">
+                              <img 
+                              data-src={urlFor(artefact4.image!).url()} 
+                              alt="" 
+                              className="lazy"
+                              style={{
+                                objectPosition: artefact4.image?.hotspot
+                                  ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
+                                  : "center",
+                              }}
+                              />
+                              <div className="loading-overlay" />
+                            </div>
+
+                            <div className="text-wrap">
+                              <div className="desktop">
+                                <div className="title-wrap">
+                                  <h2 className="artefact-title">{artefact4.title}</h2>
+
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <p className="artefact-description">{artefact4.description}</p>
+                            </div>
+                          </div>
+                        </div> 
+                      </>
+                    )}
+                    {/* End Popup */}
+                  </div>
+                )}
+              </div>
+
+              <div className="carousel-image">
+                <img src="/images/carousel.png" alt="" />
+              </div>
+            </>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="scroll-buffer"></section>
+    </>
   )
 }
