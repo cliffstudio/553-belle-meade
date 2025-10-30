@@ -212,7 +212,7 @@ export default function HeroMedia({
   return (
     <>
       {layout === 'layout-1' && (
-        <section className="hero-media-block layout-1 full-height flex items-center text-white">
+        <section className="hero-media-block layout-1 full-height flex items-center text-white relative">
           {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
@@ -357,7 +357,7 @@ export default function HeroMedia({
       )}
 
       {layout === 'layout-2' && (
-        <section className="hero-media-block layout-2 flex items-center justify-center text-white">
+        <section className="hero-media-block layout-2 flex items-center justify-center text-white relative">
           <div className="inner-wrap h-pad out-of-view">
             {body && <h2 className="text-wrap"><PortableText value={body} /></h2>}
 
@@ -373,7 +373,7 @@ export default function HeroMedia({
       )}
 
       {layout === 'layout-3' && (
-        <section className="hero-media-block layout-3 flex items-center text-white">
+        <section className="hero-media-block layout-3 flex items-center text-white relative">
           <div className="h-pad out-of-view">
             {desktopTitle && <div className="desktop"><h2>{desktopTitle}</h2></div>}
             {mobileTitle && <div className="mobile"><h2>{mobileTitle}</h2></div>}
