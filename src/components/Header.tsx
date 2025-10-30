@@ -172,15 +172,22 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     return false
   }
 
-  // Check if we're on a smaller screen (950px and below)
-  const isSmallScreen = () => {
-    return window.innerWidth <= 950
+  // Environment helpers
+  const isHoverCapable = () => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return true
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  }
+
+  // Decide whether dropdowns should use click (mobile/tablet/touch) behavior
+  const shouldUseClickDropdowns = () => {
+    // Use click dropdowns on small screens OR devices without hover capability (e.g., iPad)
+    return window.innerWidth <= 950 || !isHoverCapable()
   }
 
   // Handle dropdown interaction (hover on desktop, click on mobile/tablet)
   const handleDropdownEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    // Only handle hover on larger screens
-    if (isSmallScreen()) return
+    // Only handle hover when hover is actually supported
+    if (shouldUseClickDropdowns()) return
     
     const dropdownContent = event.currentTarget.querySelector('.dropdown-content') as HTMLElement
     if (dropdownContent) {
@@ -200,14 +207,14 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   }
 
   const handleDropdownLeave = () => {
-    // Only handle hover on larger screens
-    if (isSmallScreen()) return
+    // Only handle hover when hover is actually supported
+    if (shouldUseClickDropdowns()) return
     setHeaderExtraHeight(0)
   }
 
   const handleDropdownClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // Only handle click on smaller screens
-    if (!isSmallScreen()) return
+    // Handle click when using click-style dropdowns (mobile/tablet/touch)
+    if (!shouldUseClickDropdowns()) return
     
     event.preventDefault()
     const dropdownIndex = parseInt(event.currentTarget.dataset.dropdownIndex || '0')
