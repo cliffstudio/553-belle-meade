@@ -16,9 +16,22 @@ type ScrollSmootherPlugin = {
 
 let ScrollSmoother: ScrollSmootherPlugin | null = null
 
+type NormalizeScrollInstance = { kill: () => void }
+
+type ScrollTriggerPlugin = {
+  normalizeScroll: (opts: {
+    target?: Element | Window | string
+    allowNestedScroll?: boolean
+    type?: string
+  }) => NormalizeScrollInstance
+}
+
+let ScrollTrigger: ScrollTriggerPlugin | null = null
+
 export default function ScrollSmootherInitializer() {
   useEffect(() => {
     let smoother: ScrollSmootherInstance | null = null
+    let normalize: NormalizeScrollInstance | null = null
 
     const init = async () => {
       if (typeof window === 'undefined') return
@@ -55,9 +68,33 @@ export default function ScrollSmootherInitializer() {
         if (!ScrollSmoother) return
       }
 
+      if (!ScrollTrigger) {
+        const tryLoadScrollTrigger = async (): Promise<ScrollTriggerPlugin | null> => {
+          try {
+            const path = ['gsap', 'ScrollTrigger'].join('/')
+            const mod = await import(path)
+            return (mod.default || mod) as ScrollTriggerPlugin
+          } catch {
+            try {
+              const pathAlt = ['gsap', 'dist', 'ScrollTrigger'].join('/')
+              const modAlt = await import(pathAlt)
+              return (modAlt.default || modAlt) as ScrollTriggerPlugin
+            } catch {
+              return null
+            }
+          }
+        }
+
+        ScrollTrigger = await tryLoadScrollTrigger()
+      }
+
       // Register once
       if (gsap && ScrollSmoother) {
-        gsap.registerPlugin(ScrollSmoother)
+        if (ScrollTrigger) {
+          gsap.registerPlugin(ScrollSmoother as unknown as object, ScrollTrigger as unknown as object)
+        } else {
+          gsap.registerPlugin(ScrollSmoother as unknown as object)
+        }
 
         // Avoid creating multiple instances
         const existing = typeof ScrollSmoother.get === 'function' ? ScrollSmoother.get() : undefined
@@ -69,6 +106,16 @@ export default function ScrollSmootherInitializer() {
           smooth: 1,
           effects: true
         })
+
+        if (ScrollTrigger && typeof ScrollTrigger.normalizeScroll === 'function') {
+          const scroller = (document.querySelector('#smooth-content') as Element | null) || window
+          // Normalize wheel/touch/pointer deltas across devices and allow nested scrollables
+          normalize = ScrollTrigger.normalizeScroll({
+            target: scroller,
+            allowNestedScroll: true,
+            type: 'touch,scroll,pointer'
+          })
+        }
       }
     }
 
@@ -80,6 +127,7 @@ export default function ScrollSmootherInitializer() {
           const existing = typeof ScrollSmoother.get === 'function' ? ScrollSmoother.get() : undefined
           if (existing) existing.kill()
         }
+        if (normalize && typeof normalize.kill === 'function') normalize.kill()
         if (smoother && typeof smoother.kill === 'function') smoother.kill()
       } catch {
         // no-op
