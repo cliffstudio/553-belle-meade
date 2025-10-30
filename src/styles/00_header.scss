@@ -206,8 +206,8 @@
         }
       }
 
-      // Hover behavior for larger screens only
-      @media only screen and (min-width: 951px) {
+      // Hover behavior only on hover-capable pointers (e.g., desktops/laptops)
+      @media only screen and (min-width: 951px) and (hover: hover) and (pointer: fine) {
         &:hover {
           .dropdown-title-text {
             font-family: 'Millionaire-Script';
@@ -239,8 +239,15 @@
         opacity: 0.5;
       }
 
-      // On smaller screens, enable click behavior
+      // Enable click behavior on small screens
       @media only screen and (max-width: 950px) {
+        .dropdown-title {
+          cursor: pointer;
+        }
+      }
+
+      // Also enable click behavior for touch/non-hover devices at larger widths (e.g., iPad)
+      @media (hover: none), (pointer: coarse) {
         .dropdown-title {
           cursor: pointer;
         }
