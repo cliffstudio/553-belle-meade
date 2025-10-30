@@ -1095,128 +1095,6 @@ body.page-type-homepage {
       }
     }
 
-    .artefact-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 998;
-      pointer-events: none;
-      will-change: opacity;
-      opacity: 0;
-      @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
-    }
-
-    .artefact-content {
-      background-color: $colour-burgundy;
-      color: $colour-cream;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      @include transform(translate(-50%, -50%));
-      padding-top: get-rem-desktop(55);
-      padding-bottom: get-rem-desktop(50);
-      padding-left: get-rem-desktop(50);
-      padding-right: get-rem-desktop(50);
-      z-index: 999;
-      pointer-events: none;
-      will-change: opacity;
-      opacity: 0;
-      @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
-
-      @media only screen and (max-width: 1366px) {
-        padding: get-rem-tablet(40);
-      }
-
-      @media only screen and (max-width: 768px) {
-        padding: get-rem-mobile(28);
-        top: unset;
-        bottom: get-rem-mobile(23);
-        @include transform(translate(-50%, 0));
-      }
-
-      .inner-wrap {
-        @include flex;
-        @include align-items(center);
-        column-gap: get-rem-desktop(50);
-        height: 100%;
-
-        @media only screen and (max-width: 1366px) {
-          column-gap: get-rem-tablet(40);
-        }
-
-        @media only screen and (max-width: 768px) {
-          @include flex-direction(column);
-          row-gap: get-rem-mobile(39);
-        }
-
-        .media-wrap {
-          width: 100%;
-          
-          img {
-            box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
-          }
-        }
-
-        .text-wrap {
-          @include flex;
-          @include flex-direction(column);
-          @include justify-content(space-between);
-          row-gap: get-rem-desktop(60);
-          width: 100%;
-          height: 100%;
-
-          .artefact-description {
-            max-height: get-rem-desktop(235);
-            overflow-y: auto;
-
-            @media only screen and (max-width: 1366px) {
-              max-height: get-rem-tablet(167);
-            }
-
-            @media only screen and (max-width: 768px) {
-              max-height: get-rem-mobile(134);
-            }
-          }
-        }
-
-        .title-wrap {
-          @include flex;
-          @include justify-content(space-between);
-          @include align-items(flex-start);
-          column-gap: get-rem-desktop(50);
-
-          @media only screen and (max-width: 1366px) {
-            column-gap: get-rem-tablet(40);
-          }
-
-          @media only screen and (max-width: 768px) {
-            column-gap: get-rem-mobile(28);
-          }
-
-          .artefact-title {
-            max-width: get-rem-desktop(360);
-            margin-top: -0.1em;
-          }
-
-          svg {
-            width: get-rem-desktop(30);
-            cursor: pointer;
-
-            @media only screen and (max-width: 1366px) {
-              width: get-rem-tablet(20);
-            }
-
-            @media only screen and (max-width: 768px) {
-              width: get-rem-mobile(20);
-            }
-          }
-        }
-      }
-    }
-
     &.portrait,
     &.square {
       .artefact-content {
@@ -1632,6 +1510,140 @@ body.page-type-homepage {
 
         @media only screen and (max-width: 768px) {
           width: get-rem-mobile(81);
+        }
+      }
+    }
+  }
+}
+
+.artefact-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: $colour-black, $alpha: 0.5);
+  z-index: 9999;
+
+  .artefact-content {
+    background-color: $colour-burgundy;
+    color: $colour-cream;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50%, -50%));
+    padding: get-rem-desktop(50);
+    z-index: 999;
+    height: get-rem-desktop(498);
+    width: fit-content;
+    @include flex;
+    @include align-items(center);
+    column-gap: get-rem-desktop(50);
+
+    @media only screen and (max-width: 1366px) {
+      padding: get-rem-tablet(40);
+      height: get-rem-tablet(425);
+      column-gap: get-rem-desktop(40);
+    }
+  
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
+      width: calc(100% - get-rem-mobile(46));
+      height: fit-content;
+      @include flex-direction(column);
+      row-gap: get-rem-mobile(39);
+      padding: get-rem-mobile(28);
+    }
+
+    .media-wrap,
+    .text-wrap {
+      height: 100%;
+      flex-shrink: 0;
+    }
+  
+    .media-wrap {
+      box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
+      overflow: hidden;
+
+      @media only screen and (max-width: 768px) and (orientation: portrait) {
+        &.landscape,
+        &.square {
+          width: 100%;
+          height: fit-content;
+        }
+
+        &.portrait {
+          width: fit-content;
+          height: 33vh;
+        }
+      }
+      
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+
+    .text-wrap {
+      @include flex;
+      @include flex-direction(column);
+      @include justify-content(space-between);
+      row-gap: get-rem-desktop(60);
+      width: get-rem-tablet(458);
+      min-width: get-rem-tablet(458);
+
+      @media only screen and (max-width: 1366px) {
+        width: get-rem-tablet(325);
+        min-width: get-rem-tablet(325);
+      }
+
+      @media only screen and (max-width: 768px) and (orientation: portrait) {
+        width: 100%;
+        min-width: unset;
+      }
+
+      .artefact-description {
+        max-height: get-rem-desktop(235);
+        overflow-y: auto;
+
+        @media only screen and (max-width: 1366px) {
+          max-height: get-rem-tablet(167);
+        }
+
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
+          max-height: get-rem-mobile(134);
+        }
+      }
+    }
+
+    .title-wrap {
+      @include flex;
+      @include justify-content(space-between);
+      @include align-items(flex-start);
+      column-gap: get-rem-desktop(50);
+
+      @media only screen and (max-width: 1366px) {
+        column-gap: get-rem-tablet(40);
+      }
+
+      @media only screen and (max-width: 768px) and (orientation: portrait) {
+        column-gap: get-rem-mobile(28);
+      }
+
+      .artefact-title {
+        max-width: get-rem-desktop(360);
+        margin-top: -0.1em;
+      }
+
+      svg {
+        width: get-rem-desktop(30);
+        cursor: pointer;
+
+        @media only screen and (max-width: 1366px) {
+          width: get-rem-tablet(20);
+        }
+
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
+          width: get-rem-mobile(20);
         }
       }
     }
