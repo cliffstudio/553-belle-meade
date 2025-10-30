@@ -184,7 +184,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
   }, [isFullscreen])
 
   return (
-    <section className="home-hero-media-block h-svh flex items-center text-white">
+    <section className="home-hero-media-block full-height flex items-center text-white">
       {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
         <div className="fill-space-video-wrap">
           {/* Desktop Video */}

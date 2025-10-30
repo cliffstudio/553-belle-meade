@@ -649,7 +649,7 @@ export default function TextWithArtefacts({
   return (
     <>
       <section ref={sectionRef} className="text-with-artefacts">
-        <div className="hero-media-block h-svh flex items-center text-white relative z-6">
+        <div className="hero-media-block full-height flex items-center text-white relative z-6">
           {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
