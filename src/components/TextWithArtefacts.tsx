@@ -406,19 +406,27 @@ export default function TextWithArtefacts({
         if (pageCarouselHeroElements && pageCarouselHeroElements.length > 0 && textBlock && artefactsGrid && footer) {
           // Wait for lazy images to load before setting up ScrollTriggers
           const setupScrollTriggers = () => {
-            // 1. Pin hero / media block elements when they reach viewport top
-            pageCarouselHeroElements.forEach((element: Element) => {
-              ScrollTrigger.create({
-                trigger: element,
-                start: "top top",
-                endTrigger: footer,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
+            // iOS detection for safer pinning
+            const navWithTouch = navigator as Navigator & { platform?: string; maxTouchPoints?: number }
+            const isIOS = /iPad|iPhone|iPod/.test(navWithTouch.userAgent) || (navWithTouch.platform === 'MacIntel' && (navWithTouch.maxTouchPoints ?? 0) > 1)
+
+            // 1. Pin hero / media block elements when they reach viewport top (desktop only)
+            if (window.innerWidth > 768) {
+              pageCarouselHeroElements.forEach((element: Element) => {
+                ScrollTrigger.create({
+                  trigger: element,
+                  start: "top top",
+                  endTrigger: footer,
+                  end: "bottom bottom",
+                  pin: true,
+                  pinSpacing: false,
+                  pinType: isIOS ? 'transform' : undefined,
+                  anticipatePin: 1,
+                })
               })
-            })
+            }
           
-            // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
+            // 2. Pin text block when it reaches viewport top (desktop only)
             if (window.innerWidth > 768) {
               // Get opacity overlay and store initial opacity
               const opacityOverlay = sectionRef.current?.querySelector('.hero-media-block .opacity-overlay') as HTMLElement
@@ -434,6 +442,8 @@ export default function TextWithArtefacts({
                   end: "bottom bottom",
                   pin: true,
                   pinSpacing: false,
+                  pinType: isIOS ? 'transform' : undefined,
+                  anticipatePin: 1,
                   onEnter: () => {
                     // Double the opacity when text block pins
                     gsap.to(opacityOverlay, {
@@ -460,6 +470,8 @@ export default function TextWithArtefacts({
                   end: "bottom bottom",
                   pin: true,
                   pinSpacing: false,
+                  pinType: isIOS ? 'transform' : undefined,
+                  anticipatePin: 1,
                 })
               }
             }
@@ -473,6 +485,8 @@ export default function TextWithArtefacts({
                 end: "bottom bottom",
                 pin: true,
                 pinSpacing: false,
+                pinType: isIOS ? 'transform' : undefined,
+                anticipatePin: 1,
               })
             }
 
