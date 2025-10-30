@@ -1599,6 +1599,8 @@ body.page-type-homepage {
       @media only screen and (max-width: 768px) and (orientation: portrait) {
         width: 100%;
         min-width: unset;
+        height: auto;
+        min-height: 0;
       }
 
       .artefact-description {
