@@ -527,7 +527,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       if (!headerRef.current) return
       
       const headerHeight = headerRef.current.offsetHeight
-      let scrollThreshold = window.innerHeight - headerHeight // Default: 100lvh - header height
+      let scrollThreshold = window.innerHeight - headerHeight // Default: 100dvh - header height
       
       // Special handling for heritage and carousel pages - keep header transparent until past all text-with-artefacts blocks
       const isHeritagePage = document.body.classList.contains('page-heritage')
