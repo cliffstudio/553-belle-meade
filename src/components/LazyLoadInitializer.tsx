@@ -11,6 +11,11 @@ export default function LazyLoadInitializer() {
   useEffect(() => {
     // Initialize lazy loading on mount
     mediaLazyloading()
+    
+    // Configure ScrollTrigger globally
+    if (typeof window !== 'undefined' && ScrollTrigger) {
+      ScrollTrigger.config({ ignoreMobileResize: true })
+    }
   }, [])
 
   useEffect(() => {
