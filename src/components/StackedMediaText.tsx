@@ -352,10 +352,6 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
 
       {layout === 'layout-2' && (
         <section ref={sectionRef} className="stacked-media-text-block layout-2 h-pad">
-          {backgroundColour && (
-            <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-          )}
-
           <div className="row-lg">
             <div className="col-9-12_lg">
               {mediaType === 'image' && image && (
