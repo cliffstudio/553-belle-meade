@@ -244,6 +244,11 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           <Link
             href={href}
             className={isActive(href) ? 'active' : ''}
+            onClick={() => {
+              // Ensure any open dropdown state is cleared on navigation (desktop/tablet)
+              setActiveDropdown(null)
+              setHeaderExtraHeight(0)
+            }}
           >
             {item.pageLink.title || 'Untitled'}
           </Link>
@@ -279,6 +284,11 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
                   key={subIndex}
                   href={href}
                   className={isActive(href) ? 'active' : ''}
+                  onClick={() => {
+                    // Close dropdown on link tap/click for iPad/desktop
+                    setActiveDropdown(null)
+                    setHeaderExtraHeight(0)
+                  }}
                 >
                   {subItem.pageLink?.title || 'Untitled'}
                 </Link>
@@ -615,6 +625,18 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       }
     }
   }, [pathname, isHomepage])
+
+  // Close any open menus/dropdowns on route change (covers iPad/desktop dropdowns)
+  useEffect(() => {
+    // Clear dropdown and extra header height when navigation occurs
+    setActiveDropdown(null)
+    setHeaderExtraHeight(0)
+    // Also ensure the mobile overlay is closed if it was open
+    if (isMenuOpen) {
+      closeMenu()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   // Render mobile menu items (accordion dropdowns for mobile overlay)
   const renderMobileMenuItem = (item: MenuItem, index: number) => {
