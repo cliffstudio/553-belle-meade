@@ -3,12 +3,22 @@
 import { useEffect } from 'react'
 
 // Load GSAP and the ScrollSmoother plugin on the client only
-let gsap: typeof import('gsap') | null = null
-let ScrollSmoother: any = null
+let gsap: typeof import('gsap').gsap | null = null
+
+type ScrollSmootherInstance = {
+  kill: () => void
+}
+
+type ScrollSmootherPlugin = {
+  create: (opts: { wrapper: string; content: string; smooth?: number; effects?: boolean }) => ScrollSmootherInstance
+  get?: () => ScrollSmootherInstance | undefined
+}
+
+let ScrollSmoother: ScrollSmootherPlugin | null = null
 
 export default function ScrollSmootherInitializer() {
   useEffect(() => {
-    let smoother: any
+    let smoother: ScrollSmootherInstance | null = null
 
     const init = async () => {
       if (typeof window === 'undefined') return
@@ -16,33 +26,41 @@ export default function ScrollSmootherInitializer() {
       // Dynamically import to avoid SSR issues
       if (!gsap) {
         const gsapModule = await import('gsap')
-        gsap = gsapModule.gsap || (gsapModule as unknown as typeof import('gsap'))
+        const moduleNs = gsapModule as unknown as typeof import('gsap') & {
+          default?: typeof import('gsap').gsap
+        }
+        const core = (moduleNs.gsap || moduleNs.default) as typeof import('gsap').gsap
+        gsap = core
       }
 
       if (!ScrollSmoother) {
-        // Try official gsap paths only
-        let smootherModule: any
-        try {
-          smootherModule = await import('gsap/ScrollSmoother')
-        } catch {
+        // Avoid static import strings so build doesn't require the plugin
+        const tryLoadSmoother = async (): Promise<ScrollSmootherPlugin | null> => {
           try {
-            smootherModule = await import('gsap/dist/ScrollSmoother')
+            const path = ['gsap', 'ScrollSmoother'].join('/')
+            const mod = await import(path)
+            return (mod.default || mod) as ScrollSmootherPlugin
           } catch {
-            // If imports fail, abort silently
-            return
+            try {
+              const pathAlt = ['gsap', 'dist', 'ScrollSmoother'].join('/')
+              const modAlt = await import(pathAlt)
+              return (modAlt.default || modAlt) as ScrollSmootherPlugin
+            } catch {
+              return null
+            }
           }
         }
-        ScrollSmoother = smootherModule.default || (smootherModule as any)
+
+        ScrollSmoother = await tryLoadSmoother()
+        if (!ScrollSmoother) return
       }
 
       // Register once
       if (gsap && ScrollSmoother) {
-        // @ts-expect-error - registerPlugin exists at runtime
         gsap.registerPlugin(ScrollSmoother)
 
         // Avoid creating multiple instances
-        // @ts-expect-error - get() exists at runtime
-        const existing = ScrollSmoother.get && ScrollSmoother.get()
+        const existing = typeof ScrollSmoother.get === 'function' ? ScrollSmoother.get() : undefined
         if (existing) return
 
         smoother = ScrollSmoother.create({
@@ -59,8 +77,7 @@ export default function ScrollSmootherInitializer() {
     return () => {
       try {
         if (ScrollSmoother) {
-          // @ts-expect-error - get() exists at runtime
-          const existing = ScrollSmoother.get && ScrollSmoother.get()
+          const existing = typeof ScrollSmoother.get === 'function' ? ScrollSmoother.get() : undefined
           if (existing) existing.kill()
         }
         if (smoother && typeof smoother.kill === 'function') smoother.kill()

@@ -50,7 +50,6 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [headerExtraHeight, setHeaderExtraHeight] = useState(0)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
-  const [isNavReady, setIsNavReady] = useState(false)
   
   // Check if we're on homepage for initial state
   const isHomepage = pathname === '/' || pathname === ''
@@ -493,7 +492,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
             container.classList.add('ready')
           }
         })
-        setIsNavReady(true)
+        // nav ready
       })
     })
     
