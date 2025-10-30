@@ -212,7 +212,7 @@ export default function HeroMedia({
   return (
     <>
       {layout === 'layout-1' && (
-        <section className="hero-media-block layout-1 h-svh flex items-center text-white">
+        <section className="hero-media-block layout-1 full-height flex items-center text-white">
           {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
