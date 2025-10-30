@@ -9,19 +9,6 @@ export default function LazyLoadInitializer() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Configure ScrollTrigger to reduce iOS Safari resize jank
-    if (typeof window !== 'undefined' && ScrollTrigger) {
-      try {
-        // Ignore mobile resize caused by iOS URL bar show/hide
-        // Requires GSAP 3.12+
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (ScrollTrigger as any).config && (ScrollTrigger as any).config({ ignoreMobileResize: true })
-        // Normalize scroll to mitigate momentum/overscroll discrepancies
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (ScrollTrigger as any).normalizeScroll && (ScrollTrigger as any).normalizeScroll(true)
-      } catch {}
-    }
-
     // Initialize lazy loading on mount
     mediaLazyloading()
   }, [])
@@ -41,20 +28,6 @@ export default function LazyLoadInitializer() {
     
     return () => clearTimeout(timer)
   }, [pathname])
-
-  useEffect(() => {
-    // Refresh after orientation changes once viewport settles
-    const onOrientation = () => {
-      setTimeout(() => {
-        try {
-          ScrollTrigger && ScrollTrigger.refresh()
-        } catch {}
-      }, 300)
-    }
-
-    window.addEventListener('orientationchange', onOrientation)
-    return () => window.removeEventListener('orientationchange', onOrientation)
-  }, [])
 
   return null
 }
