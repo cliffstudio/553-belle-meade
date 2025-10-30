@@ -974,7 +974,7 @@ body.page-type-homepage {
 
 .text-with-artefacts {
   .text-block {
-    height: 100dvh;
+    height: 100vh;
     @include flex;
     @include justify-content(center);
     @include align-items(center);
@@ -1651,5 +1651,5 @@ body.page-type-homepage {
 }
 
 .scroll-buffer {
-  height: 100dvh;
+  height: 100vh;
 }
