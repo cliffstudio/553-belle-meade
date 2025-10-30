@@ -9,6 +9,7 @@ import { SanityImage, SanityVideo, PortableTextBlock } from '../types/sanity'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePathname } from 'next/navigation'
+import { DisableBodyScroll, EnableBodyScroll } from '../utils/bodyScroll'
 
 interface Artefact {
   image?: SanityImage
@@ -59,11 +60,18 @@ export default function TextWithArtefacts({
   const sectionRef = useRef<HTMLElement>(null)
   const desktopVideoRef = useRef<HTMLVideoElement>(null)
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
+  const artefactContentRef = useRef<HTMLDivElement>(null)
+  const overlayMediaWrapRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   
   // Video control state
   const [isPlaying, setIsPlaying] = React.useState(true)
   const [isMuted, setIsMuted] = React.useState(true)
+  
+  // Artefact overlay state
+  const [selectedArtefact, setSelectedArtefact] = React.useState<Artefact | null>(null)
+  const [isWidthCalculated, setIsWidthCalculated] = React.useState(false)
+  const [imageOrientation, setImageOrientation] = React.useState<'portrait' | 'landscape' | 'square' | null>(null)
   
   // Video control functions
   const togglePlayPause = () => {
@@ -102,6 +110,255 @@ export default function TextWithArtefacts({
       }
     }
   }
+
+  // Artefact click handler
+  const handleArtefactClick = (artefactData: Artefact | null, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    
+    if (artefactData) {
+      // If clicking the same artefact, close it; otherwise, open the new one
+      if (selectedArtefact === artefactData) {
+        setSelectedArtefact(null)
+        setIsWidthCalculated(false)
+      } else {
+        setIsWidthCalculated(false)
+        setImageOrientation(null) // Reset orientation when opening new artefact
+        setSelectedArtefact(artefactData)
+      }
+    }
+  }
+  
+  // Close overlay handler
+  const handleCloseOverlay = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setSelectedArtefact(null)
+    setIsWidthCalculated(false)
+    setImageOrientation(null)
+  }
+  
+  // Effect to detect image orientation
+  useEffect(() => {
+    if (!selectedArtefact?.image || !overlayMediaWrapRef.current) {
+      setImageOrientation(null)
+      return
+    }
+
+    // Capture ref value to avoid stale closure warning
+    const mediaWrapElement = overlayMediaWrapRef.current
+
+    const img = mediaWrapElement.querySelector('img') as HTMLImageElement
+    if (!img) {
+      setImageOrientation(null)
+      return
+    }
+
+    const detectOrientation = () => {
+      if (!img.complete || img.naturalWidth === 0 || img.naturalHeight === 0) {
+        return
+      }
+
+      const width = img.naturalWidth
+      const height = img.naturalHeight
+      
+      // Remove existing orientation classes
+      mediaWrapElement.classList.remove('portrait', 'landscape', 'square')
+      
+      // Determine and apply orientation class
+      let orientation: 'portrait' | 'landscape' | 'square'
+      if (width === height) {
+        mediaWrapElement.classList.add('square')
+        orientation = 'square'
+      } else if (width > height) {
+        mediaWrapElement.classList.add('landscape')
+        orientation = 'landscape'
+      } else {
+        mediaWrapElement.classList.add('portrait')
+        orientation = 'portrait'
+      }
+      
+      setImageOrientation(orientation)
+    }
+
+    // Check if image is already loaded
+    if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+      detectOrientation()
+    } else {
+      // Wait for image to load
+      img.addEventListener('load', detectOrientation, { once: true })
+    }
+
+    return () => {
+      // Cleanup: remove orientation classes
+      if (mediaWrapElement) {
+        mediaWrapElement.classList.remove('portrait', 'landscape', 'square')
+      }
+    }
+  }, [selectedArtefact])
+
+  // Lock background scroll when overlay is open
+  useEffect(() => {
+    if (selectedArtefact) {
+      DisableBodyScroll()
+    } else {
+      EnableBodyScroll()
+    }
+
+    return () => {
+      // Ensure scroll is enabled on unmount
+      EnableBodyScroll()
+    }
+  }, [selectedArtefact])
+
+  // Effect to calculate and set width when overlay content is injected
+  useEffect(() => {
+    if (!selectedArtefact || !artefactContentRef.current) return
+
+    const contentElement = artefactContentRef.current
+    
+    // Ensure content is hidden initially (in case it's not already)
+    contentElement.style.opacity = '0'
+    contentElement.style.visibility = 'hidden'
+    
+    // Function to calculate and set width based on content
+    const calculateWidth = () => {
+      // Don't calculate width on mobile portrait - let CSS handle it
+      if (window.innerWidth <= 768 && window.matchMedia('(orientation: portrait)').matches) {
+        // On mobile portrait, use CSS fit-content and don't set explicit width
+        contentElement.style.width = ''
+        contentElement.style.opacity = '1'
+        contentElement.style.visibility = 'visible'
+        setIsWidthCalculated(true)
+        return
+      }
+
+      // Temporarily remove inline width to allow browser to recalculate fit-content
+      const hasInlineWidth = contentElement.style.width
+      contentElement.style.width = ''
+      
+      // Get computed styles to account for padding
+      const computedStyle = window.getComputedStyle(contentElement)
+      const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0
+      const paddingRight = parseFloat(computedStyle.paddingRight) || 0
+      
+      // Measure all children to get their natural widths
+      const mediaWrap = contentElement.querySelector('.media-wrap') as HTMLElement
+      const textWrap = contentElement.querySelector('.text-wrap') as HTMLElement
+      const columnGap = parseFloat(computedStyle.columnGap) || 0
+      
+      // Ensure text-wrap maintains its CSS width during measurement
+      // by temporarily setting a wide parent width
+      contentElement.style.width = '2000px' // Wide enough to let children size naturally
+      
+      // Force a reflow to ensure layout is settled
+      void contentElement.offsetWidth
+      
+      // Start with padding
+      let totalWidth = paddingLeft + paddingRight
+      
+      // Count how many child elements we have
+      const hasMedia = mediaWrap && mediaWrap.offsetWidth > 0
+      const hasText = textWrap && textWrap.offsetWidth > 0
+      const childCount = (hasMedia ? 1 : 0) + (hasText ? 1 : 0)
+      
+      // Add media wrap width if it exists
+      if (hasMedia) {
+        const mediaRect = mediaWrap.getBoundingClientRect()
+        totalWidth += mediaRect.width
+      }
+      
+      // Add column gap if we have multiple children
+      if (childCount > 1) {
+        totalWidth += columnGap
+      }
+      
+      // Add text wrap width if it exists - use the computed CSS width (which is responsive)
+      if (hasText) {
+        const textWrapStyle = window.getComputedStyle(textWrap)
+        // Use the computed width which respects media queries, or min-width as fallback
+        const textWrapWidth = parseFloat(textWrapStyle.width) || parseFloat(textWrapStyle.minWidth) || 0
+        // Only use if we have a valid width value
+        if (textWrapWidth > 0) {
+          totalWidth += textWrapWidth
+        } else {
+          // Last resort: measure the actual rendered width
+          const textWrapRect = textWrap.getBoundingClientRect()
+          if (textWrapRect.width > 0) {
+            totalWidth += textWrapRect.width
+          }
+        }
+      }
+      
+      // Fallback: use scrollWidth if calculation failed, which includes padding
+      if (totalWidth <= paddingLeft + paddingRight) {
+        totalWidth = contentElement.scrollWidth
+      }
+      
+      // Reset parent width
+      contentElement.style.width = ''
+      
+      // Set the calculated width explicitly
+      if (totalWidth > 0) {
+        contentElement.style.width = `${totalWidth}px`
+      } else if (hasInlineWidth) {
+        // Restore original if measurement failed
+        contentElement.style.width = hasInlineWidth
+      }
+      
+      // Force another reflow to ensure width is applied
+      void contentElement.offsetWidth
+      
+      // Use requestAnimationFrame to smoothly show content after width is set
+      requestAnimationFrame(() => {
+        contentElement.style.opacity = '1'
+        contentElement.style.visibility = 'visible'
+        setIsWidthCalculated(true)
+      })
+    }
+
+    // If there's an image, wait for it to load before calculating
+    const imageElement = contentElement.querySelector('.media-wrap img') as HTMLImageElement
+    if (imageElement) {
+      if (imageElement.complete && imageElement.naturalWidth > 0) {
+        // Image already loaded - calculate after a small delay to ensure layout is complete
+        setTimeout(calculateWidth, 100)
+      } else {
+        // Wait for image to load
+        const handleImageLoad = () => {
+          setTimeout(calculateWidth, 100)
+        }
+        imageElement.addEventListener('load', handleImageLoad, { once: true })
+        imageElement.addEventListener('error', () => {
+          // Even if image fails, calculate width for other content
+          setTimeout(calculateWidth, 100)
+        }, { once: true })
+      }
+    } else {
+      // No image, calculate after a small delay to ensure content is rendered
+      setTimeout(calculateWidth, 100)
+    }
+
+    // Also recalculate on window resize to handle responsive breakpoints
+    let resizeTimeout: NodeJS.Timeout
+    const handleResize = () => {
+      // Debounce resize to avoid too many calculations
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        calculateWidth()
+      }, 150)
+    }
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+    }
+  }, [selectedArtefact])
   
   useEffect(() => {
     // Register ScrollTrigger plugin
@@ -363,37 +620,8 @@ export default function TextWithArtefacts({
     }
 
     const addClickHandlers = () => {
-      if (!sectionRef.current) return
-
-      const artefactsWithContent = sectionRef.current.querySelectorAll('.artefact.has-content')
-      
-      artefactsWithContent.forEach((artefact) => {
-        const artefactContent = artefact.querySelector('.artefact-content') as HTMLElement
-        if (!artefactContent) return
-
-        // Add click handler to the artefact
-        const handleArtefactClick = (e: Event) => {
-          e.preventDefault()
-          e.stopPropagation()
-          
-          // Toggle visible class on the artefact element
-          artefact.classList.toggle('visible')
-        }
-
-        // Add click handler to close button (X icon)
-        const closeButton = artefactContent.querySelector('.title-wrap svg')
-        if (closeButton) {
-          const handleCloseClick = (e: Event) => {
-            e.preventDefault()
-            e.stopPropagation()
-            artefact.classList.remove('visible')
-          }
-          closeButton.addEventListener('click', handleCloseClick)
-        }
-
-        // Add click handler to the artefact element
-        artefact.addEventListener('click', handleArtefactClick)
-      })
+      // Click handlers are now added directly in JSX via onClick props
+      // This function is kept for backwards compatibility if needed
     }
 
     // Run after component mounts
@@ -586,7 +814,11 @@ export default function TextWithArtefacts({
               {/* Row 1 */}
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
-                  <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
+                    style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact1.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -617,65 +849,17 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact1.title || artefact1.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-                            
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact1.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact1.image?.hotspot
-                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact1.description}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
                 <div className="col-6-12_lg desktop"></div>
 
                 {artefact2 && (
-                  <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
+                    style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact2.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -706,58 +890,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact2.title || artefact2.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact2.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact2.image?.hotspot
-                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact2.description}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
               </div>
@@ -765,7 +897,11 @@ export default function TextWithArtefacts({
               {/* Row 2 */}
               <div className="artefacts-row-2 row-lg">
                 {artefact3 && (
-                  <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
+                    style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact3.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -798,65 +934,17 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact3.title || artefact3.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact3.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact3.image?.hotspot
-                                  ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact3.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
                 <div className="col-4-12_lg desktop"></div>
 
                 {artefact4 && (
-                  <div className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact4.title || artefact4.description) && handleArtefactClick(artefact4, e)}
+                    style={{ cursor: (artefact4.title || artefact4.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact4.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -889,58 +977,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact4.title || artefact4.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact4.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact4.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact4.image?.hotspot
-                                  ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact4.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact4.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
               </div>
@@ -950,7 +986,11 @@ export default function TextWithArtefacts({
               {/* Row 1 */}
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
-                  <div className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
+                    style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact1.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -981,65 +1021,17 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact1.title || artefact1.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact1.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact1.image?.hotspot
-                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact1.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
                 <div className="col-6-12_lg desktop"></div>
 
                 {artefact2 && (
-                  <div className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
+                    style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact2.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1070,58 +1062,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact2.title || artefact2.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact2.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact2.image?.hotspot
-                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact2.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
@@ -1133,7 +1073,11 @@ export default function TextWithArtefacts({
                 <div className="col-9-12_lg desktop"></div>
 
                 {artefact3 && (
-                  <div className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
+                    style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact3.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1164,58 +1108,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact3.title || artefact3.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact3.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact3.image?.hotspot
-                                  ? `${artefact3.image.hotspot.x * 100}% ${artefact3.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact3.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
               </div>
@@ -1225,7 +1117,11 @@ export default function TextWithArtefacts({
               {/* Row 1 */}
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
-                  <div className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
+                    style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact1.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1256,65 +1152,17 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact1.title || artefact1.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact1.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact1.image?.hotspot
-                                  ? `${artefact1.image.hotspot.x * 100}% ${artefact1.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact1.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact1.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
                 <div className="col-7-12_lg desktop"></div>
 
                 {artefact2 && (
-                  <div className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
+                    style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact2.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1345,58 +1193,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact2.title || artefact2.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact2.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact2.image?.hotspot
-                                  ? `${artefact2.image.hotspot.x * 100}% ${artefact2.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact2.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact2.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
               </div>
@@ -1404,7 +1200,11 @@ export default function TextWithArtefacts({
               {/* Row 2 */}
               <div className="artefacts-row-2 row-lg">
                 {artefact3 && (
-                  <div className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
+                    style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact3.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1435,62 +1235,17 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact3.title || artefact3.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="artefact-content">
-                            <div className="inner-wrap">
-                              <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                              <div className="media-wrap relative">
-                                <img 
-                                data-src={urlFor(artefact3.image!).url()} 
-                                alt="" 
-                                className="lazy"
-                                />
-                                <div className="loading-overlay" />
-                              </div>
-
-                              <div className="text-wrap">
-                                <div className="desktop">
-                                  <div className="title-wrap">
-                                    <h2 className="artefact-title">{artefact3.title}</h2>
-
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                      <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                      <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    </svg>
-                                  </div>
-                                </div>
-                                
-                                <p className="artefact-description">{artefact3.description}</p>
-                              </div>
-                            </div>
-                          </div> 
-                        </div>
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
 
                 <div className="col-8-12_lg desktop"></div>
 
                 {artefact4 && (
-                  <div className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}>
+                  <div 
+                    className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}
+                    onClick={(e) => (artefact4.title || artefact4.description) && handleArtefactClick(artefact4, e)}
+                    style={{ cursor: (artefact4.title || artefact4.description) ? 'pointer' : 'default' }}
+                  >
                     {artefact4.image && (
                       <div className="artefact-image">
                         <div className="media-wrap relative">
@@ -1521,58 +1276,6 @@ export default function TextWithArtefacts({
                         )}
                       </div>
                     )}
-                    
-                    {/* Start Popup */}
-                    {(artefact4.title || artefact4.description) && ( 
-                      <>
-                        <div className="artefact-overlay"></div>
-                        
-                        <div className="artefact-content">
-                          <div className="inner-wrap">
-                            <div className="mobile">
-                              <div className="title-wrap">
-                                <h2 className="artefact-title">{artefact4.title}</h2>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                </svg>
-                              </div>
-                            </div>
-
-                            <div className="media-wrap relative">
-                              <img 
-                              data-src={urlFor(artefact4.image!).url()} 
-                              alt="" 
-                              className="lazy"
-                              style={{
-                                objectPosition: artefact4.image?.hotspot
-                                  ? `${artefact4.image.hotspot.x * 100}% ${artefact4.image.hotspot.y * 100}%`
-                                  : "center",
-                              }}
-                              />
-                              <div className="loading-overlay" />
-                            </div>
-
-                            <div className="text-wrap">
-                              <div className="desktop">
-                                <div className="title-wrap">
-                                  <h2 className="artefact-title">{artefact4.title}</h2>
-
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              <p className="artefact-description">{artefact4.description}</p>
-                            </div>
-                          </div>
-                        </div> 
-                      </>
-                    )}
-                    {/* End Popup */}
                   </div>
                 )}
               </div>
@@ -1584,6 +1287,87 @@ export default function TextWithArtefacts({
           ) : null}
         </div>
       </section>
+
+      {selectedArtefact && (
+        <div className={`artefact-overlay ${selectedArtefact ? 'visible' : ''}`}>
+          <div 
+            className="artefact-content" 
+            ref={artefactContentRef}
+            style={{
+              opacity: isWidthCalculated ? 1 : 0,
+              visibility: isWidthCalculated ? 'visible' : 'hidden',
+              transition: 'opacity 0.2s ease-in-out'
+            }}
+          >
+            <div className="mobile">
+              <div className="title-wrap">
+                <h2 className="artefact-title">
+                  {selectedArtefact.title || ''}
+                </h2>
+
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="32" 
+                  height="32" 
+                  viewBox="0 0 32 32" 
+                  fill="none"
+                  onClick={handleCloseOverlay}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                  <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                </svg>
+              </div>
+            </div>
+            
+            {selectedArtefact.image && (
+              <div 
+                ref={overlayMediaWrapRef}
+                className={`media-wrap relative ${imageOrientation ? imageOrientation : ''}`}
+                style={{
+                  borderRadius: (layout === 'layout-1' && selectedArtefact === artefact1) ? '50%' : '0',
+                  overflow: (layout === 'layout-1' && selectedArtefact === artefact1) ? 'hidden' : 'visible',
+                }}
+              >
+                <img 
+                  src={urlFor(selectedArtefact.image).url()} 
+                  alt=""
+                  style={{
+                    objectPosition: selectedArtefact.image?.hotspot
+                      ? `${selectedArtefact.image.hotspot.x * 100}% ${selectedArtefact.image.hotspot.y * 100}%`
+                      : "center",
+                  }}
+                />
+              </div>
+            )}
+
+            <div className="text-wrap">
+              <div className="desktop">
+                <div className="title-wrap">
+                  <h2 className="artefact-title">{selectedArtefact.title || ''}</h2>
+
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="32" 
+                    height="32" 
+                    viewBox="0 0 32 32" 
+                    fill="none"
+                    onClick={handleCloseOverlay}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                  </svg>
+                </div>
+              </div>
+              
+              {selectedArtefact.description && (
+                <p className="artefact-description">{selectedArtefact.description}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="scroll-buffer"></section>
     </>
