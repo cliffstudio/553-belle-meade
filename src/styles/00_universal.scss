@@ -91,7 +91,7 @@
 }
 
 .full-height {
-  height: 700px;
+  height: 100dvh;
 }
 
 .mobile {
@@ -978,7 +978,7 @@ body.page-type-homepage {
 
 .text-with-artefacts {
   .text-block {
-    height: 700px;
+    height: 100dvh;
     @include flex;
     @include justify-content(center);
     @include align-items(center);
@@ -1657,5 +1657,5 @@ body.page-type-homepage {
 }
 
 .scroll-buffer {
-  height: 700px;
+  height: 100dvh;
 }
