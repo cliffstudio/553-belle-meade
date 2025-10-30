@@ -107,13 +107,12 @@
 
       .carousel-close {
         position: fixed;
-        top: get-rem-desktop(54);
+        top: 3.1em;
         right: get-rem-desktop(50);
         cursor: pointer;
         z-index: 10000;
 
         @media (max-width: 1366px) {
-          top: get-rem-tablet(48);
           right: get-rem-tablet(30);
         }
 
