@@ -88,42 +88,23 @@ export default function RootLayout({
               if (typeof window.$ !== 'undefined') {
                 // The inViewport plugin code by Moob
                 (function ($) {
-                  var vph = 0;
-                  var resizeRafId = null;
-                  var scrollRafId = null;
-
+                  var vph=0;
                   function getViewportDimensions(){
-                      // Prefer visualViewport on iOS Safari to avoid URL bar jank
-                      if (window.visualViewport && typeof window.visualViewport.height === 'number') {
-                        vph = Math.round(window.visualViewport.height);
-                      } else {
-                        vph = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-                      }
+                      vph = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
                   }
                   getViewportDimensions();    
-
-                  // Throttled resize/orientation handler
-                  function onResizeThrottled(){
-                    if (resizeRafId !== null) return;
-                    resizeRafId = requestAnimationFrame(function(){
-                      resizeRafId = null;
+                  $(window).on('resize orientationChanged', function(){
                       getViewportDimensions();
-                    });
-                  }
-
-                  // Keep legacy jQuery binding for compatibility but fix event name and throttle
-                  $(window).on('resize orientationchange', onResizeThrottled);
-                  if (window.visualViewport) {
-                    // Also listen to visualViewport changes (not passive supported here)
-                    window.visualViewport.addEventListener('resize', onResizeThrottled);
-                  }
+                  });            
                   
                   $.fn.inViewport = function (whenInView, whenNotInView) {                  
                       return this.each(function () {
                           var el = $(this),
                               inviewalreadycalled = false,
-                              notinviewalreadycalled = false;      
-
+                              notinviewalreadycalled = false;                            
+                          $(window).on('resize orientationChanged scroll', function(){
+                              checkInView();
+                          });               
                           function checkInView(){
                               var rect = el[0].getBoundingClientRect(),
                                   t = rect.top,
@@ -142,30 +123,6 @@ export default function RootLayout({
                                   }
                               }
                           }
-                          // Throttle scroll/resize-driven checks via rAF
-                          function onScrollThrottled(){
-                            if (scrollRafId !== null) return;
-                            scrollRafId = requestAnimationFrame(function(){
-                              scrollRafId = null;
-                              checkInView();
-                            });
-                          }
-
-                          // Use native passive listeners for performance where possible
-                          window.addEventListener('scroll', onScrollThrottled, { passive: true });
-                          window.addEventListener('resize', onScrollThrottled);
-                          window.addEventListener('orientationchange', function(){
-                            // Allow orientation to settle before recalculating
-                            setTimeout(function(){
-                              getViewportDimensions();
-                              checkInView();
-                            }, 250);
-                          });
-                          if (window.visualViewport) {
-                            window.visualViewport.addEventListener('scroll', onScrollThrottled);
-                            window.visualViewport.addEventListener('resize', onScrollThrottled);
-                          }
-
                           checkInView();                
                       });
                   }             
