@@ -107,13 +107,14 @@
 
       .carousel-close {
         position: fixed;
-        top: 3.1em;
-        right: get-rem-desktop(50);
+        top: 2.7em;
+        right: calc(get-rem-desktop(50) + 0.5em);
         cursor: pointer;
         z-index: 10000;
 
         @media (max-width: 1366px) {
-          right: get-rem-tablet(30);
+          top: 3.1em;
+          right: calc(get-rem-tablet(30) + 0.5em);
         }
 
         @media only screen and (max-width: 768px) and (orientation: portrait) {
