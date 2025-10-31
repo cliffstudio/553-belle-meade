@@ -27,8 +27,6 @@ interface TextWithArtefactsProps {
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
   desktopBackgroundVideoPlaceholder?: SanityImage
-  mobileBackgroundVideo?: SanityVideo
-  mobileBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
   body?: PortableTextBlock[]
@@ -47,8 +45,6 @@ export default function TextWithArtefacts({
   mobileBackgroundImage,
   desktopBackgroundVideo,
   desktopBackgroundVideoPlaceholder,
-  mobileBackgroundVideo,
-  mobileBackgroundVideoPlaceholder,
   showControls,
   overlayDarkness,
   body,

@@ -32,8 +32,6 @@ type HeroMediaProps = {
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
   desktopBackgroundVideoPlaceholder?: SanityImage
-  mobileBackgroundVideo?: SanityVideo
-  mobileBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
   body?: PortableTextBlock[]
@@ -60,11 +58,9 @@ export default function HeroMedia({
   backgroundMediaType, 
   desktopBackgroundImage, 
   mobileBackgroundImage,
-  desktopBackgroundVideo,
-  desktopBackgroundVideoPlaceholder,
-  mobileBackgroundVideo,
-  mobileBackgroundVideoPlaceholder,
-  showControls = false,
+    desktopBackgroundVideo,
+    desktopBackgroundVideoPlaceholder,
+    showControls = false,
   overlayDarkness = 0.3,
   body,
   cta

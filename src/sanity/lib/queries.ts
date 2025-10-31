@@ -7,7 +7,8 @@ import { groq } from 'next-sanity'
  */
 
 // Reusable fragments for consistency and maintainability
-const imageFragment = groq`{
+// Note: These are template strings, not groq template literals, so they can be safely interpolated
+const imageFragment = `{
   asset {
     _ref,
     _type
@@ -16,14 +17,14 @@ const imageFragment = groq`{
   crop
 }`
 
-const videoFragment = groq`{
+const videoFragment = `{
   asset {
     _ref,
     _type
   }
 }`
 
-const linkFragment = groq`{
+const linkFragment = `{
   linkType,
   label,
   href,
@@ -36,7 +37,7 @@ const linkFragment = groq`{
   }
 }`
 
-const mediaFragment = groq`{
+const mediaFragment = `{
   mediaType,
   image ${imageFragment},
   video ${videoFragment},
@@ -57,53 +58,105 @@ export const pageQuery = groq`
       homepageHero {
         introText,
         backgroundMediaType,
-        desktopBackgroundImage ${imageFragment},
-        mobileBackgroundImage ${imageFragment},
-        desktopBackgroundVideo ${videoFragment},
-        desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
+        desktopBackgroundImage {
+          asset {
+            _ref,
+            _type
+          },
+          hotspot,
+          crop
+        },
+        mobileBackgroundImage {
+          asset {
+            _ref,
+            _type
+          },
+          hotspot,
+          crop
+        },
+        desktopBackgroundVideo {
+          asset {
+            _ref,
+            _type
+          }
+        },
+        desktopBackgroundVideoPlaceholder {
+          asset {
+            _ref,
+            _type
+          },
+          hotspot,
+          crop
+        },
         showControls,
         overlayDarkness
       },
       homepageLinkTiles {
         numberOfTiles,
         linkTile1 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile2 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile3 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile4 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile5 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile6 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         },
         linkTile7 {
-          ...${mediaFragment},
+          mediaType,
+          image ${imageFragment},
+          video ${videoFragment},
+          showControls,
           cta ${linkFragment}
         }
       },
-      homepageFullWidthMedia ${mediaFragment},
+      homepageFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       homepageLargeMediaText {
         heading,
         body,
         cta ${linkFragment},
-        ...${mediaFragment}
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
       },
       homepageImageMasonry {
         heading,
@@ -131,9 +184,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -156,12 +206,20 @@ export const pageQuery = groq`
         video3 ${videoFragment},
         caption3
       },
-      shoppingFullWidthMedia ${mediaFragment},
+      shoppingFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       shoppingSmallMediaText {
         heading,
         body,
         cta ${linkFragment},
-        ...${mediaFragment}
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
       },
       shoppingCta {
         pageLink {
@@ -184,9 +242,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -213,9 +268,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -250,7 +302,12 @@ export const pageQuery = groq`
           }
         }
       },
-      spacesFullWidthMedia ${mediaFragment},
+      spacesFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       spacesContactForm {
         body
       },
@@ -275,9 +332,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -315,9 +369,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -376,9 +427,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -407,10 +455,17 @@ export const pageQuery = groq`
         body,
         cta ${linkFragment},
         backgroundColour,
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
         showControls
       },
-      creekFullWidthMedia ${mediaFragment},
+      creekFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       creekCta {
         pageLink {
           _ref,
@@ -432,9 +487,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -463,7 +515,12 @@ export const pageQuery = groq`
           description
         }
       },
-      carouselFullWidthMedia ${mediaFragment},
+      carouselFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       carouselImageMasonry {
         heading,
         body,
@@ -497,9 +554,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -523,15 +577,25 @@ export const pageQuery = groq`
         body,
         cta ${linkFragment},
         backgroundColour,
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
         showControls
       },
-      architectureFullWidthMedia ${mediaFragment},
+      architectureFullWidthMedia {
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       architectureLargeMediaText {
         heading,
         body,
         cta ${linkFragment},
-        ...${mediaFragment}
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
       },
       architectureArchitects {
         heading,
@@ -573,9 +637,6 @@ export const pageQuery = groq`
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        // Commented out - using desktop video for mobile
-        // mobileBackgroundVideo ${videoFragment},
-        // mobileBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
         body,
@@ -640,48 +701,75 @@ export const homepageQuery = groq`
       mobileBackgroundImage ${imageFragment},
       desktopBackgroundVideo ${videoFragment},
       desktopBackgroundVideoPlaceholder ${imageFragment},
-      mobileBackgroundVideo ${videoFragment},
-      mobileBackgroundVideoPlaceholder ${imageFragment},
       showControls,
       overlayDarkness
     },
     homepageLinkTiles {
       numberOfTiles,
       linkTile1 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile2 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile3 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile4 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile5 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile6 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       },
       linkTile7 {
-        ...${mediaFragment},
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls,
         cta ${linkFragment}
       }
     },
-    homepageFullWidthMedia ${mediaFragment},
+    homepageFullWidthMedia {
+      mediaType,
+      image ${imageFragment},
+      video ${videoFragment},
+      showControls
+    },
     homepageLargeMediaText {
       heading,
       body,
       cta ${linkFragment},
-      ...${mediaFragment}
+      mediaType,
+      image ${imageFragment},
+      video ${videoFragment},
+      showControls
     },
     homepageImageMasonry {
       heading,
