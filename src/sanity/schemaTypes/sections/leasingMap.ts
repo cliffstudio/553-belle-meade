@@ -34,21 +34,22 @@ export default defineType({
               name: 'desktopImage',
               title: 'Floor Plan Image (Desktop)',
               type: 'image',
-              description: 'Please upload image files under 500MB',
+              description: 'Please upload image files under 500KB',
               options: { hotspot: true },
-              validation: (Rule) => Rule.required().custom(async (file, context) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.required().custom(async (file: any, context) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
                 
-                const maxSize = 500 * 1024 * 1024; // 500MB
+                const maxSize = 500 * 1024; // 500KB
                 
                 try {
                   const client = context.getClient({ apiVersion: '2025-05-08' })
                   const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                   
                   if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 500MB';
+                    return 'File size must be under 500KB';
                   }
                 } catch {
                   // If we can't fetch the asset yet (e.g., during upload), skip validation
@@ -61,21 +62,22 @@ export default defineType({
               name: 'tabletImage',
               title: 'Floor Plan Image (Tablet)',
               type: 'image',
-              description: 'Please upload image files under 500MB',
+              description: 'Please upload image files under 500KB',
               options: { hotspot: true },
-              validation: (Rule) => Rule.custom(async (file, context) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
                 
-                const maxSize = 500 * 1024 * 1024; // 500MB
+                const maxSize = 500 * 1024; // 500KB
                 
                 try {
                   const client = context.getClient({ apiVersion: '2025-05-08' })
                   const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                   
                   if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 500MB';
+                    return 'File size must be under 500KB';
                   }
                 } catch {
                   // If we can't fetch the asset yet (e.g., during upload), skip validation
@@ -88,21 +90,22 @@ export default defineType({
               name: 'mobileImage',
               title: 'Floor Plan Image (Mobile)',
               type: 'image',
-              description: 'Please upload image files under 500MB',
+              description: 'Please upload image files under 500KB',
               options: { hotspot: true },
-              validation: (Rule) => Rule.custom(async (file, context) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
                 
-                const maxSize = 500 * 1024 * 1024; // 500MB
+                const maxSize = 500 * 1024; // 500KB
                 
                 try {
                   const client = context.getClient({ apiVersion: '2025-05-08' })
                   const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                   
                   if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 500MB';
+                    return 'File size must be under 500KB';
                   }
                 } catch {
                   // If we can't fetch the asset yet (e.g., during upload), skip validation
@@ -137,21 +140,22 @@ export default defineType({
                       name: 'desktopMarkerImage',
                       title: 'Marker/Hover Image (Desktop)',
                       type: 'image',
-                      description: 'Image shown on hover and in popup - Desktop. Please upload image files under 500MB',
+                      description: 'Image shown on hover and in popup - Desktop. Please upload image files under 500KB',
                       options: { hotspot: true },
-                      validation: (Rule) => Rule.custom(async (file, context) => {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      validation: (Rule) => Rule.custom(async (file: any, context) => {
                         if (!file?.asset?._ref) {
                           return true;
                         }
                         
-                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        const maxSize = 500 * 1024; // 500KB
                         
                         try {
                           const client = context.getClient({ apiVersion: '2025-05-08' })
                           const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                           
                           if (asset && asset.size && asset.size > maxSize) {
-                            return 'File size must be under 500MB';
+                            return 'File size must be under 500KB';
                           }
                         } catch {
                           // If we can't fetch the asset yet (e.g., during upload), skip validation
@@ -164,21 +168,22 @@ export default defineType({
                       name: 'tabletMarkerImage',
                       title: 'Marker/Hover Image (Tablet)',
                       type: 'image',
-                      description: 'Optional - falls back to desktop. Please upload image files under 500MB',
+                      description: 'Optional - falls back to desktop. Please upload image files under 500KB',
                       options: { hotspot: true },
-                      validation: (Rule) => Rule.custom(async (file, context) => {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      validation: (Rule) => Rule.custom(async (file: any, context) => {
                         if (!file?.asset?._ref) {
                           return true;
                         }
                         
-                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        const maxSize = 500 * 1024; // 500KB
                         
                         try {
                           const client = context.getClient({ apiVersion: '2025-05-08' })
                           const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                           
                           if (asset && asset.size && asset.size > maxSize) {
-                            return 'File size must be under 500MB';
+                            return 'File size must be under 500KB';
                           }
                         } catch {
                           // If we can't fetch the asset yet (e.g., during upload), skip validation
@@ -191,21 +196,22 @@ export default defineType({
                       name: 'mobileMarkerImage',
                       title: 'Marker/Hover Image (Mobile)',
                       type: 'image',
-                      description: 'Optional - falls back to tablet/desktop. Please upload image files under 500MB',
+                      description: 'Optional - falls back to tablet/desktop. Please upload image files under 500KB',
                       options: { hotspot: true },
-                      validation: (Rule) => Rule.custom(async (file, context) => {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      validation: (Rule) => Rule.custom(async (file: any, context) => {
                         if (!file?.asset?._ref) {
                           return true;
                         }
                         
-                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        const maxSize = 500 * 1024; // 500KB
                         
                         try {
                           const client = context.getClient({ apiVersion: '2025-05-08' })
                           const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                           
                           if (asset && asset.size && asset.size > maxSize) {
-                            return 'File size must be under 500MB';
+                            return 'File size must be under 500KB';
                           }
                         } catch {
                           // If we can't fetch the asset yet (e.g., during upload), skip validation
