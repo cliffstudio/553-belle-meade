@@ -72,6 +72,53 @@ export default function RootLayout({
               if ('scrollRestoration' in history) {
                 history.scrollRestoration = 'manual';
               }
+              
+              // Immediately disable scrolling on homepage before React hydrates
+              (function() {
+                const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+                if (isHomepage) {
+                  // Remove scroll-enabled class immediately
+                  document.documentElement.classList.remove('scroll-enabled');
+                  
+                  // Prevent all scroll methods immediately
+                  const preventScroll = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                  };
+                  
+                  // Prevent wheel, touch, and keyboard scrolling
+                  const options = { passive: false, capture: true };
+                  
+                  // Store handlers for cleanup later
+                  window.__homepageScrollPreventers = {
+                    wheel: preventScroll,
+                    touchmove: function(e) {
+                      // Prevent all touch scrolling
+                      e.preventDefault();
+                      e.stopPropagation();
+                      return false;
+                    },
+                    touchstart: function(e) {
+                      // Allow touchstart (for taps) but scrolling is prevented by touchmove
+                    },
+                    keydown: function(e) {
+                      const scrollKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+                      if (scrollKeys.includes(e.key)) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                      }
+                    }
+                  };
+                  
+                  // Add listeners immediately
+                  document.addEventListener('wheel', window.__homepageScrollPreventers.wheel, options);
+                  document.addEventListener('touchmove', window.__homepageScrollPreventers.touchmove, options);
+                  document.addEventListener('touchstart', window.__homepageScrollPreventers.touchstart, options);
+                  document.addEventListener('keydown', window.__homepageScrollPreventers.keydown, options);
+                }
+              })();
             `
           }}
         />

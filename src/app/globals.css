@@ -27,17 +27,32 @@
 html,
 html body {
   overflow: hidden;
+  /* Prevent touch scrolling on mobile */
+  touch-action: none;
 }
 
 html.scroll-enabled,
 html.scroll-enabled body {
   overflow: auto;
+  /* Re-enable touch scrolling when scroll is enabled */
+  touch-action: auto;
 }
 
 /* Prevent overscroll bounce to stop fixed content from being visible during overscroll */
 html,
 body {
   overscroll-behavior: none;
+}
+
+/* Additional prevention for homepage during transition */
+html:not(.scroll-enabled) body {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+html.scroll-enabled body {
+  position: static;
 }
 
 /* Smooth scrolling for hash links */
