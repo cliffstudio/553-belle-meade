@@ -21,6 +21,7 @@ export default function Gallery({ images }: GalleryProps) {
   const masonryRef = useRef<{ destroy?: () => void; layout?: () => void } | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
   const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void } | null>(null)
+  const carouselCloseWrapRef = useRef<HTMLDivElement>(null)
   const [isCarouselOpen, setIsCarouselOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
@@ -189,6 +190,34 @@ export default function Gallery({ images }: GalleryProps) {
     }
   }, [images])
 
+  // Set carousel-close-wrap height to match site-header
+  useEffect(() => {
+    if (!isCarouselOpen || typeof window === 'undefined') return
+
+    const updateCarouselCloseWrapHeight = () => {
+      const siteHeader = document.querySelector('.site-header') as HTMLElement
+      const carouselCloseWrap = carouselCloseWrapRef.current
+
+      if (siteHeader && carouselCloseWrap) {
+        const headerHeight = siteHeader.offsetHeight
+        carouselCloseWrap.style.height = `${headerHeight}px`
+      }
+    }
+
+    // Set initial height
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      updateCarouselCloseWrapHeight()
+    })
+
+    // Update on resize
+    window.addEventListener('resize', updateCarouselCloseWrapHeight)
+
+    return () => {
+      window.removeEventListener('resize', updateCarouselCloseWrapHeight)
+    }
+  }, [isCarouselOpen])
+
   // Initialize carousel when opened
   useEffect(() => {
     if (isCarouselOpen) {
@@ -249,22 +278,24 @@ export default function Gallery({ images }: GalleryProps) {
         <div className="carousel-overlay" onClick={closeCarousel}>
           <div className="inner-wrap">
             <div className="carousel-container" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="carousel-close desktop" 
-                onClick={closeCarousel}
-                aria-label="Close carousel"
-              >
-                Close
-              </button>
+              <div ref={carouselCloseWrapRef} className="carousel-close-wrap">
+                <button 
+                  className="carousel-close desktop" 
+                  onClick={closeCarousel}
+                  aria-label="Close carousel"
+                >
+                  Close
+                </button>
 
-              <button 
-                className="carousel-close mobile" 
-                onClick={closeCarousel}
-                aria-label="Close carousel"
-              >
-                <div className="menu-bar" data-position="top"></div>
-                <div className="menu-bar" data-position="bottom"></div>
-              </button>
+                <button 
+                  className="carousel-close mobile" 
+                  onClick={closeCarousel}
+                  aria-label="Close carousel"
+                >
+                  <div className="menu-bar" data-position="top"></div>
+                  <div className="menu-bar" data-position="bottom"></div>
+                </button>
+              </div>
 
               <div ref={carouselRef} className="carousel">
                 {images.map((item, index) => {

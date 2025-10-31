@@ -105,35 +105,41 @@
       @include align-items(center);
       overflow: hidden;
 
-      .carousel-close {
+      .carousel-close-wrap {
         position: fixed;
-        top: 2.7em;
-        right: calc(get-rem-desktop(50) + 0.5em);
-        cursor: pointer;
+        top: 0;
+        left: 0;
+        width: 100%;
         z-index: 10000;
 
-        @media (max-width: 1366px) {
-          top: 3.1em;
-          right: calc(get-rem-tablet(30) + 0.5em);
-        }
+        .carousel-close {
+          position: absolute;
+          top: 50%;
+          @include transform(translateY(-50%));
+          right: calc(get-rem-desktop(50) + 0.5em);
+          cursor: pointer;
 
-        @media only screen and (max-width: 768px) and (orientation: portrait) {
-          top: get-rem-mobile(77);
-          left: get-rem-mobile(15);
-          right: unset;
+          @media (max-width: 1366px) {
+            right: calc(get-rem-tablet(30) + 0.5em);
+          }
 
-          .menu-bar {
-            position: absolute;
-            width: 30px;
-            height: 1px;
-            background: $colour-burgundy;
-          
-            &[data-position=top] {
-              transform: translateY(0) rotate(45deg) scaleX(1.05);
-            }
-      
-            &[data-position=bottom] {
-              transform: translateY(0) rotate(-45deg) scaleX(1.05);
+          @media only screen and (max-width: 768px) and (orientation: portrait) {
+            left: get-rem-mobile(15);
+            right: unset;
+  
+            .menu-bar {
+              position: absolute;
+              width: 30px;
+              height: 1px;
+              background: $colour-burgundy;
+            
+              &[data-position=top] {
+                transform: translateY(0) rotate(45deg) scaleX(1.05);
+              }
+        
+              &[data-position=bottom] {
+                transform: translateY(0) rotate(-45deg) scaleX(1.05);
+              }
             }
           }
         }
