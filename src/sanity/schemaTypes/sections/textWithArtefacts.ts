@@ -90,51 +90,6 @@ export default defineType({
       type: 'image',
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
     }),
-    // Commented out - using desktop video for mobile
-    // defineField({ 
-    //   name: 'mobileBackgroundVideo', 
-    //   title: 'Background Video (Mobile)',
-    //   type: 'file', 
-    //   description: 'Please upload .mp4 files under 10MB',
-    //   options: {
-    //     accept: 'video/mp4'
-    //   },
-    //   validation: (Rule) => Rule.custom(async (file, context) => {
-    //     if (!file?.asset?._ref) {
-    //       return true;
-    //     }
-    //     
-    //     const maxSize = 10 * 1024 * 1024; // 10MB
-    //     
-    //     try {
-    //       const client = context.getClient({ apiVersion: '2025-05-08' })
-    //       const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
-    //       
-    //       if (asset && asset.size && asset.size > maxSize) {
-    //         return 'File size must be under 10MB';
-    //       }
-    //       
-    //       const filename = asset?.originalFilename || file.asset?.originalFilename || '';
-    //       if (filename && !filename.toLowerCase().endsWith('.mp4')) {
-    //         return 'Only .mp4 files are allowed';
-    //       }
-    //     } catch (error) {
-    //       const filename = file.asset?.originalFilename || '';
-    //       if (filename && !filename.toLowerCase().endsWith('.mp4')) {
-    //         return 'Only .mp4 files are allowed';
-    //       }
-    //     }
-    //     
-    //     return true;
-    //   }),
-    //   hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
-    // }),
-    // defineField({ 
-    //   name: 'mobileBackgroundVideoPlaceholder', 
-    //   title: 'Background Video Placeholder (Mobile)',
-    //   type: 'image',
-    //   hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
-    // }),
     defineField({ 
       name: 'showControls',
       title: 'Show Video Controls',

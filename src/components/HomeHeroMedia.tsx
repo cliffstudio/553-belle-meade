@@ -16,8 +16,6 @@ type HomeHeroMediaProps = {
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
   desktopBackgroundVideoPlaceholder?: SanityImage
-  mobileBackgroundVideo?: SanityVideo
-  mobileBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
   introText?: PortableTextBlock[]
@@ -30,8 +28,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     mobileBackgroundImage,
     desktopBackgroundVideo,
     desktopBackgroundVideoPlaceholder,
-    mobileBackgroundVideo,
-    mobileBackgroundVideoPlaceholder,
     showControls = false,
     overlayDarkness = 0.3,
     introText 
