@@ -34,20 +34,82 @@ export default defineType({
               name: 'desktopImage',
               title: 'Floor Plan Image (Desktop)',
               type: 'image',
+              description: 'Please upload image files under 500MB',
               options: { hotspot: true },
-              validation: Rule => Rule.required()
+              validation: (Rule) => Rule.required().custom(async (file, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                const maxSize = 500 * 1024 * 1024; // 500MB
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  if (asset && asset.size && asset.size > maxSize) {
+                    return 'File size must be under 500MB';
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              })
             },
             {
               name: 'tabletImage',
               title: 'Floor Plan Image (Tablet)',
               type: 'image',
+              description: 'Please upload image files under 500MB',
               options: { hotspot: true },
+              validation: (Rule) => Rule.custom(async (file, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                const maxSize = 500 * 1024 * 1024; // 500MB
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  if (asset && asset.size && asset.size > maxSize) {
+                    return 'File size must be under 500MB';
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              })
             },
             {
               name: 'mobileImage',
               title: 'Floor Plan Image (Mobile)',
               type: 'image',
+              description: 'Please upload image files under 500MB',
               options: { hotspot: true },
+              validation: (Rule) => Rule.custom(async (file, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                const maxSize = 500 * 1024 * 1024; // 500MB
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  if (asset && asset.size && asset.size > maxSize) {
+                    return 'File size must be under 500MB';
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              })
             },
             {
               name: 'spots',
@@ -75,22 +137,82 @@ export default defineType({
                       name: 'desktopMarkerImage',
                       title: 'Marker/Hover Image (Desktop)',
                       type: 'image',
-                      description: 'Image shown on hover and in popup - Desktop',
-                      options: { hotspot: true }
+                      description: 'Image shown on hover and in popup - Desktop. Please upload image files under 500MB',
+                      options: { hotspot: true },
+                      validation: (Rule) => Rule.custom(async (file, context) => {
+                        if (!file?.asset?._ref) {
+                          return true;
+                        }
+                        
+                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        
+                        try {
+                          const client = context.getClient({ apiVersion: '2025-05-08' })
+                          const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                          
+                          if (asset && asset.size && asset.size > maxSize) {
+                            return 'File size must be under 500MB';
+                          }
+                        } catch {
+                          // If we can't fetch the asset yet (e.g., during upload), skip validation
+                        }
+                        
+                        return true;
+                      })
                     },
                     {
                       name: 'tabletMarkerImage',
                       title: 'Marker/Hover Image (Tablet)',
                       type: 'image',
-                      description: 'Optional - falls back to desktop',
-                      options: { hotspot: true }
+                      description: 'Optional - falls back to desktop. Please upload image files under 500MB',
+                      options: { hotspot: true },
+                      validation: (Rule) => Rule.custom(async (file, context) => {
+                        if (!file?.asset?._ref) {
+                          return true;
+                        }
+                        
+                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        
+                        try {
+                          const client = context.getClient({ apiVersion: '2025-05-08' })
+                          const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                          
+                          if (asset && asset.size && asset.size > maxSize) {
+                            return 'File size must be under 500MB';
+                          }
+                        } catch {
+                          // If we can't fetch the asset yet (e.g., during upload), skip validation
+                        }
+                        
+                        return true;
+                      })
                     },
                     {
                       name: 'mobileMarkerImage',
                       title: 'Marker/Hover Image (Mobile)',
                       type: 'image',
-                      description: 'Optional - falls back to tablet/desktop',
-                      options: { hotspot: true }
+                      description: 'Optional - falls back to tablet/desktop. Please upload image files under 500MB',
+                      options: { hotspot: true },
+                      validation: (Rule) => Rule.custom(async (file, context) => {
+                        if (!file?.asset?._ref) {
+                          return true;
+                        }
+                        
+                        const maxSize = 500 * 1024 * 1024; // 500MB
+                        
+                        try {
+                          const client = context.getClient({ apiVersion: '2025-05-08' })
+                          const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                          
+                          if (asset && asset.size && asset.size > maxSize) {
+                            return 'File size must be under 500MB';
+                          }
+                        } catch {
+                          // If we can't fetch the asset yet (e.g., during upload), skip validation
+                        }
+                        
+                        return true;
+                      })
                     },
                     {
                       name: 'desktopPosition',
