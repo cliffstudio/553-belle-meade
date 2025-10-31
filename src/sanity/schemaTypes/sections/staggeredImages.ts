@@ -59,15 +59,12 @@ export default defineType({
             return 'File size must be under 10MB';
           }
           
-          const filename = asset?.originalFilename || file.asset?.originalFilename || '';
+          const filename = asset?.originalFilename || '';
           if (filename && !filename.toLowerCase().endsWith('.mp4')) {
             return 'Only .mp4 files are allowed';
           }
-        } catch (error) {
-          const filename = file.asset?.originalFilename || '';
-          if (filename && !filename.toLowerCase().endsWith('.mp4')) {
-            return 'Only .mp4 files are allowed';
-          }
+        } catch {
+          // If we can't fetch the asset yet (e.g., during upload), skip validation
         }
         
         return true;
@@ -120,15 +117,12 @@ export default defineType({
             return 'File size must be under 10MB';
           }
           
-          const filename = asset?.originalFilename || file.asset?.originalFilename || '';
+          const filename = asset?.originalFilename || '';
           if (filename && !filename.toLowerCase().endsWith('.mp4')) {
             return 'Only .mp4 files are allowed';
           }
-        } catch (error) {
-          const filename = file.asset?.originalFilename || '';
-          if (filename && !filename.toLowerCase().endsWith('.mp4')) {
-            return 'Only .mp4 files are allowed';
-          }
+        } catch {
+          // If we can't fetch the asset yet (e.g., during upload), skip validation
         }
         
         return true;
@@ -181,15 +175,12 @@ export default defineType({
             return 'File size must be under 10MB';
           }
           
-          const filename = asset?.originalFilename || file.asset?.originalFilename || '';
+          const filename = asset?.originalFilename || '';
           if (filename && !filename.toLowerCase().endsWith('.mp4')) {
             return 'Only .mp4 files are allowed';
           }
-        } catch (error) {
-          const filename = file.asset?.originalFilename || '';
-          if (filename && !filename.toLowerCase().endsWith('.mp4')) {
-            return 'Only .mp4 files are allowed';
-          }
+        } catch {
+          // If we can't fetch the asset yet (e.g., during upload), skip validation
         }
         
         return true;
