@@ -63,6 +63,12 @@ h3,
   }
 }
 
+.site-footer input {
+  font-family: 'Millionaire-Roman';  
+  line-height: normal;
+  @include font-size(20px, 13px, 18px);
+}
+
 .caption-font {
   font-family: 'Dia';  
   line-height: 140%;
