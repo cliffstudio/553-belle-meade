@@ -213,52 +213,33 @@ export default function HeroMedia({
     <>
       {layout === 'layout-1' && (
         <section className="hero-media-block layout-1 full-height flex items-center text-white relative">
-          {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
+          {backgroundMediaType === 'video' && desktopBackgroundVideo && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
-              {desktopBackgroundVideo && (
-                <video
-                  ref={desktopVideoRef}
-                  src={videoUrlFor(desktopBackgroundVideo)}
-                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                  className="desktop"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
+              <video
+                ref={desktopVideoRef}
+                src={videoUrlFor(desktopBackgroundVideo)}
+                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                className="desktop"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
               
-              {/* Mobile Video */}
-              {mobileBackgroundVideo && (
-                <video
-                  ref={mobileVideoRef}
-                  src={videoUrlFor(mobileBackgroundVideo)}
-                  poster={mobileBackgroundVideoPlaceholder ? urlFor(mobileBackgroundVideoPlaceholder).url() : undefined}
-                  className="mobile"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
-              
-              {/* Fallback to desktop video for mobile if no mobile video provided */}
-              {!mobileBackgroundVideo && desktopBackgroundVideo && (
-                <video
-                  ref={mobileVideoRef}
-                  src={videoUrlFor(desktopBackgroundVideo)}
-                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                  className="mobile"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
+              {/* Mobile Video - using desktop video */}
+              <video
+                ref={mobileVideoRef}
+                src={videoUrlFor(desktopBackgroundVideo)}
+                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                className="mobile"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
             </div>
           )}
 

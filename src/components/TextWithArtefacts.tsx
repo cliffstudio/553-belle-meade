@@ -650,52 +650,33 @@ export default function TextWithArtefacts({
     <>
       <section ref={sectionRef} className="text-with-artefacts">
         <div className="hero-media-block full-height flex items-center text-white relative z-6">
-          {backgroundMediaType === 'video' && (desktopBackgroundVideo || mobileBackgroundVideo) && (
+          {backgroundMediaType === 'video' && desktopBackgroundVideo && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
-              {desktopBackgroundVideo && (
-                <video
-                  ref={desktopVideoRef}
-                  src={videoUrlFor(desktopBackgroundVideo)}
-                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                  className="desktop"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
+              <video
+                ref={desktopVideoRef}
+                src={videoUrlFor(desktopBackgroundVideo)}
+                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                className="desktop"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
               
-              {/* Mobile Video */}
-              {mobileBackgroundVideo && (
-                <video
-                  ref={mobileVideoRef}
-                  src={videoUrlFor(mobileBackgroundVideo)}
-                  poster={mobileBackgroundVideoPlaceholder ? urlFor(mobileBackgroundVideoPlaceholder).url() : undefined}
-                  className="mobile"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
-              
-              {/* Fallback to desktop video for mobile if no mobile video provided */}
-              {!mobileBackgroundVideo && desktopBackgroundVideo && (
-                <video
-                  ref={mobileVideoRef}
-                  src={videoUrlFor(desktopBackgroundVideo)}
-                  poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
-                  className="mobile"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-              )}
+              {/* Mobile Video - using desktop video */}
+              <video
+                ref={mobileVideoRef}
+                src={videoUrlFor(desktopBackgroundVideo)}
+                poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
+                className="mobile"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
             </div>
           )}
 
