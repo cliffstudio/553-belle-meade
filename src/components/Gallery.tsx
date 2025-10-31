@@ -141,6 +141,7 @@ export default function Gallery({ images }: GalleryProps) {
           if (masonryRef.current) {
             // Recreate masonry with new gutter size
             masonryRef.current.destroy?.()
+            masonryRef.current = null
             masonryRef.current = new Masonry(gridRef.current!, {
               itemSelector: '.gallery-item',
               columnWidth: '.gallery-item',
