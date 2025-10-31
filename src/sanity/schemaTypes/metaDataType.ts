@@ -1,3 +1,5 @@
+import { ValidationRule } from 'sanity'
+
 export const metaDataType = {
   name: 'metaData',
   title: 'Meta Data',
@@ -26,7 +28,7 @@ export const metaDataType = {
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.custom(async (file, context) => {
+      validation: (Rule: ValidationRule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
         }
