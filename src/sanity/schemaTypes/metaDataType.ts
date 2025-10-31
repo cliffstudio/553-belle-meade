@@ -26,7 +26,7 @@ export const metaDataType = {
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.custom(async (file, context) => {
+      validation: (Rule: any) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
         }

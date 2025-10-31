@@ -42,7 +42,7 @@ export default function OverflowController() {
         return false
       }
       
-      const preventTouchStart = (e: TouchEvent) => {
+      const preventTouchStart = (_e: TouchEvent) => {
         // Store initial touch position but don't prevent (allows taps)
         // Actual scrolling will be prevented by touchmove handler
       }
