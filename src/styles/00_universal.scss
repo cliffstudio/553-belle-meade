@@ -1667,4 +1667,8 @@ body.page-type-homepage {
 
 .scroll-buffer {
   height: 100dvh;
+
+  @media only screen and (max-width: 1366px) {
+    display: none;
+  }
 }
