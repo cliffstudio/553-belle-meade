@@ -1,26 +1,26 @@
-import { ValidationRule } from 'sanity'
+import { defineType, defineField } from 'sanity'
 
-export const metaDataType = {
+export const metaDataType = defineType({
   name: 'metaData',
   title: 'Meta Data',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'keywords',
       title: 'Keywords',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'socialimage',
       title: 'Social Image',
       type: 'image',
@@ -28,7 +28,7 @@ export const metaDataType = {
       options: {
         hotspot: true,
       },
-      validation: (Rule: ValidationRule) => Rule.custom(async (file, context) => {
+      validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
         }
@@ -48,6 +48,6 @@ export const metaDataType = {
         
         return true;
       }),
-    },
+    }),
   ],
-}
+})

@@ -32,7 +32,8 @@ export default defineType({
               type: 'image',
               description: 'Please upload image files under 500KB',
               options: { hotspot: true },
-              validation: (Rule) => Rule.custom(async (file, context) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
