@@ -18,7 +18,8 @@ export default defineType({
       name: 'label',
       title: 'Label',
       type: 'string',
-      hidden: ({ parent }) => parent?.linkType !== 'external'
+      description: 'Optional: If left empty, the page title will be used for internal links',
+      hidden: ({ parent }) => parent?.linkType === 'jump'
     }),
     defineField({ 
       name: 'href',
