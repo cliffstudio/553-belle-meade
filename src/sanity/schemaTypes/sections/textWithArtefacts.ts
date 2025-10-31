@@ -88,6 +88,7 @@ export default defineType({
       name: 'desktopBackgroundVideoPlaceholder', 
       title: 'Background Video Placeholder',
       type: 'image',
+      description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately',
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video'
     }),
     defineField({ 
