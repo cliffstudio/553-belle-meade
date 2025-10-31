@@ -9,6 +9,25 @@ export default function StudioPage() {
 
   useEffect(() => {
     setMounted(true)
+    
+    // Suppress React prop warnings for Sanity Studio components
+    // This is a known issue with Sanity Studio v4 and React 19
+    const originalError = console.error
+    console.error = (...args: unknown[]) => {
+      const firstArg = args[0]
+      if (
+        typeof firstArg === 'string' &&
+        firstArg.includes('React does not recognize') &&
+        firstArg.includes('isSelected')
+      ) {
+        return // Suppress this specific warning
+      }
+      originalError.apply(console, args)
+    }
+
+    return () => {
+      console.error = originalError
+    }
   }, [])
 
   if (!mounted) {
