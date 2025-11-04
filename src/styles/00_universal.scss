@@ -1668,7 +1668,11 @@ body.page-type-homepage {
 .scroll-buffer {
   height: 100dvh;
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1366px) and (hover: none) {
+    height: 50dvh;
+  }
+
+  @media only screen and (max-width: 768px) and (orientation: portrait) {
     display: none;
   }
 }
