@@ -1058,17 +1058,19 @@ body.page-type-homepage {
       .artefact-image {
         cursor: pointer;
 
-        &:hover {
-          img {
-            filter: blur(2px);
-          }
+        @media (hover: hover) {
+          &:hover {
+            img {
+              filter: blur(2px);
+            }
 
-          .opacity-overlay {
-            opacity: 0.5;
-          }
+            .opacity-overlay {
+              opacity: 0.5;
+            }
 
-          .learn-more {
-            opacity: 1;
+            .learn-more {
+              opacity: 1;
+            }
           }
         }
       }
