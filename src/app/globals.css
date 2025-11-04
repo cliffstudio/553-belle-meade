@@ -23,29 +23,19 @@
   font-style: normal;
 }
 
-/* Overflow control - hidden by default, enabled by JavaScript */
+/* Overflow control - enabled by default, disabled on homepage initially */
 html,
 html body {
-  overflow: hidden;
-  /* Prevent touch scrolling on mobile */
-  touch-action: none;
-}
-
-html.scroll-enabled,
-html.scroll-enabled body {
   overflow: auto;
-  /* Re-enable touch scrolling when scroll is enabled */
+  /* Enable touch scrolling by default */
   touch-action: auto;
 }
 
-/* Prevent overscroll bounce to stop fixed content from being visible during overscroll */
-html,
-body {
-  overscroll-behavior: none;
-}
-
-/* Additional prevention for homepage during transition */
+/* Disable scrolling on homepage during transition (when scroll-enabled is removed) */
 html:not(.scroll-enabled) body {
+  overflow: hidden;
+  /* Prevent touch scrolling on mobile */
+  touch-action: none;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -53,6 +43,12 @@ html:not(.scroll-enabled) body {
 
 html.scroll-enabled body {
   position: static;
+}
+
+/* Prevent overscroll bounce to stop fixed content from being visible during overscroll */
+html,
+body {
+  overscroll-behavior: none;
 }
 
 /* Smooth scrolling for hash links */

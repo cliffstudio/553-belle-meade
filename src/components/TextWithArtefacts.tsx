@@ -60,6 +60,7 @@ export default function TextWithArtefacts({
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
   const artefactContentRef = useRef<HTMLDivElement>(null)
   const overlayMediaWrapRef = useRef<HTMLDivElement>(null)
+  const videoControlsRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   
   // Video control state
@@ -393,11 +394,53 @@ export default function TextWithArtefacts({
     
     // Function to setup ScrollTrigger with proper timing
     const setupScrollTriggerEffects = () => {
+      const videoControls = videoControlsRef.current
+      
+      // Show/hide video controls based on section visibility (for heritage and carousel pages)
+      if (videoControls && showControls && (document.body.classList.contains('page-carousel') || document.body.classList.contains('page-heritage'))) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: () => {
+            gsap.to(videoControls, {
+              opacity: 1,
+              visibility: 'visible',
+              duration: 0.3,
+              ease: "power2.out"
+            })
+          },
+          onLeave: () => {
+            gsap.to(videoControls, {
+              opacity: 0,
+              visibility: 'hidden',
+              duration: 0.3,
+              ease: "power2.out"
+            })
+          },
+          onEnterBack: () => {
+            gsap.to(videoControls, {
+              opacity: 1,
+              visibility: 'visible',
+              duration: 0.3,
+              ease: "power2.out"
+            })
+          },
+          onLeaveBack: () => {
+            gsap.to(videoControls, {
+              opacity: 0,
+              visibility: 'hidden',
+              duration: 0.3,
+              ease: "power2.out"
+            })
+          }
+        })
+      }
+      
       // Only apply ScrollTrigger for carousel page
       if (document.body.classList.contains('page-carousel') || document.body.classList.contains('page-heritage')) {
        // Scope selectors to this component instance to avoid conflicts with multiple instances
        const pageCarouselHeroElements = sectionRef.current?.querySelectorAll('.hero-media-block .media-wrap, .hero-media-block .opacity-overlay')
-       const videoControls = sectionRef.current?.querySelector('.video-controls')
        const textBlock = sectionRef.current?.querySelector('.text-block')
        const artefactsGrid = sectionRef.current?.querySelector('.artefacts-grid')
        const footer = document.querySelector('.site-footer')
@@ -417,17 +460,7 @@ export default function TextWithArtefacts({
               })
             })
             
-            // Pin video controls if they exist
-            if (videoControls) {
-              ScrollTrigger.create({
-                trigger: videoControls,
-                start: "top top",
-                endTrigger: footer,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-              })
-            }
+            // Video controls are now fixed to viewport, so no pinning needed
           
             // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
             if (window.innerWidth > 768) {
@@ -545,7 +578,7 @@ export default function TextWithArtefacts({
       window.removeEventListener('resize', handleResize)
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     }
-  }, [pathname, overlayDarkness]) // Add pathname as dependency to re-run on route changes
+  }, [pathname, overlayDarkness, showControls]) // Add pathname and showControls as dependencies to re-run on route changes
 
   useEffect(() => {
     const addOrientationClasses = () => {
@@ -747,7 +780,7 @@ export default function TextWithArtefacts({
           </div> )}
         </div>
 
-        {showControls && ( <div className="video-controls z-6 out-of-view">
+        {showControls && ( <div ref={videoControlsRef} className="video-controls z-10 out-of-view" style={{ opacity: 0, visibility: 'hidden' }}>
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
               <line x1="0.5" x2="0.5" y2="20"/>
