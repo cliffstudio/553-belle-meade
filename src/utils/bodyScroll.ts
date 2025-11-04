@@ -57,6 +57,15 @@ export function DisableBodyScroll(): void {
   isScrollDisabled = true
 }
 
+/**
+ * Clear the saved scroll position
+ * This should be called when navigating to a new page via mobile menu
+ * to prevent restoring the scroll position from the previous page
+ */
+export function ClearScrollPosition(): void {
+  scrollPosition = 0
+}
+
 export function EnableBodyScroll(): void {
   // Only restore if scroll was actually disabled and we haven't already restored
   if (!isScrollDisabled || hasRestored) {
@@ -69,22 +78,31 @@ export function EnableBodyScroll(): void {
   // Save the position we want to restore to
   const positionToRestore = scrollPosition
   
-  // Don't restore if position is 0 or invalid
-  if (!positionToRestore || positionToRestore === 0) {
-    scrollPosition = 0
-    isScrollDisabled = false
-    return
-  }
-  
-  // Add scroll-enabled class
+  // Add scroll-enabled class (always need to re-enable scrolling)
   document.documentElement.classList.add('scroll-enabled')
   
-  // Remove fixed positioning and padding
+  // Remove fixed positioning and padding (always need to restore normal flow)
   document.body.style.position = ''
   document.body.style.top = ''
   document.body.style.left = ''
   document.body.style.right = ''
   document.body.style.paddingRight = ''
+  
+  // If position is 0 or invalid, just reset scroll to top and return early
+  if (!positionToRestore || positionToRestore === 0) {
+    scrollPosition = 0
+    isScrollDisabled = false
+    // Reset scroll to top immediately
+    restoreAnimationFrame = requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto'
+      })
+      restoreAnimationFrame = null
+    })
+    return
+  }
   
   // Restore scroll position immediately
   // Use a single RAF to ensure browser has processed style changes
