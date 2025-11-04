@@ -3,6 +3,11 @@
 
 .page-carousel {
 
+  .text-block {
+    position: relative;
+    z-index: 6;
+  }
+
   .full-bleed-media-block,
   .image-masonry-block,
   .cta-banner-block,
