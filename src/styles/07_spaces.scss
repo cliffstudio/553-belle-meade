@@ -35,9 +35,14 @@ LEASING MAP STYLES --------------------
       border-right: none;
     }
 
-    &:hover,
     &.active {
       background: rgba($colour-light-purple, 0.5);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background: rgba($colour-light-purple, 0.5);
+      }
     }
   }
 
@@ -225,8 +230,15 @@ LEASING MAP STYLES --------------------
     pointer-events: all;
 
     @media only screen and (min-width: 1367px) {
-      &:hover,
       &.hovered {
+        .leasing-map__spot-indicator {
+          opacity: 1;
+        }
+      }
+    }
+
+    @media (hover: hover) {
+      &:hover {
         .leasing-map__spot-indicator {
           opacity: 1;
         }
@@ -677,9 +689,11 @@ CONTACT FORM STYLES --------------------
       color: $colour-cream !important;
     }
 
-    &:hover {
-      background: $colour-burgundy !important;
-      color: $colour-cream !important;
+    @media (hover: hover) {
+      &:hover {
+        background: $colour-burgundy !important;
+        color: $colour-cream !important;
+      }
     }
   }
 
@@ -705,8 +719,10 @@ CONTACT FORM STYLES --------------------
     padding: 0 !important;
     margin-top: 0.5em;
     
-    &:hover {
-      color: $colour-burgundy !important;
+    @media (hover: hover) {
+      &:hover {
+        color: $colour-burgundy !important;
+      }
     }
   }
 
@@ -764,12 +780,11 @@ CONTACT FORM STYLES --------------------
       padding: get-rem-tablet(8) get-rem-tablet(20) get-rem-tablet(7);
     }
 
-    // @media only screen and (max-width: 768px) {
-    // }
-
-    &:hover:not(:disabled) {
-      background: $colour-burgundy;
-      color: $colour-cream;
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background: $colour-burgundy;
+        color: $colour-cream;
+      }
     }
 
     &:disabled {

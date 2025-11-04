@@ -645,6 +645,55 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
+  // Enable wheel and touch scrolling on menu overlay inner-wrap
+  useEffect(() => {
+    const menuInnerElement = menuOverlayInnerRef.current
+    if (!menuInnerElement || !isMenuOpen) return
+
+    // Handle wheel events (mouse)
+    const handleWheel = (e: WheelEvent) => {
+      const element = e.currentTarget as HTMLElement
+      const { scrollTop, scrollHeight, clientHeight } = element
+      const isAtTop = scrollTop <= 0
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1
+      const isScrollingDown = e.deltaY > 0
+      const isScrollingUp = e.deltaY < 0
+
+      // If we can scroll within the element, stop propagation to prevent global handlers from interfering
+      if ((isScrollingDown && !isAtBottom) || (isScrollingUp && !isAtTop)) {
+        e.stopPropagation()
+      }
+    }
+
+    // Handle touch events to allow scrolling on mobile
+    // Listen on document in capture phase to run before global handlers
+    const handleTouchMove = (e: TouchEvent) => {
+      const target = e.target as Node
+      if (!menuInnerElement.contains(target)) return
+      
+      const { scrollHeight, clientHeight } = menuInnerElement
+      const canScroll = scrollHeight > clientHeight
+      
+      // If element can scroll and touch is on this element or its children, stop propagation
+      // This prevents global handlers from blocking touch scrolling
+      if (canScroll) {
+        e.stopImmediatePropagation()
+        // Don't prevent default - allow native scrolling behavior
+      }
+    }
+
+    // Use capture phase to catch events before any global handlers
+    // passive: false allows us to stop propagation
+    menuInnerElement.addEventListener('wheel', handleWheel, { passive: false, capture: true })
+    // Listen on document for touchmove to run before document-level handlers
+    document.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true })
+
+    return () => {
+      menuInnerElement.removeEventListener('wheel', handleWheel, { capture: true } as EventListenerOptions)
+      document.removeEventListener('touchmove', handleTouchMove, { capture: true } as EventListenerOptions)
+    }
+  }, [isMenuOpen])
+
   // Render mobile menu items (accordion dropdowns for mobile overlay)
   const renderMobileMenuItem = (item: MenuItem, index: number) => {
     if (item.itemType === 'pageLink' && item.pageLink) {

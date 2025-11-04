@@ -147,22 +147,24 @@
     .tile {
       overflow: hidden;
       
-      &:hover {
-        img,
-        video {
-          filter: blur(2px);
-        }
+      @media (hover: hover) {
+        &:hover {
+          img,
+          video {
+            filter: blur(2px);
+          }
 
-        .opacity-overlay {
-          opacity: 0.3;
-        }
+          .opacity-overlay {
+            opacity: 0.3;
+          }
 
-        .link-text {
-          h2 {
-            font-family: 'Millionaire-Script';
-            @include transform(translateY(calc(-0.18em)));
-            padding-left: 0.2em;
-            padding-right: 0.2em;
+          .link-text {
+            h2 {
+              font-family: 'Millionaire-Script';
+              @include transform(translateY(calc(-0.18em)));
+              padding-left: 0.2em;
+              padding-right: 0.2em;
+            }
           }
         }
       }
