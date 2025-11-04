@@ -234,26 +234,31 @@ export default function TextWithArtefacts({
     }
 
     // Handle touch events to allow scrolling on mobile
+    // Listen on document in capture phase to run before global handlers
     const handleTouchMove = (e: TouchEvent) => {
-      const element = e.currentTarget as HTMLElement
-      const { scrollHeight, clientHeight } = element
+      const target = e.target as Node
+      if (!descriptionElement.contains(target)) return
+      
+      const { scrollHeight, clientHeight } = descriptionElement
       const canScroll = scrollHeight > clientHeight
       
-      // If element can scroll, always stop propagation to allow scrolling within the element
+      // If element can scroll and touch is on this element or its children, stop propagation
       // This prevents global handlers from blocking touch scrolling
       if (canScroll) {
-        e.stopPropagation()
+        e.stopImmediatePropagation()
+        // Don't prevent default - allow native scrolling behavior
       }
     }
 
     // Use capture phase to catch events before any global handlers
     // passive: false allows us to stop propagation
     descriptionElement.addEventListener('wheel', handleWheel, { passive: false, capture: true })
-    descriptionElement.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true })
+    // Listen on document for touchmove to run before document-level handlers
+    document.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true })
 
     return () => {
       descriptionElement.removeEventListener('wheel', handleWheel, { capture: true } as EventListenerOptions)
-      descriptionElement.removeEventListener('touchmove', handleTouchMove, { capture: true } as EventListenerOptions)
+      document.removeEventListener('touchmove', handleTouchMove, { capture: true } as EventListenerOptions)
     }
   }, [selectedArtefact])
 

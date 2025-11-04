@@ -1668,6 +1668,7 @@ body.page-type-homepage {
         overflow-y: auto;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
 
         @media only screen and (max-width: 1366px) {
           max-height: get-rem-tablet(167);

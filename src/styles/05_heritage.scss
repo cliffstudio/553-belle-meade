@@ -3,6 +3,11 @@
 
 .page-heritage {
 
+  .text-block {
+    position: relative;
+    z-index: 6;
+  }
+
   .text-with-artefacts-block:not(:first-child),
   .image-carousel-block,
   .cta-banner-block,
