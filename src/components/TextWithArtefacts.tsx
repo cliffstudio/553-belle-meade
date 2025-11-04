@@ -34,6 +34,7 @@ interface TextWithArtefactsProps {
   artefact2?: Artefact
   artefact3?: Artefact
   artefact4?: Artefact
+  carouselIcon?: SanityImage
 }
 
 export default function TextWithArtefacts({
@@ -51,7 +52,8 @@ export default function TextWithArtefacts({
   artefact1,
   artefact2,
   artefact3,
-  artefact4
+  artefact4,
+  carouselIcon
 }: TextWithArtefactsProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const desktopVideoRef = useRef<HTMLVideoElement>(null)
@@ -1257,9 +1259,14 @@ export default function TextWithArtefacts({
                 )}
               </div>
 
-              <div className="carousel-image">
-                <img src="/images/carousel.png" alt="" />
-              </div>
+              {carouselIcon && (
+                <div className="carousel-image">
+                  <img 
+                    src={urlFor(carouselIcon).url()} 
+                    alt=""
+                  />
+                </div>
+              )}
             </>
           ) : null}
         </div>
