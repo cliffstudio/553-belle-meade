@@ -1666,6 +1666,8 @@ body.page-type-homepage {
       .artefact-description {
         max-height: get-rem-desktop(235);
         overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
 
         @media only screen and (max-width: 1366px) {
           max-height: get-rem-tablet(167);
