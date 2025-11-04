@@ -98,7 +98,7 @@ export default function StaggeredImages({
           <img 
             data-src={urlFor(image).url()} 
             alt="" 
-            className={`lazy ${className}`}
+            className={`lazy ${className} full-bleed-image`}
             style={{
               objectPosition: image?.hotspot
                 ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
