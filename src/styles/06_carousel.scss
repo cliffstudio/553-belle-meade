@@ -3,14 +3,12 @@
 
 .page-carousel {
 
-  .text-block,
-  .artefacts-grid,
   .full-bleed-media-block,
   .image-masonry-block,
   .cta-banner-block,
   .site-footer {
     position: relative;
-    z-index: 6;
+    z-index: 10;
   }
 
 }
