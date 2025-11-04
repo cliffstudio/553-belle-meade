@@ -1020,6 +1020,7 @@ body.page-type-homepage {
     @media only screen and (max-width: 768px) {
       padding: get-rem-mobile(25);
       column-gap: get-rem-mobile(25);
+      z-index: 11;
     }
   }
 
@@ -1038,6 +1039,15 @@ body.page-type-homepage {
     .text-wrap {
       text-align: center;
       color: $colour-cream;
+    }
+  }
+
+  .artefacts-grid {
+    position: relative;
+    z-index: 6;
+
+    @media only screen and (max-width: 768px) {
+      z-index: 10;
     }
   }
 
