@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Symbol from './Symbol'
-import { DisableBodyScroll, EnableBodyScroll } from '../utils/bodyScroll'
+import { DisableBodyScroll, EnableBodyScroll, ClearScrollPosition } from '../utils/bodyScroll'
 
 // Type for menu items from menuType schema
 type MenuItem = {
@@ -635,6 +635,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
 
   // Close any open menus/dropdowns on route change (covers iPad/desktop dropdowns)
   useEffect(() => {
+    // Clear saved scroll position on route change to ensure new page starts at top
+    ClearScrollPosition()
     // Clear dropdown and extra header height when navigation occurs
     setActiveDropdown(null)
     setHeaderExtraHeight(0)
@@ -703,7 +705,12 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           key={index}
           href={href}
           className={`header-menu-item ${isActive(href) ? 'active' : ''}`}
-          onClick={closeMenu}
+          onClick={() => {
+            // Clear saved scroll position before navigation
+            // This ensures the new page starts at the top
+            ClearScrollPosition()
+            closeMenu()
+          }}
         >
           {item.pageLink.title || 'Untitled'}
         </Link>
@@ -739,7 +746,12 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
                   key={subIndex}
                   href={href}
                   className={`header-menu-item sub-item ${isActive(href) ? 'active' : ''}`}
-                  onClick={closeMenu}
+                  onClick={() => {
+                    // Clear saved scroll position before navigation
+                    // This ensures the new page starts at the top
+                    ClearScrollPosition()
+                    closeMenu()
+                  }}
                 >
                   {subItem.pageLink?.title || 'Untitled'}
                 </Link>
