@@ -61,6 +61,7 @@ export default function TextWithArtefacts({
   const artefactContentRef = useRef<HTMLDivElement>(null)
   const overlayMediaWrapRef = useRef<HTMLDivElement>(null)
   const videoControlsRef = useRef<HTMLDivElement>(null)
+  const artefactDescriptionRef = useRef<HTMLParagraphElement>(null)
   const pathname = usePathname()
   
   // Video control state
@@ -209,6 +210,35 @@ export default function TextWithArtefacts({
     return () => {
       // Ensure scroll is enabled on unmount
       EnableBodyScroll()
+    }
+  }, [selectedArtefact])
+
+  // Enable wheel scrolling on artefact description
+  useEffect(() => {
+    const descriptionElement = artefactDescriptionRef.current
+    if (!descriptionElement) return
+
+    const handleWheel = (e: WheelEvent) => {
+      const element = e.currentTarget as HTMLElement
+      const { scrollTop, scrollHeight, clientHeight } = element
+      const isAtTop = scrollTop <= 0
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1
+      const isScrollingDown = e.deltaY > 0
+      const isScrollingUp = e.deltaY < 0
+
+      // If we can scroll within the element, stop propagation to prevent global handlers from interfering
+      if ((isScrollingDown && !isAtBottom) || (isScrollingUp && !isAtTop)) {
+        e.stopPropagation()
+        e.stopImmediatePropagation()
+      }
+    }
+
+    // Use capture phase to catch event before any global handlers
+    // passive: false allows us to stop propagation
+    descriptionElement.addEventListener('wheel', handleWheel, { passive: false, capture: true })
+
+    return () => {
+      descriptionElement.removeEventListener('wheel', handleWheel, { capture: true } as EventListenerOptions)
     }
   }, [selectedArtefact])
 
@@ -1392,7 +1422,7 @@ export default function TextWithArtefacts({
               </div>
               
               {selectedArtefact.description && (
-                <p className="artefact-description">{selectedArtefact.description}</p>
+                <p ref={artefactDescriptionRef} className="artefact-description">{selectedArtefact.description}</p>
               )}
             </div>
           </div>
