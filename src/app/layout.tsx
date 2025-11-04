@@ -57,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -73,11 +73,15 @@ export default function RootLayout({
                 history.scrollRestoration = 'manual';
               }
               
+              // Enable scrolling by default (scrolling works immediately on non-homepage pages)
+              // This runs before React hydrates, so we suppress hydration warning on html tag
+              document.documentElement.classList.add('scroll-enabled');
+              
               // Immediately disable scrolling on homepage before React hydrates
               (function() {
                 const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
                 if (isHomepage) {
-                  // Remove scroll-enabled class immediately
+                  // Remove scroll-enabled class immediately to disable scrolling on homepage
                   document.documentElement.classList.remove('scroll-enabled');
                   
                   // Prevent all scroll methods immediately

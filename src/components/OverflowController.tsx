@@ -109,7 +109,8 @@ export default function OverflowController() {
         delete window.__homepageScrollPreventers
       }
       
-      // Enable scrolling on non-homepage
+      // Scrolling is enabled by default on non-homepage pages
+      // Ensure scroll-enabled class is present (in case navigating from homepage)
       document.documentElement.classList.add('scroll-enabled')
     }
   }, [pathname])
