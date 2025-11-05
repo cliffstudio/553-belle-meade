@@ -1379,7 +1379,7 @@ export default function TextWithArtefacts({
               transition: 'opacity 0.2s ease-in-out'
             }}
           >
-            <div className="mobile">
+            <div className="mobile" style={{ width: '100%' }}>
               <div className="title-wrap">
                 <h2 className="artefact-title">
                   {selectedArtefact.title || ''}

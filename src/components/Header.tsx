@@ -744,6 +744,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
           >
             <span className="dropdown-title-text">{item.heading}</span>
 
+            <span className="dropdown-title-text-script">{item.heading}</span>
+
             <div className="dropdown-caret">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
                 <path d="M1 6L6.00013 1L11 6" stroke="#FFF9F2"/>
