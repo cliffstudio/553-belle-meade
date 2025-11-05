@@ -111,7 +111,7 @@
         @media (hover: hover) {
           &:hover {
             font-family: 'Millionaire-Script';
-            @include transform(translateY(-0.4em));
+            @include transform(translateY(-0.35em));
             position: relative;
             z-index: 10;
           }
