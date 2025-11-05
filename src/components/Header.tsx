@@ -843,7 +843,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       </header>
 
       <div className="menu-overlay z-400" ref={menuOverlayRef}>
-        <div className="inner-wrap" ref={menuOverlayInnerRef}>
+        <div className="inner-wrap h-pad" ref={menuOverlayInnerRef}>
           {leftMenu?.items?.map((item, index) => renderMobileMenuItem(item, index))}
           {rightMenu?.items?.map((item, index) => renderMobileMenuItem(item, index))}
         </div>
