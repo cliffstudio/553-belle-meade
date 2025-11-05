@@ -284,7 +284,7 @@ export default function Gallery({ images }: GalleryProps) {
 
       {/* Carousel overlay */}
       {isCarouselOpen && (
-        <div className={`carousel-overlay ${isClosing ? 'closing' : ''}`} onClick={closeCarousel}>
+        <div className={`carousel-overlay ${isClosing ? 'closing' : ''}`}>
           <div className="inner-wrap">
             <div className="carousel-container" onClick={(e) => e.stopPropagation()}>
               <div ref={carouselCloseWrapRef} className="carousel-close-wrap">
