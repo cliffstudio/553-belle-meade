@@ -722,7 +722,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
             // Clear saved scroll position before navigation
             // This ensures the new page starts at the top
             ClearScrollPosition()
-            closeMenu()
+            // Don't close menu immediately - let it stay visible during navigation
+            // The pathname change effect will close it once navigation completes
           }}
         >
           {item.pageLink.title || 'Untitled'}
@@ -765,7 +766,8 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
                     // Clear saved scroll position before navigation
                     // This ensures the new page starts at the top
                     ClearScrollPosition()
-                    closeMenu()
+                    // Don't close menu immediately - let it stay visible during navigation
+                    // The pathname change effect will close it once navigation completes
                   }}
                 >
                   {subItem.pageLink?.title || 'Untitled'}
