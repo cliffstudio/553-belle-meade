@@ -86,10 +86,6 @@
   }
 
   .column-3 {
-    @media only screen and (max-width: 768px) and (orientation: portrait) {
-      max-width: get-rem-mobile(284);
-    }
-
     .input-wrap {
       position: relative;
 
