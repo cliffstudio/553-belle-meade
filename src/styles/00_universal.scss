@@ -1669,6 +1669,10 @@ body.page-type-homepage {
       img {
         height: 100%;
         width: auto;
+
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
+          height: auto;
+        }
       }
     }
 
