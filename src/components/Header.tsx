@@ -644,6 +644,19 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     if (isMenuOpen) {
       closeMenu()
     }
+    
+    // Force close any hover-based dropdowns on desktop by temporarily disabling hover
+    // This prevents the dropdown from staying visible when mouse is still over it after navigation
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu')
+    dropdownMenus.forEach(dropdown => {
+      if (dropdown instanceof HTMLElement) {
+        dropdown.classList.add('force-close')
+        // Remove the force-close class after a brief delay to allow hover to work again
+        setTimeout(() => {
+          dropdown.classList.remove('force-close')
+        }, 100)
+      }
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 

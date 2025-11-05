@@ -210,8 +210,16 @@
         }
       }
 
+      // Force close state to override hover when navigating
+      &.force-close {
+        .dropdown-content {
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+      }
+
       @media (hover: hover) {
-        &:hover {
+        &:hover:not(.force-close) {
           .dropdown-title-text {
             font-family: 'Millionaire-Script';
             @include transform(translateY(-0.4em));
