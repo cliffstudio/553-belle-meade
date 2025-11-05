@@ -19,14 +19,14 @@ html, html a {
 body {
   font-family: 'Dia';
   line-height: 140%;
-  background: #FFF9F2;
-  color: #581B25;
+  background-color: $colour-burgundy;
+  color: $colour-burgundy;
   text-rendering: optimizeLegibility;
 	margin: 0;
 	padding: 0;
   @include font-size(15px, 15px, 19px);
   opacity: 0;
-  @include transition(opacity 1200ms cubic-bezier(0.25,0.1,0.25,1) 500ms);
+  @include transition(opacity 300ms cubic-bezier(0.25,0.1,0.25,1));
 }
 
 p, ul, ol {

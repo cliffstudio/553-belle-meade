@@ -427,6 +427,7 @@ CONTACT FORM STYLES --------------------
   padding-top: get-rem-desktop(279);
   padding-bottom: get-rem-desktop(279);
   text-align: center;
+  background-color: $colour-cream;
   
   @media only screen and (max-width: 1366px) {
     padding-top: get-rem-tablet(144);
