@@ -98,11 +98,7 @@
       }
 
       @media (max-width: 768px) {
-        padding: get-rem-mobile(150) get-rem-mobile(15);
-      }
-
-      @media only screen and (orientation: landscape) {
-        padding: get-rem-mobile(100) get-rem-mobile(15);
+        padding: get-rem-mobile(150) 0;
       }
     }
 
@@ -182,6 +178,18 @@
             @include flex-direction(column);
             @include justify-content(center);
             @include align-items(center);
+            margin-left: get-rem-desktop(50);
+            margin-right: get-rem-desktop(50);
+
+            @media (max-width: 1366px) {
+              margin-left: get-rem-tablet(30);
+              margin-right: get-rem-tablet(30);
+            }
+
+            @media (max-width: 768px) {
+              margin-left: get-rem-mobile(15);
+              margin-right: get-rem-mobile(15);
+            }
 
             .carousel-img {
               max-width: 100%;
