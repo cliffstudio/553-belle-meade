@@ -23,6 +23,7 @@ export default function Gallery({ images }: GalleryProps) {
   const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void } | null>(null)
   const carouselCloseWrapRef = useRef<HTMLDivElement>(null)
   const [isCarouselOpen, setIsCarouselOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
 
@@ -44,17 +45,24 @@ export default function Gallery({ images }: GalleryProps) {
   const openCarousel = (index: number) => {
     setSelectedIndex(index)
     setCurrentSlideIndex(index)
+    setIsClosing(false)
     setIsCarouselOpen(true)
     DisableBodyScroll()
   }
 
   const closeCarousel = () => {
-    setIsCarouselOpen(false)
+    setIsClosing(true)
     EnableBodyScroll()
-    if (flickityRef.current) {
-      flickityRef.current.destroy()
-      flickityRef.current = null
-    }
+    // Wait for closing animation to complete before removing from DOM
+    // Inner-wrap: 0.4s, then overlay: 0.3s starting at 0.4s = 0.7s total
+    setTimeout(() => {
+      setIsCarouselOpen(false)
+      setIsClosing(false)
+      if (flickityRef.current) {
+        flickityRef.current.destroy()
+        flickityRef.current = null
+      }
+    }, 700) // Match total animation duration (0.4s inner-wrap + 0.3s overlay = 700ms)
   }
 
   const handlePrevious = () => {
@@ -276,7 +284,7 @@ export default function Gallery({ images }: GalleryProps) {
 
       {/* Carousel overlay */}
       {isCarouselOpen && (
-        <div className="carousel-overlay" onClick={closeCarousel}>
+        <div className={`carousel-overlay ${isClosing ? 'closing' : ''}`} onClick={closeCarousel}>
           <div className="inner-wrap">
             <div className="carousel-container" onClick={(e) => e.stopPropagation()}>
               <div ref={carouselCloseWrapRef} className="carousel-close-wrap">
