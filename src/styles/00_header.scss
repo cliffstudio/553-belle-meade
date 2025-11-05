@@ -394,16 +394,34 @@ body.page-type-gallery .site-header {
       @include align-items(center);
       column-gap: get-rem-mobile(15);
       @include transition(font-family 400ms cubic-bezier(0.25,0.1,0.25,1));
+      position: relative;
+      width: fit-content;
 
       .dropdown-title-text {
         font-family: 'Millionaire-Roman';
         font-size: 28px;
         line-height: normal;
         color: $colour-cream;
+        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+      }
+
+      .dropdown-title-text-script {
+        font-family: 'Millionaire-Script';
+        font-size: 28px;
+        line-height: normal;
+        color: $colour-cream;
+        @include transform(translateY(-0.35em));
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
       }
 
       .dropdown-caret {
-        @include transform(translateY(0.25em));
+        position: absolute;
+        bottom: 0.65em;
+        right: calc(-10px + get-rem-mobile(-15));
         
         svg {
           width: 10px;
@@ -413,13 +431,14 @@ body.page-type-gallery .site-header {
 
       &.expanded {
         .dropdown-title-text {
-          font-family: 'Millionaire-Script';
-          @include transform(translateY(-0.35em));
+          opacity: 0;
+        }
+
+        .dropdown-title-text-script {
+          opacity: 1;
         }
 
         .dropdown-caret {
-          @include transform(translateY(-0.15em));
-
           svg {
             transform: rotate(180deg);
           }
