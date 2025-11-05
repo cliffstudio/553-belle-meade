@@ -209,14 +209,36 @@ export default function TextWithArtefacts({
   // Lock background scroll when overlay is open
   useEffect(() => {
     if (selectedArtefact) {
+      // Disable ScrollTrigger instances to prevent them from recalculating when body becomes fixed
+      // This prevents layout shifts when the body position changes
+      const triggers = ScrollTrigger.getAll()
+      triggers.forEach(trigger => {
+        // Disable without resetting position - this preserves the pinned state
+        trigger.disable(false)
+      })
       DisableBodyScroll()
     } else {
       EnableBodyScroll()
+      // Re-enable ScrollTrigger after a short delay to allow body styles to settle
+      setTimeout(() => {
+        const triggers = ScrollTrigger.getAll()
+        triggers.forEach(trigger => {
+          trigger.enable()
+        })
+        // Update ScrollTrigger to sync with any layout changes
+        ScrollTrigger.update()
+      }, 100)
     }
 
     return () => {
       // Ensure scroll is enabled on unmount
       EnableBodyScroll()
+      // Re-enable ScrollTrigger on cleanup
+      const triggers = ScrollTrigger.getAll()
+      triggers.forEach(trigger => {
+        trigger.enable()
+      })
+      ScrollTrigger.update()
     }
   }, [selectedArtefact])
 
