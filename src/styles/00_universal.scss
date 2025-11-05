@@ -1600,8 +1600,22 @@ body.page-type-homepage {
   height: 100%;
   background-color: rgba($color: $colour-black, $alpha: 0.5);
   z-index: 9999;
+  opacity: 0;
+  animation: fadeInOverlay 0.3s ease-out forwards;
+
+  &.closing {
+    opacity: 1;
+    animation: fadeOutOverlay 0.3s ease-out 0.4s forwards;
+
+    .artefact-content {
+      opacity: 1;
+      animation: fadeOutContent 0.4s ease-out forwards;
+    }
+  }
 
   .artefact-content {
+    opacity: 0;
+    animation: fadeInContent 0.4s ease-out 0.2s forwards;
     background-color: $colour-burgundy;
     color: $colour-cream;
     position: fixed;
