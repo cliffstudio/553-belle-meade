@@ -70,6 +70,7 @@ export default function TextWithArtefacts({
   
   // Artefact overlay state
   const [selectedArtefact, setSelectedArtefact] = React.useState<Artefact | null>(null)
+  const [isClosing, setIsClosing] = React.useState(false)
   const [isWidthCalculated, setIsWidthCalculated] = React.useState(false)
   const [imageOrientation, setImageOrientation] = React.useState<'portrait' | 'landscape' | 'square' | null>(null)
   
@@ -121,9 +122,9 @@ export default function TextWithArtefacts({
     if (artefactData) {
       // If clicking the same artefact, close it; otherwise, open the new one
       if (selectedArtefact === artefactData) {
-        setSelectedArtefact(null)
-        setIsWidthCalculated(false)
+        handleCloseOverlay(e as React.MouseEvent)
       } else {
+        setIsClosing(false)
         setIsWidthCalculated(false)
         setImageOrientation(null) // Reset orientation when opening new artefact
         setSelectedArtefact(artefactData)
@@ -135,9 +136,15 @@ export default function TextWithArtefacts({
   const handleCloseOverlay = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setSelectedArtefact(null)
-    setIsWidthCalculated(false)
-    setImageOrientation(null)
+    setIsClosing(true)
+    // Wait for closing animation to complete before removing from DOM
+    // Inner-wrap: 0.4s, then overlay: 0.3s starting at 0.4s = 0.7s total
+    setTimeout(() => {
+      setSelectedArtefact(null)
+      setIsClosing(false)
+      setIsWidthCalculated(false)
+      setImageOrientation(null)
+    }, 700) // Match total animation duration (0.4s inner-wrap + 0.3s overlay = 700ms)
   }
   
   // Effect to detect image orientation
@@ -269,7 +276,8 @@ export default function TextWithArtefacts({
     const contentElement = artefactContentRef.current
     
     // Ensure content is hidden initially (in case it's not already)
-    contentElement.style.opacity = '0'
+    // Keep visibility hidden for layout, but let CSS animation handle opacity
+    contentElement.style.opacity = ''
     contentElement.style.visibility = 'hidden'
     
     // Function to calculate and set width based on content
@@ -278,7 +286,7 @@ export default function TextWithArtefacts({
       if (window.innerWidth <= 768 && window.matchMedia('(orientation: portrait)').matches) {
         // On mobile portrait, use CSS fit-content and don't set explicit width
         contentElement.style.width = ''
-        contentElement.style.opacity = '1'
+        contentElement.style.opacity = '' // Remove inline opacity to let CSS animation handle it
         contentElement.style.visibility = 'visible'
         setIsWidthCalculated(true)
         return
@@ -362,7 +370,7 @@ export default function TextWithArtefacts({
       
       // Use requestAnimationFrame to smoothly show content after width is set
       requestAnimationFrame(() => {
-        contentElement.style.opacity = '1'
+        contentElement.style.opacity = '' // Remove inline opacity to let CSS animation handle it
         contentElement.style.visibility = 'visible'
         setIsWidthCalculated(true)
       })
@@ -1369,14 +1377,12 @@ export default function TextWithArtefacts({
       </section>
 
       {selectedArtefact && (
-        <div className={`artefact-overlay ${selectedArtefact ? 'visible' : ''}`}>
+        <div className={`artefact-overlay ${isClosing ? 'closing' : ''}`}>
           <div 
             className="artefact-content" 
             ref={artefactContentRef}
             style={{
-              opacity: isWidthCalculated ? 1 : 0,
-              visibility: isWidthCalculated ? 'visible' : 'hidden',
-              transition: 'opacity 0.2s ease-in-out'
+              visibility: isWidthCalculated ? 'visible' : 'hidden'
             }}
           >
             <div className="mobile" style={{ width: '100%' }}>
