@@ -7,7 +7,7 @@
   left: 0;
   width: 100%;
   will-change: background-color, padding-bottom;
-  @include transition-multiple(background-color 400ms cubic-bezier(0.25,0.1,0.25,1), padding-bottom 300ms cubic-bezier(0.25,0.1,0.25,1));
+  @include transition-multiple(background-color 400ms cubic-bezier(0.25,0.1,0.25,1), padding-bottom 400ms cubic-bezier(0.25,0.1,0.25,1));
 
   &.header-hidden {
     opacity: 0;
@@ -181,7 +181,7 @@
         padding-top: get-rem-desktop(15);
         opacity: 0;
         pointer-events: none;
-        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        @include transition(opacity 100ms cubic-bezier(0.25,0.1,0.25,1));
         z-index: 100;
         @include flex;
         @include flex-direction(column);
@@ -426,12 +426,12 @@ body.page-type-gallery .site-header {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 300ms cubic-bezier(0.25,0.1,0.25,1) 0ms);
+      @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 400ms cubic-bezier(0.25,0.1,0.25,1) 0ms);
 
       &.expanded {
         max-height: 500px; // Large enough to accommodate any dropdown
         opacity: 1;
-        @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 300ms cubic-bezier(0.25,0.1,0.25,1) 50ms);
+        @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 400ms cubic-bezier(0.25,0.1,0.25,1) 50ms);
       }
     }
 
