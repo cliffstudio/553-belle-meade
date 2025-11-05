@@ -1305,10 +1305,6 @@ body.page-type-homepage {
       .artefact-2 {
         margin-left: auto;
 
-        @media only screen and (max-width: 768px) {
-          margin-left: get-rem-mobile(181);
-        }
-
         .artefact-image {
           max-width: get-rem-desktop(361);
 
@@ -1426,6 +1422,10 @@ body.page-type-homepage {
       }
 
       .artefact-3 {
+        @media only screen and (max-width: 768px) {
+          margin-left: auto;
+        }
+        
         .artefact-image {
           .media-wrap {
             margin-right: get-rem-desktop(-50);
@@ -1653,18 +1653,18 @@ body.page-type-homepage {
         }
       }
 
-      @media only screen and (max-width: 768px) and (orientation: portrait) {
-        &.landscape,
-        &.square {
-          width: 100%;
-          height: fit-content;
-        }
+      // @media only screen and (max-width: 768px) and (orientation: portrait) {
+      //   &.landscape,
+      //   &.square {
+      //     width: 100%;
+      //     height: fit-content;
+      //   }
 
-        &.portrait {
-          width: fit-content;
-          height: 33vh;
-        }
-      }
+      //   &.portrait {
+      //     width: fit-content;
+      //     height: 33vh;
+      //   }
+      // }
       
       img {
         height: 100%;
