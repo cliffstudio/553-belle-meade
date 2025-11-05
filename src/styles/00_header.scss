@@ -402,7 +402,7 @@ body.page-type-gallery .site-header {
         font-size: 28px;
         line-height: normal;
         color: $colour-cream;
-        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        @include transition(opacity 200ms cubic-bezier(0.25,0.1,0.25,1));
       }
 
       .dropdown-title-text-script {
@@ -415,7 +415,7 @@ body.page-type-gallery .site-header {
         top: 0;
         left: 0;
         opacity: 0;
-        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        @include transition(opacity 200ms cubic-bezier(0.25,0.1,0.25,1));
         padding: 0 1em;
       }
 
@@ -426,7 +426,7 @@ body.page-type-gallery .site-header {
         
         svg {
           width: 10px;
-          @include transition(transform 400ms cubic-bezier(0.25,0.1,0.25,1));
+          @include transition(transform 200ms cubic-bezier(0.25,0.1,0.25,1));
         }
       }
 
@@ -454,12 +454,11 @@ body.page-type-gallery .site-header {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 400ms cubic-bezier(0.25,0.1,0.25,1) 0ms);
+      @include transition-multiple(max-height 800ms cubic-bezier(0.25,0.1,0.25,1), opacity 400ms cubic-bezier(0.25,0.1,0.25,1) 200ms);
 
       &.expanded {
         max-height: 500px; // Large enough to accommodate any dropdown
         opacity: 1;
-        @include transition-multiple(max-height 400ms cubic-bezier(0.25,0.1,0.25,1), opacity 400ms cubic-bezier(0.25,0.1,0.25,1) 50ms);
       }
     }
 
