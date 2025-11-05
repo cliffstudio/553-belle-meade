@@ -365,6 +365,8 @@ body.page-type-gallery .site-header {
     touch-action: pan-y;
     padding-top: get-rem-mobile(51);
     padding-bottom: get-rem-mobile(51);
+    margin-left: get-rem-mobile(15);
+    margin-right: get-rem-mobile(15);
 
     &.visible {
       pointer-events: all;
