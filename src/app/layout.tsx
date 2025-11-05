@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import OverflowController from "../components/OverflowController";
+import BodyFadeIn from "../components/BodyFadeIn";
 import { clientNoCdn } from "../../sanity.client";
 import { metadataQuery } from "../sanity/lib/queries";
 import { urlFor } from "../sanity/utils/imageUrlBuilder";
@@ -296,6 +297,7 @@ export default function RootLayout({
             `
           }}
         />
+        <BodyFadeIn />
         <OverflowController />
         {children}
       </body>
