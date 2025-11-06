@@ -67,7 +67,7 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
 
         <div className="col-3-12_lg desktop">
           {mediaType === 'image' && image && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <img 
               data-src={urlFor(image).url()} 
               alt="" 
@@ -78,7 +78,7 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
           )}
           
           {mediaType === 'video' && video && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
                   src={videoUrlFor(video)}
@@ -100,7 +100,7 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
 
           <div className="col-3-5_sm">
             {mediaType === 'image' && image && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <img 
                 data-src={urlFor(image).url()} 
                 alt="" 
@@ -116,7 +116,7 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
             )}
             
             {mediaType === 'video' && video && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     src={videoUrlFor(video)}

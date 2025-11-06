@@ -192,14 +192,29 @@ export default function RootLayout({
                   );
                 }
                 
+                function outOfOpacity() {
+                  $('.out-of-opacity').inViewport(
+                    function(){
+                      $(this).addClass("am-in-view in-view-detect");
+                    },
+                    function(){
+                      $(this).removeClass("in-view-detect");
+                    }
+                  );
+                }
+                
                 // Run when DOM is ready
                 $(document).ready(function() {
                   outOfView();
+                  outOfOpacity();
                 });
                 
                 // Re-run on browser navigation (back/forward)
                 window.addEventListener('popstate', function() {
-                  setTimeout(outOfView, 100);
+                  setTimeout(function() {
+                    outOfView();
+                    outOfOpacity();
+                  }, 100);
                 });
                 
                 // Re-run on Next.js route changes
@@ -224,7 +239,10 @@ export default function RootLayout({
                   });
                   
                   if (shouldReRun) {
-                    setTimeout(outOfView, 100);
+                    setTimeout(function() {
+                      outOfView();
+                      outOfOpacity();
+                    }, 100);
                   }
                 });
                 
