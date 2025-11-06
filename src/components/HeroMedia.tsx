@@ -465,9 +465,9 @@ export default function HeroMedia({
             })
             
             // Re-enable the affected triggers
-            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            affectedTriggers.forEach((trigger) => trigger.enable())
             // Re-enable opacity triggers
-            opacityTriggers.forEach((trigger: any) => trigger.enable())
+            opacityTriggers.forEach((trigger) => trigger.enable())
             // Restore ScrollTrigger refresh events
             ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
             
@@ -589,19 +589,20 @@ export default function HeroMedia({
         }
         
         // Restore original callbacks for opacity triggers
-        opacityTriggers.forEach((trigger: any) => {
-          const originalCallbacks = trigger._originalCallbacks
+        opacityTriggers.forEach((trigger) => {
+          const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+          const originalCallbacks = extendedTrigger._originalCallbacks
           if (originalCallbacks && trigger.vars) {
             trigger.vars.onEnter = originalCallbacks.onEnter
             trigger.vars.onEnterBack = originalCallbacks.onEnterBack
             trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
-            delete trigger._originalCallbacks
+            delete extendedTrigger._originalCallbacks
           }
         })
         
         // Re-enable the affected triggers
-        affectedTriggers.forEach((trigger: any) => trigger.enable())
-        opacityTriggers.forEach((trigger: any) => trigger.enable())
+        affectedTriggers.forEach((trigger) => trigger.enable())
+        opacityTriggers.forEach((trigger) => trigger.enable())
         // Restore ScrollTrigger refresh events
         ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
         // Refresh ScrollTrigger after moving element back
@@ -688,9 +689,9 @@ export default function HeroMedia({
             })
             
             // Re-enable the affected triggers
-            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            affectedTriggers.forEach((trigger) => trigger.enable())
             // Re-enable opacity triggers
-            opacityTriggers.forEach((trigger: any) => trigger.enable())
+            opacityTriggers.forEach((trigger) => trigger.enable())
             // Restore ScrollTrigger refresh events
             ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
             

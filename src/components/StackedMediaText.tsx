@@ -104,7 +104,6 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
   const toggleFullscreen = async () => {
     console.log('StackedMediaText: toggleFullscreen called!')
     const video = videoRef.current
-    const fullscreenVideo = fullscreenVideoRef.current
     
     if (!video) return
 
