@@ -68,6 +68,8 @@ export default function TextWithArtefacts({
   // Video control state
   const [isPlaying, setIsPlaying] = React.useState(true)
   const [isMuted, setIsMuted] = React.useState(true)
+  const [isFullscreen, setIsFullscreen] = React.useState(false)
+  const fullscreenVideoRef = useRef<HTMLVideoElement | null>(null)
   
   // Artefact overlay state
   const [selectedArtefact, setSelectedArtefact] = React.useState<Artefact | null>(null)
@@ -104,12 +106,453 @@ export default function TextWithArtefacts({
     }
   }
 
-  const toggleFullscreen = () => {
-    const videoElement = desktopVideoRef.current || mobileVideoRef.current
-    if (videoElement) {
-      if (videoElement.requestFullscreen) {
-        videoElement.requestFullscreen()
+  const toggleFullscreen = async () => {
+    console.log('TextWithArtefacts: toggleFullscreen called!')
+    const desktopVideo = desktopVideoRef.current
+    const mobileVideo = mobileVideoRef.current
+    
+    console.log('Desktop video:', desktopVideo)
+    console.log('Mobile video:', mobileVideo)
+    console.log('Window width:', window.innerWidth)
+    console.log('isFullscreen state:', isFullscreen)
+    
+    // Determine which video to use based on screen size or availability
+    const sourceVideo = window.innerWidth >= 768 ? desktopVideo : mobileVideo
+    
+    console.log('Source video:', sourceVideo)
+    
+    if (!sourceVideo) {
+      console.error('No source video found!')
+      return
+    }
+    
+    console.log('Proceeding with fullscreen logic...')
+
+    try {
+      if (!isFullscreen) {
+        // Save current scroll position and video state before entering fullscreen
+        const scrollY = window.scrollY
+        const videoWrap = sourceVideo.closest('.fill-space-video-wrap') as HTMLElement
+        
+        // Store the original parent of the video element
+        const originalParent = sourceVideo.parentElement
+        
+        // Temporarily disable ScrollTrigger instances that might affect the video
+        let affectedTriggers: any[] = []
+        // Also find ScrollTrigger instances that affect opacity-overlay
+        let opacityTriggers: any[] = []
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          const allTriggers = ScrollTrigger.getAll()
+          affectedTriggers = allTriggers.filter(trigger => {
+            const triggerElement = trigger.vars?.trigger as Element
+            if (!triggerElement) return false
+            
+            // Check if trigger affects the video or its wrapper
+            const isVideoRelated = 
+              videoWrap?.contains(triggerElement) || 
+              triggerElement.contains(sourceVideo) ||
+              triggerElement.contains(videoWrap) ||
+              (videoWrap && triggerElement === videoWrap) ||
+              triggerElement === sourceVideo
+            
+            // Also check if trigger is pinning a parent element that contains the video
+            const isPinningParent = trigger.vars?.pin && (
+              triggerElement.contains(sourceVideo) ||
+              triggerElement.contains(videoWrap)
+            )
+            
+            return isVideoRelated || isPinningParent
+          })
+          
+          // Find triggers that affect opacity-overlay (they have onEnter callbacks that modify opacity)
+          const opacityOverlay = sourceVideo.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+          if (opacityOverlay) {
+            opacityTriggers = allTriggers.filter(trigger => {
+              // Check if this trigger has callbacks that might affect the opacity-overlay
+              const hasOpacityCallback = trigger.vars?.onEnter || trigger.vars?.onEnterBack
+              if (!hasOpacityCallback) return false
+              
+              // Check if the trigger's element is related to the hero-media-block
+              const triggerElement = trigger.vars?.trigger as Element
+              if (!triggerElement) return false
+              
+              const heroBlock = sourceVideo.closest('.hero-media-block')
+              return heroBlock && (
+                heroBlock.contains(triggerElement) ||
+                triggerElement.contains(heroBlock) ||
+                triggerElement === heroBlock
+              )
+            })
+            
+            // Store original callbacks and replace them with no-ops to prevent doubling
+            opacityTriggers.forEach((trigger: any) => {
+              if (!(trigger as any)._originalCallbacks) {
+                (trigger as any)._originalCallbacks = {
+                  onEnter: trigger.vars?.onEnter,
+                  onEnterBack: trigger.vars?.onEnterBack,
+                  onLeaveBack: trigger.vars?.onLeaveBack
+                }
+                // Replace callbacks with no-ops
+                if (trigger.vars) {
+                  trigger.vars.onEnter = () => {}
+                  trigger.vars.onEnterBack = () => {}
+                  trigger.vars.onLeaveBack = () => {}
+                }
+              }
+            })
+          }
+          
+          // Disable these specific triggers
+          affectedTriggers.forEach((trigger: any) => trigger.disable())
+          opacityTriggers.forEach((trigger: any) => trigger.disable())
+          // Prevent ScrollTrigger from refreshing
+          ScrollTrigger.config({ autoRefreshEvents: 'none' })
+        }
+        
+        // Create a clone of the video element for fullscreen to avoid ScrollTrigger interference
+        // This ensures the original stays in place and ScrollTrigger doesn't affect the fullscreen video
+        const fullscreenVideoClone = sourceVideo.cloneNode(true) as HTMLVideoElement
+        
+        // Copy all important properties
+        fullscreenVideoClone.src = sourceVideo.src
+        fullscreenVideoClone.currentTime = sourceVideo.currentTime
+        fullscreenVideoClone.muted = false
+        fullscreenVideoClone.autoplay = true
+        fullscreenVideoClone.loop = sourceVideo.loop
+        fullscreenVideoClone.playsInline = false
+        fullscreenVideoClone.controls = true
+        fullscreenVideoClone.setAttribute('controls', '')
+        
+        // Set styles for fullscreen
+        fullscreenVideoClone.style.position = 'fixed'
+        fullscreenVideoClone.style.top = '0'
+        fullscreenVideoClone.style.left = '0'
+        fullscreenVideoClone.style.width = '100%'
+        fullscreenVideoClone.style.height = '100%'
+        fullscreenVideoClone.style.zIndex = '999999'
+        fullscreenVideoClone.style.transform = 'none'
+        fullscreenVideoClone.style.visibility = 'visible'
+        fullscreenVideoClone.style.opacity = '1'
+        fullscreenVideoClone.style.pointerEvents = 'auto'
+        fullscreenVideoClone.className = ''
+        
+        // Add clone to body (not the original)
+        document.body.appendChild(fullscreenVideoClone)
+        
+        // Wait for clone to be ready
+        await new Promise<void>((resolve) => {
+          if (fullscreenVideoClone.readyState >= 2) {
+            resolve()
+          } else {
+            fullscreenVideoClone.addEventListener('loadedmetadata', () => resolve(), { once: true })
+            // Also try to load the video
+            fullscreenVideoClone.load()
+          }
+        })
+        
+        // Wait a moment for DOM to update
+        await new Promise(resolve => setTimeout(resolve, 50))
+        
+        // Enter fullscreen with the clone
+        console.log('Requesting fullscreen for video clone:', fullscreenVideoClone)
+        console.log('Clone parent:', fullscreenVideoClone.parentElement)
+        console.log('Clone controls:', fullscreenVideoClone.controls)
+        
+        if (fullscreenVideoClone.requestFullscreen) {
+          await fullscreenVideoClone.requestFullscreen()
+        } else if ('webkitRequestFullscreen' in fullscreenVideoClone) {
+          await (fullscreenVideoClone as HTMLVideoElement & { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen()
+        } else if ('msRequestFullscreen' in fullscreenVideoClone) {
+          await (fullscreenVideoClone as HTMLVideoElement & { msRequestFullscreen: () => Promise<void> }).msRequestFullscreen()
+        }
+        
+        console.log('Fullscreen entered. Fullscreen element:', document.fullscreenElement)
+        
+        // Ensure controls are visible after entering fullscreen - do this multiple times
+        const ensureControls = () => {
+          const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
+              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
+              (document as any).msFullscreenElement === fullscreenVideoClone
+          
+          if (isFullscreen) {
+            console.log('Ensuring controls are visible on clone...')
+            // Remove and re-add controls to force browser to show them
+            fullscreenVideoClone.removeAttribute('controls')
+            fullscreenVideoClone.controls = false
+            // Force a reflow
+            void fullscreenVideoClone.offsetWidth
+            fullscreenVideoClone.controls = true
+            fullscreenVideoClone.setAttribute('controls', '')
+            
+            // Ensure video styles don't hide controls
+            fullscreenVideoClone.style.visibility = 'visible'
+            fullscreenVideoClone.style.opacity = '1'
+            fullscreenVideoClone.style.pointerEvents = 'auto'
+            
+            // Log current state
+            console.log('Clone controls attribute:', fullscreenVideoClone.getAttribute('controls'))
+            console.log('Clone controls property:', fullscreenVideoClone.controls)
+            console.log('Clone video styles:', {
+              visibility: fullscreenVideoClone.style.visibility,
+              opacity: fullscreenVideoClone.style.opacity,
+              pointerEvents: fullscreenVideoClone.style.pointerEvents
+            })
+          }
+        }
+        
+        // Set up a listener for fullscreen change to ensure controls appear
+        const handleFullscreenEnter = () => {
+          if (document.fullscreenElement === fullscreenVideoClone || 
+              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
+              (document as any).msFullscreenElement === fullscreenVideoClone) {
+            // Multiple attempts to ensure controls show
+            ensureControls()
+            setTimeout(ensureControls, 10)
+            setTimeout(ensureControls, 50)
+            setTimeout(ensureControls, 100)
+            setTimeout(ensureControls, 200)
+            setTimeout(ensureControls, 300)
+            setTimeout(ensureControls, 500)
+          }
+        }
+        
+        document.addEventListener('fullscreenchange', handleFullscreenEnter)
+        document.addEventListener('webkitfullscreenchange', handleFullscreenEnter)
+        document.addEventListener('msfullscreenchange', handleFullscreenEnter)
+        
+        // Store handler for cleanup
+        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        
+        // Initial attempts
+        ensureControls()
+        setTimeout(ensureControls, 10)
+        setTimeout(ensureControls, 50)
+        setTimeout(ensureControls, 100)
+        setTimeout(ensureControls, 200)
+        
+        // Store reference to clone for cleanup
+        fullscreenVideoRef.current = fullscreenVideoClone
+        
+        // Store data for restoration (on original video, not clone)
+        ;(sourceVideo as any)._originalParent = originalParent
+        ;(sourceVideo as any)._affectedTriggers = affectedTriggers
+        ;(sourceVideo as any)._opacityTriggers = opacityTriggers
+        ;(sourceVideo as any)._scrollY = scrollY
+        
+        setIsFullscreen(true)
+        setIsMuted(false)
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen()
+        } else if ('webkitExitFullscreen' in document) {
+          await (document as Document & { webkitExitFullscreen: () => Promise<void> }).webkitExitFullscreen()
+        } else if ('msExitFullscreen' in document) {
+          await (document as Document & { msExitFullscreen: () => Promise<void> }).msExitFullscreen()
+        }
+        
+        // Clean up the fullscreen video clone
+        const fullscreenVideo = fullscreenVideoRef.current
+        if (fullscreenVideo) {
+          // Remove fullscreen change listener
+          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          if (fullscreenHandler) {
+            document.removeEventListener('fullscreenchange', fullscreenHandler)
+            document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
+            document.removeEventListener('msfullscreenchange', fullscreenHandler)
+          }
+          
+          // Remove clone from body
+          if (fullscreenVideo.parentElement === document.body) {
+            document.body.removeChild(fullscreenVideo)
+          }
+          fullscreenVideoRef.current = null
+        }
+        
+        // Restore ScrollTrigger instances and refresh
+        const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as any)?._scrollY
+        
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          // Restore scroll position first
+          if (savedScrollY !== undefined) {
+            window.scrollTo(0, savedScrollY)
+          }
+          
+          // Fix opacity-overlay BEFORE re-enabling triggers and refreshing
+          const opacityOverlay = originalVideo?.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+          if (opacityOverlay) {
+            // Get the original overlayDarkness value
+            const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+            const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+            const targetOpacity = Math.min(overlayDarknessValue, 1)
+            
+            // Kill any GSAP animations on the overlay
+            gsap.killTweensOf(opacityOverlay)
+            // Set opacity directly to prevent ScrollTrigger from doubling it
+            opacityOverlay.style.opacity = String(targetOpacity)
+          }
+          
+          // Small delay before re-enabling and refreshing to ensure opacity is set
+          setTimeout(() => {
+            // Restore original callbacks for opacity triggers BEFORE re-enabling
+            opacityTriggers.forEach((trigger: any) => {
+              const originalCallbacks = (trigger as any)._originalCallbacks
+              if (originalCallbacks && trigger.vars) {
+                trigger.vars.onEnter = originalCallbacks.onEnter
+                trigger.vars.onEnterBack = originalCallbacks.onEnterBack
+                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
+                delete (trigger as any)._originalCallbacks
+              }
+            })
+            
+            // Re-enable the affected triggers
+            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            // Re-enable opacity triggers
+            opacityTriggers.forEach((trigger: any) => trigger.enable())
+            // Restore ScrollTrigger refresh events
+            ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+            
+            // Refresh ScrollTrigger
+            ScrollTrigger.refresh()
+            
+            // Immediately after refresh, reset opacity again to catch any callbacks
+            if (opacityOverlay) {
+              const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+            const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+              const targetOpacity = Math.min(overlayDarknessValue, 1)
+              gsap.killTweensOf(opacityOverlay)
+              opacityOverlay.style.opacity = String(targetOpacity)
+            }
+            
+            // Ensure original video is visible and playing after ScrollTrigger refresh
+            if (originalVideo) {
+              // Reset any transforms that might have been applied to video
+              originalVideo.style.transform = ''
+              originalVideo.style.visibility = 'visible'
+              originalVideo.style.opacity = '1'
+              
+              // Also fix the video wrapper if it exists
+              const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+              if (videoWrap) {
+                videoWrap.style.transform = ''
+                videoWrap.style.visibility = 'visible'
+                videoWrap.style.opacity = '1'
+              }
+              
+              // Ensure video is playing
+              if (originalVideo.paused) {
+                originalVideo.play().catch(() => {})
+              }
+            }
+            
+            // Reset opacity one more time after a short delay to catch any delayed callbacks
+            if (opacityOverlay) {
+              setTimeout(() => {
+                const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+            const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+                const targetOpacity = Math.min(overlayDarknessValue, 1)
+                gsap.killTweensOf(opacityOverlay)
+                opacityOverlay.style.opacity = String(targetOpacity)
+              }, 100)
+            }
+          }, 50)
+        } else {
+          // If ScrollTrigger not available, still restore video
+          if (originalVideo) {
+            originalVideo.style.transform = ''
+            originalVideo.style.visibility = 'visible'
+            originalVideo.style.opacity = '1'
+            const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+            if (videoWrap) {
+              videoWrap.style.transform = ''
+              videoWrap.style.visibility = 'visible'
+              videoWrap.style.opacity = '1'
+            }
+            
+            // Fix opacity-overlay if it exists (might be set to 2 by ScrollTrigger)
+            const opacityOverlay = originalVideo.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+            if (opacityOverlay) {
+              // Get the original overlayDarkness value
+              const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+            const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+              const targetOpacity = Math.min(overlayDarknessValue, 1)
+              
+              // Kill any GSAP animations on the overlay
+              gsap.killTweensOf(opacityOverlay)
+              
+              // Reset opacity multiple times to catch ScrollTrigger's callback
+              const resetOpacity = () => {
+                gsap.killTweensOf(opacityOverlay)
+                opacityOverlay.style.opacity = String(targetOpacity)
+              }
+              
+              // Reset immediately
+              resetOpacity()
+              
+              // Reset after delays to catch ScrollTrigger callbacks
+              setTimeout(resetOpacity, 100)
+              setTimeout(resetOpacity, 200)
+              setTimeout(resetOpacity, 300)
+            }
+            
+            if (originalVideo.paused) {
+              originalVideo.play().catch(() => {})
+            }
+          }
+        }
+        
+        setIsFullscreen(false)
+        setIsMuted(true)
       }
+    } catch (error) {
+      console.error('Error toggling fullscreen:', error)
+      // Restore ScrollTrigger on error
+      const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+      const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+      const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
+      const savedScrollY = (originalVideo as any)?._scrollY
+      
+      if (typeof window !== 'undefined' && ScrollTrigger) {
+        // Restore scroll position if saved
+        if (savedScrollY !== undefined) {
+          window.scrollTo(0, savedScrollY)
+        }
+        
+        // Fix opacity-overlay before re-enabling triggers
+        const opacityOverlay = originalVideo?.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+        if (opacityOverlay) {
+          const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+          const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+          const targetOpacity = Math.min(overlayDarknessValue, 1)
+          gsap.killTweensOf(opacityOverlay)
+          opacityOverlay.style.opacity = String(targetOpacity)
+        }
+        
+        // Restore original callbacks for opacity triggers
+        opacityTriggers.forEach((trigger: any) => {
+          const originalCallbacks = trigger._originalCallbacks
+          if (originalCallbacks && trigger.vars) {
+            trigger.vars.onEnter = originalCallbacks.onEnter
+            trigger.vars.onEnterBack = originalCallbacks.onEnterBack
+            trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
+            delete trigger._originalCallbacks
+          }
+        })
+        
+        // Re-enable the affected triggers
+        affectedTriggers.forEach((trigger: any) => trigger.enable())
+        opacityTriggers.forEach((trigger: any) => trigger.enable())
+        // Restore ScrollTrigger refresh events
+        ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+        // Refresh ScrollTrigger after moving element back
+        ScrollTrigger.refresh(true)
+      }
+      
+      setIsFullscreen(false)
+      setIsMuted(true)
     }
   }
 
@@ -440,6 +883,186 @@ export default function TextWithArtefacts({
     }
   }, [selectedArtefact])
   
+  // Handle fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        ('webkitFullscreenElement' in document ? (document as Document & { webkitFullscreenElement: Element | null }).webkitFullscreenElement : null) ||
+        ('msFullscreenElement' in document ? (document as Document & { msFullscreenElement: Element | null }).msFullscreenElement : null)
+      )
+      
+      if (!isCurrentlyFullscreen && isFullscreen) {
+        // User exited fullscreen via browser controls (ESC key or browser button)
+        const fullscreenVideo = fullscreenVideoRef.current
+        
+        if (fullscreenVideo) {
+          // Remove fullscreen change listener
+          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          if (fullscreenHandler) {
+            document.removeEventListener('fullscreenchange', fullscreenHandler)
+            document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
+            document.removeEventListener('msfullscreenchange', fullscreenHandler)
+          }
+          
+          // Remove clone from body
+          if (fullscreenVideo.parentElement === document.body) {
+            document.body.removeChild(fullscreenVideo)
+          }
+          fullscreenVideoRef.current = null
+        }
+        
+        // Restore ScrollTrigger instances and refresh
+        const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as any)?._scrollY
+        
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          // Restore scroll position first
+          if (savedScrollY !== undefined) {
+            window.scrollTo(0, savedScrollY)
+          }
+          
+          // Fix opacity-overlay BEFORE re-enabling triggers and refreshing
+          const opacityOverlay = originalVideo?.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+          if (opacityOverlay) {
+            // Get the original overlayDarkness value
+            const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+            const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+            const targetOpacity = Math.min(overlayDarknessValue, 1)
+            
+            // Kill any GSAP animations on the overlay
+            gsap.killTweensOf(opacityOverlay)
+            // Set opacity directly to prevent ScrollTrigger from doubling it
+            opacityOverlay.style.opacity = String(targetOpacity)
+          }
+          
+          // Small delay before re-enabling and refreshing to ensure opacity is set
+          setTimeout(() => {
+            // Restore original callbacks for opacity triggers BEFORE re-enabling
+            opacityTriggers.forEach((trigger: any) => {
+              const originalCallbacks = (trigger as any)._originalCallbacks
+              if (originalCallbacks && trigger.vars) {
+                trigger.vars.onEnter = originalCallbacks.onEnter
+                trigger.vars.onEnterBack = originalCallbacks.onEnterBack
+                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
+                delete (trigger as any)._originalCallbacks
+              }
+            })
+            
+            // Re-enable the affected triggers
+            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            // Re-enable opacity triggers
+            opacityTriggers.forEach((trigger: any) => trigger.enable())
+            // Restore ScrollTrigger refresh events
+            ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+            
+            // Refresh ScrollTrigger
+            ScrollTrigger.refresh()
+            
+            // Immediately after refresh, reset opacity again to catch any callbacks
+            if (opacityOverlay) {
+              const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+              const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+              const targetOpacity = Math.min(overlayDarknessValue, 1)
+              gsap.killTweensOf(opacityOverlay)
+              opacityOverlay.style.opacity = String(targetOpacity)
+            }
+            
+            // Ensure original video is visible and playing after ScrollTrigger refresh
+            if (originalVideo) {
+              // Reset any transforms that might have been applied to video
+              originalVideo.style.transform = ''
+              originalVideo.style.visibility = 'visible'
+              originalVideo.style.opacity = '1'
+              
+              // Also fix the video wrapper if it exists
+              const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+              if (videoWrap) {
+                videoWrap.style.transform = ''
+                videoWrap.style.visibility = 'visible'
+                videoWrap.style.opacity = '1'
+              }
+              
+              // Ensure video is playing
+              if (originalVideo.paused) {
+                originalVideo.play().catch(() => {})
+              }
+            }
+            
+            // Reset opacity one more time after a short delay to catch any delayed callbacks
+            if (opacityOverlay) {
+              setTimeout(() => {
+                const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+                const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+                const targetOpacity = Math.min(overlayDarknessValue, 1)
+                gsap.killTweensOf(opacityOverlay)
+                opacityOverlay.style.opacity = String(targetOpacity)
+              }, 100)
+            }
+          }, 50)
+        } else {
+          // If ScrollTrigger not available, still restore video
+          if (originalVideo) {
+            originalVideo.style.transform = ''
+            originalVideo.style.visibility = 'visible'
+            originalVideo.style.opacity = '1'
+            const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+            if (videoWrap) {
+              videoWrap.style.transform = ''
+              videoWrap.style.visibility = 'visible'
+              videoWrap.style.opacity = '1'
+            }
+            
+            // Fix opacity-overlay if it exists (might be set to 2 by ScrollTrigger)
+            const opacityOverlay = originalVideo.closest('.hero-media-block')?.querySelector('.opacity-overlay') as HTMLElement
+            if (opacityOverlay) {
+              // Get the original overlayDarkness value
+              const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+              const overlayDarknessValue = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
+              const targetOpacity = Math.min(overlayDarknessValue, 1)
+              
+              // Kill any GSAP animations on the overlay
+              gsap.killTweensOf(opacityOverlay)
+              
+              // Reset opacity multiple times to catch ScrollTrigger's callback
+              const resetOpacity = () => {
+                gsap.killTweensOf(opacityOverlay)
+                opacityOverlay.style.opacity = String(targetOpacity)
+              }
+              
+              // Reset immediately
+              resetOpacity()
+              
+              // Reset after delays to catch ScrollTrigger callbacks
+              setTimeout(resetOpacity, 100)
+              setTimeout(resetOpacity, 200)
+              setTimeout(resetOpacity, 300)
+            }
+            
+            if (originalVideo.paused) {
+              originalVideo.play().catch(() => {})
+            }
+          }
+        }
+        
+        setIsFullscreen(false)
+        setIsMuted(true)
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('msfullscreenchange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange)
+    }
+  }, [isFullscreen, overlayDarkness])
+  
   useEffect(() => {
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
@@ -565,12 +1188,12 @@ export default function TextWithArtefacts({
           
             // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
             if (window.innerWidth > 768) {
-              // Get opacity overlay and store initial opacity
-              const opacityOverlay = sectionRef.current?.querySelector('.hero-media-block .opacity-overlay') as HTMLElement
+              const opacityOverlay = sectionRef.current?.querySelector('.opacity-overlay') as HTMLElement
               
               if (opacityOverlay) {
-                const computedStyle = window.getComputedStyle(opacityOverlay)
-                const initialOpacity = parseFloat(computedStyle.opacity) || overlayDarkness || 0.3
+                // Get the original overlayDarkness value from the attribute or prop
+                const overlayDarknessAttr = opacityOverlay.getAttribute('data-overlay-darkness')
+                const initialOpacity = overlayDarknessAttr ? parseFloat(overlayDarknessAttr) : (overlayDarkness || 0.3)
                 
                 ScrollTrigger.create({
                   trigger: textBlock,
@@ -910,7 +1533,7 @@ export default function TextWithArtefacts({
             </div>
           )}
 
-          <div className="opacity-overlay z-2" style={{ opacity: overlayDarkness }}></div>
+          <div className="opacity-overlay z-2" style={{ opacity: overlayDarkness }} data-overlay-darkness={overlayDarkness}></div>
           
           {(desktopTitle || mobileTitle) && ( <div className="z-3 h-pad out-of-view">
             {desktopTitle && <div className="desktop"><h1>{desktopTitle}</h1></div>}
@@ -918,7 +1541,7 @@ export default function TextWithArtefacts({
           </div> )}
         </div>
 
-        {showControls && ( <div ref={videoControlsRef} className="video-controls z-10 out-of-view" style={{ opacity: 0, visibility: 'hidden' }}>
+        {showControls && ( <div ref={videoControlsRef} className={`video-controls visible z-10 out-of-view`} style={{ opacity: 0, visibility: 'hidden', pointerEvents: 'auto' }}>
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
               <line x1="0.5" x2="0.5" y2="20"/>
@@ -930,8 +1553,13 @@ export default function TextWithArtefacts({
             </svg>
           </div>
           
-          <div className="full-screen-button" onClick={toggleFullscreen}>
-            <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+          <div className="full-screen-button" onClick={(e) => {
+            console.log('TextWithArtefacts: Button clicked!', e)
+            e.preventDefault()
+            e.stopPropagation()
+            toggleFullscreen()
+          }} style={{ cursor: 'pointer', pointerEvents: 'auto' }}>
+            <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" style={{ pointerEvents: 'auto' }}>
               <path d="M1 9V1H9"/>
               <path d="M1 13V21H9"/>
               <path d="M21 9V1H13"/>
