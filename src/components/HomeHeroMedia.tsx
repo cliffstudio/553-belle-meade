@@ -386,39 +386,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       if (downArrow) downArrow.style.opacity = '0'
       if (videoControls) videoControls.style.opacity = '0'
 
-    // Get responsive values for symbol
-    const getSymbolValues = () => {
-      const isMobile = window.innerWidth <= 768
-      const isTablet = window.innerWidth <= 1366 && !isMobile
-      const isMobileLandscape = window.innerWidth <= 950 && window.matchMedia('(orientation: landscape)').matches && isMobile
-
-      if (isMobileLandscape) {
-        return {
-          initialWidth: '6.25rem', // 100px / 16
-          finalWidth: '2.625rem', // 42px / 16
-          finalTop: '1.0625rem' // 17px / 16
-        }
-      } else if (isMobile) {
-        return {
-          initialWidth: '6.25rem', // 100px / 16
-          finalWidth: '3.875rem', // 62px / 16
-          finalTop: '1.0625rem' // 17px / 16
-        }
-      } else if (isTablet) {
-        return {
-          initialWidth: '7.8125rem', // 125px / 16
-          finalWidth: '3.9375rem', // 63px / 16
-          finalTop: '1.25rem' // 20px / 16
-        }
-      } else {
-        return {
-          initialWidth: '9vw',
-          finalWidth: '5.0625rem', // 81px / 16
-          finalTop: '1.25rem' // 20px / 16
-        }
-      }
-    }
-
     // Logo sequence: fade in (400ms) → stay (1s) → fade out (400ms)
     const logoSequence = () => {
       if (!logo) return
@@ -438,11 +405,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     const symbolSequence = () => {
       if (!symbol || !symbolSvg) return
 
-      const values = getSymbolValues()
-
-      // Set initial size
-      symbolSvg.style.width = values.initialWidth
-
       // Start after logo finishes (400ms + 1000ms + 400ms = 1800ms)
       setTimeout(() => {
         // Fade in
@@ -452,11 +414,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       // After fade in + stay (1800ms + 400ms + 1000ms = 3200ms), move to top and shrink over 1s
       setTimeout(() => {
         if (symbol) {
-          symbol.style.top = values.finalTop
-          symbol.style.transform = 'translate(-50%, 0)'
-        }
-        if (symbolSvg) {
-          symbolSvg.style.width = values.finalWidth
+          symbol.classList.add('animated')
+          // symbol.style.transform = 'translate(-50%, 0)'
         }
       }, 3200) // 1800ms logo + 400ms fade in + 1000ms stay
     }
