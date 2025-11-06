@@ -457,9 +457,9 @@ export default function HeroMedia({
               const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
               const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
-                trigger.vars.onEnter = originalCallbacks.onEnter
-                trigger.vars.onEnterBack = originalCallbacks.onEnterBack
-                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
+                trigger.vars.onEnter = originalCallbacks.onEnter as typeof trigger.vars.onEnter
+                trigger.vars.onEnterBack = originalCallbacks.onEnterBack as typeof trigger.vars.onEnterBack
+                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack as typeof trigger.vars.onLeaveBack
                 delete extendedTrigger._originalCallbacks
               }
             })
@@ -681,9 +681,9 @@ export default function HeroMedia({
               const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
               const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
-                trigger.vars.onEnter = originalCallbacks.onEnter
-                trigger.vars.onEnterBack = originalCallbacks.onEnterBack
-                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
+                trigger.vars.onEnter = originalCallbacks.onEnter as typeof trigger.vars.onEnter
+                trigger.vars.onEnterBack = originalCallbacks.onEnterBack as typeof trigger.vars.onEnterBack
+                trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack as typeof trigger.vars.onLeaveBack
                 delete extendedTrigger._originalCallbacks
               }
             })
