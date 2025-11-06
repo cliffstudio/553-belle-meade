@@ -10,6 +10,27 @@ import { PortableTextBlock } from '@portabletext/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+// Extended types for fullscreen API
+interface ExtendedDocument extends Document {
+  webkitFullscreenElement?: Element | null
+  msFullscreenElement?: Element | null
+  webkitExitFullscreen?: () => Promise<void>
+  msExitFullscreen?: () => Promise<void>
+}
+
+interface ExtendedVideoElement extends HTMLVideoElement {
+  _originalParent?: HTMLElement | null
+  _affectedTriggers?: ScrollTrigger[]
+  _opacityTriggers?: ScrollTrigger[]
+  _scrollY?: number
+  _fullscreenHandler?: () => void
+  _originalCallbacks?: {
+    onEnter?: () => void
+    onEnterBack?: () => void
+    onLeaveBack?: () => void
+  }
+}
+
 type PageReference = {
   _ref: string
   _type: 'reference'
@@ -141,9 +162,9 @@ export default function HeroMedia({
         const originalParent = sourceVideo.parentElement
         
         // Temporarily disable ScrollTrigger instances that might affect the video
-        let affectedTriggers: any[] = []
+        let affectedTriggers: ScrollTrigger[] = []
         // Also find ScrollTrigger instances that affect opacity-overlay
-        let opacityTriggers: any[] = []
+        let opacityTriggers: ScrollTrigger[] = []
         if (typeof window !== 'undefined' && ScrollTrigger) {
           const allTriggers = ScrollTrigger.getAll()
           affectedTriggers = allTriggers.filter(trigger => {
@@ -188,9 +209,10 @@ export default function HeroMedia({
             })
             
             // Store original callbacks and replace them with no-ops to prevent doubling
-            opacityTriggers.forEach((trigger: any) => {
-              if (!(trigger as any)._originalCallbacks) {
-                (trigger as any)._originalCallbacks = {
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              if (!extendedTrigger._originalCallbacks) {
+                extendedTrigger._originalCallbacks = {
                   onEnter: trigger.vars?.onEnter,
                   onEnterBack: trigger.vars?.onEnterBack,
                   onLeaveBack: trigger.vars?.onLeaveBack
@@ -206,27 +228,13 @@ export default function HeroMedia({
           }
           
           // Disable these specific triggers
-          affectedTriggers.forEach((trigger: any) => trigger.disable())
-          opacityTriggers.forEach((trigger: any) => trigger.disable())
+          affectedTriggers.forEach((trigger) => trigger.disable())
+          opacityTriggers.forEach((trigger) => trigger.disable())
           // Prevent ScrollTrigger from refreshing
           ScrollTrigger.config({ autoRefreshEvents: 'none' })
         }
         
         // Move the video element to document.body to prevent ScrollTrigger interference
-        // First, ensure video has proper styling for fullscreen
-        const originalStyles = {
-          position: sourceVideo.style.position,
-          top: sourceVideo.style.top,
-          left: sourceVideo.style.left,
-          width: sourceVideo.style.width,
-          height: sourceVideo.style.height,
-          zIndex: sourceVideo.style.zIndex,
-          transform: sourceVideo.style.transform,
-          visibility: sourceVideo.style.visibility,
-          opacity: sourceVideo.style.opacity,
-          pointerEvents: sourceVideo.style.pointerEvents
-        }
-        
         // Clear any ScrollTrigger transforms by getting computed style and resetting
         const computedStyle = window.getComputedStyle(sourceVideo)
         if (computedStyle.transform && computedStyle.transform !== 'none') {
@@ -311,9 +319,10 @@ export default function HeroMedia({
         
         // Ensure controls are visible after entering fullscreen - do this multiple times
         const ensureControls = () => {
+          const doc = document as ExtendedDocument
           const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone
           
           if (isFullscreen) {
             console.log('Ensuring controls are visible on clone...')
@@ -343,9 +352,10 @@ export default function HeroMedia({
         
         // Set up a listener for fullscreen change to ensure controls appear
         const handleFullscreenEnter = () => {
+          const doc = document as ExtendedDocument
           if (document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone) {
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone) {
             // Multiple attempts to ensure controls show
             ensureControls()
             setTimeout(ensureControls, 10)
@@ -362,7 +372,7 @@ export default function HeroMedia({
         document.addEventListener('msfullscreenchange', handleFullscreenEnter)
         
         // Store handler for cleanup
-        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        ;(fullscreenVideoClone as ExtendedVideoElement)._fullscreenHandler = handleFullscreenEnter
         
         // Initial attempts
         ensureControls()
@@ -375,10 +385,10 @@ export default function HeroMedia({
         fullscreenVideoRef.current = fullscreenVideoClone
         
         // Store data for restoration (on original video, not clone)
-        ;(sourceVideo as any)._originalParent = originalParent
-        ;(sourceVideo as any)._affectedTriggers = affectedTriggers
-        ;(sourceVideo as any)._opacityTriggers = opacityTriggers
-        ;(sourceVideo as any)._scrollY = scrollY
+        ;(sourceVideo as ExtendedVideoElement)._originalParent = originalParent
+        ;(sourceVideo as ExtendedVideoElement)._affectedTriggers = affectedTriggers
+        ;(sourceVideo as ExtendedVideoElement)._opacityTriggers = opacityTriggers
+        ;(sourceVideo as ExtendedVideoElement)._scrollY = scrollY
         
         setIsFullscreen(true)
         setIsMuted(false)
@@ -396,7 +406,7 @@ export default function HeroMedia({
         const fullscreenVideo = fullscreenVideoRef.current
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -412,9 +422,9 @@ export default function HeroMedia({
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as ExtendedVideoElement)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -443,13 +453,14 @@ export default function HeroMedia({
             window.scrollTo(0, 0)
             
             // Restore original callbacks for opacity triggers BEFORE re-enabling
-            opacityTriggers.forEach((trigger: any) => {
-              const originalCallbacks = (trigger as any)._originalCallbacks
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
                 trigger.vars.onEnter = originalCallbacks.onEnter
                 trigger.vars.onEnterBack = originalCallbacks.onEnterBack
                 trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
-                delete (trigger as any)._originalCallbacks
+                delete extendedTrigger._originalCallbacks
               }
             })
             
@@ -549,13 +560,13 @@ export default function HeroMedia({
       console.error('Error toggling fullscreen:', error)
       // Restore ScrollTrigger on error
       const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-      const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-      const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
-      const savedScrollY = (originalVideo as any)?._scrollY
+      const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+      const opacityTriggers = (originalVideo as ExtendedVideoElement)?._opacityTriggers || []
+      const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
       
       // Move video back to original parent if needed
-      if (originalVideo && (originalVideo as any)._originalParent) {
-        const originalParent = (originalVideo as any)._originalParent as HTMLElement
+      if (originalVideo && (originalVideo as ExtendedVideoElement)._originalParent) {
+        const originalParent = (originalVideo as ExtendedVideoElement)._originalParent as HTMLElement
         if (originalVideo.parentElement === document.body) {
           document.body.removeChild(originalVideo)
           originalParent.appendChild(originalVideo)
@@ -605,10 +616,11 @@ export default function HeroMedia({
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
+      const doc = document as ExtendedDocument
       const isCurrentlyFullscreen = !!(
         document.fullscreenElement ||
-        ('webkitFullscreenElement' in document ? (document as Document & { webkitFullscreenElement: Element | null }).webkitFullscreenElement : null) ||
-        ('msFullscreenElement' in document ? (document as Document & { msFullscreenElement: Element | null }).msFullscreenElement : null)
+        doc.webkitFullscreenElement ||
+        doc.msFullscreenElement
       )
       
       if (!isCurrentlyFullscreen && isFullscreen) {
@@ -617,7 +629,7 @@ export default function HeroMedia({
         
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -633,9 +645,9 @@ export default function HeroMedia({
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as ExtendedVideoElement)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -664,13 +676,14 @@ export default function HeroMedia({
             window.scrollTo(0, 0)
             
             // Restore original callbacks for opacity triggers BEFORE re-enabling
-            opacityTriggers.forEach((trigger: any) => {
-              const originalCallbacks = (trigger as any)._originalCallbacks
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
                 trigger.vars.onEnter = originalCallbacks.onEnter
                 trigger.vars.onEnterBack = originalCallbacks.onEnterBack
                 trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
-                delete (trigger as any)._originalCallbacks
+                delete extendedTrigger._originalCallbacks
               }
             })
             

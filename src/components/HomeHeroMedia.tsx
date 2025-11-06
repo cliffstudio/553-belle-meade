@@ -11,6 +11,20 @@ import Symbol from './Symbol'
 import { useState, useRef, useEffect } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+// Extended types for fullscreen API
+interface ExtendedDocument extends Document {
+  webkitFullscreenElement?: Element | null
+  msFullscreenElement?: Element | null
+  webkitExitFullscreen?: () => Promise<void>
+  msExitFullscreen?: () => Promise<void>
+}
+
+interface ExtendedVideoElement extends HTMLVideoElement {
+  _affectedTriggers?: ScrollTrigger[]
+  _scrollY?: number
+  _fullscreenHandler?: () => void
+}
+
 type HomeHeroMediaProps = {
   backgroundMediaType?: 'image' | 'video'
   desktopBackgroundImage?: SanityImage
@@ -79,7 +93,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     console.log('HomeHeroMedia: toggleFullscreen called!')
     const desktopVideo = desktopVideoRef.current
     const mobileVideo = mobileVideoRef.current
-    const fullscreenVideo = fullscreenVideoRef.current
     
     // Determine which video to use based on screen size or availability
     const sourceVideo = window.innerWidth >= 768 ? desktopVideo : mobileVideo
@@ -93,7 +106,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         const videoWrap = sourceVideo.closest('.fill-space-video-wrap') as HTMLElement
         
         // Temporarily disable ScrollTrigger instances that might affect the video
-        let affectedTriggers: any[] = []
+        let affectedTriggers: ScrollTrigger[] = []
         if (typeof window !== 'undefined' && ScrollTrigger) {
           const allTriggers = ScrollTrigger.getAll()
           affectedTriggers = allTriggers.filter(trigger => {
@@ -114,7 +127,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
             
             return isVideoRelated || isPinningParent
           })
-          affectedTriggers.forEach((trigger: any) => trigger.disable())
+          affectedTriggers.forEach((trigger) => trigger.disable())
           ScrollTrigger.config({ autoRefreshEvents: 'none' })
         }
         
@@ -171,9 +184,10 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         
         // Ensure controls are visible after entering fullscreen
         const ensureControls = () => {
+          const doc = document as ExtendedDocument
           const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone
           
           if (isFullscreen) {
             fullscreenVideoClone.removeAttribute('controls')
@@ -188,9 +202,10 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         }
         
         const handleFullscreenEnter = () => {
+          const doc = document as ExtendedDocument
           if (document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone) {
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone) {
             ensureControls()
             setTimeout(ensureControls, 10)
             setTimeout(ensureControls, 50)
@@ -204,7 +219,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         document.addEventListener('fullscreenchange', handleFullscreenEnter)
         document.addEventListener('webkitfullscreenchange', handleFullscreenEnter)
         document.addEventListener('msfullscreenchange', handleFullscreenEnter)
-        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        ;(fullscreenVideoClone as ExtendedVideoElement)._fullscreenHandler = handleFullscreenEnter
         
         ensureControls()
         setTimeout(ensureControls, 10)
@@ -214,8 +229,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         
         // Store reference to clone for cleanup
         fullscreenVideoRef.current = fullscreenVideoClone
-        ;(sourceVideo as any)._affectedTriggers = affectedTriggers
-        ;(sourceVideo as any)._scrollY = scrollY
+        ;(sourceVideo as ExtendedVideoElement)._affectedTriggers = affectedTriggers
+        ;(sourceVideo as ExtendedVideoElement)._scrollY = scrollY
         
         setIsFullscreen(true)
         setIsMuted(false)
@@ -233,7 +248,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         const fullscreenVideo = fullscreenVideoRef.current
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -249,8 +264,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -261,7 +276,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
           // Small delay before re-enabling and refreshing
           setTimeout(() => {
             // Re-enable the affected triggers
-            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            affectedTriggers.forEach((trigger) => trigger.enable())
             // Restore ScrollTrigger refresh events
             ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
             
@@ -312,8 +327,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       console.error('Error toggling fullscreen:', error)
       // Restore ScrollTrigger on error
       const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-      const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-      const savedScrollY = (originalVideo as any)?._scrollY
+      const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+      const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
       
       if (typeof window !== 'undefined' && ScrollTrigger) {
         // Restore scroll position if saved
@@ -322,7 +337,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         }
         
         // Re-enable the affected triggers
-        affectedTriggers.forEach((trigger: any) => trigger.enable())
+        affectedTriggers.forEach((trigger) => trigger.enable())
         // Restore ScrollTrigger refresh events
         ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
         // Refresh ScrollTrigger
@@ -344,10 +359,11 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
+      const doc = document as ExtendedDocument
       const isCurrentlyFullscreen = !!(
         document.fullscreenElement ||
-        ('webkitFullscreenElement' in document ? (document as Document & { webkitFullscreenElement: Element | null }).webkitFullscreenElement : null) ||
-        ('msFullscreenElement' in document ? (document as Document & { msFullscreenElement: Element | null }).msFullscreenElement : null)
+        doc.webkitFullscreenElement ||
+        doc.msFullscreenElement
       )
       
       if (!isCurrentlyFullscreen && isFullscreen) {
@@ -356,7 +372,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -372,8 +388,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -384,7 +400,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
           // Small delay before re-enabling and refreshing
           setTimeout(() => {
             // Re-enable the affected triggers
-            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            affectedTriggers.forEach((trigger) => trigger.enable())
             // Restore ScrollTrigger refresh events
             ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
             

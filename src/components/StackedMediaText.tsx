@@ -9,6 +9,20 @@ import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+// Extended types for fullscreen API
+interface ExtendedDocument extends Document {
+  webkitFullscreenElement?: Element | null
+  msFullscreenElement?: Element | null
+  webkitExitFullscreen?: () => Promise<void>
+  msExitFullscreen?: () => Promise<void>
+}
+
+interface ExtendedVideoElement extends HTMLVideoElement {
+  _affectedTriggers?: ScrollTrigger[]
+  _scrollY?: number
+  _fullscreenHandler?: () => void
+}
+
 type PageReference = {
   _ref: string
   _type: 'reference'
@@ -101,7 +115,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         const videoWrap = video.closest('.fill-space-video-wrap') as HTMLElement
         
         // Temporarily disable ScrollTrigger instances that might affect the video
-        let affectedTriggers: any[] = []
+        let affectedTriggers: ScrollTrigger[] = []
         if (typeof window !== 'undefined' && ScrollTrigger) {
           const allTriggers = ScrollTrigger.getAll()
           affectedTriggers = allTriggers.filter(trigger => {
@@ -183,9 +197,10 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         
         // Ensure controls are visible after entering fullscreen
         const ensureControls = () => {
+          const doc = document as ExtendedDocument
           const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone
           
           if (isFullscreen) {
             fullscreenVideoClone.removeAttribute('controls')
@@ -200,9 +215,10 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         }
         
         const handleFullscreenEnter = () => {
+          const doc = document as ExtendedDocument
           if (document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone) {
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone) {
             ensureControls()
             setTimeout(ensureControls, 10)
             setTimeout(ensureControls, 50)
@@ -216,7 +232,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         document.addEventListener('fullscreenchange', handleFullscreenEnter)
         document.addEventListener('webkitfullscreenchange', handleFullscreenEnter)
         document.addEventListener('msfullscreenchange', handleFullscreenEnter)
-        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        ;(fullscreenVideoClone as ExtendedVideoElement)._fullscreenHandler = handleFullscreenEnter
         
         ensureControls()
         setTimeout(ensureControls, 10)
@@ -226,8 +242,8 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         
         // Store reference to clone for cleanup
         fullscreenVideoRef.current = fullscreenVideoClone
-        ;(video as any)._affectedTriggers = affectedTriggers
-        ;(video as any)._scrollY = scrollY
+        ;(video as ExtendedVideoElement)._affectedTriggers = affectedTriggers
+        ;(video as ExtendedVideoElement)._scrollY = scrollY
         
         setIsFullscreen(true)
         setIsMuted(false)
@@ -245,7 +261,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         const fullscreenVideo = fullscreenVideoRef.current
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -261,8 +277,8 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = videoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Re-enable the affected triggers
@@ -362,8 +378,8 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
       console.error('Error toggling fullscreen:', error)
       // Restore ScrollTrigger on error
       const fullscreenVideo = fullscreenVideoRef.current
-      const affectedTriggers = (fullscreenVideo as any)?._affectedTriggers || []
-      const savedScrollY = (fullscreenVideo as any)?._scrollY
+      const affectedTriggers = (fullscreenVideo as ExtendedVideoElement)?._affectedTriggers || []
+      const savedScrollY = (fullscreenVideo as ExtendedVideoElement)?._scrollY
       
       if (typeof window !== 'undefined' && ScrollTrigger) {
         // Re-enable the affected triggers
@@ -381,7 +397,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
       if (fullscreenVideo) {
         try {
           document.body.removeChild(fullscreenVideo)
-        } catch (e) {
+        } catch {
           // Element might already be removed
         }
         fullscreenVideoRef.current = null
@@ -395,10 +411,11 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
+      const doc = document as ExtendedDocument
       const isCurrentlyFullscreen = !!(
         document.fullscreenElement ||
-        ('webkitFullscreenElement' in document ? (document as Document & { webkitFullscreenElement: Element | null }).webkitFullscreenElement : null) ||
-        ('msFullscreenElement' in document ? (document as Document & { msFullscreenElement: Element | null }).msFullscreenElement : null)
+        doc.webkitFullscreenElement ||
+        doc.msFullscreenElement
       )
       
       if (!isCurrentlyFullscreen && isFullscreen) {
@@ -407,7 +424,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -423,8 +440,8 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = videoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Re-enable the affected triggers
