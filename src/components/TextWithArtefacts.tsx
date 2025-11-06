@@ -62,6 +62,7 @@ export default function TextWithArtefacts({
   const overlayMediaWrapRef = useRef<HTMLDivElement>(null)
   const videoControlsRef = useRef<HTMLDivElement>(null)
   const artefactDescriptionRef = useRef<HTMLParagraphElement>(null)
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
   
   // Video control state
@@ -453,6 +454,7 @@ export default function TextWithArtefacts({
           const computedStyle = window.getComputedStyle(element)
           const transform = computedStyle.transform
           
+          // Reset transforms that might be causing issues
           // Check if transform contains a large translateY value (indicating unwanted shift)
           if (transform && transform !== 'none' && transform.includes('matrix')) {
             const matrixMatch = transform.match(/matrix\([^,]+,\s*[^,]+,\s*[^,]+,\s*[^,]+,\s*([^,]+),\s*([^)]+)\)/)
@@ -462,6 +464,25 @@ export default function TextWithArtefacts({
               if (Math.abs(translateY) > 1000) {
                 element.style.transform = 'none'
               }
+            }
+          }
+          
+          // Ensure visibility is not hidden
+          if (computedStyle.visibility === 'hidden' || computedStyle.opacity === '0') {
+            element.style.visibility = 'visible'
+            element.style.opacity = '1'
+          }
+          
+          // Ensure the element is not positioned off-screen
+          const rect = element.getBoundingClientRect()
+          const viewportHeight = window.innerHeight
+          const viewportWidth = window.innerWidth
+          
+          // If element is completely outside viewport, reset its transform
+          if (rect.bottom < 0 || rect.top > viewportHeight || rect.right < 0 || rect.left > viewportWidth) {
+            // Only reset if it's way off screen (likely a ScrollTrigger issue)
+            if (Math.abs(rect.top) > viewportHeight * 2 || Math.abs(rect.bottom) > viewportHeight * 2) {
+              element.style.transform = 'none'
             }
           }
         })
@@ -646,8 +667,35 @@ export default function TextWithArtefacts({
     
     // Handle window resize to reinitialize animations if needed
     const handleResize = () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      setTimeout(setupScrollTriggerEffects, 100)
+      // Debounce resize handler
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+      
+      resizeTimeoutRef.current = setTimeout(() => {
+        // Fix video positions before killing ScrollTriggers
+        fixVideoPositions()
+        
+        // Kill all ScrollTrigger instances scoped to this component
+        // Only kill triggers that are related to this section
+        const allTriggers = ScrollTrigger.getAll()
+        allTriggers.forEach(trigger => {
+          const triggerElement = trigger.vars?.trigger as Element
+          if (triggerElement && sectionRef.current?.contains(triggerElement)) {
+            trigger.kill()
+          }
+        })
+        
+        // Refresh ScrollTrigger to recalculate positions
+        ScrollTrigger.refresh()
+        
+        // Reinitialize ScrollTrigger effects after a delay
+        setTimeout(() => {
+          setupScrollTriggerEffects()
+          // Fix video positions again after ScrollTrigger reinitializes
+          setTimeout(fixVideoPositions, 150)
+        }, 100)
+      }, 150) // Debounce delay
     }
 
     window.addEventListener('resize', handleResize)
@@ -655,8 +703,18 @@ export default function TextWithArtefacts({
     // Cleanup function
     return () => {
       clearTimeout(initialTimer)
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
       window.removeEventListener('resize', handleResize)
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      // Only kill triggers related to this component
+      const allTriggers = ScrollTrigger.getAll()
+      allTriggers.forEach(trigger => {
+        const triggerElement = trigger.vars?.trigger as Element
+        if (triggerElement && sectionRef.current?.contains(triggerElement)) {
+          trigger.kill()
+        }
+      })
     }
   }, [pathname, overlayDarkness, showControls]) // Add pathname and showControls as dependencies to re-run on route changes
 

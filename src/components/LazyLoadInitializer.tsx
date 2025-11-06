@@ -19,6 +19,59 @@ export default function LazyLoadInitializer() {
       ScrollTrigger.config({ ignoreMobileResize: true })
       // Normalize wheel/touch input across devices (helps mobile smoothness)
       ScrollTrigger.normalizeScroll(true)
+      
+      // Global function to fix video positions that might be affected by ScrollTrigger
+      const fixAllVideoPositions = () => {
+        const videoWraps = document.querySelectorAll('.fill-space-video-wrap')
+        videoWraps.forEach((wrap: Element) => {
+          const element = wrap as HTMLElement
+          const computedStyle = window.getComputedStyle(element)
+          const transform = computedStyle.transform
+          
+          // Reset transforms that might be causing issues
+          if (transform && transform !== 'none' && transform.includes('matrix')) {
+            const matrixMatch = transform.match(/matrix\([^,]+,\s*[^,]+,\s*[^,]+,\s*[^,]+,\s*([^,]+),\s*([^)]+)\)/)
+            if (matrixMatch) {
+              const translateY = parseFloat(matrixMatch[2])
+              // If translateY is greater than 1000px, it's likely an unwanted GSAP transform
+              if (Math.abs(translateY) > 1000) {
+                element.style.transform = 'none'
+              }
+            }
+          }
+          
+          // Ensure visibility is not hidden
+          if (computedStyle.visibility === 'hidden' || computedStyle.opacity === '0') {
+            element.style.visibility = 'visible'
+            element.style.opacity = '1'
+          }
+        })
+      }
+      
+      // Fix video positions on resize with debounce
+      let resizeTimeout: NodeJS.Timeout | null = null
+      const handleResize = () => {
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout)
+        }
+        resizeTimeout = setTimeout(() => {
+          // Refresh ScrollTrigger first, then fix video positions
+          ScrollTrigger.refresh()
+          setTimeout(fixAllVideoPositions, 100)
+        }, 150)
+      }
+      window.addEventListener('resize', handleResize)
+      
+      // Initial fix
+      setTimeout(fixAllVideoPositions, 200)
+      
+      // Cleanup
+      return () => {
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout)
+        }
+        window.removeEventListener('resize', handleResize)
+      }
     }
   }, [])
 
