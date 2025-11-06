@@ -137,7 +137,7 @@ export default function StaggeredImages({
 
         <div className={classes.row1Section2}></div>
 
-        <div className={`relative ${classes.row1Section3} out-of-view`}>
+        <div className={`relative ${classes.row1Section3} out-of-opacity`}>
           {(image1 || video1) && (
             <div className="media-1 media-wrap">
               {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
@@ -153,7 +153,7 @@ export default function StaggeredImages({
       <div className="row-2 row-lg row-sm">
         <div className={classes.row2Section1}></div>
 
-        <div className={`relative ${classes.row2Section2} out-of-view`}>
+        <div className={`relative ${classes.row2Section2} out-of-opacity`}>
           {(image1 || video1) && (
             <div className="media-1 media-wrap">
               {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
@@ -165,7 +165,7 @@ export default function StaggeredImages({
       </div>
 
       <div className="row-3 row-lg row-sm">
-        <div className={`relative ${classes.row3Section1} out-of-view`}>
+        <div className={`relative ${classes.row3Section1} out-of-opacity`}>
           {(image2 || video2) && (
             <div className="media-2 media-wrap">
               {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
@@ -181,7 +181,7 @@ export default function StaggeredImages({
       <div className="row-4 row-lg row-sm">
         <div className={classes.row4Section1}></div>
 
-        <div className={`relative ${classes.row4Section2} out-of-view`}>
+        <div className={`relative ${classes.row4Section2} out-of-opacity`}>
           {(image3 || video3) && (
             <div className="media-3 media-wrap">
               {renderMedia(mediaType3, image3, video3, 'regular')}
