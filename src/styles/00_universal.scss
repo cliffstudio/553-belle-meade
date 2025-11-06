@@ -148,18 +148,9 @@ section {
   }
 
   svg {
-    height: get-rem-desktop(20);
     fill: none;
     stroke: $colour-cream;
     stroke-width: 1px;
-
-    @media only screen and (max-width: 1366px) {
-      height: get-rem-tablet(22);
-    }
-
-    @media only screen and (max-width: 768px) {
-      height: get-rem-mobile(22);
-    }
   }
 
   .button {
@@ -177,7 +168,22 @@ section {
 
   .play-pause-button {
     position: relative;
-    width: fit-content;
+
+    .pause,
+    .play {
+      height: get-rem-desktop(20);
+      width: get-rem-desktop(11);
+
+      @media only screen and (max-width: 1366px) {
+        height: get-rem-tablet(22);
+        width: get-rem-tablet(12.09);
+      }
+
+      @media only screen and (max-width: 768px) {
+        height: get-rem-mobile(22);
+        width: get-rem-mobile(12.09);
+      }
+    }
 
     .play {
       position: absolute;
@@ -191,6 +197,11 @@ section {
 
     @media only screen and (max-width: 1366px) {
       display: none;
+    }
+
+    svg {
+      height: get-rem-desktop(22);
+      width: get-rem-desktop(22);
     }
   }
 
@@ -207,6 +218,19 @@ section {
       position: absolute;
       top: 0;
       left: 0;
+    }
+
+    .volume,
+    .mute {
+      @media only screen and (max-width: 1366px) {
+        height: get-rem-tablet(22);
+        width: get-rem-tablet(22);
+      }
+
+      @media only screen and (max-width: 768px) {
+        height: get-rem-mobile(22);
+        width: get-rem-mobile(22);
+      }
     }
   }
 }
