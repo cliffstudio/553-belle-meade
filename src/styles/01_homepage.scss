@@ -15,7 +15,7 @@
       left: 50%;
       @include transform(translate(-50%, -50%));
       opacity: 0;
-      @include animation(logoSequence 4s cubic-bezier(0.25,0.1,0.25,1) forwards);
+      transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
   
       svg {
         // width: get-rem-desktop(850);
@@ -38,22 +38,11 @@
       left: 50%;
       @include transform(translate(-50%, -50%));
       opacity: 0;
-      @include animation(symbolSequenceDesktop 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
-
-      @media only screen and (max-width: 1366px) {
-        @include animation(symbolSequenceTablet 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
-
-      @media only screen and (max-width: 768px) {
-        @include animation(symbolSequenceMobile 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
-
-      @media only screen and (max-width: 950px) and (orientation: landscape) {
-        @include animation(symbolSequenceMobileLandscape 5s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
+      transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1), top 1s cubic-bezier(0.25,0.1,0.25,1), transform 1s cubic-bezier(0.25,0.1,0.25,1);
 
       svg {
         fill: $colour-cream;
+        transition: width 1s cubic-bezier(0.25,0.1,0.25,1);
       }
     }
 
@@ -68,16 +57,11 @@
 
     .text-wrap {
       opacity: 0;
-      
-      &.fade-in {
-        @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
+      transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
     }
 
     .opacity-overlay-home {
-      &.fade-out {
-        @include animation(finalPhaseFadeOut 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
+      transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
     }
 
     .down-arrow {
@@ -87,10 +71,7 @@
       @include transform(translateX(-50%));
       width: get-rem-desktop(25);
       opacity: 0;
-      
-      &.fade-in {
-        @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
+      transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
 
       @media only screen and (max-width: 1366px) {
         bottom: get-rem-tablet(50);
@@ -111,13 +92,10 @@
   .video-controls {
     opacity: 0;
     pointer-events: none;
+    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
 
     &.visible {
       pointer-events: all;
-
-      &.fade-in {
-        @include animation(finalPhaseFadeIn 1s cubic-bezier(0.25,0.1,0.25,1) forwards);
-      }
     }
   }
 
@@ -511,137 +489,6 @@
     }
   }
 
-}
-
-// Animation keyframes for homepage sequence
-@keyframes logoSequence {
-  0%, 50%, 100% {
-    opacity: 0;
-  }
-  10%, 35% {
-    opacity: 1;
-  }
-}
-
-@keyframes symbolSequenceDesktop {
-  0%, 50%, 60% {
-    opacity: 0;
-    // width: get-rem-desktop(175);
-    width: 9vw;
-  }
-  70% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    // width: get-rem-desktop(175);
-    width: 9vw;
-  }
-  80% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    // width: get-rem-desktop(175);
-    width: 9vw;
-  }
-  100% {
-    opacity: 1;
-    top: get-rem-desktop(20);
-    @include transform(translate(-50%, 0));
-    width: get-rem-desktop(81);
-  }
-}
-
-@keyframes symbolSequenceTablet {
-  0%, 50%, 60% {
-    opacity: 0;
-    width: get-rem-tablet(125);
-  }
-  70% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-tablet(125);
-  }
-  80% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-tablet(125);
-  }
-  100% {
-    opacity: 1;
-    top: get-rem-tablet(20);
-    @include transform(translate(-50%, 0));
-    width: get-rem-tablet(63);
-  }
-}
-
-@keyframes symbolSequenceMobile {
-  0%, 50%, 60% {
-    opacity: 0;
-    width: get-rem-mobile(100);
-  }
-  70% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-mobile(100);
-  }
-  80% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-mobile(100);
-  }
-  100% {
-    opacity: 1;
-    top: get-rem-mobile(17);
-    @include transform(translate(-50%, 0));
-    width: get-rem-mobile(62);
-  }
-}
-
-@keyframes symbolSequenceMobileLandscape {
-  0%, 50%, 60% {
-    opacity: 0;
-    width: get-rem-mobile(100);
-  }
-  70% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-mobile(100);
-  }
-  80% {
-    opacity: 1;
-    top: 50%;
-    @include transform(translate(-50%, -50%));
-    width: get-rem-mobile(100);
-  }
-  100% {
-    opacity: 1;
-    top: get-rem-mobile(17);
-    @include transform(translate(-50%, 0));
-    width: get-rem-mobile(42);
-  }
-}
-
-@keyframes finalPhaseFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes finalPhaseFadeOut {
-  0% {
-    opacity: var(--initial-opacity);
-  }
-  100% {
-    opacity: calc(var(--initial-opacity) * 2);
-  }
 }
 
 @keyframes arrowBounce {

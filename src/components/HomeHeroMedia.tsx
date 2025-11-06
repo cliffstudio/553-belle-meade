@@ -54,6 +54,9 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
   const desktopVideoRef = useRef<HTMLVideoElement>(null)
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
   const fullscreenVideoRef = useRef<HTMLVideoElement>(null)
+  const logoRef = useRef<HTMLDivElement>(null)
+  const symbolRef = useRef<HTMLDivElement>(null)
+  const symbolSvgRef = useRef<SVGSVGElement>(null)
 
   const togglePlayPause = () => {
     const desktopVideo = desktopVideoRef.current
@@ -356,6 +359,141 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     })
   }
 
+  // Homepage animation sequence
+  useEffect(() => {
+    // Wait for DOM to be ready
+    const initAnimation = () => {
+      // Check if we're on the homepage
+      const isHomepage = document.body.classList.contains('page-type-homepage')
+      if (!isHomepage) return
+
+      // Get all elements that need to be animated
+      const logo = logoRef.current
+      const symbol = symbolRef.current
+      const symbolSvg = symbolSvgRef.current
+      const siteHeader = document.querySelector('.site-header') as HTMLElement
+      const opacityOverlay = document.querySelector('.home-hero-media-block .opacity-overlay-home') as HTMLElement
+      const textWrap = document.querySelector('.home-hero-media-block .text-wrap') as HTMLElement
+      const downArrow = document.querySelector('.home-hero-media-block .down-arrow') as HTMLElement
+      const videoControls = document.querySelector('.home-hero-media-block .video-controls') as HTMLElement
+
+      // Set initial opacity to 0 for all elements
+      if (logo) logo.style.opacity = '0'
+      if (symbol) symbol.style.opacity = '0'
+      if (siteHeader) siteHeader.style.opacity = '0'
+      if (opacityOverlay) opacityOverlay.style.opacity = '0'
+      if (textWrap) textWrap.style.opacity = '0'
+      if (downArrow) downArrow.style.opacity = '0'
+      if (videoControls) videoControls.style.opacity = '0'
+
+    // Get responsive values for symbol
+    const getSymbolValues = () => {
+      const isMobile = window.innerWidth <= 768
+      const isTablet = window.innerWidth <= 1366 && !isMobile
+      const isMobileLandscape = window.innerWidth <= 950 && window.matchMedia('(orientation: landscape)').matches && isMobile
+
+      if (isMobileLandscape) {
+        return {
+          initialWidth: '6.25rem', // 100px / 16
+          finalWidth: '2.625rem', // 42px / 16
+          finalTop: '1.0625rem' // 17px / 16
+        }
+      } else if (isMobile) {
+        return {
+          initialWidth: '6.25rem', // 100px / 16
+          finalWidth: '3.875rem', // 62px / 16
+          finalTop: '1.0625rem' // 17px / 16
+        }
+      } else if (isTablet) {
+        return {
+          initialWidth: '7.8125rem', // 125px / 16
+          finalWidth: '3.9375rem', // 63px / 16
+          finalTop: '1.25rem' // 20px / 16
+        }
+      } else {
+        return {
+          initialWidth: '9vw',
+          finalWidth: '5.0625rem', // 81px / 16
+          finalTop: '1.25rem' // 20px / 16
+        }
+      }
+    }
+
+    // Logo sequence: fade in (400ms) → stay (1s) → fade out (400ms)
+    const logoSequence = () => {
+      if (!logo) return
+
+      // Fade in
+      setTimeout(() => {
+        if (logo) logo.style.opacity = '1'
+      }, 0)
+
+      // Stay visible for 1s, then fade out
+      setTimeout(() => {
+        if (logo) logo.style.opacity = '0'
+      }, 1400) // 400ms fade in + 1000ms stay
+    }
+
+    // Symbol sequence: fade in (400ms) → stay (1s) → move to top and shrink (1s)
+    const symbolSequence = () => {
+      if (!symbol || !symbolSvg) return
+
+      const values = getSymbolValues()
+
+      // Set initial size
+      symbolSvg.style.width = values.initialWidth
+
+      // Start after logo finishes (400ms + 1000ms + 400ms = 1800ms)
+      setTimeout(() => {
+        // Fade in
+        if (symbol) symbol.style.opacity = '1'
+      }, 1800)
+
+      // After fade in + stay (1800ms + 400ms + 1000ms = 3200ms), move to top and shrink over 1s
+      setTimeout(() => {
+        if (symbol) {
+          symbol.style.top = values.finalTop
+          symbol.style.transform = 'translate(-50%, 0)'
+        }
+        if (symbolSvg) {
+          symbolSvg.style.width = values.finalWidth
+        }
+      }, 3200) // 1800ms logo + 400ms fade in + 1000ms stay
+    }
+
+    // Final phase: fade in all elements (400ms)
+    const finalPhase = () => {
+      // Start after symbol completes: logo (1800ms) + symbol fade in (400ms) + symbol stay (1000ms) + symbol move (1000ms) = 4200ms
+      setTimeout(() => {
+        if (siteHeader) {
+          siteHeader.classList.remove('header-hidden')
+          siteHeader.style.opacity = '1'
+        }
+        if (opacityOverlay) {
+          // Fade in overlay to its normal opacity
+          opacityOverlay.style.opacity = String(overlayDarkness)
+        }
+        if (textWrap) textWrap.style.opacity = '1'
+        if (downArrow) downArrow.style.opacity = '1'
+        if (videoControls && showControls) videoControls.style.opacity = '1'
+      }, 4200) // 1800ms logo + 400ms symbol fade + 1000ms symbol stay + 1000ms symbol move
+    }
+
+      // Run sequences
+      logoSequence()
+      symbolSequence()
+      finalPhase()
+    }
+
+    // Initialize animation when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnimation)
+    } else {
+      // DOM already ready, but wait a tick to ensure all elements are rendered
+      setTimeout(initAnimation, 0)
+    }
+  }, [overlayDarkness, showControls])
+
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -540,9 +678,9 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         </div>
       )}
 
-      <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: overlayDarkness }} />
+      <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: 0 }} />
 
-      <div className="logo z-10 h-pad">
+      <div ref={logoRef} className="logo z-10 h-pad">
         <div className="desktop">
           <Logo />
         </div>
@@ -552,8 +690,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
         </div>
       </div>
 
-      <div className="symbol z-500">
-        <Symbol />
+      <div ref={symbolRef} className="symbol z-500">
+        <Symbol ref={symbolSvgRef} />
       </div>
       
       <div className="z-10 text-wrap h-pad">
