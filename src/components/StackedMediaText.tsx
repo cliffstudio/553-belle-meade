@@ -645,7 +645,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
 
           <div className="">
             {mediaType === 'image' && image && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <img 
                 data-src={urlFor(image).url()} 
                 alt="" 
@@ -661,7 +661,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
             )}
             
             {mediaType === 'video' && video && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     ref={videoRef}
@@ -728,7 +728,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
           <div className="row-lg">
             <div className="col-9-12_lg">
               {mediaType === 'image' && image && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <img 
                   data-src={urlFor(image).url()} 
                   alt="" 
@@ -739,7 +739,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
               )}
             
               {mediaType === 'video' && video && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
                       ref={videoRef}

@@ -7,7 +7,7 @@ interface IssuuEmbedProps {
 export default function IssuuEmbed({ className }: IssuuEmbedProps) {
   return (
     <div id="leasing-brochure" 
-      className={`${className} out-of-view`}
+      className={`${className}`}
       style={{
         position: 'relative',
         paddingTop: 'max(60%, 326px)',

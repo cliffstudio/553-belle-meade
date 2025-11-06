@@ -52,7 +52,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
         <div className="row-lg">
           <div className="col-7-12_lg desktop">
             {mediaType === 'image' && image && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <img 
                 data-src={urlFor(image).url()} 
                 alt="" 
@@ -68,7 +68,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
             )}
             
             {mediaType === 'video' && video && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     src={videoUrlFor(video)}
@@ -104,7 +104,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
 
         <div className="mobile">
           {mediaType === 'image' && image && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <img 
               data-src={urlFor(image).url()} 
               alt="" 
@@ -115,7 +115,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
           )}
           
           {mediaType === 'video' && video && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
                   src={videoUrlFor(video)}

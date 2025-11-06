@@ -57,7 +57,7 @@ const PressLayout: React.FC<PressLayoutProps> = ({
   const renderPostCard = (post: PressPost) => (
     <>
       {post.thumbnailImage && (
-        <div className="media-wrap relative out-of-view">
+        <div className="media-wrap relative out-of-opacity">
           <img 
           data-src={urlFor(post.thumbnailImage).url()} 
           alt="" 
@@ -138,7 +138,7 @@ const PressLayout: React.FC<PressLayoutProps> = ({
       rows.push(
         <div key={`row-${postRowNumber}`} className={`press-row row-${rowClassNumber} row-lg h-pad`}>
           <div className={`col-${firstCols}-12_lg`}>
-            <div className="press-card card-1 out-of-view">
+            <div className="press-card card-1 out-of-opacity">
               {renderPostCard(firstPost)}
             </div>
           </div>
@@ -147,7 +147,7 @@ const PressLayout: React.FC<PressLayoutProps> = ({
 
           {secondPost && (
             <div className={`col-${secondCols}-12_lg`}>
-              <div className="press-card card-2 out-of-view">
+              <div className="press-card card-2 out-of-opacity">
                 {renderPostCard(secondPost)}
               </div>
             </div>
@@ -166,7 +166,7 @@ const PressLayout: React.FC<PressLayoutProps> = ({
           <div className="row-lg h-pad">
             <div className="col-3-12_lg desktop"></div>
 
-            <div className="col-6-12_lg out-of-view">
+            <div className="col-6-12_lg out-of-opacity">
               {renderTestimonialCard(getRandomTestimonial()!)}
             </div>
 
