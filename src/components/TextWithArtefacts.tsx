@@ -11,6 +11,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePathname } from 'next/navigation'
 import { DisableBodyScroll, EnableBodyScroll } from '../utils/bodyScroll'
 
+// Extended types for fullscreen API
+interface ExtendedDocument extends Document {
+  webkitFullscreenElement?: Element | null
+  msFullscreenElement?: Element | null
+  webkitExitFullscreen?: () => Promise<void>
+  msExitFullscreen?: () => Promise<void>
+}
+
+interface ExtendedVideoElement extends HTMLVideoElement {
+  _originalParent?: HTMLElement | null
+  _affectedTriggers?: ScrollTrigger[]
+  _opacityTriggers?: ScrollTrigger[]
+  _scrollY?: number
+  _fullscreenHandler?: () => void
+  _originalCallbacks?: {
+    onEnter?: () => void
+    onEnterBack?: () => void
+    onLeaveBack?: () => void
+  }
+}
+
 interface Artefact {
   image?: SanityImage
   caption?: string
@@ -138,9 +159,9 @@ export default function TextWithArtefacts({
         const originalParent = sourceVideo.parentElement
         
         // Temporarily disable ScrollTrigger instances that might affect the video
-        let affectedTriggers: any[] = []
+        let affectedTriggers: ScrollTrigger[] = []
         // Also find ScrollTrigger instances that affect opacity-overlay
-        let opacityTriggers: any[] = []
+        let opacityTriggers: ScrollTrigger[] = []
         if (typeof window !== 'undefined' && ScrollTrigger) {
           const allTriggers = ScrollTrigger.getAll()
           affectedTriggers = allTriggers.filter(trigger => {
@@ -185,9 +206,10 @@ export default function TextWithArtefacts({
             })
             
             // Store original callbacks and replace them with no-ops to prevent doubling
-            opacityTriggers.forEach((trigger: any) => {
-              if (!(trigger as any)._originalCallbacks) {
-                (trigger as any)._originalCallbacks = {
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              if (!extendedTrigger._originalCallbacks) {
+                extendedTrigger._originalCallbacks = {
                   onEnter: trigger.vars?.onEnter,
                   onEnterBack: trigger.vars?.onEnterBack,
                   onLeaveBack: trigger.vars?.onLeaveBack
@@ -203,8 +225,8 @@ export default function TextWithArtefacts({
           }
           
           // Disable these specific triggers
-          affectedTriggers.forEach((trigger: any) => trigger.disable())
-          opacityTriggers.forEach((trigger: any) => trigger.disable())
+          affectedTriggers.forEach((trigger) => trigger.disable())
+          opacityTriggers.forEach((trigger) => trigger.disable())
           // Prevent ScrollTrigger from refreshing
           ScrollTrigger.config({ autoRefreshEvents: 'none' })
         }
@@ -270,9 +292,10 @@ export default function TextWithArtefacts({
         
         // Ensure controls are visible after entering fullscreen - do this multiple times
         const ensureControls = () => {
+          const doc = document as ExtendedDocument
           const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone
           
           if (isFullscreen) {
             console.log('Ensuring controls are visible on clone...')
@@ -302,9 +325,10 @@ export default function TextWithArtefacts({
         
         // Set up a listener for fullscreen change to ensure controls appear
         const handleFullscreenEnter = () => {
+          const doc = document as ExtendedDocument
           if (document.fullscreenElement === fullscreenVideoClone || 
-              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
-              (document as any).msFullscreenElement === fullscreenVideoClone) {
+              doc.webkitFullscreenElement === fullscreenVideoClone ||
+              doc.msFullscreenElement === fullscreenVideoClone) {
             // Multiple attempts to ensure controls show
             ensureControls()
             setTimeout(ensureControls, 10)
@@ -321,7 +345,7 @@ export default function TextWithArtefacts({
         document.addEventListener('msfullscreenchange', handleFullscreenEnter)
         
         // Store handler for cleanup
-        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        ;(fullscreenVideoClone as ExtendedVideoElement)._fullscreenHandler = handleFullscreenEnter
         
         // Initial attempts
         ensureControls()
@@ -334,10 +358,10 @@ export default function TextWithArtefacts({
         fullscreenVideoRef.current = fullscreenVideoClone
         
         // Store data for restoration (on original video, not clone)
-        ;(sourceVideo as any)._originalParent = originalParent
-        ;(sourceVideo as any)._affectedTriggers = affectedTriggers
-        ;(sourceVideo as any)._opacityTriggers = opacityTriggers
-        ;(sourceVideo as any)._scrollY = scrollY
+        ;(sourceVideo as ExtendedVideoElement)._originalParent = originalParent
+        ;(sourceVideo as ExtendedVideoElement)._affectedTriggers = affectedTriggers
+        ;(sourceVideo as ExtendedVideoElement)._opacityTriggers = opacityTriggers
+        ;(sourceVideo as ExtendedVideoElement)._scrollY = scrollY
         
         setIsFullscreen(true)
         setIsMuted(false)
@@ -355,7 +379,7 @@ export default function TextWithArtefacts({
         const fullscreenVideo = fullscreenVideoRef.current
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -371,9 +395,9 @@ export default function TextWithArtefacts({
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as ExtendedVideoElement)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -398,13 +422,14 @@ export default function TextWithArtefacts({
           // Small delay before re-enabling and refreshing to ensure opacity is set
           setTimeout(() => {
             // Restore original callbacks for opacity triggers BEFORE re-enabling
-            opacityTriggers.forEach((trigger: any) => {
-              const originalCallbacks = (trigger as any)._originalCallbacks
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
                 trigger.vars.onEnter = originalCallbacks.onEnter
                 trigger.vars.onEnterBack = originalCallbacks.onEnterBack
                 trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
-                delete (trigger as any)._originalCallbacks
+                delete extendedTrigger._originalCallbacks
               }
             })
             
@@ -886,10 +911,11 @@ export default function TextWithArtefacts({
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
+      const doc = document as ExtendedDocument
       const isCurrentlyFullscreen = !!(
         document.fullscreenElement ||
-        ('webkitFullscreenElement' in document ? (document as Document & { webkitFullscreenElement: Element | null }).webkitFullscreenElement : null) ||
-        ('msFullscreenElement' in document ? (document as Document & { msFullscreenElement: Element | null }).msFullscreenElement : null)
+        doc.webkitFullscreenElement ||
+        doc.msFullscreenElement
       )
       
       if (!isCurrentlyFullscreen && isFullscreen) {
@@ -898,7 +924,7 @@ export default function TextWithArtefacts({
         
         if (fullscreenVideo) {
           // Remove fullscreen change listener
-          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          const fullscreenHandler = (fullscreenVideo as ExtendedVideoElement)._fullscreenHandler
           if (fullscreenHandler) {
             document.removeEventListener('fullscreenchange', fullscreenHandler)
             document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
@@ -914,9 +940,9 @@ export default function TextWithArtefacts({
         
         // Restore ScrollTrigger instances and refresh
         const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
-        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
-        const opacityTriggers = (originalVideo as any)?._opacityTriggers || []
-        const savedScrollY = (originalVideo as any)?._scrollY
+        const affectedTriggers = (originalVideo as ExtendedVideoElement)?._affectedTriggers || []
+        const opacityTriggers = (originalVideo as ExtendedVideoElement)?._opacityTriggers || []
+        const savedScrollY = (originalVideo as ExtendedVideoElement)?._scrollY
         
         if (typeof window !== 'undefined' && ScrollTrigger) {
           // Restore scroll position first
@@ -941,13 +967,14 @@ export default function TextWithArtefacts({
           // Small delay before re-enabling and refreshing to ensure opacity is set
           setTimeout(() => {
             // Restore original callbacks for opacity triggers BEFORE re-enabling
-            opacityTriggers.forEach((trigger: any) => {
-              const originalCallbacks = (trigger as any)._originalCallbacks
+            opacityTriggers.forEach((trigger) => {
+              const extendedTrigger = trigger as ScrollTrigger & { _originalCallbacks?: ExtendedVideoElement['_originalCallbacks'] }
+              const originalCallbacks = extendedTrigger._originalCallbacks
               if (originalCallbacks && trigger.vars) {
                 trigger.vars.onEnter = originalCallbacks.onEnter
                 trigger.vars.onEnterBack = originalCallbacks.onEnterBack
                 trigger.vars.onLeaveBack = originalCallbacks.onLeaveBack
-                delete (trigger as any)._originalCallbacks
+                delete extendedTrigger._originalCallbacks
               }
             })
             
@@ -1324,6 +1351,7 @@ export default function TextWithArtefacts({
     window.addEventListener('resize', handleResize)
 
     // Cleanup function
+    const currentSectionRef = sectionRef.current
     return () => {
       clearTimeout(initialTimer)
       if (resizeTimeoutRef.current) {
@@ -1334,7 +1362,7 @@ export default function TextWithArtefacts({
       const allTriggers = ScrollTrigger.getAll()
       allTriggers.forEach(trigger => {
         const triggerElement = trigger.vars?.trigger as Element
-        if (triggerElement && sectionRef.current?.contains(triggerElement)) {
+        if (triggerElement && currentSectionRef?.contains(triggerElement)) {
           trigger.kill()
         }
       })
