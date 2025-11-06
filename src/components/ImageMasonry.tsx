@@ -133,7 +133,7 @@ export default function ImageMasonry({
             <div className="row-lg">
               <div className="col-3-12_lg">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -149,7 +149,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}
@@ -168,7 +168,7 @@ export default function ImageMasonry({
 
               <div className="col-7-12_lg">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -184,7 +184,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -228,7 +228,7 @@ export default function ImageMasonry({
 
               <div className="col-4-5_sm">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -244,7 +244,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -263,7 +263,7 @@ export default function ImageMasonry({
             <div className="row-sm">
               <div className="col-3-5_sm">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -279,7 +279,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}
@@ -325,7 +325,7 @@ export default function ImageMasonry({
 
               <div className="col-5-12_lg">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -341,7 +341,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}
@@ -363,7 +363,7 @@ export default function ImageMasonry({
 
               <div className="col-4-12_lg">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -379,7 +379,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -422,7 +422,7 @@ export default function ImageMasonry({
 
               <div className="col-4-5_sm">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -438,7 +438,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}
@@ -457,7 +457,7 @@ export default function ImageMasonry({
             <div className="row-sm">
               <div className="col-4-5_sm">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -473,7 +473,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -517,7 +517,7 @@ export default function ImageMasonry({
 
               <div className="col-6-12_lg">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -533,7 +533,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}
@@ -552,7 +552,7 @@ export default function ImageMasonry({
             <div className="row-lg">
               <div className="col-4-12_lg">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -568,7 +568,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -608,7 +608,7 @@ export default function ImageMasonry({
             <div className="row-sm">
               <div className="col-2-5_sm">
                 {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image2).url()} 
                     alt="" 
@@ -624,7 +624,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType2 === 'video' && video2 && (
-                  <div className="media-2 media-wrap out-of-view">
+                  <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video2)}
@@ -641,7 +641,7 @@ export default function ImageMasonry({
 
               <div className="col-3-5_sm">
                 {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <img 
                     data-src={urlFor(image1).url()} 
                     alt="" 
@@ -657,7 +657,7 @@ export default function ImageMasonry({
                 )}
 
                 {mediaType1 === 'video' && video1 && (
-                  <div className="media-1 media-wrap out-of-view">
+                  <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
                         src={videoUrlFor(video1)}

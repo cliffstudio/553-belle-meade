@@ -80,7 +80,7 @@ const renderTile = (tile: LinkTile, tileIndex: number, numberOfTiles: number) =>
   const { text, href } = getLinkInfo(tile.cta)
   
   return (
-    <div key={tileIndex} className={`${layoutClass} ${tileNumberClass} tile relative out-of-view`}>
+    <div key={tileIndex} className={`${layoutClass} ${tileNumberClass} tile relative out-of-opacity`}>
       {tile.mediaType === 'image' && tile.image && (
         <div className="fill-space-image-wrap">
           <img 
@@ -271,7 +271,7 @@ export default function LinkTiles({
           {/* Mobile Tile 1 */}
           {activeTiles[0] && (
             <div className="row-sm">
-              <div className="tile-1 tile relative col-4-5_sm out-of-view">
+              <div className="tile-1 tile relative col-4-5_sm out-of-opacity">
                 {activeTiles[0].mediaType === 'image' && activeTiles[0].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -319,7 +319,7 @@ export default function LinkTiles({
             <div className="row-sm">
               <div className="col-1-5_sm"></div>
 
-              <div className="tile-2 tile relative col-4-5_sm out-of-view">
+              <div className="tile-2 tile relative col-4-5_sm out-of-opacity">
                 {activeTiles[1].mediaType === 'image' && activeTiles[1].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -363,7 +363,7 @@ export default function LinkTiles({
           {/* Mobile Tile 3 */}
           {activeTiles[2] && (
             <div className="row-sm">
-              <div className="tile-3 tile relative col-4-5_sm out-of-view">
+              <div className="tile-3 tile relative col-4-5_sm out-of-opacity">
                 {activeTiles[2].mediaType === 'image' && activeTiles[2].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -411,7 +411,7 @@ export default function LinkTiles({
             <div className="row-sm">
               <div className="col-2-5_sm"></div>
 
-              <div className="tile-4 tile relative col-3-5_sm out-of-view">
+              <div className="tile-4 tile relative col-3-5_sm out-of-opacity">
                 {activeTiles[3].mediaType === 'image' && activeTiles[3].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -454,7 +454,7 @@ export default function LinkTiles({
 
           {/* Mobile Tile 5 */}
           {activeTiles[4] && (
-            <div className="tile-5 tile relative out-of-view">
+            <div className="tile-5 tile relative out-of-opacity">
               {activeTiles[4].mediaType === 'image' && activeTiles[4].image && (
                 <div className="fill-space-image-wrap">
                   <img 
@@ -499,7 +499,7 @@ export default function LinkTiles({
             <div className="row-sm">
               <div className="col-1-5_sm"></div>
 
-              <div className="tile-6 tile relative col-4-5_sm out-of-view">
+              <div className="tile-6 tile relative col-4-5_sm out-of-opacity">
                 {activeTiles[5].mediaType === 'image' && activeTiles[5].image && (
                   <div className="fill-space-image-wrap">
                     <img 
@@ -543,7 +543,7 @@ export default function LinkTiles({
           {/* Mobile Tile 7 */}
           {activeTiles[6] && (
             <div className="row-sm">
-              <div className="tile-7 tile relative col-4-5_sm out-of-view">
+              <div className="tile-7 tile relative col-4-5_sm out-of-opacity">
                 {activeTiles[6].mediaType === 'image' && activeTiles[6].image && (
                   <div className="fill-space-image-wrap">
                     <img 

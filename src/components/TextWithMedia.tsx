@@ -53,7 +53,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
         <div className="row-lg">
           <div className="col-7-12_lg desktop">
             {mediaType === 'image' && image && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <img 
                 data-src={urlFor(image).url()} 
                 alt="" 
@@ -69,7 +69,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
             )}
             
             {mediaType === 'video' && video && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     src={videoUrlFor(video)}
@@ -109,7 +109,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
 
             <div className="col-3-5_sm">
               {mediaType === 'image' && image && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <img 
                   data-src={urlFor(image).url()} 
                   alt="" 
@@ -120,7 +120,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
               )}
               
               {mediaType === 'video' && video && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
                       src={videoUrlFor(video)}
@@ -165,7 +165,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
 
           <div className="col-3-12_lg desktop">
             {mediaType === 'image' && image && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <img 
                 data-src={urlFor(image).url()} 
                 alt="" 
@@ -181,7 +181,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
             )}
             
             {mediaType === 'video' && video && (
-              <div className="media-wrap out-of-view">
+              <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     src={videoUrlFor(video)}
@@ -203,7 +203,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
 
             <div className="col-3-5_sm">
               {mediaType === 'image' && image && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <img 
                   data-src={urlFor(image).url()} 
                   alt="" 
@@ -214,7 +214,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
               )}
               
               {mediaType === 'video' && video && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
                       src={videoUrlFor(video)}
@@ -260,7 +260,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
           <div className="row-lg">
             <div className="col-10-12_lg">
               {mediaType === 'image' && image && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <img 
                   data-src={urlFor(image).url()} 
                   alt="" 
@@ -271,7 +271,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
               )}
               
               {mediaType === 'video' && video && (
-                <div className="media-wrap out-of-view">
+                <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
                       src={videoUrlFor(video)}
@@ -297,7 +297,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
       <div className="inner-wrap row-lg">
         <div className="col-6-12_lg">
           {mediaType === 'image' && image && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <img 
               data-src={urlFor(image).url()} 
               alt="" 
@@ -308,7 +308,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
           )}
           
           {mediaType === 'video' && video && (
-            <div className="media-wrap out-of-view">
+            <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
                   src={videoUrlFor(video)}

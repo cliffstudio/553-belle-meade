@@ -56,7 +56,7 @@ const PressPost: React.FC<PressPostProps> = ({
       {layout === 'layout-1' && (
         <section className="press-post layout-1">
           {featuredImage && (
-            <div className="full-bleed-media-block relative out-of-view">
+            <div className="full-bleed-media-block relative out-of-opacity">
               <div className="fill-space-image-wrap">
                 <img 
                 data-src={urlFor(featuredImage).url()} 
@@ -117,7 +117,7 @@ const PressPost: React.FC<PressPostProps> = ({
 
             <div className="col-5-12_lg">
               {featuredImage && (
-                <div className="media-wrap relative out-of-view">
+                <div className="media-wrap relative out-of-opacity">
                   <img 
                   data-src={urlFor(featuredImage).url()} 
                   alt="" 

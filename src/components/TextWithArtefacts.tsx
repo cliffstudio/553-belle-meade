@@ -1570,7 +1570,7 @@ export default function TextWithArtefacts({
           </div> )}
         </div>
 
-        {showControls && ( <div ref={videoControlsRef} className={`video-controls visible z-10 out-of-view`} style={{ opacity: 0, visibility: 'hidden', pointerEvents: 'auto' }}>
+        {showControls && ( <div ref={videoControlsRef} className={`video-controls visible z-10 out-of-opacity`} style={{ opacity: 0, visibility: 'hidden', pointerEvents: 'auto' }}>
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
               <line x1="0.5" x2="0.5" y2="20"/>

@@ -148,7 +148,7 @@ export default function VirtualTourEmbed({ className }: VirtualTourEmbedProps) {
     <div 
       ref={containerRef}
       id="virtual-tour" 
-      className={`${className} out-of-view`}
+      className={`${className}`}
     >
       <iframe 
         ref={iframeRef}

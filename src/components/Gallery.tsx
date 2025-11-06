@@ -251,7 +251,7 @@ export default function Gallery({ images }: GalleryProps) {
   return (
     <>
       <section className="gallery-block">
-        <div ref={gridRef} className="gallery-grid out-of-view">
+        <div ref={gridRef} className="gallery-grid out-of-opacity">
           {images.map((item, index) => {
             if (!item.image?.asset) return null
 
