@@ -115,40 +115,6 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
   }
   
-  // Function to trigger final phase animation
-  const triggerFinalPhaseAnimation = () => {
-    // Animate header
-    if (headerRef.current) {
-      headerRef.current.classList.remove('header-hidden')
-      headerRef.current.classList.add('header-fade-in')
-    }
-    
-    // Animate text-wrap and down-arrow
-    const textWrap = document.querySelector('.page-type-homepage .text-wrap')
-    const downArrow = document.querySelector('.page-type-homepage .down-arrow')
-    const videoControls = document.querySelector('.page-type-homepage .video-controls')
-    const opacityOverlay = document.querySelector('.page-type-homepage .opacity-overlay-home')
-    
-    if (textWrap) {
-      textWrap.classList.add('fade-in')
-    }
-    if (downArrow) {
-      downArrow.classList.add('fade-in')
-    }
-    if (videoControls) {
-      videoControls.classList.add('fade-in')
-    }
-    if (opacityOverlay instanceof HTMLElement) {
-      // Store the initial opacity value as a CSS custom property
-      const computedStyle = window.getComputedStyle(opacityOverlay)
-      const initialOpacity = computedStyle.opacity
-      opacityOverlay.style.setProperty('--initial-opacity', initialOpacity)
-      opacityOverlay.classList.add('fade-out')
-    }
-    
-    // Re-enable scrolling after animation completes
-    document.documentElement.classList.add('scroll-enabled')
-  }
 
   // Helper function to check if a menu item is active
   const isActive = (href: string): boolean => {
@@ -591,23 +557,17 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
   }, [])
 
-  // Handle homepage header animation
+  // Handle homepage header visibility
   useEffect(() => {
     if (!headerRef.current) return
     
     if (isHomepage) {
-      // Hide header immediately on homepage
+      // Hide header initially on homepage (will be shown by HomeHeroMedia animation)
       headerRef.current.classList.add('header-hidden')
-      
-      // Show all final elements after 4.5 seconds (when symbol animation completes)
-      const timer = setTimeout(() => {
-        triggerFinalPhaseAnimation()
-      }, 4500)
-      
-      return () => clearTimeout(timer)
     } else {
       // Show header immediately on other pages
-      headerRef.current.classList.remove('header-hidden', 'header-fade-in')
+      headerRef.current.classList.remove('header-hidden')
+      headerRef.current.style.opacity = '1'
       
       // Show text-wrap and down-arrow immediately on other pages
       const textWrap = document.querySelector('.text-wrap')
@@ -616,19 +576,16 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
       const opacityOverlay = document.querySelector('.opacity-overlay-home')
       
       if (textWrap instanceof HTMLElement) {
-        textWrap.classList.remove('fade-in')
         textWrap.style.opacity = '1'
       }
       if (downArrow instanceof HTMLElement) {
-        downArrow.classList.remove('fade-in')
         downArrow.style.opacity = '1'
       }
       if (videoControls instanceof HTMLElement) {
-        videoControls.classList.remove('fade-in')
         videoControls.style.opacity = '1'
       }
       if (opacityOverlay instanceof HTMLElement) {
-        opacityOverlay.classList.remove('fade-out')
+        // Reset overlay opacity on non-homepage
       }
     }
   }, [pathname, isHomepage])
