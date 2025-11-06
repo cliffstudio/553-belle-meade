@@ -25,9 +25,9 @@ interface ExtendedVideoElement extends HTMLVideoElement {
   _scrollY?: number
   _fullscreenHandler?: () => void
   _originalCallbacks?: {
-    onEnter?: () => void
-    onEnterBack?: () => void
-    onLeaveBack?: () => void
+    onEnter?: (...args: unknown[]) => void
+    onEnterBack?: (...args: unknown[]) => void
+    onLeaveBack?: (...args: unknown[]) => void
   }
 }
 
