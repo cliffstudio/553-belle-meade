@@ -452,12 +452,12 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       // After fade in + stay (1800ms + 400ms + 1000ms = 3200ms), move to top and shrink over 1s
       setTimeout(() => {
         if (symbol) {
-          // symbol.style.top = values.finalTop
-          // symbol.style.transform = 'translate(-50%, 0)'
+          symbol.style.top = values.finalTop
+          symbol.style.transform = 'translate(-50%, 0)'
         }
-        // if (symbolSvg) {
-        //   symbolSvg.style.width = values.finalWidth
-        // }
+        if (symbolSvg) {
+          symbolSvg.style.width = values.finalWidth
+        }
       }, 3200) // 1800ms logo + 400ms fade in + 1000ms stay
     }
 
