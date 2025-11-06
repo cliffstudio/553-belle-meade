@@ -9,6 +9,7 @@ import { PortableText, PortableTextBlock } from '@portabletext/react'
 import StackedLogo from './StackedLogo'
 import Symbol from './Symbol'
 import { useState, useRef, useEffect } from 'react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 type HomeHeroMediaProps = {
   backgroundMediaType?: 'image' | 'video'
@@ -75,6 +76,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
   }
 
   const toggleFullscreen = async () => {
+    console.log('HomeHeroMedia: toggleFullscreen called!')
     const desktopVideo = desktopVideoRef.current
     const mobileVideo = mobileVideoRef.current
     const fullscreenVideo = fullscreenVideoRef.current
@@ -86,31 +88,134 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
 
     try {
       if (!isFullscreen) {
-        // Create a dedicated fullscreen video element
-        const fullscreenVideoElement = document.createElement('video')
-        fullscreenVideoElement.src = sourceVideo.src
-        fullscreenVideoElement.controls = true
-        fullscreenVideoElement.muted = false
-        fullscreenVideoElement.autoplay = true
-        fullscreenVideoElement.loop = true
-        fullscreenVideoElement.style.width = '100%'
-        fullscreenVideoElement.style.height = '100%'
-        fullscreenVideoElement.style.objectFit = 'cover'
+        // Save current scroll position
+        const scrollY = window.scrollY
+        const videoWrap = sourceVideo.closest('.fill-space-video-wrap') as HTMLElement
         
-        // Add to body temporarily
-        document.body.appendChild(fullscreenVideoElement)
-        
-        // Enter fullscreen
-        if (fullscreenVideoElement.requestFullscreen) {
-          await fullscreenVideoElement.requestFullscreen()
-        } else if ('webkitRequestFullscreen' in fullscreenVideoElement) {
-          await (fullscreenVideoElement as HTMLVideoElement & { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen()
-        } else if ('msRequestFullscreen' in fullscreenVideoElement) {
-          await (fullscreenVideoElement as HTMLVideoElement & { msRequestFullscreen: () => Promise<void> }).msRequestFullscreen()
+        // Temporarily disable ScrollTrigger instances that might affect the video
+        let affectedTriggers: any[] = []
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          const allTriggers = ScrollTrigger.getAll()
+          affectedTriggers = allTriggers.filter(trigger => {
+            const triggerElement = trigger.vars?.trigger as Element
+            if (!triggerElement) return false
+            
+            const isVideoRelated = 
+              videoWrap?.contains(triggerElement) || 
+              triggerElement.contains(sourceVideo) ||
+              triggerElement.contains(videoWrap) ||
+              (videoWrap && triggerElement === videoWrap) ||
+              triggerElement === sourceVideo
+            
+            const isPinningParent = trigger.vars?.pin && (
+              triggerElement.contains(sourceVideo) ||
+              triggerElement.contains(videoWrap)
+            )
+            
+            return isVideoRelated || isPinningParent
+          })
+          affectedTriggers.forEach((trigger: any) => trigger.disable())
+          ScrollTrigger.config({ autoRefreshEvents: 'none' })
         }
         
-        // Store reference for cleanup
-        fullscreenVideoRef.current = fullscreenVideoElement
+        // Create a clone of the video element for fullscreen
+        const fullscreenVideoClone = sourceVideo.cloneNode(true) as HTMLVideoElement
+        
+        // Copy all important properties
+        fullscreenVideoClone.src = sourceVideo.src
+        fullscreenVideoClone.currentTime = sourceVideo.currentTime
+        fullscreenVideoClone.muted = false
+        fullscreenVideoClone.autoplay = true
+        fullscreenVideoClone.loop = sourceVideo.loop
+        fullscreenVideoClone.playsInline = false
+        fullscreenVideoClone.controls = true
+        fullscreenVideoClone.setAttribute('controls', '')
+        
+        // Set styles for fullscreen
+        fullscreenVideoClone.style.position = 'fixed'
+        fullscreenVideoClone.style.top = '0'
+        fullscreenVideoClone.style.left = '0'
+        fullscreenVideoClone.style.width = '100%'
+        fullscreenVideoClone.style.height = '100%'
+        fullscreenVideoClone.style.zIndex = '999999'
+        fullscreenVideoClone.style.transform = 'none'
+        fullscreenVideoClone.style.visibility = 'visible'
+        fullscreenVideoClone.style.opacity = '1'
+        fullscreenVideoClone.style.pointerEvents = 'auto'
+        fullscreenVideoClone.className = ''
+        
+        // Add clone to body
+        document.body.appendChild(fullscreenVideoClone)
+        
+        // Wait for clone to be ready
+        await new Promise<void>((resolve) => {
+          if (fullscreenVideoClone.readyState >= 2) {
+            resolve()
+          } else {
+            fullscreenVideoClone.addEventListener('loadedmetadata', () => resolve(), { once: true })
+            fullscreenVideoClone.load()
+          }
+        })
+        
+        // Wait a moment for DOM to update
+        await new Promise(resolve => setTimeout(resolve, 50))
+        
+        // Enter fullscreen with the clone
+        if (fullscreenVideoClone.requestFullscreen) {
+          await fullscreenVideoClone.requestFullscreen()
+        } else if ('webkitRequestFullscreen' in fullscreenVideoClone) {
+          await (fullscreenVideoClone as HTMLVideoElement & { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen()
+        } else if ('msRequestFullscreen' in fullscreenVideoClone) {
+          await (fullscreenVideoClone as HTMLVideoElement & { msRequestFullscreen: () => Promise<void> }).msRequestFullscreen()
+        }
+        
+        // Ensure controls are visible after entering fullscreen
+        const ensureControls = () => {
+          const isFullscreen = document.fullscreenElement === fullscreenVideoClone || 
+              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
+              (document as any).msFullscreenElement === fullscreenVideoClone
+          
+          if (isFullscreen) {
+            fullscreenVideoClone.removeAttribute('controls')
+            fullscreenVideoClone.controls = false
+            void fullscreenVideoClone.offsetWidth
+            fullscreenVideoClone.controls = true
+            fullscreenVideoClone.setAttribute('controls', '')
+            fullscreenVideoClone.style.visibility = 'visible'
+            fullscreenVideoClone.style.opacity = '1'
+            fullscreenVideoClone.style.pointerEvents = 'auto'
+          }
+        }
+        
+        const handleFullscreenEnter = () => {
+          if (document.fullscreenElement === fullscreenVideoClone || 
+              (document as any).webkitFullscreenElement === fullscreenVideoClone ||
+              (document as any).msFullscreenElement === fullscreenVideoClone) {
+            ensureControls()
+            setTimeout(ensureControls, 10)
+            setTimeout(ensureControls, 50)
+            setTimeout(ensureControls, 100)
+            setTimeout(ensureControls, 200)
+            setTimeout(ensureControls, 300)
+            setTimeout(ensureControls, 500)
+          }
+        }
+        
+        document.addEventListener('fullscreenchange', handleFullscreenEnter)
+        document.addEventListener('webkitfullscreenchange', handleFullscreenEnter)
+        document.addEventListener('msfullscreenchange', handleFullscreenEnter)
+        ;(fullscreenVideoClone as any)._fullscreenHandler = handleFullscreenEnter
+        
+        ensureControls()
+        setTimeout(ensureControls, 10)
+        setTimeout(ensureControls, 50)
+        setTimeout(ensureControls, 100)
+        setTimeout(ensureControls, 200)
+        
+        // Store reference to clone for cleanup
+        fullscreenVideoRef.current = fullscreenVideoClone
+        ;(sourceVideo as any)._affectedTriggers = affectedTriggers
+        ;(sourceVideo as any)._scrollY = scrollY
         
         setIsFullscreen(true)
         setIsMuted(false)
@@ -124,10 +229,80 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
           await (document as Document & { msExitFullscreen: () => Promise<void> }).msExitFullscreen()
         }
         
-        // Clean up the fullscreen video element
+        // Clean up the fullscreen video clone
+        const fullscreenVideo = fullscreenVideoRef.current
         if (fullscreenVideo) {
-          document.body.removeChild(fullscreenVideo)
+          // Remove fullscreen change listener
+          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          if (fullscreenHandler) {
+            document.removeEventListener('fullscreenchange', fullscreenHandler)
+            document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
+            document.removeEventListener('msfullscreenchange', fullscreenHandler)
+          }
+          
+          // Remove clone from body
+          if (fullscreenVideo.parentElement === document.body) {
+            document.body.removeChild(fullscreenVideo)
+          }
           fullscreenVideoRef.current = null
+        }
+        
+        // Restore ScrollTrigger instances and refresh
+        const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as any)?._scrollY
+        
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          // Restore scroll position first
+          if (savedScrollY !== undefined) {
+            window.scrollTo(0, savedScrollY)
+          }
+          
+          // Small delay before re-enabling and refreshing
+          setTimeout(() => {
+            // Re-enable the affected triggers
+            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            // Restore ScrollTrigger refresh events
+            ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+            
+            // Refresh ScrollTrigger
+            ScrollTrigger.refresh()
+            
+            // Ensure original video is visible and playing after ScrollTrigger refresh
+            if (originalVideo) {
+              originalVideo.style.transform = ''
+              originalVideo.style.visibility = 'visible'
+              originalVideo.style.opacity = '1'
+              
+              const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+              if (videoWrap) {
+                videoWrap.style.transform = ''
+                videoWrap.style.visibility = 'visible'
+                videoWrap.style.opacity = '1'
+              }
+              
+              if (originalVideo.paused) {
+                originalVideo.play().catch(() => {})
+              }
+            }
+          }, 50)
+        } else {
+          // If ScrollTrigger not available, still restore video
+          if (originalVideo) {
+            originalVideo.style.transform = ''
+            originalVideo.style.visibility = 'visible'
+            originalVideo.style.opacity = '1'
+            const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+            if (videoWrap) {
+              videoWrap.style.transform = ''
+              videoWrap.style.visibility = 'visible'
+              videoWrap.style.opacity = '1'
+            }
+            
+            if (originalVideo.paused) {
+              originalVideo.play().catch(() => {})
+            }
+          }
         }
         
         setIsFullscreen(false)
@@ -135,6 +310,27 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       }
     } catch (error) {
       console.error('Error toggling fullscreen:', error)
+      // Restore ScrollTrigger on error
+      const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+      const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+      const savedScrollY = (originalVideo as any)?._scrollY
+      
+      if (typeof window !== 'undefined' && ScrollTrigger) {
+        // Restore scroll position if saved
+        if (savedScrollY !== undefined) {
+          window.scrollTo(0, savedScrollY)
+        }
+        
+        // Re-enable the affected triggers
+        affectedTriggers.forEach((trigger: any) => trigger.enable())
+        // Restore ScrollTrigger refresh events
+        ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+        // Refresh ScrollTrigger
+        ScrollTrigger.refresh(true)
+      }
+      
+      setIsFullscreen(false)
+      setIsMuted(true)
     }
   }
 
@@ -155,12 +351,81 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       )
       
       if (!isCurrentlyFullscreen && isFullscreen) {
-        // User exited fullscreen via browser controls
+        // User exited fullscreen via browser controls (ESC key or browser button)
         const fullscreenVideo = fullscreenVideoRef.current
         
         if (fullscreenVideo) {
-          document.body.removeChild(fullscreenVideo)
+          // Remove fullscreen change listener
+          const fullscreenHandler = (fullscreenVideo as any)._fullscreenHandler
+          if (fullscreenHandler) {
+            document.removeEventListener('fullscreenchange', fullscreenHandler)
+            document.removeEventListener('webkitfullscreenchange', fullscreenHandler)
+            document.removeEventListener('msfullscreenchange', fullscreenHandler)
+          }
+          
+          // Remove clone from body
+          if (fullscreenVideo.parentElement === document.body) {
+            document.body.removeChild(fullscreenVideo)
+          }
           fullscreenVideoRef.current = null
+        }
+        
+        // Restore ScrollTrigger instances and refresh
+        const originalVideo = window.innerWidth >= 768 ? desktopVideoRef.current : mobileVideoRef.current
+        const affectedTriggers = (originalVideo as any)?._affectedTriggers || []
+        const savedScrollY = (originalVideo as any)?._scrollY
+        
+        if (typeof window !== 'undefined' && ScrollTrigger) {
+          // Restore scroll position first
+          if (savedScrollY !== undefined) {
+            window.scrollTo(0, savedScrollY)
+          }
+          
+          // Small delay before re-enabling and refreshing
+          setTimeout(() => {
+            // Re-enable the affected triggers
+            affectedTriggers.forEach((trigger: any) => trigger.enable())
+            // Restore ScrollTrigger refresh events
+            ScrollTrigger.config({ autoRefreshEvents: 'resize,visibilitychange,DOMContentLoaded,load' })
+            
+            // Refresh ScrollTrigger
+            ScrollTrigger.refresh()
+            
+            // Ensure original video is visible and playing after ScrollTrigger refresh
+            if (originalVideo) {
+              originalVideo.style.transform = ''
+              originalVideo.style.visibility = 'visible'
+              originalVideo.style.opacity = '1'
+              
+              const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+              if (videoWrap) {
+                videoWrap.style.transform = ''
+                videoWrap.style.visibility = 'visible'
+                videoWrap.style.opacity = '1'
+              }
+              
+              if (originalVideo.paused) {
+                originalVideo.play().catch(() => {})
+              }
+            }
+          }, 50)
+        } else {
+          // If ScrollTrigger not available, still restore video
+          if (originalVideo) {
+            originalVideo.style.transform = ''
+            originalVideo.style.visibility = 'visible'
+            originalVideo.style.opacity = '1'
+            const videoWrap = originalVideo.closest('.fill-space-video-wrap') as HTMLElement
+            if (videoWrap) {
+              videoWrap.style.transform = ''
+              videoWrap.style.visibility = 'visible'
+              videoWrap.style.opacity = '1'
+            }
+            
+            if (originalVideo.paused) {
+              originalVideo.play().catch(() => {})
+            }
+          }
         }
         
         setIsFullscreen(false)
@@ -297,8 +562,13 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
           </svg>
         </div>
         
-        <div className="full-screen-button" onClick={toggleFullscreen}>
-          <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+        <div className="full-screen-button" onClick={(e) => {
+          console.log('HomeHeroMedia: Button clicked!', e)
+          e.preventDefault()
+          e.stopPropagation()
+          toggleFullscreen()
+        }} style={{ cursor: 'pointer', pointerEvents: 'auto' }}>
+          <svg className="button active" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" style={{ pointerEvents: 'auto' }}>
             <path d="M1 9V1H9"/>
             <path d="M1 13V21H9"/>
             <path d="M21 9V1H13"/>
