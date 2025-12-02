@@ -152,6 +152,17 @@ export const pageQuery = groq`
         video ${videoFragment},
         showControls
       },
+      homepageStackedMediaText {
+        layout,
+        heading,
+        body,
+        cta ${linkFragment},
+        backgroundColour,
+        mediaType,
+        image ${imageFragment},
+        video ${videoFragment},
+        showControls
+      },
       homepageLargeMediaText {
         heading,
         body,
@@ -767,6 +778,17 @@ export const homepageQuery = groq`
       }
     },
     homepageFullWidthMedia {
+      mediaType,
+      image ${imageFragment},
+      video ${videoFragment},
+      showControls
+    },
+    homepageStackedMediaText {
+      layout,
+      heading,
+      body,
+      cta ${linkFragment},
+      backgroundColour,
       mediaType,
       image ${imageFragment},
       video ${videoFragment},
