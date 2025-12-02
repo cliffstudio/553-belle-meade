@@ -749,13 +749,11 @@ section {
     opacity: 1;
 
     @media only screen and (max-width: 1366px) {
-      bottom: get-rem-tablet(20);
-      right: get-rem-tablet(20);
+      padding: get-rem-tablet(20);
     }
 
     @media only screen and (max-width: 768px) {
-      bottom: get-rem-mobile(10);
-      right: get-rem-mobile(10);
+      padding: get-rem-mobile(20);
     }
   }
 }
