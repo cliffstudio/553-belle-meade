@@ -56,7 +56,6 @@ export const pageQuery = groq`
     // Homepage fields
     pageType == "homepage" => {
       homepageHero {
-        introText,
         backgroundMediaType,
         desktopBackgroundImage {
           asset {
@@ -699,7 +698,6 @@ export const homepageQuery = groq`
     title,
     pageType,
     homepageHero {
-      introText,
       backgroundMediaType,
       desktopBackgroundImage ${imageFragment},
       mobileBackgroundImage ${imageFragment},

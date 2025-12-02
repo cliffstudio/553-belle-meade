@@ -6,7 +6,6 @@ export default defineType({
   title: 'Home Hero Media',
   type: 'object',
   fields: [
-    defineField({ name: 'introText', type: 'richPortableText' }),
     defineField({
       name: 'backgroundMediaType',
       title: 'Background Media Type',
