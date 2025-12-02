@@ -974,7 +974,7 @@ body.page-type-homepage {
 
   .inner-wrap {
     padding-top: get-rem-desktop(42);
-    padding-bottom: get-rem-desktop(34);
+    padding-bottom: get-rem-desktop(27);
     @include flex;
     @include justify-content(flex-end);
     @include align-items(center);
@@ -982,7 +982,7 @@ body.page-type-homepage {
 
     @media only screen and (max-width: 1366px) {
       padding-top: get-rem-tablet(36);
-      padding-bottom: get-rem-tablet(35);
+      padding-bottom: get-rem-tablet(24);
       column-gap: get-rem-tablet(20);
     }
 
