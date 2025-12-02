@@ -24,6 +24,7 @@ type Architect = {
 
 type ArchitectsProps = {
   heading?: string
+  body?: PortableTextBlock[]
   architects: Architect[]
 }
 
@@ -40,7 +41,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function Architects({ heading, architects }: ArchitectsProps) {
+export default function Architects({ heading, body, architects }: ArchitectsProps) {
   if (!architects || architects.length === 0) {
     return null
   }
@@ -49,8 +50,14 @@ export default function Architects({ heading, architects }: ArchitectsProps) {
     <section className="architects-block h-pad">
       <div className="inner-wrap row-lg">
         {heading && (
-          <div className="col-4-12_lg">
-            <h2 className="heading out-of-view">{heading}</h2>
+          <div className="col-4-12_lg out-of-view">
+            <h2 className="heading">{heading}</h2>
+
+            {body && (
+              <div className="body">
+                <PortableText value={body} />
+              </div>
+            )}
           </div>
         )}
 

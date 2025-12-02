@@ -60,14 +60,28 @@
     
     .heading {
       max-width: get-rem-desktop(300);
+      margin-bottom: get-rem-desktop(10);
 
       @media only screen and (max-width: 1366px) {
         max-width: get-rem-tablet(220);
+        margin-bottom: get-rem-tablet(10);
       }
 
       @media only screen and (max-width: 768px) {
         max-width: get-rem-mobile(215);
-        margin-bottom: get-rem-mobile(60);
+        margin-bottom: get-rem-mobile(8);
+      }
+    }
+
+    .body {
+      max-width: get-rem-desktop(510);
+  
+      @media only screen and (max-width: 1366px) {
+        max-width: get-rem-tablet(370);
+      }
+      
+      @media only screen and (max-width: 768px) {
+        margin-bottom: get-rem-mobile(65);
       }
     }
 

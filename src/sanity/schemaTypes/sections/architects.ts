@@ -11,6 +11,11 @@ export default defineType({
       title: 'Heading',
       type: 'string'
     }),
+    defineField({
+      name: 'body',
+      title: 'Body',
+      type: 'richPortableText'
+    }),
     defineField({ 
       name: 'architects',
       title: 'Architects',
