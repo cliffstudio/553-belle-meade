@@ -683,7 +683,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
                       </svg>
 
                       <svg className={`play ${!isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20" style={{ opacity: !isPlaying ? 1 : 0, stroke: '#FFF9F2', strokeWidth: '1px', fill: 'none' }}>
-                        <path d="M0.5 1L10.5 10L0.5 19"/>
+                        <path d="M.5,1l10,9L.5,19V1Z"/>
                       </svg>
                     </div>
                     
