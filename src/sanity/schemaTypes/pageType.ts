@@ -46,6 +46,12 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'homepage',
     }),
     defineField({
+      name: 'homepageTextBlock',
+      title: 'Text Block',
+      type: 'textBlock',
+      hidden: ({ document }) => document?.pageType !== 'homepage',
+    }),
+    defineField({
       name: 'homepageLinkTiles',
       title: 'Link Tiles',
       type: 'linkTiles',
