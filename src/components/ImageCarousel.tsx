@@ -104,7 +104,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
       <div className="h-pad">
         {(heading || body) && (
           <div className="carousel-header row-lg">
-            <div className="col-4-12_lg">
+            <div className="col-11-12_lg">
               <div className="text-wrap out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
 
@@ -115,8 +115,6 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
                 )}
               </div>
             </div>
-
-            <div className="col-7-12_lg desktop"></div>
 
             {images.length > 1 && (
               <div className="col-1-12_lg">

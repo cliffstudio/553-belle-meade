@@ -47,7 +47,7 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
   return (
     <section className="small-media-text-block h-pad">
       <div className="row-lg">
-        <div className="col-4-12_lg">
+        <div className="col-9-12_lg">
           <div className="text-wrap out-of-view">
             {heading && <h2 className="heading">{heading}</h2>}
             
@@ -62,8 +62,6 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
             </div>}
           </div>
         </div>
-
-        <div className="col-5-12_lg desktop"></div>
 
         <div className="col-3-12_lg desktop">
           {mediaType === 'image' && image && (
