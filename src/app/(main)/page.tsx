@@ -4,6 +4,7 @@ import HomeHeroMedia from '../../components/HomeHeroMedia'
 import TextBlock from '../../components/TextBlock'
 import LinkTiles from '../../components/LinkTiles'
 import FullWidthMedia from '../../components/FullWidthMedia'
+import StackedMediaText from '../../components/StackedMediaText'
 import LargeMediaText from '../../components/LargeMediaText'
 import ImageMasonry from '../../components/ImageMasonry'
 import BodyClassProvider from '../../components/BodyClassProvider'
@@ -37,6 +38,7 @@ export default async function Home() {
       {homepage.homepageTextBlock && <TextBlock {...homepage.homepageTextBlock} />}
       {homepage.homepageLinkTiles && <LinkTiles {...homepage.homepageLinkTiles} />}
       {homepage.homepageFullWidthMedia && <FullWidthMedia {...homepage.homepageFullWidthMedia} />}
+      {homepage.homepageStackedMediaText && <StackedMediaText {...homepage.homepageStackedMediaText} />}
       {homepage.homepageLargeMediaText && <LargeMediaText {...homepage.homepageLargeMediaText} pageType="homepage" />}
       {homepage.homepageImageMasonry && <ImageMasonry {...homepage.homepageImageMasonry} />}
     </>

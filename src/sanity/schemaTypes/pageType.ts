@@ -64,6 +64,12 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'homepage',
     }),
     defineField({
+      name: 'homepageStackedMediaText',
+      title: 'Stacked Text & Media',
+      type: 'stackedMediaText',
+      hidden: ({ document }) => document?.pageType !== 'homepage',
+    }),
+    defineField({
       name: 'homepageLargeMediaText',
       title: 'Text & Media',
       type: 'largeMediaText',
