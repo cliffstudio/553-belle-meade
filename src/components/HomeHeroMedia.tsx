@@ -5,7 +5,6 @@ import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { videoUrlFor } from '../sanity/utils/videoUrlBuilder'
 import { SanityImage, SanityVideo } from '../types/sanity'
 import Logo from './Logo'
-import { PortableText, PortableTextBlock } from '@portabletext/react'
 import StackedLogo from './StackedLogo'
 import Symbol from './Symbol'
 import { useState, useRef, useEffect } from 'react'
@@ -33,7 +32,6 @@ type HomeHeroMediaProps = {
   desktopBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
-  introText?: PortableTextBlock[]
 }
 
 export default function HomeHeroMedia(props: HomeHeroMediaProps) {
@@ -45,7 +43,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     desktopBackgroundVideoPlaceholder,
     showControls = false,
     overlayDarkness = 0.3,
-    introText 
   } = props
 
   const [isPlaying, setIsPlaying] = useState(true)
@@ -373,7 +370,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       const symbolSvg = symbolSvgRef.current
       const siteHeader = document.querySelector('.site-header') as HTMLElement
       const opacityOverlay = document.querySelector('.home-hero-media-block .opacity-overlay-home') as HTMLElement
-      const textWrap = document.querySelector('.home-hero-media-block .text-wrap') as HTMLElement
       const downArrow = document.querySelector('.home-hero-media-block .down-arrow') as HTMLElement
       const videoControls = document.querySelector('.home-hero-media-block .video-controls') as HTMLElement
 
@@ -382,65 +378,84 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
       if (symbol) symbol.style.opacity = '0'
       if (siteHeader) siteHeader.style.opacity = '0'
       if (opacityOverlay) opacityOverlay.style.opacity = '0'
-      if (textWrap) textWrap.style.opacity = '0'
       if (downArrow) downArrow.style.opacity = '0'
       if (videoControls) videoControls.style.opacity = '0'
 
-    // Logo sequence: fade in (400ms) → stay (1s) → fade out (400ms)
-    const logoSequence = () => {
-      if (!logo) return
-
-      // Fade in
-      setTimeout(() => {
-        if (logo) logo.style.opacity = '1'
-      }, 0)
-
-      // Stay visible for 1s, then fade out
-      setTimeout(() => {
-        if (logo) logo.style.opacity = '0'
-      }, 1400) // 400ms fade in + 1000ms stay
-    }
-
-    // Symbol sequence: fade in (400ms) → stay (1s) → move to top and shrink (1s)
+    // Symbol sequence: fade in (500ms after 500ms delay) → stay (2s) → fade out (500ms)
     const symbolSequence = () => {
       if (!symbol || !symbolSvg) return
 
-      // Start after logo finishes (400ms + 1000ms + 400ms = 1800ms)
-      setTimeout(() => {
-        // Fade in
-        if (symbol) symbol.style.opacity = '1'
-      }, 1800)
-
-      // After fade in + stay (1800ms + 400ms + 1000ms = 3200ms), move to top and shrink over 1s
+      // Fade in over 500ms after 500ms delay
       setTimeout(() => {
         if (symbol) {
-          symbol.classList.add('animated')
-          // symbol.style.transform = 'translate(-50%, 0)'
+          symbol.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+          symbol.style.opacity = '1'
         }
-      }, 3200) // 1800ms logo + 400ms fade in + 1000ms stay
+      }, 500) // Start fade in after 500ms delay
+
+      // Fade out over 500ms after another 2s delay (500ms delay + 500ms fade in + 2s stay = 3000ms)
+      setTimeout(() => {
+        if (symbol) {
+          symbol.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+          symbol.style.opacity = '0'
+        }
+      }, 3000) // Start fade out at 3000ms (500ms delay + 500ms fade in + 2000ms stay)
     }
 
-    // Final phase: fade in all elements (400ms)
-    const finalPhase = () => {
-      // Start after symbol completes: logo (1800ms) + symbol fade in (400ms) + symbol stay (1000ms) + symbol move (1000ms) = 4200ms
+    // Logo sequence: fade in (500ms after 500ms delay) → stay (2s)
+    // Starts after symbol sequence finishes at 3500ms
+    const logoSequence = () => {
+      if (!logo) return
+
+      // Fade in over 500ms after 500ms delay (starts at 3500ms + 500ms = 4000ms)
       setTimeout(() => {
+        if (logo) {
+          logo.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+          logo.style.opacity = '1'
+        }
+      }, 4000) // Start fade in at 4000ms (3500ms symbol finish + 500ms delay)
+    }
+
+    // Final phase: fade in all elements (500ms)
+    const finalPhase = () => {
+      // Start after logo fade in completes + 1000ms delay: 4000ms logo fade in start + 500ms fade in + 1000ms delay = 5500ms
+      setTimeout(() => {
+        // Set transitions first to ensure they're applied before opacity changes
         if (siteHeader) {
           siteHeader.classList.remove('header-hidden')
-          siteHeader.style.opacity = '1'
+          siteHeader.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
         }
         if (opacityOverlay) {
-          // Fade in overlay to its normal opacity
-          opacityOverlay.style.opacity = String(overlayDarkness)
+          opacityOverlay.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
         }
-        if (textWrap) textWrap.style.opacity = '1'
-        if (downArrow) downArrow.style.opacity = '1'
-        if (videoControls && showControls) videoControls.style.opacity = '1'
-      }, 4200) // 1800ms logo + 400ms symbol fade + 1000ms symbol stay + 1000ms symbol move
+        if (downArrow) {
+          downArrow.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        }
+        if (videoControls && showControls) {
+          videoControls.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        }
+        
+        // Use requestAnimationFrame to ensure transitions are applied before opacity changes
+        requestAnimationFrame(() => {
+          if (siteHeader) {
+            siteHeader.style.opacity = '1'
+          }
+          if (opacityOverlay) {
+            opacityOverlay.style.opacity = String(overlayDarkness)
+          }
+          if (downArrow) {
+            downArrow.style.opacity = '1'
+          }
+          if (videoControls && showControls) {
+            videoControls.style.opacity = '1'
+          }
+        })
+      }, 5500)
     }
 
       // Run sequences
-      logoSequence()
       symbolSequence()
+      logoSequence()
       finalPhase()
     }
 
@@ -651,10 +666,6 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
 
       <div ref={symbolRef} className="symbol z-500">
         <Symbol ref={symbolSvgRef} />
-      </div>
-      
-      <div className="z-10 text-wrap h-pad">
-        {introText && <h2 className="intro-text"><PortableText value={introText} /></h2>}
       </div>
 
       <div className="down-arrow z-10" onClick={handleScrollDown} style={{ cursor: 'pointer' }}>
