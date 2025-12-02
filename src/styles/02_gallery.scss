@@ -89,7 +89,7 @@
       @include flex;
       @include justify-content(center);
       @include align-items(center);
-      padding: get-rem-desktop(150) get-rem-desktop(50);
+      padding: get-rem-desktop(100) get-rem-desktop(50);
       opacity: 0;
       animation: fadeInContent 0.4s ease-out 0.2s forwards;
 
