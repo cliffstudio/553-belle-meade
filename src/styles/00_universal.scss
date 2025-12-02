@@ -1132,7 +1132,7 @@ body.page-type-homepage {
     .artefact-image {
       .media-wrap {
         margin-bottom: get-rem-desktop(12);
-        box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
+        // box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
         overflow: hidden;
 
         @media only screen and (max-width: 1366px) {
@@ -1312,9 +1312,9 @@ body.page-type-homepage {
             max-width: get-rem-mobile(188);
           }
 
-          .media-wrap {
-            border-radius: 50%;
-          }
+          // .media-wrap {
+          //   border-radius: 50%;
+          // }
         }
 
         .caption {
@@ -1681,7 +1681,7 @@ body.page-type-homepage {
     }
   
     .media-wrap {
-      box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
+      // box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
       overflow: hidden;
 
       @media only screen and (max-width: 768px) {
