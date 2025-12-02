@@ -90,6 +90,10 @@ export const pageQuery = groq`
         showControls,
         overlayDarkness
       },
+      homepageTextBlock {
+        heading,
+        body
+      },
       homepageLinkTiles {
         numberOfTiles,
         linkTile1 {
@@ -705,6 +709,10 @@ export const homepageQuery = groq`
       desktopBackgroundVideoPlaceholder ${imageFragment},
       showControls,
       overlayDarkness
+    },
+    homepageTextBlock {
+      heading,
+      body
     },
     homepageLinkTiles {
       numberOfTiles,

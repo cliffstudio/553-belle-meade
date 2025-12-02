@@ -26,6 +26,7 @@ import ContactForm from './ContactForm'
 import LeasingMap from './LeasingMap'
 import IssuuEmbed from './IssuuEmbed'
 import VirtualTourEmbed from './VirtualTourEmbed'
+import TextBlock from './TextBlock'
 
 interface PageProps {
   params: Promise<{
@@ -53,6 +54,7 @@ const sectionComponents = {
   leasingMap: LeasingMap,
   issuuEmbed: IssuuEmbed,
   virtualTourEmbed: VirtualTourEmbed,
+  textBlock: TextBlock,
 }
 
 

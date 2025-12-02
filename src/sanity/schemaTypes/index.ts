@@ -28,6 +28,7 @@ import textWithArtefacts from './sections/textWithArtefacts'
 import imageCarousel from './sections/imageCarousel'
 import contactForm from './sections/contactForm'
 import leasingMap from './sections/leasingMap'
+import textBlock from './sections/textBlock'
 
 export const schemaTypes = [
   // Global
@@ -60,4 +61,5 @@ export const schemaTypes = [
   imageCarousel,
   contactForm,
   leasingMap,
+  textBlock,
 ]

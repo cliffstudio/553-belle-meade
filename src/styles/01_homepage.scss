@@ -142,6 +142,40 @@
     }
   }
 
+  .text-block {
+    padding-top: get-rem-desktop(300);
+    background-color: $colour-burgundy;
+    color: $colour-cream;
+
+    @media only screen and (max-width: 1366px) {
+      padding-top: get-rem-tablet(200);
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding-top: get-rem-mobile(150);
+    }
+
+    .text-wrap {
+      max-width: get-rem-desktop(846);
+  
+      @media only screen and (max-width: 1366px) {
+        max-width: get-rem-tablet(613);
+      }
+  
+      .heading {
+        margin-bottom: get-rem-desktop(20);
+  
+        @media only screen and (max-width: 1366px) {
+          margin-bottom: get-rem-tablet(10);
+        }
+  
+        @media only screen and (max-width: 768px) {
+          margin-bottom: get-rem-mobile(10);
+        }
+      }
+    }
+  }
+
   .link-tiles-block {
     padding-top: get-rem-desktop(300);
     padding-bottom: get-rem-desktop(300);

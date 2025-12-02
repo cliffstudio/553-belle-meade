@@ -1,6 +1,7 @@
 import { clientNoCdn } from '../../../sanity.client'
 import { homepageQuery } from '../../sanity/lib/queries'
 import HomeHeroMedia from '../../components/HomeHeroMedia'
+import TextBlock from '../../components/TextBlock'
 import LinkTiles from '../../components/LinkTiles'
 import FullWidthMedia from '../../components/FullWidthMedia'
 import LargeMediaText from '../../components/LargeMediaText'
@@ -33,6 +34,7 @@ export default async function Home() {
         slug={homepage.slug?.current} 
       />
       {homepage.homepageHero && <HomeHeroMedia {...homepage.homepageHero} />}
+      {homepage.homepageTextBlock && <TextBlock {...homepage.homepageTextBlock} />}
       {homepage.homepageLinkTiles && <LinkTiles {...homepage.homepageLinkTiles} />}
       {homepage.homepageFullWidthMedia && <FullWidthMedia {...homepage.homepageFullWidthMedia} />}
       {homepage.homepageLargeMediaText && <LargeMediaText {...homepage.homepageLargeMediaText} pageType="homepage" />}
