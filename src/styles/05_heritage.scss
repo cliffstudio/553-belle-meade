@@ -6,6 +6,14 @@
   .text-block {
     position: relative;
     z-index: 6;
+
+    .text-wrap {
+      max-width: get-rem-desktop(870);
+
+      @media (max-width: 1366px) {
+        max-width: get-rem-tablet(625);
+      }
+    }
   }
 
   .text-with-artefacts-block:not(:first-child),
@@ -34,6 +42,14 @@
     }
 
     .carousel-header {
+      .text-wrap {
+        max-width: get-rem-desktop(597);
+
+        @media (max-width: 1366px) {
+          max-width: get-rem-tablet(425);
+        }
+      }
+
       .carousel-arrows {
         margin-top: 3.4em;
         @include flex;

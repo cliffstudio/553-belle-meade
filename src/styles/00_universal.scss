@@ -723,6 +723,14 @@ section {
     }
   }
 
+  .text-wrap {
+    max-width: get-rem-desktop(597);
+
+    @media only screen and (max-width: 1366px) {
+      max-width: get-rem-tablet(425);
+    }
+  }
+
   .media-wrap {
     aspect-ratio: 1 / 1;
 
@@ -750,6 +758,14 @@ section {
     width: 100%;
     height: 100%;
     background-color: $colour-cream;
+  }
+
+  .text-wrap {
+    max-width: get-rem-desktop(597);
+
+    @media only screen and (max-width: 1366px) {
+      max-width: get-rem-tablet(425);
+    }
   }
 
   .media-wrap {

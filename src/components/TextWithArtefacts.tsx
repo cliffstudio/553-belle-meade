@@ -1614,17 +1614,9 @@ export default function TextWithArtefacts({
 
         {body && (
           <div className="text-block h-pad z-5">
-            <div className="row-lg">
-              <div className="col-3-12_lg desktop"></div>
-
-              <div className="col-6-12_lg">
-                <h2 className="text-wrap">
-                  <PortableText value={body} />
-                </h2>
-              </div>
-
-              <div className="col-3-12_lg desktop"></div>
-            </div>
+            <h2 className="text-wrap">
+              <PortableText value={body} />
+            </h2>
           </div>
         )}
           
