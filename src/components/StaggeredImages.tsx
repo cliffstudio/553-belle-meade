@@ -126,73 +126,186 @@ export default function StaggeredImages({
   }
 
   return (
-    <section className={`staggered-images-block h-pad ${classes.layout}`}>
-      <div className="row-1 row-lg">
-        <div className={`${classes.row1Section1} out-of-view`}>
-          <div className="text-wrap">
-            {heading && <div className="heading cta-font">{heading}</div>}
-            {body && <h2><PortableText value={body} /></h2>}
+    <>
+      {layout === 'layout-1' && (
+        <section className="staggered-images-block h-pad layout-1">
+          <div className="row-1">
+            <div className="text-wrap out-of-view">
+              {heading && <div className="heading cta-font">{heading}</div>}
+              {body && <h2><PortableText value={body} /></h2>}
+            </div>
           </div>
-        </div>
 
-        <div className={classes.row1Section2}></div>
+          <div className="row-2 row-lg row-sm">
+            <div className="col-7-12_lg col-1-5_sm"></div>
 
-        <div className={`relative ${classes.row1Section3} out-of-opacity`}>
-          {(image1 || video1) && (
-            <div className="media-1 media-wrap">
-              {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+            <div className="relative col-5-12_lg col-4-5_sm out-of-opacity">
+              {(image1 || video1) && (
+                <div className="media-1 media-wrap">
+                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                </div>
+              )}
+
+              {caption1 && <div className="media-caption caption-font">{caption1}</div>}
             </div>
-          )}
+          </div>
 
-          {caption1 && <div className="media-caption caption-font">{caption1}</div>}
-        </div>
+          <div className="row-3 row-lg row-sm">
+            <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
+              {(image2 || video2) && (
+                <div className="media-2 media-wrap">
+                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                </div>
+              )}
 
-        <div className={classes.row1Section4}></div>
-      </div>
-
-      <div className="row-2 row-lg row-sm">
-        <div className={classes.row2Section1}></div>
-
-        <div className={`relative ${classes.row2Section2} out-of-opacity`}>
-          {(image1 || video1) && (
-            <div className="media-1 media-wrap">
-              {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+              {caption2 && <div className="media-caption caption-font">{caption2}</div>}
             </div>
-          )}
 
-          {caption1 && <div className="media-caption caption-font">{caption1}</div>}
-        </div>
-      </div>
+            <div className="col-9-12_lg col-3-5_sm"></div>
+          </div>
 
-      <div className="row-3 row-lg row-sm">
-        <div className={`relative ${classes.row3Section1} out-of-opacity`}>
-          {(image2 || video2) && (
-            <div className="media-2 media-wrap">
-              {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+          <div className="row-4 row-lg row-sm">
+            <div className="col-4-12_lg col-1-5_sm"></div>
+
+            <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
+              {(image3 || video3) && (
+                <div className="media-3 media-wrap">
+                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                </div>
+              )}
+
+              {caption3 && <div className="media-caption caption-font">{caption3}</div>}
             </div>
-          )}
 
-          {caption2 && <div className="media-caption caption-font">{caption2}</div>}
-        </div>
+            <div className="col-4-12_lg col-1-5_sm"></div>
+          </div>
+        </section>
+      )}
 
-        <div className={classes.row3Section2}></div>
-      </div>
-
-      <div className="row-4 row-lg row-sm">
-        <div className={classes.row4Section1}></div>
-
-        <div className={`relative ${classes.row4Section2} out-of-opacity`}>
-          {(image3 || video3) && (
-            <div className="media-3 media-wrap">
-              {renderMedia(mediaType3, image3, video3, 'regular')}
+      {layout === 'layout-2' && (
+        <section className="staggered-images-block h-pad layout-2">
+          <div className="row-1 row-lg">
+            <div className="col-1 col-7-12_lg out-of-view">
+              <div className="text-wrap">
+                {heading && <div className="heading cta-font">{heading}</div>}
+                {body && <h2><PortableText value={body} /></h2>}
+              </div>
             </div>
-          )}
 
-          {caption3 && <div className="media-caption caption-font">{caption3}</div>}
-        </div>
+            <div className="col-2 relative col-3-12_lg desktop out-of-opacity">
+              {(image1 || video1) && (
+                <div className="media-1 media-wrap">
+                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                </div>
+              )}
 
-        <div className={classes.row4Section3}></div>
-      </div>
-    </section>
+              {caption1 && <div className="media-caption caption-font">{caption1}</div>}
+            </div>
+
+            <div className="col-2-12_lg"></div>
+          </div>
+
+          {/* Mobile only */}
+          <div className="row-2 row-lg row-sm">
+            <div className="col-6-12_lg col-3-5_sm"></div>
+
+            <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
+              {(image1 || video1) && (
+                <div className="media-1 media-wrap">
+                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                </div>
+              )}
+
+              {caption1 && <div className="media-caption caption-font">{caption1}</div>}
+            </div>
+
+            <div className="col-2-12_lg col-0-5_sm"></div>
+          </div>
+
+          <div className="row-3 row-lg row-sm">
+            <div className="relative col-5-12_lg col-2-5_sm out-of-opacity">
+              {(image2 || video2) && (
+                <div className="media-2 media-wrap">
+                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                </div>
+              )}
+
+              {caption2 && <div className="media-caption caption-font">{caption2}</div>}
+            </div>
+
+            <div className="col-7-12_lg col-3-5_sm"></div>
+          </div>
+
+          <div className="row-4 row-lg row-sm">
+            <div className="col-8-12_lg col-2-5_sm"></div>
+
+            <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
+              {(image3 || video3) && (
+                <div className="media-3 media-wrap">
+                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                </div>
+              )}
+
+              {caption3 && <div className="media-caption caption-font">{caption3}</div>}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {layout === 'layout-3' && (
+        <section className="staggered-images-block h-pad layout-3">
+          <div className="row-1">
+            <div className="text-wrap out-of-view">
+              {heading && <div className="heading cta-font">{heading}</div>}
+              {body && <h2><PortableText value={body} /></h2>}
+            </div>
+          </div>
+
+          <div className="row-2 row-lg row-sm">
+            <div className="col-8-12_lg col-2-5_sm"></div>
+
+            <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
+              {(image1 || video1) && (
+                <div className="media-1 media-wrap">
+                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                </div>
+              )}
+
+              {caption1 && <div className="media-caption caption-font">{caption1}</div>}
+            </div>
+          </div>
+
+          <div className="row-3 row-lg row-sm">
+            <div className="relative col-5-12_lg col-3-5_sm out-of-opacity">
+              {(image2 || video2) && (
+                <div className="media-2 media-wrap">
+                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                </div>
+              )}
+
+              {caption2 && <div className="media-caption caption-font">{caption2}</div>}
+            </div>
+
+            <div className="col-7-12_lg col-2-5_sm"></div>
+          </div>
+
+          <div className="row-4 row-lg row-sm">
+            <div className="col-6-12_lg col-3-5_sm"></div>
+
+            <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
+              {(image3 || video3) && (
+                <div className="media-3 media-wrap">
+                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                </div>
+              )}
+
+              {caption3 && <div className="media-caption caption-font">{caption3}</div>}
+            </div>
+
+            <div className="col-3-12_lg desktop"></div>
+          </div>
+        </section>
+      )}
+    </>
   )
 }

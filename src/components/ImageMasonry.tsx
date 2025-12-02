@@ -305,7 +305,7 @@ export default function ImageMasonry({
           {/* Desktop */}
           <section className="image-masonry-block layout-2 h-pad desktop">
             <div className="row-lg">
-              <div className="col-6-12_lg">
+              <div className="col-7-12_lg">
                 <div className="text-wrap out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
@@ -320,8 +320,6 @@ export default function ImageMasonry({
                   </div>}
                 </div>
               </div>
-
-              <div className="col-1-12_lg desktop"></div>
 
               <div className="col-5-12_lg">
                 {mediaType1 === 'image' && image1 && (
