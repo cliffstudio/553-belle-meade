@@ -602,6 +602,7 @@ export const pageQuery = groq`
       },
       architectureArchitects {
         heading,
+        body,
         architects[] {
           name,
           bio,

@@ -266,6 +266,7 @@ export default async function DynamicPage({ params }: PageProps) {
           // Extract the individual props from the section data
           const {
             heading,
+            body,
             architects
           } = section
           
@@ -274,6 +275,7 @@ export default async function DynamicPage({ params }: PageProps) {
             <ArchitectsComponent 
               key={section._key} 
               heading={heading as string | undefined}
+              body={body as PortableTextBlock[] | undefined}
               architects={architects as Array<{ 
                 name: string; 
                 bio: PortableTextBlock[]; 
