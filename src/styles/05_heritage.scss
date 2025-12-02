@@ -34,9 +34,8 @@
     }
 
     .carousel-header {
-      @include align-items(center);
-
       .carousel-arrows {
+        margin-top: 3.4em;
         @include flex;
         @include justify-content(flex-end);
         column-gap: get-rem-desktop(49);
@@ -46,6 +45,7 @@
         }
 
         @media (max-width: 768px) {
+          margin-top: 0;
           column-gap: get-rem-mobile(29);
           margin-top: get-rem-mobile(75);
         }
