@@ -361,6 +361,10 @@ section {
 
   &.layout-1 {
     .row-1 {
+      @media only screen and (max-width: 1366px) {
+        margin-bottom: get-rem-tablet(62);
+      }
+
       @media only screen and (max-width: 768px) {
         margin-bottom: get-rem-mobile(62);
       }
@@ -436,11 +440,28 @@ section {
   }
 
   &.layout-2 {
+    .row-1 {
+      @media only screen and (max-width: 844px) {
+        margin-bottom: get-rem-mobile(62);
+
+        .col-1 {
+          grid-column: span 12;
+        }
+
+        .col-2 {
+          display: none;
+        }
+      }
+    }
+    
     .row-2 {
       display: none;
 
-      @media only screen and (max-width: 768px) {
+      @media only screen and (max-width: 844px) {
         display: grid;
+      }
+
+      @media only screen and (max-width: 768px) {
         margin-top: get-rem-mobile(62);
       }
     }
@@ -520,9 +541,9 @@ section {
   }
 
   &.layout-3 {
-    .text-wrap {
+    .row-1 {
       @media only screen and (max-width: 1366px) {
-        max-width: get-rem-tablet(600);
+        margin-bottom: get-rem-tablet(62);
       }
     }
 
