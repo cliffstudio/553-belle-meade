@@ -239,6 +239,7 @@
       &.active {
         .dropdown-title-text {
           font-family: 'Millionaire-Script';
+          @include transform(translateY(-0.4em));
           z-index: 10;
         }
 
