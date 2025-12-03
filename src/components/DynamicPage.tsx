@@ -207,7 +207,6 @@ export default async function DynamicPage({ params }: PageProps) {
             desktopBackgroundVideoPlaceholder,
             showControls,
             overlayDarkness,
-            body,
             cta
           } = section
           
@@ -225,7 +224,6 @@ export default async function DynamicPage({ params }: PageProps) {
               desktopBackgroundVideoPlaceholder={desktopBackgroundVideoPlaceholder as SanityImage | undefined}
               showControls={showControls as boolean | undefined}
               overlayDarkness={overlayDarkness as number | undefined}
-              body={body as PortableTextBlock[] | undefined}
               cta={cta as { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } | undefined}
             />
           )

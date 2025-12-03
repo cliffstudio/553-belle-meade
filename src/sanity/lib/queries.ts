@@ -200,7 +200,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       shoppingStaggered {
@@ -258,7 +257,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       walkthroughCta {
@@ -284,7 +282,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       spacesLeasingMap {
@@ -445,7 +442,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       creekStaggered {
@@ -573,7 +569,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       architectureImageMasonry {
@@ -657,7 +652,6 @@ export const pageQuery = groq`
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
-        body,
         cta ${linkFragment}
       },
       pressSection {

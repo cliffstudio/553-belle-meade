@@ -5,8 +5,6 @@ import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { videoUrlFor } from '../sanity/utils/videoUrlBuilder'
 import { SanityImage, SanityVideo } from '../types/sanity'
 import { useState, useRef, useEffect } from 'react'
-import { PortableText } from '@portabletext/react'
-import { PortableTextBlock } from '@portabletext/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -57,7 +55,6 @@ type HeroMediaProps = {
   desktopBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
-  body?: PortableTextBlock[]
   cta?: Link
 }
 
@@ -85,7 +82,6 @@ export default function HeroMedia({
     desktopBackgroundVideoPlaceholder,
     showControls = false,
   overlayDarkness = 0.3,
-  body,
   cta
 }: HeroMediaProps) {
   const { text, href } = getLinkInfo(cta)
@@ -929,7 +925,8 @@ export default function HeroMedia({
       {layout === 'layout-2' && (
         <section className="hero-media-block layout-2 flex items-center justify-center text-white relative">
           <div className="inner-wrap h-pad out-of-view">
-            {body && <h2 className="text-wrap"><PortableText value={body} /></h2>}
+            {desktopTitle && <div className="desktop text-wrap"><h2>{desktopTitle}</h2></div>}
+            {mobileTitle && <div className="mobile text-wrap"><h2>{mobileTitle}</h2></div>}
 
             {cta && <div className="cta-font underline-link link cream">
               <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text || 'Learn More'}</a>
