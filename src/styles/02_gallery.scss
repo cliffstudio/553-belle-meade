@@ -97,6 +97,10 @@
         padding: get-rem-tablet(100) get-rem-tablet(30);
       }
 
+      @media (max-width: 866px) and (orientation: landscape) {
+        padding: get-rem-mobile(45) get-rem-mobile(20);
+      }
+
       @media (max-width: 768px) {
         padding: get-rem-mobile(150) 0;
       }
@@ -129,9 +133,43 @@
             right: calc(get-rem-tablet(30) + 0.5em);
           }
 
+          @media (max-width: 866px) and (orientation: landscape) {
+            width: 30px;
+            height: 30px;
+            top: get-rem-mobile(20);
+            left: unset;
+            right: get-rem-mobile(20);
+            @include transform(none);
+
+            &.desktop {
+              display: none;
+            }
+
+            &.mobile {
+              display: block;
+            }
+
+            .menu-bar {
+              position: absolute;
+              width: 30px;
+              height: 1px;
+              background: $colour-burgundy;
+            
+              &[data-position=top] {
+                transform: translateY(0) rotate(45deg) scaleX(1.05);
+              }
+        
+              &[data-position=bottom] {
+                transform: translateY(0) rotate(-45deg) scaleX(1.05);
+              }
+            }
+          }
+
           @media only screen and (max-width: 768px) and (orientation: portrait) {
             left: get-rem-mobile(15);
             right: unset;
+            width: 30px;
+            height: 30px;
   
             .menu-bar {
               position: absolute;
@@ -260,6 +298,10 @@
               width: 18px;
             }
 
+            @media (max-width: 866px) and (orientation: landscape) {
+              width: 13px;
+            }
+
             @media (max-width: 768px) {
               width: 12px;
               stroke-width: 2px;
@@ -280,6 +322,10 @@
 
     @media (max-width: 1366px) {
       bottom: get-rem-tablet(40);
+    }
+
+    @media (max-width: 866px) and (orientation: landscape) {
+      bottom: get-rem-mobile(12);
     }
 
     @media (max-width: 768px) {
