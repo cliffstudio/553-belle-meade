@@ -101,7 +101,7 @@
         padding: get-rem-mobile(45) get-rem-mobile(20);
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 768px) and (orientation: portrait) {
         padding: get-rem-mobile(150) 0;
       }
     }
@@ -302,7 +302,7 @@
               width: 13px;
             }
 
-            @media (max-width: 768px) {
+            @media (max-width: 768px) and (orientation: portrait) {
               width: 12px;
               stroke-width: 2px;
             }
@@ -328,7 +328,7 @@
       bottom: get-rem-mobile(12);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 768px) and (orientation: portrait) {
       bottom: get-rem-mobile(55);
     }
   }
