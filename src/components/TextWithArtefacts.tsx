@@ -1195,6 +1195,7 @@ export default function TextWithArtefacts({
        const pageCarouselHeroElements = sectionRef.current?.querySelectorAll('.hero-media-block .media-wrap, .hero-media-block .opacity-overlay')
        const textBlock = sectionRef.current?.querySelector('.text-block')
        const artefactsGrid = sectionRef.current?.querySelector('.artefacts-grid')
+       const carouselImage = sectionRef.current?.querySelector('.carousel-image')
        const footer = document.querySelector('.site-footer')
        
         if (pageCarouselHeroElements && pageCarouselHeroElements.length > 0 && textBlock && artefactsGrid && footer) {
@@ -1270,6 +1271,31 @@ export default function TextWithArtefacts({
                 pin: true,
                 pinSpacing: false,
               })
+            }
+
+            // 4. Pin artefacts grid and carousel icon on mobile when they reach viewport bottom
+            if (window.innerWidth <= 768) {
+              // Pin artefacts grid on mobile
+              ScrollTrigger.create({
+                trigger: artefactsGrid,
+                start: "bottom bottom",
+                endTrigger: footer,
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false,
+              })
+
+              // Pin carousel icon on mobile (if it exists)
+              if (carouselImage) {
+                ScrollTrigger.create({
+                  trigger: carouselImage,
+                  start: "bottom bottom",
+                  endTrigger: footer,
+                  end: "bottom bottom",
+                  pin: true,
+                  pinSpacing: false,
+                })
+              }
             }
 
           }
