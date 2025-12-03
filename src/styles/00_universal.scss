@@ -1734,6 +1734,7 @@ body.page-type-homepage {
       @media only screen and (max-width: 768px) and (orientation: portrait) {
         height: auto;
         min-height: 0;
+        margin-top: -0.4em;
       }
 
       // @media only screen and (max-width: 768px) and (orientation: portrait) {
@@ -1796,7 +1797,7 @@ body.page-type-homepage {
         }
 
         @media only screen and (max-width: 768px) and (orientation: portrait) {
-          max-height: get-rem-mobile(134);
+          max-height: get-rem-mobile(80);
         }
       }
     }
