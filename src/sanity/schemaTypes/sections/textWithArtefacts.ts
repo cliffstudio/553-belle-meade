@@ -402,7 +402,7 @@ export default defineType({
         
         return true;
       }),
-      hidden: ({ parent }) => parent?.layout == 'layout-2'
+      hidden: ({ document, parent }) => document?.pageType !== 'carousel' || parent?.layout !== 'layout-3'
     }),
   ],
 })
