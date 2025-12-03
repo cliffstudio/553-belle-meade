@@ -23,13 +23,11 @@ export default defineType({
       name: 'desktopTitle', 
       title: 'Title (Desktop)',
       type: 'string',
-      hidden: ({ parent }) => parent?.layout !== 'layout-1' && parent?.layout !== 'layout-3'
     }),
     defineField({ 
       name: 'mobileTitle',
       title: 'Title (Mobile)',
       type: 'string',
-      hidden: ({ parent }) => parent?.layout !== 'layout-1' && parent?.layout !== 'layout-3'
     }),
     defineField({
       name: 'backgroundMediaType',
@@ -171,12 +169,6 @@ export default defineType({
       description: '0–1', 
       initialValue: 0.3,
       hidden: ({ parent }) => parent?.layout !== 'layout-1'
-    }),
-    defineField({ 
-      name: 'body',
-      title: 'Body',
-      type: 'richPortableText',
-      hidden: ({ parent }) => parent?.layout !== 'layout-2'
     }),
     defineField({ 
       name: 'cta', 
