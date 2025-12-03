@@ -2116,9 +2116,9 @@ export default function TextWithArtefacts({
           >
             <div className="mobile" style={{ width: '100%' }}>
               <div className="title-wrap">
-                <h2 className="artefact-title">
+                <h3 className="artefact-title">
                   {selectedArtefact.title || ''}
-                </h2>
+                </h3>
 
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
