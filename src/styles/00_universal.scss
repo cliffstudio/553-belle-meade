@@ -1110,6 +1110,11 @@ body.page-type-homepage {
     .text-wrap {
       text-align: center;
       color: $colour-cream;
+      max-width: get-rem-desktop(870);
+
+      @media (max-width: 1366px) {
+        max-width: get-rem-tablet(625);
+      }
     }
   }
 
