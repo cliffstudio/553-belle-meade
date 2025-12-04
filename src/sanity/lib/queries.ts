@@ -818,22 +818,23 @@ export const footerQuery = groq`
   *[_type == "footer"][0] {
     _id,
     title,
-    footerItems[] {
+    column1FooterItems[] {
       heading,
       text
     },
-    socialLinks {
+    column2FooterItems[] {
       heading,
-      links[] {
-        linkType,
-        label,
-        href,
-        jumpLink,
-        "isExternal": linkType == "external",
-        pageLink-> {
-          title,
-          "slug": slug.current
-        }
+      text
+    },
+    footerNav[] {
+      linkType,
+      label,
+      href,
+      jumpLink,
+      "isExternal": linkType == "external",
+      pageLink-> {
+        title,
+        "slug": slug.current
       }
     },
     footerNav[] {

@@ -30,7 +30,22 @@ export default function Footer({ footer }: FooterProps) {
         </div>
         
         <div className="column-1 col-3-12_lg">
-          {footer.footerItems && footer.footerItems.map((item, index) => (
+          {footer.column1FooterItems && footer.column1FooterItems.map((item, index) => (
+            <div key={index}>
+              {item.heading && (
+                <div className="cta-font heading">{item.heading}</div>
+              )}
+              {item.text && (
+                <div>
+                  <PortableText value={item.text} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="column-2 col-6-12_lg">
+          {footer.column2FooterItems && footer.column2FooterItems.map((item, index) => (
             <div key={index}>
               {item.heading && (
                 <div className="cta-font heading">{item.heading}</div>
@@ -43,78 +58,35 @@ export default function Footer({ footer }: FooterProps) {
             </div>
           ))}
 
-          {footer.socialLinks && (
-            <div>
-              {footer.socialLinks.heading && (
-                <div className="cta-font heading">{footer.socialLinks.heading}</div>
-              )}
-              <div className="social-links">
-                {footer.socialLinks.links?.map((link, index) => {
-                  let href = ''
-                  if (link.linkType === 'external') {
-                    href = link.href || ''
-                  } else if (link.linkType === 'jump') {
-                    href = link.jumpLink || ''
-                  } else {
-                    href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
-                  }
-                  
-                  const label = link.label || link.pageLink?.title
-                  
-                  // Skip rendering if href is undefined
-                  if (!href) return null
-                  
-                  return (
-                    <Link
-                      key={index}
-                      href={href}
-                      target={link.linkType === 'external' ? '_blank' : undefined}
-                      rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                      className=""
-                    >
-                      {label}
-                    </Link>
-                  )
-                })}
+          {footer.footerNav?.map((link, index) => {
+            let href = ''
+            if (link.linkType === 'external') {
+              href = link.href || ''
+            } else if (link.linkType === 'jump') {
+              href = link.jumpLink || ''
+            } else {
+              href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
+            }
+            
+            const label = link.label || link.pageLink?.title
+            
+            // Skip rendering if href is undefined
+            if (!href) return null
+            
+            return (
+              <div key={index} className="underline-link cream uppercase cta-font">
+                <Link
+                  href={href}
+                  target={link.linkType === 'external' ? '_blank' : undefined}
+                  rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
+                >
+                  {label}
+                </Link>
               </div>
-            </div>
-          )}
+            )
+          })}
         </div>
-
-        {footer.footerNav && footer.footerNav.length > 0 && (
-          <div className="column-2 col-6-12_lg uppercase">
-            <div className="text-wrap">
-              {footer.footerNav.map((link, index) => {
-                let href = ''
-                if (link.linkType === 'external') {
-                  href = link.href || ''
-                } else if (link.linkType === 'jump') {
-                  href = link.jumpLink || ''
-                } else {
-                  href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
-                }
-                
-                const label = link.label || link.pageLink?.title
-                
-                // Skip rendering if href is undefined
-                if (!href) return null
-                
-                return (
-                  <div key={index} className="underline-link cream">
-                    <Link
-                      href={href}
-                      target={link.linkType === 'external' ? '_blank' : undefined}
-                      rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                    >
-                      {label}
-                    </Link>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
-
+        
         {/* todo: hook up to Mailchimp */}
         <div className="column-3 col-3-12_lg desktop">
           <div className="mailing-list-form">
