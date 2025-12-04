@@ -110,24 +110,18 @@ export default function ImageMasonry({
               <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
             )}
 
-            <div className="row-lg">
-              <div className="col-4-12_lg">
-                <div className="text-wrap out-of-view">
-                  {heading && <h2 className="heading">{heading}</h2>}
-                  
-                  {body && <div><PortableText value={body} /></div>}
+            <div className="text-wrap out-of-view">
+              {heading && <h2 className="heading">{heading}</h2>}
+              
+              {body && <div><PortableText value={body} /></div>}
 
-                  {cta?.href && <div className="cta-font underline-link link">
-                    <a href={cta.href}>{cta.label || ''}</a>
+              {cta?.href && <div className="cta-font underline-link link">
+                <a href={cta.href}>{cta.label || ''}</a>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                      <path d="M1 1L13.5 13.5L0.999999 26"/>
-                    </svg>
-                  </div>}
-                </div>
-              </div>
-
-              <div className="col-8-12_lg desktop"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+                  <path d="M1 1L13.5 13.5L0.999999 26"/>
+                </svg>
+              </div>}
             </div>
 
             <div className="row-lg">

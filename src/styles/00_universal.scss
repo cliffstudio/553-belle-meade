@@ -989,8 +989,20 @@ section {
 
 body.page-type-homepage {
   .image-masonry-block {
-    h2 {
-      max-width: get-rem-desktop(400);
+    .text-wrap {
+      max-width: get-rem-desktop(585);
+
+      @media only screen and (max-width: 1366px) {
+        max-width: get-rem-tablet(470);
+      }
+
+      h2 {
+        max-width: get-rem-desktop(500);
+
+        @media only screen and (max-width: 1366px) {
+          max-width: get-rem-tablet(350);
+        }
+      }
     }
   }
 }
