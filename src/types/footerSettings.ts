@@ -22,15 +22,10 @@ export type FooterItem = {
   text?: PortableTextBlock[]
 }
 
-export type SocialLinks = {
-  heading?: string
-  links?: Link[]
-}
-
 export type Footer = {
   title?: string
-  footerItems?: FooterItem[]
-  socialLinks?: SocialLinks
+  column1FooterItems?: FooterItem[]
+  column2FooterItems?: FooterItem[]
   footerNav?: Link[]
 }
 
