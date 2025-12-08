@@ -21,7 +21,7 @@ export default function CtaBanner({ pageLink }: CtaBannerProps) {
     <section className="cta-banner-block">
       {linkHref && (
         <div className="inner-wrap h-pad relative out-of-view">
-          <h1 className="smaller">{linkText}</h1>
+          <h2>{linkText}</h2>
 
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
             <path d="M1 1L13.5 13.5L0.999999 26"/>
