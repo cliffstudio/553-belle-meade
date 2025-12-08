@@ -670,7 +670,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
                 </div>
                 
                 {showControls && (
-                  <div className="video-controls visible z-10" style={{ pointerEvents: 'auto' }}>
+                  <div className="video-controls visible z-10" style={{ opacity: 1, pointerEvents: 'auto' }}>
                     <div className="play-pause-button" onClick={togglePlayPause} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20" style={{ opacity: isPlaying ? 1 : 0, stroke: '#FFF9F2', strokeWidth: '1px', fill: 'none' }}>
                         <line x1="0.5" x2="0.5" y2="20"/>
