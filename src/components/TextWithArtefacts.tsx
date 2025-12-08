@@ -35,6 +35,7 @@ interface ExtendedVideoElement extends HTMLVideoElement {
 
 interface Artefact {
   image?: SanityImage
+  hoverImage?: SanityImage
   caption?: string
   title?: string
   description?: string
@@ -1671,8 +1672,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact1.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact1.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact1.hoverImage?.hotspot
+                                ? `${artefact1.hoverImage.hotspot.x * 100}% ${artefact1.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1712,8 +1724,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact2.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact2.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact2.hoverImage?.hotspot
+                                ? `${artefact2.hoverImage.hotspot.x * 100}% ${artefact2.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1754,8 +1777,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact3.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact3.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact3.hoverImage?.hotspot
+                                ? `${artefact3.hoverImage.hotspot.x * 100}% ${artefact3.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1797,8 +1831,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact4.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact4.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact4.hoverImage?.hotspot
+                                ? `${artefact4.hoverImage.hotspot.x * 100}% ${artefact4.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1843,8 +1888,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact1.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact1.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact1.hoverImage?.hotspot
+                                ? `${artefact1.hoverImage.hotspot.x * 100}% ${artefact1.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1884,8 +1940,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact2.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact2.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact2.hoverImage?.hotspot
+                                ? `${artefact2.hoverImage.hotspot.x * 100}% ${artefact2.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1930,8 +1997,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact3.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact3.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact3.hoverImage?.hotspot
+                                ? `${artefact3.hoverImage.hotspot.x * 100}% ${artefact3.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -1974,8 +2052,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact1.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact1.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact1.hoverImage?.hotspot
+                                ? `${artefact1.hoverImage.hotspot.x * 100}% ${artefact1.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -2015,8 +2104,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact2.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact2.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact2.hoverImage?.hotspot
+                                ? `${artefact2.hoverImage.hotspot.x * 100}% ${artefact2.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -2057,8 +2157,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact3.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact3.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact3.hoverImage?.hotspot
+                                ? `${artefact3.hoverImage.hotspot.x * 100}% ${artefact3.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 
@@ -2098,8 +2209,19 @@ export default function TextWithArtefacts({
                               : "center",
                           }}
                           />
+                          {artefact4.hoverImage && (
+                            <img 
+                            data-src={urlFor(artefact4.hoverImage).url()} 
+                            alt="" 
+                            className="lazy hover-image"
+                            style={{
+                              objectPosition: artefact4.hoverImage?.hotspot
+                                ? `${artefact4.hoverImage.hotspot.x * 100}% ${artefact4.hoverImage.hotspot.y * 100}%`
+                                : "center",
+                            }}
+                            />
+                          )}
                           <div className="loading-overlay" />
-                          <div className="opacity-overlay" />
                           <div className="learn-more">Learn More</div>
                         </div>
 

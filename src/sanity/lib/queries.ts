@@ -349,24 +349,28 @@ export const pageQuery = groq`
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact2 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact3 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact4 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
@@ -387,24 +391,28 @@ export const pageQuery = groq`
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact2 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact3 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact4 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
@@ -505,24 +513,28 @@ export const pageQuery = groq`
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact2 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact3 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
         },
         artefact4 {
           image ${imageFragment},
+          hoverImage ${imageFragment},
           caption,
           title,
           description
