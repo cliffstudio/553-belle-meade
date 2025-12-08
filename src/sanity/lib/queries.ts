@@ -319,6 +319,10 @@ export const pageQuery = groq`
         video ${videoFragment},
         showControls
       },
+      spacesIssuuEmbed {
+        src,
+        title
+      },
       spacesContactForm {
         body
       },
