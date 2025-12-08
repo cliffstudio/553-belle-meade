@@ -1844,7 +1844,7 @@ export default function TextWithArtefacts({
                   </div>
                 )}
 
-                <div className="col-4-12_lg desktop"></div>
+                <div className="col-6-12_lg desktop"></div>
 
                 {artefact4 && (
                   <div 
@@ -2222,7 +2222,7 @@ export default function TextWithArtefacts({
                   </div>
                 )}
 
-                <div className="col-8-12_lg desktop"></div>
+                <div className="col-10-12_lg desktop"></div>
 
                 {artefact4 && (
                   <div 
