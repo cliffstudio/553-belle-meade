@@ -89,8 +89,6 @@ export default function StaggeredImages({
     }
   }
 
-  const classes = layoutClasses[layout]
-
   // Helper function to render media (image or video)
   const renderMedia = (mediaType: 'image' | 'video', image: SanityImage | undefined, video: SanityVideo | undefined, className: string) => {
     if (mediaType === 'image' && image) {
