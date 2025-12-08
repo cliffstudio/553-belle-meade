@@ -29,6 +29,7 @@ import imageCarousel from './sections/imageCarousel'
 import contactForm from './sections/contactForm'
 import leasingMap from './sections/leasingMap'
 import textBlock from './sections/textBlock'
+import issuuEmbed from './sections/issuuEmbed'
 
 export const schemaTypes = [
   // Global
@@ -62,4 +63,5 @@ export const schemaTypes = [
   contactForm,
   leasingMap,
   textBlock,
+  issuuEmbed,
 ]

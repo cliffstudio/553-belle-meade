@@ -2,9 +2,16 @@ import React from 'react'
 
 interface IssuuEmbedProps {
   className?: string
+  src?: string
+  title?: string
 }
 
-export default function IssuuEmbed({ className }: IssuuEmbedProps) {
+export default function IssuuEmbed({ className, src, title }: IssuuEmbedProps) {
+  // Don't render if either src or title is missing
+  if (!src || !title) {
+    return null
+  }
+  
   return (
     <div id="leasing-brochure" 
       className={`${className}`}
@@ -29,8 +36,8 @@ export default function IssuuEmbed({ className }: IssuuEmbedProps) {
           top: 0,
           bottom: 0
         }}
-        src="https://e.issuu.com/embed.html?backgroundColor=%23581B25&d=belle_meade_village_september_update&hideIssuuLogo=true&hideShareButton=true&themeMainColor=%23FFF9F2&themeSecondaryColor=%23581B25&u=ajcpt"
-        title="Belle Meade Village September Update"
+        src={src}
+        title={title}
       />
     </div>
   )
