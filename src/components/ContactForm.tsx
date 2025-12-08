@@ -3,6 +3,7 @@
 import { PortableText, PortableTextBlock } from '@portabletext/react';
 import React, { useState } from 'react';
 import Select, { MultiValue } from 'react-select';
+import { portableTextComponents } from '../utils/portableTextComponents';
 
 type Option = {
   value: string;
@@ -191,7 +192,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
       <div className="col-3-12_lg desktop"></div>
 
       <div className="col-6-12_lg out-of-view">
-        {body && <div className="text-wrap"><PortableText value={body} /></div>}
+        {body && <div className="text-wrap"><PortableText value={body} components={portableTextComponents} /></div>}
 
         <form onSubmit={handleSubmit} className="spark-registration-form">
           {validationErrors.length > 0 && (

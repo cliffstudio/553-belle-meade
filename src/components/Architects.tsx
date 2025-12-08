@@ -1,5 +1,6 @@
 import { PortableText } from '@portabletext/react'
 import { PortableTextBlock } from '../types/sanity'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 type PageReference = {
   _ref: string
@@ -55,7 +56,7 @@ export default function Architects({ heading, body, architects }: ArchitectsProp
 
             {body && (
               <div className="body">
-                <PortableText value={body} />
+                <PortableText value={body} components={portableTextComponents} />
               </div>
             )}
           </div>
@@ -73,7 +74,7 @@ export default function Architects({ heading, body, architects }: ArchitectsProp
                   )}
                   {architect.bio && (
                     <div className="architect-bio">
-                      <PortableText value={architect.bio} />
+                      <PortableText value={architect.bio} components={portableTextComponents} />
                     </div>
                   )}
                   {href && <div className="cta-font underline-link link">

@@ -4,6 +4,7 @@ import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { PortableText } from '@portabletext/react'
 import { SanityImage, PortableTextBlock, SanityVideo } from '../types/sanity'
 import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 type PageReference = {
   _ref: string
@@ -89,7 +90,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
             <div className="text-wrap out-of-view">
               {heading && <h2 className="heading">{heading}</h2>}
               
-              {body && <div><PortableText value={body} /></div>}
+              {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
               {href && <div className="cta-font underline-link link">
                 <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>

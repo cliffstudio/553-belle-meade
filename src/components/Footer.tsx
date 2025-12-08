@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react'
 import Logo from './Logo'
 import type { Footer } from '../types/footerSettings'
 import StackedLogo from './StackedLogo'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 interface FooterProps {
   footer: Footer
@@ -37,7 +38,7 @@ export default function Footer({ footer }: FooterProps) {
               )}
               {item.text && (
                 <div>
-                  <PortableText value={item.text} />
+                  <PortableText value={item.text} components={portableTextComponents} />
                 </div>
               )}
             </div>
@@ -52,7 +53,7 @@ export default function Footer({ footer }: FooterProps) {
               )}
               {item.text && (
                 <div>
-                  <PortableText value={item.text} />
+                  <PortableText value={item.text} components={portableTextComponents} />
                 </div>
               )}
             </div>

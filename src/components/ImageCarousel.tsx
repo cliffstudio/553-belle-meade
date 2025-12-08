@@ -8,6 +8,7 @@ import { PortableTextBlock } from '@portabletext/react'
 import { useEffect, useRef } from 'react'
 import mediaLazyloading from '../utils/lazyLoad'
 import 'flickity/css/flickity.css'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 type ImageWithCaption = {
   image: SanityImage
@@ -110,7 +111,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
 
                 {body && (
                   <div className="carousel-body">
-                    <PortableText value={body} />
+                    <PortableText value={body} components={portableTextComponents} />
                   </div>
                 )}
               </div>

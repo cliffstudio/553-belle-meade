@@ -8,6 +8,7 @@ import { PortableTextBlock, SanityImage, SanityVideo } from '../types/sanity'
 import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 type ImageMasonryProps = { 
   heading?: string
@@ -113,7 +114,7 @@ export default function ImageMasonry({
             <div className="text-wrap out-of-view">
               {heading && <h2 className="heading">{heading}</h2>}
               
-              {body && <div><PortableText value={body} /></div>}
+              {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
               {cta?.href && <div className="cta-font underline-link link">
                 <a href={cta.href}>{cta.label || ''}</a>
@@ -205,7 +206,7 @@ export default function ImageMasonry({
               <div className="text-wrap out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
                 
-                {body && <div><PortableText value={body} /></div>}
+                {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
                 {cta?.href && <div className="cta-font underline-link link">
                   <a href={cta.href}>{cta.label || ''}</a>
@@ -303,7 +304,7 @@ export default function ImageMasonry({
                 <div className="text-wrap out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
-                  {body && <h2><PortableText value={body} /></h2>}
+                  {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
 
                   {cta?.href && <div className="cta-font underline-link link">
                     <a href={cta.href}>{cta.label || ''}</a>
@@ -495,7 +496,7 @@ export default function ImageMasonry({
                 <div className="text-wrap out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
-                  {body && <h2><PortableText value={body} /></h2>}
+                  {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
 
                   {cta?.href && <div className="cta-font underline-link link">
                     <a href={cta.href}>{cta.label || ''}</a>

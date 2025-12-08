@@ -11,7 +11,25 @@ export default defineType({
       lists: [{ title: 'Bulleted', value: 'bullet' }],
       marks: { 
         decorators: [{ title: 'Strong', value: 'strong' }, { title: 'Emphasis', value: 'em' }], 
-        annotations: [{ type: 'link' }] 
+        annotations: [
+          {
+            type: 'object',
+            name: 'link',
+            title: 'Link',
+            fields: [
+              {
+                type: 'string',
+                name: 'href',
+                title: 'URL',
+              },
+              {
+                type: 'boolean',
+                name: 'blank',
+                title: 'Open in new tab',
+              },
+            ],
+          },
+        ],
       },
     },
   ],
