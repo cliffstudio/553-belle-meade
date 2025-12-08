@@ -173,6 +173,12 @@ export default defineType({
       type: 'richPortableText'
     }),
     defineField({
+      name: 'body2',
+      title: 'Body 2',
+      type: 'richPortableText',
+      hidden: ({ parent }) => parent?.layout !== 'layout-1'
+    }),
+    defineField({
       name: 'artefact1',
       title: 'Artefact 1',
       type: 'object',

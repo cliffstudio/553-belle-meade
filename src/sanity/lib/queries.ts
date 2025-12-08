@@ -346,6 +346,7 @@ export const pageQuery = groq`
         showControls,
         overlayDarkness,
         body,
+        body2,
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
@@ -388,6 +389,7 @@ export const pageQuery = groq`
         showControls,
         overlayDarkness,
         body,
+        body2,
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
@@ -510,6 +512,7 @@ export const pageQuery = groq`
         showControls,
         overlayDarkness,
         body,
+        body2,
         carouselIcon ${imageFragment},
         artefact1 {
           image ${imageFragment},
