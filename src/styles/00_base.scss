@@ -24,8 +24,8 @@ body {
   text-rendering: optimizeLegibility;
 	margin: 0;
 	padding: 0;
-  @include font-size(15px, 15px, 19px);
   opacity: 0;
+  @include font-size(15px, 15px, 19px);
   @include transition(opacity 300ms cubic-bezier(0.25,0.1,0.25,1));
 }
 
