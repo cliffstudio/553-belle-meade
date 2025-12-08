@@ -12,12 +12,6 @@
     padding-right: get-rem-tablet(30);
   }
 
-  // iphone landscape padding fix
-  @media only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2), only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3) {
-    padding-left: get-rem-mobile(65);
-    padding-right: get-rem-mobile(65);
-  }
-
   @media only screen and (max-width: 768px) {
     padding-left: get-rem-mobile(15);
     padding-right: get-rem-mobile(15);
