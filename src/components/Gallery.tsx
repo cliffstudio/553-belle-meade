@@ -20,12 +20,13 @@ export default function Gallery({ images }: GalleryProps) {
   const gridRef = useRef<HTMLDivElement>(null)
   const masonryRef = useRef<{ destroy?: () => void; layout?: () => void } | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
-  const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void; resize: () => void } | null>(null)
+  const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void; resize: () => void; reloadCells: () => void; reposition: () => void } | null>(null)
   const carouselCloseWrapRef = useRef<HTMLDivElement>(null)
   const [isCarouselOpen, setIsCarouselOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const [resizeKey, setResizeKey] = useState(0)
 
   const getAspectRatioClass = (imageSize?: string) => {
     switch (imageSize) {
@@ -77,14 +78,22 @@ export default function Gallery({ images }: GalleryProps) {
     }
   }
 
-  const initCarousel = useCallback(async () => {
-    if (!carouselRef.current || flickityRef.current) return
+  const initCarousel = useCallback(async (preserveIndex = true) => {
+    if (!carouselRef.current) return
+
+    // Destroy existing Flickity instance if it exists
+    if (flickityRef.current) {
+      flickityRef.current.destroy()
+      flickityRef.current = null
+    }
 
     // Dynamically import Flickity to avoid SSR issues
     const Flickity = (await import('flickity')).default
 
+    const indexToUse = preserveIndex ? selectedIndex : currentSlideIndex
+
     flickityRef.current = new Flickity(carouselRef.current, {
-      initialIndex: selectedIndex,
+      initialIndex: indexToUse,
       wrapAround: true,
       pageDots: false,
       prevNextButtons: false,
@@ -111,7 +120,7 @@ export default function Gallery({ images }: GalleryProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [selectedIndex])
+  }, [selectedIndex, currentSlideIndex])
 
   useEffect(() => {
     if (!images || images.length === 0) return
@@ -239,6 +248,62 @@ export default function Gallery({ images }: GalleryProps) {
     if (!isCarouselOpen || typeof window === 'undefined') return
 
     let resizeTimeout: NodeJS.Timeout | null = null
+    let resizeObserver: ResizeObserver | null = null
+
+    const recalculateCarousel = () => {
+      if (!flickityRef.current || !carouselRef.current) return
+
+      const container = carouselRef.current
+      const viewport = container.querySelector<HTMLElement>('.flickity-viewport')
+      
+      // Clear Flickity's inline height style to force recalculation
+      if (viewport) {
+        viewport.style.removeProperty('height')
+      }
+
+      // Force container reflow
+      container.offsetHeight
+
+      // Use requestAnimationFrame to ensure layout has settled
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (flickityRef.current && container) {
+            // Reload cells first - this recalculates cell dimensions
+            flickityRef.current.reloadCells()
+            
+            // Force a reflow
+            container.offsetHeight
+            
+            // Clear viewport height again to ensure it's not set
+            if (viewport) {
+              viewport.style.removeProperty('height')
+            }
+            
+            // Resize the carousel - this should recalculate viewport height
+            // But we need to ensure it uses the container height, not a fixed value
+            flickityRef.current.resize()
+            
+            // After resize, check if viewport height is still wrong and fix it
+            requestAnimationFrame(() => {
+              if (viewport && container) {
+                const containerHeight = container.offsetHeight
+                const viewportHeight = parseInt(viewport.style.height || '0', 10)
+                
+                // If viewport height doesn't match container, force it
+                if (viewportHeight > 0 && Math.abs(viewportHeight - containerHeight) > 10) {
+                  viewport.style.height = `${containerHeight}px`
+                  // Trigger another resize to ensure everything is aligned
+                  if (flickityRef.current) {
+                    flickityRef.current.resize()
+                    flickityRef.current.reposition()
+                  }
+                }
+              }
+            })
+          }
+        })
+      })
+    }
 
     const handleResize = () => {
       // Debounce resize calls to avoid excessive recalculations
@@ -247,27 +312,103 @@ export default function Gallery({ images }: GalleryProps) {
       }
 
       resizeTimeout = setTimeout(() => {
-        if (flickityRef.current) {
-          // Use requestAnimationFrame to ensure resize happens after layout recalculation
-          requestAnimationFrame(() => {
-            if (flickityRef.current) {
-              flickityRef.current.resize()
-            }
+        const newWidth = window.innerWidth
+        const newHeight = window.innerHeight
+        
+        // Check if this is a significant size change
+        const widthChange = Math.abs(newWidth - previousWidth) / previousWidth
+        const heightChange = Math.abs(newHeight - previousHeight) / previousHeight
+        
+        if (widthChange > 0.3 || heightChange > 0.3) {
+          // Major size change - recreate Flickity
+          initCarousel(true).then(() => {
+            previousWidth = newWidth
+            previousHeight = newHeight
           })
+        } else {
+          // Minor change - just recalculate
+          recalculateCarousel()
+          previousWidth = newWidth
+          previousHeight = newHeight
         }
       }, 150) // Small delay to batch rapid resize events
     }
 
+    // Track previous dimensions to detect major changes
+    let previousWidth = window.innerWidth
+    let previousHeight = window.innerHeight
+
+    // Handle orientation change with proper timing
+    const handleOrientationChange = () => {
+      // Longer delay to let browser finish orientation change and CSS recalculation
+      setTimeout(() => {
+        const newWidth = window.innerWidth
+        const newHeight = window.innerHeight
+        
+        // If dimensions changed significantly, recreate Flickity
+        const widthChange = Math.abs(newWidth - previousWidth) / previousWidth
+        const heightChange = Math.abs(newHeight - previousHeight) / previousHeight
+        
+        if (widthChange > 0.2 || heightChange > 0.2) {
+          // Major size change - recreate Flickity
+          initCarousel(true).then(() => {
+            previousWidth = newWidth
+            previousHeight = newHeight
+          })
+        } else {
+          // Minor change - just recalculate
+          recalculateCarousel()
+        }
+      }, 500) // Longer delay for orientation changes to ensure CSS has recalculated
+    }
+
+    // Use ResizeObserver to watch multiple containers for size changes
+    const setupResizeObserver = () => {
+      if (typeof ResizeObserver === 'undefined') return
+      
+      resizeObserver = new ResizeObserver((entries) => {
+        // Debounce the resize observer callback
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout)
+        }
+        resizeTimeout = setTimeout(() => {
+          recalculateCarousel()
+        }, 50) // Shorter delay for ResizeObserver since it's more accurate
+      })
+      
+      // Watch the overlay, inner-wrap, and carousel container
+      const overlay = document.querySelector('.carousel-overlay')
+      const innerWrap = document.querySelector('.inner-wrap')
+      const container = document.querySelector('.carousel-container') || carouselRef.current
+      
+      if (overlay) resizeObserver.observe(overlay)
+      if (innerWrap) resizeObserver.observe(innerWrap)
+      if (container) resizeObserver.observe(container)
+    }
+
+    // Set up ResizeObserver after a short delay to ensure DOM is ready
+    setTimeout(setupResizeObserver, 200)
+
     window.addEventListener('resize', handleResize)
-    // Also listen for orientation change as a backup
-    window.addEventListener('orientationchange', handleResize)
+    window.addEventListener('orientationchange', handleOrientationChange)
+    
+    // Also listen for visual viewport resize (for mobile browsers)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize)
+    }
 
     return () => {
       if (resizeTimeout) {
         clearTimeout(resizeTimeout)
       }
+      if (resizeObserver) {
+        resizeObserver.disconnect()
+      }
       window.removeEventListener('resize', handleResize)
-      window.removeEventListener('orientationchange', handleResize)
+      window.removeEventListener('orientationchange', handleOrientationChange)
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize)
+      }
     }
   }, [isCarouselOpen])
 
@@ -358,6 +499,17 @@ export default function Gallery({ images }: GalleryProps) {
                             objectPosition: item.image?.hotspot
                               ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
                               : "center",
+                          }}
+                          onLoad={(e) => {
+                            // Force Flickity to recalculate after image loads
+                            if (flickityRef.current) {
+                              requestAnimationFrame(() => {
+                                if (flickityRef.current) {
+                                  flickityRef.current.resize()
+                                  flickityRef.current.reposition()
+                                }
+                              })
+                            }
                           }}
                         />
                       </div>
