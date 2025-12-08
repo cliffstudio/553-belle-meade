@@ -29,6 +29,8 @@ type HomeHeroMediaProps = {
   desktopBackgroundImage?: SanityImage
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
+  videoSource?: 'file' | 'url'
+  desktopBackgroundVideoUrl?: string
   desktopBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
@@ -40,6 +42,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     desktopBackgroundImage,
     mobileBackgroundImage,
     desktopBackgroundVideo,
+    videoSource = 'file',
+    desktopBackgroundVideoUrl,
     desktopBackgroundVideoPlaceholder,
     showControls = false,
     overlayDarkness = 0.3,
@@ -572,14 +576,34 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
     }
   }, [isFullscreen])
 
+  // Determine the video source URL
+  const getVideoSrc = () => {
+    // If videoSource is explicitly 'url', use the URL
+    if (videoSource === 'url') {
+      if (desktopBackgroundVideoUrl) {
+        return desktopBackgroundVideoUrl
+      }
+      // If URL is selected but no URL provided, return empty (don't fallback to file)
+      return ''
+    }
+    // Otherwise, use the file upload
+    if (desktopBackgroundVideo) {
+      return videoUrlFor(desktopBackgroundVideo)
+    }
+    return ''
+  }
+
+  const videoSrc = getVideoSrc()
+  const hasVideo = backgroundMediaType === 'video' && (desktopBackgroundVideo || desktopBackgroundVideoUrl)
+
   return (
     <section className="home-hero-media-block full-height flex items-center text-white relative">
-      {backgroundMediaType === 'video' && desktopBackgroundVideo && (
+      {hasVideo && videoSrc && (
         <div className="fill-space-video-wrap">
           {/* Desktop Video */}
           <video
             ref={desktopVideoRef}
-            src={videoUrlFor(desktopBackgroundVideo)}
+            src={videoSrc}
             poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
             className="desktop"
             autoPlay
@@ -592,7 +616,7 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
           {/* Mobile Video - using desktop video */}
           <video
             ref={mobileVideoRef}
-            src={videoUrlFor(desktopBackgroundVideo)}
+            src={videoSrc}
             poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
             className="mobile"
             autoPlay

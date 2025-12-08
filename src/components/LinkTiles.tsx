@@ -24,6 +24,8 @@ type LinkTile = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   cta?: Link
 }
 
@@ -97,10 +99,10 @@ const renderTile = (tile: LinkTile, tileIndex: number, numberOfTiles: number) =>
         </div>
       )}
 
-      {tile.mediaType === 'video' && tile.video && (
+      {tile.mediaType === 'video' && (tile.video || tile.videoUrl) && (
         <div className="fill-space-video-wrap">
           <video
-            src={videoUrlFor(tile.video)}
+            src={tile.videoSource === 'url' && tile.videoUrl ? tile.videoUrl : videoUrlFor(tile.video)}
             autoPlay
             muted
             loop
@@ -288,10 +290,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[0].mediaType === 'video' && activeTiles[0].video && (
+                {activeTiles[0].mediaType === 'video' && (activeTiles[0].video || activeTiles[0].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[0].video)}
+                      src={activeTiles[0].videoSource === 'url' && activeTiles[0].videoUrl ? activeTiles[0].videoUrl : videoUrlFor(activeTiles[0].video)}
                       autoPlay
                       muted
                       loop
@@ -336,10 +338,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[1].mediaType === 'video' && activeTiles[1].video && (
+                {activeTiles[1].mediaType === 'video' && (activeTiles[1].video || activeTiles[1].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[1].video)}
+                      src={activeTiles[1].videoSource === 'url' && activeTiles[1].videoUrl ? activeTiles[1].videoUrl : videoUrlFor(activeTiles[1].video)}
                       autoPlay
                       muted
                       loop
@@ -380,10 +382,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[2].mediaType === 'video' && activeTiles[2].video && (
+                {activeTiles[2].mediaType === 'video' && (activeTiles[2].video || activeTiles[2].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[2].video)}
+                      src={activeTiles[2].videoSource === 'url' && activeTiles[2].videoUrl ? activeTiles[2].videoUrl : videoUrlFor(activeTiles[2].video)}
                       autoPlay
                       muted
                       loop
@@ -428,10 +430,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[3].mediaType === 'video' && activeTiles[3].video && (
+                {activeTiles[3].mediaType === 'video' && (activeTiles[3].video || activeTiles[3].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[3].video)}
+                      src={activeTiles[3].videoSource === 'url' && activeTiles[3].videoUrl ? activeTiles[3].videoUrl : videoUrlFor(activeTiles[3].video)}
                       autoPlay
                       muted
                       loop
@@ -471,10 +473,10 @@ export default function LinkTiles({
                 </div>
               )}
 
-              {activeTiles[4].mediaType === 'video' && activeTiles[4].video && (
+              {activeTiles[4].mediaType === 'video' && (activeTiles[4].video || activeTiles[4].videoUrl) && (
                 <div className="fill-space-video-wrap">
                   <video
-                    src={videoUrlFor(activeTiles[4].video)}
+                    src={activeTiles[4].videoSource === 'url' && activeTiles[4].videoUrl ? activeTiles[4].videoUrl : videoUrlFor(activeTiles[4].video)}
                     autoPlay
                     muted
                     loop
@@ -516,10 +518,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[5].mediaType === 'video' && activeTiles[5].video && (
+                {activeTiles[5].mediaType === 'video' && (activeTiles[5].video || activeTiles[5].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[5].video)}
+                      src={activeTiles[5].videoSource === 'url' && activeTiles[5].videoUrl ? activeTiles[5].videoUrl : videoUrlFor(activeTiles[5].video)}
                       autoPlay
                       muted
                       loop
@@ -560,10 +562,10 @@ export default function LinkTiles({
                   </div>
                 )}
 
-                {activeTiles[6].mediaType === 'video' && activeTiles[6].video && (
+                {activeTiles[6].mediaType === 'video' && (activeTiles[6].video || activeTiles[6].videoUrl) && (
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(activeTiles[6].video)}
+                      src={activeTiles[6].videoSource === 'url' && activeTiles[6].videoUrl ? activeTiles[6].videoUrl : videoUrlFor(activeTiles[6].video)}
                       autoPlay
                       muted
                       loop

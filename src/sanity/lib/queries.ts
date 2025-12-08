@@ -24,6 +24,8 @@ const videoFragment = `{
   }
 }`
 
+const videoSourceFragment = `videoSource, videoUrl`
+
 const linkFragment = `{
   linkType,
   label,
@@ -79,6 +81,8 @@ export const pageQuery = groq`
             _type
           }
         },
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder {
           asset {
             _ref,
@@ -100,6 +104,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -107,6 +113,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -114,6 +122,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -121,6 +131,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -128,6 +140,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -135,6 +149,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         },
@@ -142,6 +158,8 @@ export const pageQuery = groq`
           mediaType,
           image ${imageFragment},
           video ${videoFragment},
+          ${videoSourceFragment},
+          videoUrl,
           showControls,
           cta ${linkFragment}
         }
@@ -181,6 +199,8 @@ export const pageQuery = groq`
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
+        videoSource1,
+        videoUrl1,
         mediaType2,
         image2 ${imageFragment},
         video2 ${videoFragment}
@@ -197,6 +217,8 @@ export const pageQuery = groq`
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
@@ -209,14 +231,20 @@ export const pageQuery = groq`
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
+        videoSource1,
+        videoUrl1,
         caption1,
         mediaType2,
         image2 ${imageFragment},
         video2 ${videoFragment},
+        videoSource2,
+        videoUrl2,
         caption2,
         mediaType3,
         image3 ${imageFragment},
         video3 ${videoFragment},
+        videoSource3,
+        videoUrl3,
         caption3
       },
       shoppingFullWidthMedia {
@@ -254,6 +282,8 @@ export const pageQuery = groq`
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
@@ -453,6 +483,8 @@ export const pageQuery = groq`
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
@@ -465,14 +497,20 @@ export const pageQuery = groq`
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
+        videoSource1,
+        videoUrl1,
         caption1,
         mediaType2,
         image2 ${imageFragment},
         video2 ${videoFragment},
+        videoSource2,
+        videoUrl2,
         caption2,
         mediaType3,
         image3 ${imageFragment},
         video3 ${videoFragment},
+        videoSource3,
+        videoUrl3,
         caption3
       },
       creekStackedMediaText {
@@ -561,9 +599,13 @@ export const pageQuery = groq`
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
+        videoSource1,
+        videoUrl1,
         mediaType2,
         image2 ${imageFragment},
-        video2 ${videoFragment}
+        video2 ${videoFragment},
+        videoSource2,
+        videoUrl2
       },
       carouselCta {
         pageLink {
@@ -585,6 +627,8 @@ export const pageQuery = groq`
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
@@ -598,9 +642,13 @@ export const pageQuery = groq`
         mediaType1,
         image1 ${imageFragment},
         video1 ${videoFragment},
+        videoSource1,
+        videoUrl1,
         mediaType2,
         image2 ${imageFragment},
-        video2 ${videoFragment}
+        video2 ${videoFragment},
+        videoSource2,
+        videoUrl2
       },
       architectureStackedMediaText {
         layout,
@@ -668,6 +716,8 @@ export const pageQuery = groq`
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
         desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
         showControls,
         overlayDarkness,
@@ -730,6 +780,8 @@ export const homepageQuery = groq`
       desktopBackgroundImage ${imageFragment},
       mobileBackgroundImage ${imageFragment},
       desktopBackgroundVideo ${videoFragment},
+      videoSource,
+      desktopBackgroundVideoUrl,
       desktopBackgroundVideoPlaceholder ${imageFragment},
       showControls,
       overlayDarkness
@@ -744,6 +796,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -751,6 +805,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -758,6 +814,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -765,6 +823,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -772,6 +832,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -779,6 +841,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       },
@@ -786,6 +850,8 @@ export const homepageQuery = groq`
         mediaType,
         image ${imageFragment},
         video ${videoFragment},
+        videoSource,
+        videoUrl,
         showControls,
         cta ${linkFragment}
       }
@@ -794,6 +860,8 @@ export const homepageQuery = groq`
       mediaType,
       image ${imageFragment},
       video ${videoFragment},
+      videoSource,
+      videoUrl,
       showControls
     },
     homepageStackedMediaText {
@@ -805,6 +873,8 @@ export const homepageQuery = groq`
       mediaType,
       image ${imageFragment},
       video ${videoFragment},
+      videoSource,
+      videoUrl,
       showControls
     },
     homepageLargeMediaText {
@@ -825,9 +895,13 @@ export const homepageQuery = groq`
       mediaType1,
       image1 ${imageFragment},
       video1 ${videoFragment},
+      videoSource1,
+      videoUrl1,
       mediaType2,
       image2 ${imageFragment},
-      video2 ${videoFragment}
+      video2 ${videoFragment},
+      videoSource2,
+      videoUrl2
     }
   }
 `

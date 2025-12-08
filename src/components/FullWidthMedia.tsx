@@ -26,10 +26,12 @@ type FullWidthMediaProps = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   showControls?: boolean
 }
 
-export default function FullWidthMedia({ mediaType, image, video, showControls = false }: FullWidthMediaProps) {
+export default function FullWidthMedia({ mediaType, image, video, videoSource = 'file', videoUrl, showControls = false }: FullWidthMediaProps) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [isMuted, setIsMuted] = useState(true)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -520,17 +522,17 @@ export default function FullWidthMedia({ mediaType, image, video, showControls =
     return null
   }
 
-  if (mediaType === 'video' && !video) {
+  if (mediaType === 'video' && !video && !videoUrl) {
     return null
   }
 
   return (
     <section className="full-bleed-media-block relative">
-      {mediaType === 'video' && video && (
+      {mediaType === 'video' && (video || videoUrl) && (
         <div className="fill-space-video-wrap">
           <video
             ref={videoRef}
-            src={videoUrlFor(video)}
+            src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
             autoPlay
             muted
             loop

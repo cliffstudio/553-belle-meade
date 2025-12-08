@@ -218,6 +218,8 @@ export default async function DynamicPage({ params }: PageProps) {
               desktopBackgroundImage={desktopBackgroundImage as SanityImage | undefined}
               mobileBackgroundImage={mobileBackgroundImage as SanityImage | undefined}
               desktopBackgroundVideo={desktopBackgroundVideo as SanityVideo | undefined}
+              videoSource={section.videoSource as 'file' | 'url' | undefined}
+              desktopBackgroundVideoUrl={section.desktopBackgroundVideoUrl as string | undefined}
               desktopBackgroundVideoPlaceholder={desktopBackgroundVideoPlaceholder as SanityImage | undefined}
               showControls={showControls as boolean | undefined}
               overlayDarkness={overlayDarkness as number | undefined}
@@ -234,6 +236,8 @@ export default async function DynamicPage({ params }: PageProps) {
             mediaType,
             image,
             video,
+            videoSource,
+            videoUrl,
             heading,
             body,
             cta,
@@ -249,6 +253,8 @@ export default async function DynamicPage({ params }: PageProps) {
               mediaType={mediaType as 'image' | 'video' | undefined}
               image={image as SanityImage | undefined}
               video={video as SanityVideo | undefined}
+              videoSource={videoSource as 'file' | 'url' | undefined}
+              videoUrl={videoUrl as string | undefined}
               heading={heading as string | undefined}
               body={body as PortableTextBlock[] | undefined}
               cta={cta as { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } | undefined}

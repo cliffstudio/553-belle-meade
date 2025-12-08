@@ -26,6 +26,8 @@ type TextWithMediaProps = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   heading?: string
   body?: PortableTextBlock[]
   cta?: Link
@@ -44,7 +46,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image', image, video, heading, body, cta }: TextWithMediaProps) {
+export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta }: TextWithMediaProps) {
   const { text, href } = getLinkInfo(cta)
 
   if (layout === 'layout-1') {
@@ -69,11 +71,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
               </div>
             )}
             
-            {mediaType === 'video' && video && (
+            {mediaType === 'video' && (video || videoUrl) && (
               <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
-                    src={videoUrlFor(video)}
+                    src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                     autoPlay
                     muted
                     loop
@@ -120,11 +122,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
                 </div>
               )}
               
-              {mediaType === 'video' && video && (
+              {mediaType === 'video' && (video || videoUrl) && (
                 <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(video)}
+                      src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                       autoPlay
                       muted
                       loop
@@ -181,11 +183,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
               </div>
             )}
             
-            {mediaType === 'video' && video && (
+            {mediaType === 'video' && (video || videoUrl) && (
               <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
-                    src={videoUrlFor(video)}
+                    src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                     autoPlay
                     muted
                     loop
@@ -214,11 +216,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
                 </div>
               )}
               
-              {mediaType === 'video' && video && (
+              {mediaType === 'video' && (video || videoUrl) && (
                 <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(video)}
+                      src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                       autoPlay
                       muted
                       loop
@@ -271,11 +273,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
                 </div>
               )}
               
-              {mediaType === 'video' && video && (
+              {mediaType === 'video' && (video || videoUrl) && (
                 <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
-                      src={videoUrlFor(video)}
+                      src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                       autoPlay
                       muted
                       loop
@@ -308,11 +310,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
             </div>
           )}
           
-          {mediaType === 'video' && video && (
+          {mediaType === 'video' && (video || videoUrl) && (
             <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
-                  src={videoUrlFor(video)}
+                  src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                   autoPlay
                   muted
                   loop

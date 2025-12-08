@@ -52,6 +52,8 @@ type HeroMediaProps = {
   desktopBackgroundImage?: SanityImage
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
+  videoSource?: 'file' | 'url'
+  desktopBackgroundVideoUrl?: string
   desktopBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
@@ -79,6 +81,8 @@ export default function HeroMedia({
   desktopBackgroundImage, 
   mobileBackgroundImage,
     desktopBackgroundVideo,
+    videoSource = 'file',
+    desktopBackgroundVideoUrl,
     desktopBackgroundVideoPlaceholder,
     showControls = false,
   overlayDarkness = 0.3,
@@ -793,12 +797,12 @@ export default function HeroMedia({
     <>
       {layout === 'layout-1' && (
         <section className="hero-media-block layout-1 full-height flex items-center text-white relative">
-          {backgroundMediaType === 'video' && desktopBackgroundVideo && (
+          {backgroundMediaType === 'video' && (desktopBackgroundVideo || desktopBackgroundVideoUrl) && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
               <video
                 ref={desktopVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
+                src={videoSource === 'url' && desktopBackgroundVideoUrl ? desktopBackgroundVideoUrl : videoUrlFor(desktopBackgroundVideo)}
                 poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                 className="desktop"
                 autoPlay
@@ -811,7 +815,7 @@ export default function HeroMedia({
               {/* Mobile Video - using desktop video */}
               <video
                 ref={mobileVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
+                src={videoSource === 'url' && desktopBackgroundVideoUrl ? desktopBackgroundVideoUrl : videoUrlFor(desktopBackgroundVideo)}
                 poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                 className="mobile"
                 autoPlay

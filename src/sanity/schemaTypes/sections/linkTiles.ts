@@ -63,9 +63,22 @@ export default defineType({
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -96,7 +109,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({ 
           name: 'cta', 
@@ -146,9 +169,22 @@ export default defineType({
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -179,7 +215,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({
           name: 'cta', 
@@ -229,9 +275,22 @@ export default defineType({
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -262,7 +321,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({
           name: 'cta', 
@@ -312,9 +381,22 @@ export default defineType({
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -345,7 +427,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({
           name: 'cta', 
@@ -374,9 +466,22 @@ export default defineType({
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -407,7 +512,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({
           name: 'cta', 
@@ -436,9 +551,22 @@ export default defineType({
           options: { hotspot: true },
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -469,7 +597,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({ 
           name: 'cta', 
@@ -519,9 +657,22 @@ export default defineType({
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
+        defineField({
+          name: 'videoSource',
+          title: 'Video Source',
+          type: 'string',
+          initialValue: 'file',
+          options: { 
+            list: [
+              { title: 'Upload File', value: 'file' },
+              { title: 'Video URL', value: 'url' }
+            ]
+          },
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
         defineField({ 
           name: 'video', 
-          title: 'Video',
+          title: 'Video File',
           type: 'file', 
           description: 'Please upload .mp4 files under 10MB',
           options: { 
@@ -552,7 +703,17 @@ export default defineType({
             
             return true;
           }),
-          hidden: ({ parent }) => parent?.mediaType !== 'video'
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https']
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({ 
           name: 'cta', 
