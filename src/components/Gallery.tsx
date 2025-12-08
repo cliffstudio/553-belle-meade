@@ -20,7 +20,7 @@ export default function Gallery({ images }: GalleryProps) {
   const gridRef = useRef<HTMLDivElement>(null)
   const masonryRef = useRef<{ destroy?: () => void; layout?: () => void } | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
-  const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void } | null>(null)
+  const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void; resize: () => void } | null>(null)
   const carouselCloseWrapRef = useRef<HTMLDivElement>(null)
   const [isCarouselOpen, setIsCarouselOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
@@ -233,6 +233,43 @@ export default function Gallery({ images }: GalleryProps) {
       initCarousel()
     }
   }, [isCarouselOpen, initCarousel])
+
+  // Handle window resize to recalculate carousel layout
+  useEffect(() => {
+    if (!isCarouselOpen || typeof window === 'undefined') return
+
+    let resizeTimeout: NodeJS.Timeout | null = null
+
+    const handleResize = () => {
+      // Debounce resize calls to avoid excessive recalculations
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+
+      resizeTimeout = setTimeout(() => {
+        if (flickityRef.current) {
+          // Use requestAnimationFrame to ensure resize happens after layout recalculation
+          requestAnimationFrame(() => {
+            if (flickityRef.current) {
+              flickityRef.current.resize()
+            }
+          })
+        }
+      }, 150) // Small delay to batch rapid resize events
+    }
+
+    window.addEventListener('resize', handleResize)
+    // Also listen for orientation change as a backup
+    window.addEventListener('orientationchange', handleResize)
+
+    return () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+      }
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+    }
+  }, [isCarouselOpen])
 
   // Cleanup on unmount
   useEffect(() => {
