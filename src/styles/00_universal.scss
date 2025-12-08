@@ -1022,22 +1022,22 @@ body.page-type-homepage {
   }
 
   .inner-wrap {
-    padding-top: get-rem-desktop(42);
-    padding-bottom: get-rem-desktop(27);
+    padding-top: get-rem-desktop(25);
+    padding-bottom: get-rem-desktop(14);
     @include flex;
     @include justify-content(flex-end);
     @include align-items(center);
     column-gap: get-rem-desktop(30);
 
     @media only screen and (max-width: 1366px) {
-      padding-top: get-rem-tablet(36);
-      padding-bottom: get-rem-tablet(24);
+      padding-top: get-rem-tablet(25);
+      padding-bottom: get-rem-tablet(16);
       column-gap: get-rem-tablet(20);
     }
 
     @media only screen and (max-width: 768px) {
       padding-top: get-rem-mobile(25);
-      padding-bottom: get-rem-mobile(18);
+      padding-bottom: get-rem-mobile(16);
       column-gap: get-rem-mobile(17.5);
     }
 
