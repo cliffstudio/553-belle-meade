@@ -367,6 +367,11 @@ body.page-type-gallery .site-header {
     padding-top: get-rem-mobile(51);
     padding-bottom: get-rem-mobile(51);
 
+    @media only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2), only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3) {
+      padding-left: get-rem-mobile(65);
+      padding-right: get-rem-mobile(65);
+    }
+
     &.visible {
       pointer-events: all;
       opacity: 1;
