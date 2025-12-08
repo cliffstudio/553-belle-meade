@@ -1,7 +1,13 @@
 import { dataset, projectId } from '../env'
-import { SanityVideo } from '../../types/sanity'
+import { SanityVideo, SanityVideoUrl } from '../../types/sanity'
 
-export const videoUrlFor = (video: SanityVideo): string => {
+export const videoUrlFor = (video: SanityVideo | SanityVideoUrl | undefined): string => {
+  // If it's already a URL string, return it directly
+  if (typeof video === 'string') {
+    return video
+  }
+  
+  // If it's a Sanity video file, construct the URL
   if (!video?.asset?._ref) {
     return ''
   }

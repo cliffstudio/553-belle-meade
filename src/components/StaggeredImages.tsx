@@ -14,14 +14,20 @@ type StaggeredImagesProps = {
   mediaType1?: 'image' | 'video'
   image1?: SanityImage
   video1?: SanityVideo
+  videoSource1?: 'file' | 'url'
+  videoUrl1?: string
   caption1?: string
   mediaType2?: 'image' | 'video'
   image2?: SanityImage
   video2?: SanityVideo
+  videoSource2?: 'file' | 'url'
+  videoUrl2?: string
   caption2?: string
   mediaType3?: 'image' | 'video'
   image3?: SanityImage
   video3?: SanityVideo
+  videoSource3?: 'file' | 'url'
+  videoUrl3?: string
   caption3?: string
   layout?: LayoutVariant
 }
@@ -32,14 +38,20 @@ export default function StaggeredImages({
   mediaType1 = 'image',
   image1, 
   video1,
+  videoSource1 = 'file',
+  videoUrl1,
   caption1,
   mediaType2 = 'image',
   image2, 
   video2,
+  videoSource2 = 'file',
+  videoUrl2,
   caption2,
   mediaType3 = 'image',
   image3, 
   video3,
+  videoSource3 = 'file',
+  videoUrl3,
   caption3,
   layout = 'layout-1' 
 }: StaggeredImagesProps) {
@@ -90,7 +102,14 @@ export default function StaggeredImages({
   }
 
   // Helper function to render media (image or video)
-  const renderMedia = (mediaType: 'image' | 'video', image: SanityImage | undefined, video: SanityVideo | undefined, className: string) => {
+  const renderMedia = (
+    mediaType: 'image' | 'video', 
+    image: SanityImage | undefined, 
+    video: SanityVideo | undefined, 
+    videoSource: 'file' | 'url' = 'file',
+    videoUrl: string | undefined,
+    className: string
+  ) => {
     if (mediaType === 'image' && image) {
       return (
         <>
@@ -107,11 +126,11 @@ export default function StaggeredImages({
           <div className="loading-overlay" />
         </>
       )
-    } else if (mediaType === 'video' && video) {
+    } else if (mediaType === 'video' && (video || videoUrl)) {
       return (
         <div className="fill-space-video-wrap">
           <video
-            src={videoUrlFor(video)}
+            src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
             autoPlay
             muted
             loop
@@ -141,7 +160,7 @@ export default function StaggeredImages({
             <div className="relative col-5-12_lg col-4-5_sm out-of-opacity">
               {(image1 || video1) && (
                 <div className="media-1 media-wrap">
-                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                  {renderMedia(mediaType1, image1, video1, videoSource1, videoUrl1, 'full-bleed-image')}
                 </div>
               )}
 
@@ -153,7 +172,7 @@ export default function StaggeredImages({
             <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
               {(image2 || video2) && (
                 <div className="media-2 media-wrap">
-                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                  {renderMedia(mediaType2, image2, video2, videoSource2, videoUrl2, 'full-bleed-image')}
                 </div>
               )}
 
@@ -169,7 +188,7 @@ export default function StaggeredImages({
             <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
               {(image3 || video3) && (
                 <div className="media-3 media-wrap">
-                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                  {renderMedia(mediaType3, image3, video3, videoSource3, videoUrl3, 'regular')}
                 </div>
               )}
 
@@ -194,7 +213,7 @@ export default function StaggeredImages({
             <div className="col-2 relative col-3-12_lg desktop out-of-opacity">
               {(image1 || video1) && (
                 <div className="media-1 media-wrap">
-                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                  {renderMedia(mediaType1, image1, video1, videoSource1, videoUrl1, 'full-bleed-image')}
                 </div>
               )}
 
@@ -211,7 +230,7 @@ export default function StaggeredImages({
             <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
               {(image1 || video1) && (
                 <div className="media-1 media-wrap">
-                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                  {renderMedia(mediaType1, image1, video1, videoSource1, videoUrl1, 'full-bleed-image')}
                 </div>
               )}
 
@@ -225,7 +244,7 @@ export default function StaggeredImages({
             <div className="relative col-5-12_lg col-2-5_sm out-of-opacity">
               {(image2 || video2) && (
                 <div className="media-2 media-wrap">
-                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                  {renderMedia(mediaType2, image2, video2, videoSource2, videoUrl2, 'full-bleed-image')}
                 </div>
               )}
 
@@ -241,7 +260,7 @@ export default function StaggeredImages({
             <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
               {(image3 || video3) && (
                 <div className="media-3 media-wrap">
-                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                  {renderMedia(mediaType3, image3, video3, videoSource3, videoUrl3, 'regular')}
                 </div>
               )}
 
@@ -266,7 +285,7 @@ export default function StaggeredImages({
             <div className="relative col-4-12_lg col-3-5_sm out-of-opacity">
               {(image1 || video1) && (
                 <div className="media-1 media-wrap">
-                  {renderMedia(mediaType1, image1, video1, 'full-bleed-image')}
+                  {renderMedia(mediaType1, image1, video1, videoSource1, videoUrl1, 'full-bleed-image')}
                 </div>
               )}
 
@@ -278,7 +297,7 @@ export default function StaggeredImages({
             <div className="relative col-5-12_lg col-3-5_sm out-of-opacity">
               {(image2 || video2) && (
                 <div className="media-2 media-wrap">
-                  {renderMedia(mediaType2, image2, video2, 'full-bleed-image')}
+                  {renderMedia(mediaType2, image2, video2, videoSource2, videoUrl2, 'full-bleed-image')}
                 </div>
               )}
 
@@ -294,7 +313,7 @@ export default function StaggeredImages({
             <div className="relative col-3-12_lg col-2-5_sm out-of-opacity">
               {(image3 || video3) && (
                 <div className="media-3 media-wrap">
-                  {renderMedia(mediaType3, image3, video3, 'regular')}
+                  {renderMedia(mediaType3, image3, video3, videoSource3, videoUrl3, 'regular')}
                 </div>
               )}
 

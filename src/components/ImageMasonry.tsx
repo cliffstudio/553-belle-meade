@@ -19,9 +19,13 @@ type ImageMasonryProps = {
   mediaType1?: 'image' | 'video'
   image1?: SanityImage
   video1?: SanityVideo
+  videoSource1?: 'file' | 'url'
+  videoUrl1?: string
   mediaType2?: 'image' | 'video'
   image2?: SanityImage
   video2?: SanityVideo
+  videoSource2?: 'file' | 'url'
+  videoUrl2?: string
 }
 
 export default function ImageMasonry({ 
@@ -33,9 +37,13 @@ export default function ImageMasonry({
   mediaType1 = 'image',
   image1, 
   video1,
+  videoSource1 = 'file',
+  videoUrl1,
   mediaType2 = 'image',
   image2, 
-  video2 
+  video2,
+  videoSource2 = 'file',
+  videoUrl2
 }: ImageMasonryProps) {
 
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -143,11 +151,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop
@@ -178,11 +186,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -238,11 +246,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -273,11 +281,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop
@@ -333,11 +341,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop
@@ -371,11 +379,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -430,11 +438,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop
@@ -465,11 +473,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -525,11 +533,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop
@@ -560,11 +568,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -616,11 +624,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType2 === 'video' && video2 && (
+                {mediaType2 === 'video' && (video2 || videoUrl2) && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video2)}
+                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
                         autoPlay
                         muted
                         loop
@@ -649,11 +657,11 @@ export default function ImageMasonry({
                   </div>
                 )}
 
-                {mediaType1 === 'video' && video1 && (
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <div className="fill-space-video-wrap">
                       <video
-                        src={videoUrlFor(video1)}
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
                         autoPlay
                         muted
                         loop

@@ -93,9 +93,22 @@ export default defineType({
       }),
       hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'image'
     }),
+    defineField({
+      name: 'videoSource',
+      title: 'Video Source',
+      type: 'string',
+      initialValue: 'file',
+      options: { 
+        list: [
+          { title: 'Upload File', value: 'file' },
+          { title: 'Video URL', value: 'url' }
+        ]
+      },
+      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
+    }),
     defineField({ 
       name: 'desktopBackgroundVideo', 
-      title: 'Background Video',
+      title: 'Background Video File',
       type: 'file', 
       description: 'Please upload .mp4 files under 10MB',
       options: {
@@ -126,7 +139,17 @@ export default defineType({
         
         return true;
       }),
-      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video'
+      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video' || parent?.videoSource === 'url'
+    }),
+    defineField({
+      name: 'desktopBackgroundVideoUrl',
+      title: 'Background Video URL',
+      type: 'url',
+      description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+      validation: (Rule) => Rule.uri({
+        scheme: ['http', 'https']
+      }),
+      hidden: ({ parent }) => parent?.layout !== 'layout-1' || parent?.backgroundMediaType !== 'video' || parent?.videoSource !== 'url'
     }),
     defineField({ 
       name: 'desktopBackgroundVideoPlaceholder', 

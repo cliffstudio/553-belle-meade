@@ -26,6 +26,8 @@ export type SanityVideo = {
   }
 }
 
+export type SanityVideoUrl = string
+
 export type PortableTextBlock = {
   _type: string
   children: Array<{

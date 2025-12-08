@@ -44,6 +44,8 @@ type StackedMediaTextProps = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   heading?: string
   body?: PortableTextBlock[]
   cta?: Link
@@ -64,7 +66,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, heading, body, cta, showControls = false, backgroundColour = 'Lilac' }: StackedMediaTextProps) {
+export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta, showControls = false, backgroundColour = 'Lilac' }: StackedMediaTextProps) {
   const { text, href } = getLinkInfo(cta)
   
   const [isPlaying, setIsPlaying] = useState(true)
@@ -655,12 +657,12 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
               </div>
             )}
             
-            {mediaType === 'video' && video && (
+            {mediaType === 'video' && (video || videoUrl) && (
               <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
                     ref={videoRef}
-                    src={videoUrlFor(video)}
+                    src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                     autoPlay
                     muted
                     loop
@@ -733,12 +735,12 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
                 </div>
               )}
             
-              {mediaType === 'video' && video && (
+              {mediaType === 'video' && (video || videoUrl) && (
                 <div className="media-wrap out-of-opacity">
                   <div className="fill-space-video-wrap">
                     <video
                       ref={videoRef}
-                      src={videoUrlFor(video)}
+                      src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                       autoPlay
                       muted
                       loop

@@ -49,6 +49,8 @@ interface TextWithArtefactsProps {
   desktopBackgroundImage?: SanityImage
   mobileBackgroundImage?: SanityImage
   desktopBackgroundVideo?: SanityVideo
+  videoSource?: 'file' | 'url'
+  desktopBackgroundVideoUrl?: string
   desktopBackgroundVideoPlaceholder?: SanityImage
   showControls?: boolean
   overlayDarkness?: number
@@ -69,6 +71,8 @@ export default function TextWithArtefacts({
   desktopBackgroundImage,
   mobileBackgroundImage,
   desktopBackgroundVideo,
+  videoSource = 'file',
+  desktopBackgroundVideoUrl,
   desktopBackgroundVideoPlaceholder,
   showControls,
   overlayDarkness,
@@ -1526,12 +1530,12 @@ export default function TextWithArtefacts({
     <>
       <section ref={sectionRef} className="text-with-artefacts">
         <div className="hero-media-block full-height flex items-center text-white relative z-6">
-          {backgroundMediaType === 'video' && desktopBackgroundVideo && (
+          {backgroundMediaType === 'video' && (desktopBackgroundVideo || desktopBackgroundVideoUrl) && (
             <div className="fill-space-video-wrap media-wrap z-1">
               {/* Desktop Video */}
               <video
                 ref={desktopVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
+                src={videoSource === 'url' && desktopBackgroundVideoUrl ? desktopBackgroundVideoUrl : videoUrlFor(desktopBackgroundVideo)}
                 poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                 className="desktop"
                 autoPlay
@@ -1544,7 +1548,7 @@ export default function TextWithArtefacts({
               {/* Mobile Video - using desktop video */}
               <video
                 ref={mobileVideoRef}
-                src={videoUrlFor(desktopBackgroundVideo)}
+                src={videoSource === 'url' && desktopBackgroundVideoUrl ? desktopBackgroundVideoUrl : videoUrlFor(desktopBackgroundVideo)}
                 poster={desktopBackgroundVideoPlaceholder ? urlFor(desktopBackgroundVideoPlaceholder).url() : undefined}
                 className="mobile"
                 autoPlay

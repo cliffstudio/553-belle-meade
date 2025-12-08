@@ -24,6 +24,8 @@ type SmallMediaTextProps = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   heading?: string
   body?: PortableTextBlock[]
   cta?: Link
@@ -42,7 +44,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function SmallMediaText({ mediaType = 'image', image, video, heading, body, cta }: SmallMediaTextProps) {
+export default function SmallMediaText({ mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta }: SmallMediaTextProps) {
   const { text, href } = getLinkInfo(cta)
 
   return (
@@ -76,11 +78,11 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
             </div>
           )}
           
-          {mediaType === 'video' && video && (
+          {mediaType === 'video' && (video || videoUrl) && (
             <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
-                  src={videoUrlFor(video)}
+                  src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                   autoPlay
                   muted
                   loop
@@ -114,11 +116,11 @@ export default function SmallMediaText({ mediaType = 'image', image, video, head
               </div>
             )}
             
-            {mediaType === 'video' && video && (
+            {mediaType === 'video' && (video || videoUrl) && (
               <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
-                    src={videoUrlFor(video)}
+                    src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                     autoPlay
                     muted
                     loop

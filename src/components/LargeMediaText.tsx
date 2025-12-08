@@ -25,6 +25,8 @@ type LargeMediaTextProps = {
   mediaType?: 'image' | 'video'
   image?: SanityImage
   video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: string
   heading?: string
   body?: PortableTextBlock[]
   cta?: Link
@@ -43,8 +45,8 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function LargeMediaText({ mediaType = 'image', image, video, heading, body, cta
- }: LargeMediaTextProps) {
+export default function LargeMediaText({ mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta
+}: LargeMediaTextProps) {
   const { text, href } = getLinkInfo(cta)
 
   return (
@@ -68,11 +70,11 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
               </div>
             )}
             
-            {mediaType === 'video' && video && (
+            {mediaType === 'video' && (video || videoUrl) && (
               <div className="media-wrap out-of-opacity">
                 <div className="fill-space-video-wrap">
                   <video
-                    src={videoUrlFor(video)}
+                    src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                     autoPlay
                     muted
                     loop
@@ -115,11 +117,11 @@ export default function LargeMediaText({ mediaType = 'image', image, video, head
             </div>
           )}
           
-          {mediaType === 'video' && video && (
+          {mediaType === 'video' && (video || videoUrl) && (
             <div className="media-wrap out-of-opacity">
               <div className="fill-space-video-wrap">
                 <video
-                  src={videoUrlFor(video)}
+                  src={videoSource === 'url' && videoUrl ? videoUrl : videoUrlFor(video)}
                   autoPlay
                   muted
                   loop
