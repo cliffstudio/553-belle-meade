@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { SanityImage, SanityVideo, PortableTextBlock } from '../types/sanity'
 import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 type LayoutVariant = 'layout-1' | 'layout-2' | 'layout-3'
 
@@ -132,7 +133,7 @@ export default function StaggeredImages({
           <div className="row-1">
             <div className="text-wrap out-of-view">
               {heading && <div className="heading cta-font">{heading}</div>}
-              {body && <h2><PortableText value={body} /></h2>}
+              {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
             </div>
           </div>
 
@@ -188,7 +189,7 @@ export default function StaggeredImages({
             <div className="col-1 col-7-12_lg out-of-view">
               <div className="text-wrap">
                 {heading && <div className="heading cta-font">{heading}</div>}
-                {body && <h2><PortableText value={body} /></h2>}
+                {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
               </div>
             </div>
 
@@ -257,7 +258,7 @@ export default function StaggeredImages({
           <div className="row-1">
             <div className="text-wrap out-of-view">
               {heading && <div className="heading cta-font">{heading}</div>}
-              {body && <h2><PortableText value={body} /></h2>}
+              {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
             </div>
           </div>
 

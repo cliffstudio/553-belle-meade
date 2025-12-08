@@ -6,6 +6,7 @@ import { SanityImage } from '../types/sanity'
 import { PortableTextBlock } from '@sanity/types'
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { PortableText } from '@portabletext/react'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 interface PressPostProps {
   title: string
@@ -74,7 +75,7 @@ const PressPost: React.FC<PressPostProps> = ({
 
               {content && (
                 <div className="content">
-                  <PortableText value={content} />
+                  <PortableText value={content} components={portableTextComponents} />
                 </div>
               )}
 
@@ -100,7 +101,7 @@ const PressPost: React.FC<PressPostProps> = ({
 
               {content && (
                 <div className="content">
-                  <PortableText value={content} />
+                  <PortableText value={content} components={portableTextComponents} />
                 </div>
               )}
 

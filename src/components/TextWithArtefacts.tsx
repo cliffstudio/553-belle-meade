@@ -8,6 +8,7 @@ import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
 import { SanityImage, SanityVideo, PortableTextBlock } from '../types/sanity'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { portableTextComponents } from '../utils/portableTextComponents'
 import { usePathname } from 'next/navigation'
 import { DisableBodyScroll, EnableBodyScroll } from '../utils/bodyScroll'
 
@@ -1641,7 +1642,7 @@ export default function TextWithArtefacts({
         {body && (
           <div className="text-block h-pad z-5">
             <h2 className="text-wrap">
-              <PortableText value={body} />
+              <PortableText value={body} components={portableTextComponents} />
             </h2>
           </div>
         )}

@@ -8,6 +8,7 @@ import { videoUrlFor } from '@/sanity/utils/videoUrlBuilder'
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { portableTextComponents } from '../utils/portableTextComponents'
 
 // Extended types for fullscreen API
 interface ExtendedDocument extends Document {
@@ -626,7 +627,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
           <div className="text-wrap out-of-view">
             {heading && <h2 className="heading">{heading}</h2>}
             
-            {body && <div><PortableText value={body} /></div>}
+            {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
             {href && <div className="cta-font underline-link link">
               <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
@@ -757,7 +758,7 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
               <div className="text-wrap out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
                 
-                {body && <div><PortableText value={body} /></div>}
+                {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
                 {href && <div className="cta-font underline-link link">
                   <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
