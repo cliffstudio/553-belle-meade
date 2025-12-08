@@ -88,6 +88,10 @@
     opacity: 0;
     will-change: opacity, visibility;
     @include transition-multiple(opacity 0ms, visibility 0ms);
+
+    @media only screen and (max-width: 1024px) {
+      column-gap: get-rem-tablet(25);
+    }
     
     &.ready {
       visibility: visible;
