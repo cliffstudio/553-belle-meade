@@ -97,7 +97,7 @@
         padding: get-rem-tablet(100) get-rem-tablet(30);
       }
 
-      @media (max-width: 866px) and (orientation: landscape) {
+      @media (max-width: 950px) and (orientation: landscape) {
         padding: get-rem-mobile(45) get-rem-mobile(20);
       }
 
@@ -133,7 +133,7 @@
             right: calc(get-rem-tablet(30) + 0.5em);
           }
 
-          @media (max-width: 866px) and (orientation: landscape) {
+          @media (max-width: 950px) and (orientation: landscape) {
             width: 30px;
             height: 30px;
             top: get-rem-mobile(20);
@@ -296,7 +296,7 @@
               width: 18px;
             }
 
-            @media (max-width: 866px) and (orientation: landscape) {
+            @media (max-width: 950px) and (orientation: landscape) {
               width: 13px;
             }
 
@@ -322,7 +322,7 @@
       bottom: get-rem-tablet(40);
     }
 
-    @media (max-width: 866px) and (orientation: landscape) {
+    @media (max-width: 950px) and (orientation: landscape) {
       bottom: get-rem-mobile(12);
     }
 
