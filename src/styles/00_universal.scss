@@ -1073,6 +1073,21 @@ body.page-type-homepage {
 
   .hero-media-block {
     position: relative;
+
+    // Style body1 text-wrap when rendered with title (Layout 1)
+    .text-wrap {
+      color: $colour-cream;
+      text-align: center;
+      max-width: get-rem-desktop(870);
+
+      @media (max-width: 1366px) {
+        max-width: get-rem-tablet(625);
+      }
+
+      @media (max-width: 768px) {
+        text-align: left;
+      }
+    }
   }
 
   .video-controls {
@@ -1104,6 +1119,22 @@ body.page-type-homepage {
       padding: get-rem-mobile(25);
       column-gap: get-rem-mobile(25);
       z-index: 11;
+    }
+  }
+
+  .text-block-scroll {
+    position: relative;
+    @include justify-content(center);
+    
+    .text-wrap {
+      text-align: center;
+      color: $colour-cream;
+      max-width: get-rem-desktop(870);
+      margin: 0 auto;
+
+      @media (max-width: 1366px) {
+        max-width: get-rem-tablet(625);
+      }
     }
   }
 

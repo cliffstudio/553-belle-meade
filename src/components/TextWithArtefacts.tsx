@@ -53,6 +53,7 @@ interface TextWithArtefactsProps {
   showControls?: boolean
   overlayDarkness?: number
   body?: PortableTextBlock[]
+  body2?: PortableTextBlock[]
   artefact1?: Artefact
   artefact2?: Artefact
   artefact3?: Artefact
@@ -72,6 +73,7 @@ export default function TextWithArtefacts({
   showControls,
   overlayDarkness,
   body,
+  body2,
   artefact1,
   artefact2,
   artefact3,
@@ -1196,6 +1198,7 @@ export default function TextWithArtefacts({
        // Scope selectors to this component instance to avoid conflicts with multiple instances
        const pageCarouselHeroElements = sectionRef.current?.querySelectorAll('.hero-media-block .media-wrap, .hero-media-block .opacity-overlay')
        const textBlock = sectionRef.current?.querySelector('.text-block')
+       const textBlockScroll = sectionRef.current?.querySelector('.text-block-scroll')
        const artefactsGrid = sectionRef.current?.querySelector('.artefacts-grid')
        const carouselImage = sectionRef.current?.querySelector('.carousel-image')
        const footer = document.querySelector('.site-footer')
@@ -1217,7 +1220,18 @@ export default function TextWithArtefacts({
             
             // Video controls are now fixed to viewport, so no pinning needed
           
-            // 2. Pin text block when it reaches viewport top (only on screens larger than 768px)
+            // 1.5. Pin text-block-scroll (text 1) for Layout 1 - pin for 3 viewport heights before scrolling away
+            if (layout === 'layout-1' && textBlockScroll && window.innerWidth > 768) {
+              ScrollTrigger.create({
+                trigger: textBlockScroll,
+                start: "top top",
+                end: "+=300vh", // Pin for 3 viewport heights (300vh)
+                pin: true,
+                pinSpacing: true, // Use pinSpacing so it takes up space in the scroll
+              })
+            }
+          
+            // 2. Pin text block (text 2) when it reaches viewport top (only on screens larger than 768px)
             if (window.innerWidth > 768) {
               const opacityOverlay = sectionRef.current?.querySelector('.opacity-overlay') as HTMLElement
               
@@ -1396,7 +1410,7 @@ export default function TextWithArtefacts({
         }
       })
     }
-  }, [pathname, overlayDarkness, showControls]) // Add pathname and showControls as dependencies to re-run on route changes
+  }, [pathname, overlayDarkness, showControls, layout]) // Add pathname, showControls, and layout as dependencies to re-run on route changes
 
   useEffect(() => {
     const addOrientationClasses = () => {
@@ -1598,6 +1612,16 @@ export default function TextWithArtefacts({
           </div> )}
         </div>
 
+        {layout === 'layout-1' && body && (
+          <div className="text-block-scroll full-height flex items-center text-white relative z-6">
+            <div className="h-pad z-3">
+              <h2 className="text-wrap">
+                <PortableText value={body} components={portableTextComponents} />
+              </h2>
+            </div>
+          </div>
+        )}
+
         {showControls && ( <div ref={videoControlsRef} className={`video-controls visible z-10 out-of-opacity`} style={{ opacity: 0, visibility: 'hidden', pointerEvents: 'auto' }}>
           <div className="play-pause-button" onClick={togglePlayPause}>
             <svg className={`pause ${isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
@@ -1640,10 +1664,20 @@ export default function TextWithArtefacts({
           </div>
         </div> )}
 
-        {body && (
+        {/* For non-Layout-1, render body as pinned text-block (existing behavior) */}
+        {layout !== 'layout-1' && body && (
           <div className="text-block h-pad z-5">
             <h2 className="text-wrap">
               <PortableText value={body} components={portableTextComponents} />
+            </h2>
+          </div>
+        )}
+        
+        {/* For Layout 1, render body2 as pinned text-block (takes place of what body1 used to do) */}
+        {layout === 'layout-1' && body2 && (
+          <div className="text-block h-pad z-5">
+            <h2 className="text-wrap">
+              <PortableText value={body2} components={portableTextComponents} />
             </h2>
           </div>
         )}
