@@ -22,7 +22,7 @@
     "gsap": "^3.12.5",
     "jquery": "^3.7.1",
     "masonry-layout": "^4.2.2",
-    "next": "15.5.2",
+    "next": "15.5.7",
     "next-sanity": "^10.0.15",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
