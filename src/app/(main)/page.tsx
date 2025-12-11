@@ -8,11 +8,18 @@ import StackedMediaText from '../../components/StackedMediaText'
 import LargeMediaText from '../../components/LargeMediaText'
 import ImageMasonry from '../../components/ImageMasonry'
 import BodyClassProvider from '../../components/BodyClassProvider'
+import { getSession } from '@/sanity/utils/auth'
+import { redirect } from 'next/navigation'
 
 // Disable static generation for this page to ensure fresh content from Sanity
 export const revalidate = 0
 
 export default async function Home() {
+  const session = await getSession()
+
+  if (!session.isAuthenticated) {
+    redirect("/sign-in?redirect=/")
+  }
   // Use non-CDN client to bypass Sanity CDN caching and ensure fresh content
   // This ensures the latest video and content updates appear immediately on live site
   const homepage = await clientNoCdn.fetch(homepageQuery, {}, {
