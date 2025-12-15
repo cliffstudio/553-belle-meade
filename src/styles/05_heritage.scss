@@ -34,17 +34,8 @@
   }
 
   .image-carousel-block {
-    padding-bottom: get-rem-desktop(142);
     overflow: hidden;
     background-color: $colour-cream;
-
-    @media (max-width: 1366px) {
-      padding-bottom: get-rem-tablet(85);
-    }
-
-    @media (max-width: 768px) {
-      padding-bottom: get-rem-mobile(98);
-    }
 
     .carousel-header {
       .text-wrap {

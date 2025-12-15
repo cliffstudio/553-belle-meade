@@ -142,7 +142,7 @@
   }
 
   .text-block {
-    padding-top: get-rem-desktop(300);
+    padding-top: get-rem-desktop(180);
     background-color: $colour-burgundy;
     color: $colour-cream;
 
@@ -176,8 +176,8 @@
   }
 
   .link-tiles-block {
-    padding-top: get-rem-desktop(300);
-    padding-bottom: get-rem-desktop(300);
+    padding-top: get-rem-desktop(90);
+    padding-bottom: get-rem-desktop(90);
     background-color: $colour-burgundy;
     color: $colour-cream;
     overflow: hidden;
