@@ -84,6 +84,7 @@
     }
 
     .inner-wrap {
+      position: relative;
       width: 100%;
       height: 100%;
       @include flex;
@@ -201,6 +202,8 @@
       .carousel {
         width: calc(100% - get-rem-desktop(150));
         height: 100%;
+        position: relative;
+        z-index: 1;
 
         @media (max-width: 1366px) {
           width: calc(100% - get-rem-tablet(96));
@@ -269,71 +272,85 @@
           }
         }
       }
+    }
 
-      .carousel-arrows {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        @include flex;
-        @include justify-content(space-between);
-        width: 100%;
-        pointer-events: none;
-        z-index: 1000;
+    .carousel-arrows {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      @include flex;
+      @include justify-content(space-between);
+      width: 100%;
+      pointer-events: none;
+      z-index: 10001;
+      padding: 0 get-rem-desktop(50);
 
-        @media only screen and (max-width: 768px) and (orientation: portrait) {
-          position: fixed;
-          top: unset;
-          bottom: get-rem-mobile(49);
-          padding: 0 get-rem-mobile(15);
+      @media (max-width: 1366px) {
+        padding: 0 get-rem-tablet(30);
+      }
+
+      @media (max-width: 950px) and (orientation: landscape) {
+        padding: 0 get-rem-mobile(20);
+      }
+
+      @media only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2), only screen and (max-width: 950px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3) {
+        padding: 0 get-rem-mobile(65);
+      }
+
+      @media only screen and (max-width: 768px) and (orientation: portrait) {
+        position: fixed;
+        top: unset;
+        bottom: get-rem-mobile(49);
+        padding: 0 get-rem-mobile(15);
+      }
+
+      .left-arrow,
+      .right-arrow {
+        cursor: pointer;
+        position: relative;
+        overflow: visible;
+        background: transparent;
+        border: none;
+        pointer-events: auto;
+        z-index: 10002;
+        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+        @media (hover: hover) {
+          &:hover {
+            opacity: 0.7;
+          }
         }
 
-        .left-arrow,
-        .right-arrow {
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-          background: transparent;
-          border: none;
-          pointer-events: auto;
-          @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 200%;
+          height: 200%;
+        }
 
-          @media (hover: hover) {
-            &:hover {
-              opacity: 0.7;
-            }
+        svg {
+          fill: none;
+          stroke: $colour-burgundy;
+          stroke-width: 1px;
+          width: 25px;
+          height: auto;
+          display: block;
+
+          @media (max-width: 1366px) {
+            width: 18px;
           }
 
-          &:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200%;
-            height: 200%;
+          @media (max-width: 950px) and (orientation: landscape) {
+            width: 13px;
           }
 
-          svg {
-            fill: none;
-            stroke: $colour-burgundy;
-            stroke-width: 1px;
-            width: 25px;
-            height: auto;
-            display: block;
-
-            @media (max-width: 1366px) {
-              width: 18px;
-            }
-
-            @media (max-width: 950px) and (orientation: landscape) {
-              width: 13px;
-            }
-
-            @media (max-width: 768px) and (orientation: portrait) {
-              width: 7.5px;
-              stroke-width: 2px;
-            }
+          @media (max-width: 768px) and (orientation: portrait) {
+            width: 7.5px;
+            stroke-width: 2px;
           }
         }
       }
@@ -347,6 +364,8 @@
     transform: translateX(-50%);
     text-align: center;
     z-index: 1000;
+    opacity: 1;
+    @include transition(opacity 0.5s ease-in-out);
 
     @media (max-width: 1366px) {
       bottom: get-rem-tablet(40);
