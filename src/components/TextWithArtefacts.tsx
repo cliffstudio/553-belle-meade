@@ -1309,7 +1309,7 @@ export default function TextWithArtefacts({
               if (carouselImage) {
                 ScrollTrigger.create({
                   trigger: carouselImage,
-                  start: "bottom bottom",
+                  start: "top top",
                   endTrigger: footer,
                   end: "bottom bottom",
                   pin: true,
