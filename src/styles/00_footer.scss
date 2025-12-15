@@ -62,26 +62,49 @@
     }
   }
 
+  .column-1 {
+    @media only screen and (max-width: 768px) {
+      order: 2;
+    }
+  }
+
+  .column-2 {
+    @media only screen and (max-width: 768px) {
+      order: 3;
+    }
+  }
+
   .column-3 {
+    @media only screen and (max-width: 768px) {
+      order: 1;
+    }
+
     .input-wrap {
       position: relative;
+      border-bottom: 1px solid rgba($colour-cream, 0.5);
+      @include flex;
+      margin-bottom: get-rem-desktop(16);
+
+      @media only screen and (max-width: 1366px) {
+        margin-bottom: get-rem-tablet(12);
+      }
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: get-rem-mobile(25);
+      }
 
       input {
         @include reset-input;
-        border-bottom: 1px solid rgba($colour-cream, 0.5);
         padding-bottom: get-rem-desktop(10);
-        margin-bottom: get-rem-desktop(16);
         width: 100%;
         color: $colour-cream;
 
         @media only screen and (max-width: 1366px) {
           padding-bottom: get-rem-tablet(13);
-          margin-bottom: get-rem-tablet(12);
         }
 
         @media only screen and (max-width: 768px) {
           padding-bottom: get-rem-mobile(5);
-          margin-bottom: get-rem-mobile(25);
         }
   
         &::placeholder {
@@ -104,29 +127,23 @@
           opacity: 1;
         }
       }
-  
-      svg {
-        width: 6px;
-        fill: none;
-        stroke: $colour-cream;
-        position: absolute;
-        right: 0;
-        top: 50%;
-        @include transform(translateY(-50%));
 
-        @media only screen and (max-width: 1366px) {
+      button {
+        padding: 0 get-rem-desktop(10);
+        margin-right: get-rem-desktop(-10);
+
+        svg {
           width: 7px;
+          fill: none;
+          stroke: $colour-cream;
         }
-
-        // @media only screen and (max-width: 768px) {
-        //   width: 7px;
-        // }
-      }
+      }      
     }
 
     p {
       @media only screen and (max-width: 768px) {
         opacity: 0.5;
+        max-width: get-rem-mobile(300);
       }
 
       a {
