@@ -22,10 +22,12 @@ export default function Gallery({ images }: GalleryProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const flickityRef = useRef<{ destroy: () => void; select: (index: number) => void; previous: () => void; next: () => void; resize: () => void; reloadCells: () => void; reposition: () => void } | null>(null)
   const carouselCloseWrapRef = useRef<HTMLDivElement>(null)
+  const isInitializingRef = useRef(false)
   const [isCarouselOpen, setIsCarouselOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
+  const [displayedSlideIndex, setDisplayedSlideIndex] = useState(0)
   const [resizeKey, setResizeKey] = useState(0)
 
   const getAspectRatioClass = (imageSize?: string) => {
@@ -46,6 +48,7 @@ export default function Gallery({ images }: GalleryProps) {
   const openCarousel = (index: number) => {
     setSelectedIndex(index)
     setCurrentSlideIndex(index)
+    setDisplayedSlideIndex(index)
     setIsClosing(false)
     setIsCarouselOpen(true)
     DisableBodyScroll()
@@ -66,20 +69,26 @@ export default function Gallery({ images }: GalleryProps) {
     }, 700) // Match total animation duration (0.4s inner-wrap + 0.3s overlay = 700ms)
   }
 
-  const handlePrevious = () => {
+  const handlePrevious = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (flickityRef.current) {
       flickityRef.current.previous()
     }
   }
 
-  const handleNext = () => {
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (flickityRef.current) {
       flickityRef.current.next()
     }
   }
 
   const initCarousel = useCallback(async (preserveIndex = true) => {
-    if (!carouselRef.current) return
+    if (!carouselRef.current || isInitializingRef.current) return
+    
+    isInitializingRef.current = true
 
     // Destroy existing Flickity instance if it exists
     if (flickityRef.current) {
@@ -92,6 +101,14 @@ export default function Gallery({ images }: GalleryProps) {
 
     const indexToUse = preserveIndex ? selectedIndex : currentSlideIndex
 
+    // Verify all cells exist before initializing
+    const cells = carouselRef.current.querySelectorAll('.carousel-cell')
+    
+    if (cells.length === 0) {
+      return
+    }
+
+    // Simple Flickity initialization - let it handle everything
     flickityRef.current = new Flickity(carouselRef.current, {
       initialIndex: indexToUse,
       wrapAround: true,
@@ -99,11 +116,26 @@ export default function Gallery({ images }: GalleryProps) {
       prevNextButtons: false,
       autoPlay: false,
       cellAlign: 'center',
-      contain: true,
+      contain: false, // Changed to false - might be causing issues
       adaptiveHeight: true,
+      draggable: true,
+      imagesLoaded: true, // Wait for images to load
       on: {
+        ready: () => {
+          isInitializingRef.current = false
+          // Reload cells to ensure all are detected after images load
+          if (flickityRef.current) {
+            // Small delay to ensure all images are loaded
+            setTimeout(() => {
+              if (flickityRef.current) {
+                flickityRef.current.reloadCells()
+              }
+            }, 100)
+          }
+        },
         change: (index: number) => {
           setCurrentSlideIndex(index)
+          setDisplayedSlideIndex(index)
         }
       }
     })
@@ -120,7 +152,7 @@ export default function Gallery({ images }: GalleryProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [selectedIndex, currentSlideIndex])
+  }, [selectedIndex]) // Only depend on selectedIndex, not currentSlideIndex to avoid re-initializing on every slide change
 
   useEffect(() => {
     if (!images || images.length === 0) return
@@ -236,10 +268,22 @@ export default function Gallery({ images }: GalleryProps) {
     }
   }, [isCarouselOpen])
 
-  // Initialize carousel when opened
+  // Initialize carousel when opened - only once
   useEffect(() => {
-    if (isCarouselOpen) {
-      initCarousel()
+    if (isCarouselOpen && !flickityRef.current && !isInitializingRef.current) {
+      // Wait for DOM to be ready and all cells to be rendered
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (carouselRef.current && !flickityRef.current) {
+            initCarousel()
+          }
+        })
+      })
+    }
+    
+    // Reset initialization flag when carousel closes
+    if (!isCarouselOpen) {
+      isInitializingRef.current = false
     }
   }, [isCarouselOpen, initCarousel])
 
@@ -517,29 +561,47 @@ export default function Gallery({ images }: GalleryProps) {
                   )
                 })}
               </div>
-              
-              {/* Custom navigation arrows */}
-              {images.length > 1 && (
-                <div className="carousel-arrows">
-                  <button className="left-arrow" onClick={handlePrevious} type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
-                      <path d="M26 51L1 26L26 0.999998" stroke="#581B25"/>
-                    </svg>
-                  </button>
-
-                  <button className="right-arrow" onClick={handleNext} type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
-                      <path d="M1 1L26 26L1 51" stroke="#581B25"/>
-                    </svg>
-                  </button>
-                </div>
-              )}
             </div>
             
+            {/* Custom navigation arrows - outside carousel-container to avoid overflow clipping */}
+            {images.length > 1 && (
+              <div className="carousel-arrows" onClick={(e) => e.stopPropagation()}>
+                <button 
+                  className="left-arrow" 
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handlePrevious(e)
+                  }} 
+                  type="button" 
+                  aria-label="Previous image"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
+                    <path d="M26 51L1 26L26 0.999998" stroke="#581B25"/>
+                  </svg>
+                </button>
+
+                <button 
+                  className="right-arrow" 
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleNext(e)
+                  }} 
+                  type="button" 
+                  aria-label="Next image"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="52" viewBox="0 0 27 52" fill="none">
+                    <path d="M1 1L26 26L1 51" stroke="#581B25"/>
+                  </svg>
+                </button>
+              </div>
+            )}
+            
             {/* Dynamic caption outside carousel container */}
-            {images[currentSlideIndex]?.caption && (
+            {images[displayedSlideIndex]?.caption && (
               <div className="carousel-caption">
-                {images[currentSlideIndex].caption}
+                {images[displayedSlideIndex].caption}
               </div>
             )}
           </div>
