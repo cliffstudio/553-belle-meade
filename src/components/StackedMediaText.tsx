@@ -626,19 +626,21 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
             <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
           )}
 
-          <div className="text-wrap out-of-view">
-            {heading && <h2 className="heading">{heading}</h2>}
-            
-            {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
+          {(heading || body || cta) && (
+            <div className="text-wrap out-of-view">
+              {heading && <h2 className="heading">{heading}</h2>}
+              
+              {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
-            {href && <div className="cta-font underline-link link">
-              <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
+              {href && <div className="cta-font underline-link link">
+                <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                <path d="M1 1L13.5 13.5L0.999999 26"/>
-              </svg>
-            </div>}
-          </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+                  <path d="M1 1L13.5 13.5L0.999999 26"/>
+                </svg>
+              </div>}
+            </div>
+          )}
 
           <div>
             {mediaType === 'image' && image && (
@@ -755,25 +757,27 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
             <div className="col-3-12_lg desktop"></div>
           </div>
 
-          <div className="row-lg">
-            <div className="col-4-12_lg">
-              <div className="text-wrap out-of-view">
-                {heading && <h2 className="heading">{heading}</h2>}
-                
-                {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
+          {(heading || body || cta) && (
+            <div className="row-lg">
+              <div className="col-4-12_lg">
+                <div className="text-wrap out-of-view">
+                  {heading && <h2 className="heading">{heading}</h2>}
+                  
+                  {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
-                {href && <div className="cta-font underline-link link">
-                  <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
+                  {href && <div className="cta-font underline-link link">
+                    <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
 
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                    <path d="M1 1L13.5 13.5L0.999999 26"/>
-                  </svg>
-                </div>}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+                      <path d="M1 1L13.5 13.5L0.999999 26"/>
+                    </svg>
+                  </div>}
+                </div>
               </div>
-            </div>
 
-            <div className="col-8-12_lg desktop"></div>
-          </div>
+              <div className="col-8-12_lg desktop"></div>
+            </div>
+          )}
         </section>
       )}
 
