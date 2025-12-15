@@ -284,7 +284,7 @@
         @media only screen and (max-width: 768px) and (orientation: portrait) {
           position: fixed;
           top: unset;
-          bottom: get-rem-mobile(42);
+          bottom: get-rem-mobile(49);
           padding: 0 get-rem-mobile(15);
         }
 
@@ -331,7 +331,7 @@
             }
 
             @media (max-width: 768px) and (orientation: portrait) {
-              width: 12px;
+              width: 7.5px;
               stroke-width: 2px;
             }
           }
@@ -357,7 +357,7 @@
     }
 
     @media (max-width: 768px) and (orientation: portrait) {
-      bottom: get-rem-mobile(55);
+      bottom: get-rem-mobile(53);
     }
   }
 
