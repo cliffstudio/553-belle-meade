@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Script from 'next/script'
 import { useEffect } from 'react'
 import { PortableText } from '@portabletext/react'
 import Logo from './Logo'
@@ -124,40 +123,6 @@ export default function Footer({ footer }: FooterProps) {
       <div className="logo mobile">
         <StackedLogo />
       </div>
-      <Script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js" strategy="lazyOnload" />
-      <Script id="mailchimp-config" strategy="lazyOnload" dangerouslySetInnerHTML={{
-        __html: `
-          (function($) {
-            window.fnames = new Array(); 
-            window.ftypes = new Array();
-            fnames[0]='EMAIL';
-            ftypes[0]='email';
-            fnames[1]='FNAME';
-            ftypes[1]='text';
-            fnames[2]='LNAME';
-            ftypes[2]='text';
-            fnames[3]='ADDRESS';
-            ftypes[3]='address';
-            fnames[4]='PHONE';
-            ftypes[4]='phone';
-            fnames[5]='BIRTHDAY';
-            ftypes[5]='birthday';
-            fnames[6]='COMPANY';
-            ftypes[6]='text';
-          }(jQuery));
-          var $mcj = jQuery.noConflict(true);
-          
-          // SMS Phone Multi-Country Functionality
-          if(!window.MC) {
-            window.MC = {};
-          }
-          window.MC.smsPhoneData = {
-            defaultCountryCode: 'US',
-            programs: [],
-            smsProgramDataCountryNames: []
-          };
-        `
-      }} />
     </footer>
   )
 }

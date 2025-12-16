@@ -16,11 +16,11 @@ LEASING MAP STYLES --------------------
     color: $colour-burgundy;
     padding: get-rem-desktop(18);
     cursor: pointer;
-    @include transition(all 400ms cubic-bezier(0.25,0.1,0.25,1));
-    @include font-size(12px, 15px, 15px);
     line-height: 140%;
     letter-spacing: 0.15em;
     text-transform: uppercase;
+    @include transition(all 400ms cubic-bezier(0.25,0.1,0.25,1));
+    @include font-size(12px, 15px, 15px);
 
     @media only screen and (max-width: 1440px) {
       padding: get-rem-tablet(18);
@@ -118,8 +118,8 @@ LEASING MAP STYLES --------------------
     }
 
     span {
-      @include font-size(10px, 12px, 12px);
       font-weight: 500;
+      @include font-size(10px, 12px, 12px);
     }
 
     svg {
