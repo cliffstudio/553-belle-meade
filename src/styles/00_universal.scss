@@ -1219,24 +1219,17 @@ body.page-type-homepage {
   .artefact {
     .artefact-image {
       max-width: get-rem-desktop(280);
-
-      @media (hover: hover) {
-        &:hover {
-          .hover-image {
-            opacity: 1;
-          }
-
-          img:not(.hover-image) {
-            opacity: 0;
-          }
-        }
-      }
     }
 
     &.has-content {
       .artefact-image {
         cursor: pointer;
+      }
+    }
 
+    // Only apply hover effects when hover image exists
+    &.has-hover-image {
+      .artefact-image {
         @media (hover: hover) {
           &:hover {
             .hover-image {
@@ -1246,9 +1239,25 @@ body.page-type-homepage {
             img:not(.hover-image) {
               opacity: 0;
             }
+          }
+        }
+      }
 
-            .learn-more {
-              opacity: 1;
+      &.has-content {
+        .artefact-image {
+          @media (hover: hover) {
+            &:hover {
+              .hover-image {
+                opacity: 1;
+              }
+
+              img:not(.hover-image) {
+                opacity: 0;
+              }
+
+              .learn-more {
+                opacity: 1;
+              }
             }
           }
         }
