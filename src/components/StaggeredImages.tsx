@@ -210,6 +210,7 @@ export default function StaggeredImages({
               </div>
             </div>
 
+            {/* Desktop only */}
             <div className="col-2 relative col-3-12_lg desktop out-of-opacity">
               {(image1 || video1) && (
                 <div className="media-1 media-wrap">
@@ -223,7 +224,7 @@ export default function StaggeredImages({
             <div className="col-2-12_lg"></div>
           </div>
 
-          {/* Mobile only */}
+          {/* Tablet & Mobile only */}
           <div className="row-2 row-lg row-sm">
             <div className="col-6-12_lg col-3-5_sm"></div>
 
