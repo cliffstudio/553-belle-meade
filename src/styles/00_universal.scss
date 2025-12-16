@@ -135,16 +135,16 @@ section {
   @include justify-content(flex-end);
   @include align-items(flex-end);
   padding: get-rem-desktop(50);
-  column-gap: get-rem-desktop(30);
+  column-gap: get-rem-desktop(23);
 
   @media only screen and (max-width: 1440px) {
     padding: get-rem-tablet(50);
-    column-gap: get-rem-tablet(25);
+    column-gap: get-rem-tablet(23);
   }
 
   @media only screen and (max-width: 768px) {
     padding: get-rem-mobile(25);
-    column-gap: get-rem-mobile(25);
+    column-gap: get-rem-mobile(23);
   }
 
   svg {
@@ -168,20 +168,31 @@ section {
 
   .play-pause-button {
     position: relative;
+    height: get-rem-desktop(20);
+    width: get-rem-desktop(17);
 
-    .pause,
-    .play {
+    @media only screen and (max-width: 1440px) {
+      height: get-rem-tablet(20);
+      width: get-rem-tablet(17);
+    }
+
+    @media only screen and (max-width: 768px) {
+      height: get-rem-mobile(20);
+      width: get-rem-mobile(17);
+    }
+
+    .pause {
       height: get-rem-desktop(20);
-      width: get-rem-desktop(11);
+      width: get-rem-desktop(10);
 
       @media only screen and (max-width: 1440px) {
-        height: get-rem-tablet(22);
-        width: get-rem-tablet(12.09);
+        height: get-rem-tablet(20);
+        width: get-rem-tablet(10);
       }
 
       @media only screen and (max-width: 768px) {
-        height: get-rem-mobile(22);
-        width: get-rem-mobile(12.09);
+        height: get-rem-mobile(20);
+        width: get-rem-mobile(10);
       }
     }
 
@@ -189,6 +200,18 @@ section {
       position: absolute;
       top: 0;
       left: 0;
+      height: get-rem-desktop(20);
+      width: get-rem-desktop(17);
+
+      @media only screen and (max-width: 1440px) {
+        height: get-rem-tablet(20);
+        width: get-rem-tablet(17);
+      }
+
+      @media only screen and (max-width: 768px) {
+        height: get-rem-mobile(20);
+        width: get-rem-mobile(17);
+      }
     }
   }
 
@@ -200,8 +223,8 @@ section {
     }
 
     svg {
-      height: get-rem-desktop(22);
-      width: get-rem-desktop(22);
+      height: get-rem-desktop(20);
+      width: get-rem-desktop(20);
     }
   }
 
@@ -223,13 +246,13 @@ section {
     .volume,
     .mute {
       @media only screen and (max-width: 1440px) {
-        height: get-rem-tablet(22);
-        width: get-rem-tablet(22);
+        height: get-rem-tablet(20);
+        width: get-rem-tablet(20);
       }
 
       @media only screen and (max-width: 768px) {
-        height: get-rem-mobile(22);
-        width: get-rem-mobile(22);
+        height: get-rem-mobile(20);
+        width: get-rem-mobile(20);
       }
     }
   }
