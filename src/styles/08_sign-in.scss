@@ -8,7 +8,7 @@
   @include justify-content(flex-end);
   padding-bottom: get-rem-desktop(100);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-bottom: get-rem-tablet(75);
   }
 
@@ -28,7 +28,7 @@
       width: 44vw;
       fill: $colour-cream;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         width: get-rem-tablet(600);
       }
 
@@ -51,7 +51,7 @@
       padding-bottom: get-rem-desktop(3);
       padding-right: calc(get-rem-desktop(11) + get-rem-desktop(8)); // arrow width + arrow padding
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         width: get-rem-tablet(350);
         padding-bottom: get-rem-tablet(5);
         padding-right: calc(get-rem-tablet(11) + get-rem-tablet(8));
@@ -85,7 +85,7 @@
       cursor: pointer;
       margin-right: get-rem-desktop(-8);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         padding: get-rem-tablet(8);
         margin-right: get-rem-tablet(-8);
       }
@@ -100,7 +100,7 @@
         stroke: #fff9f2;
         width: get-rem-desktop(11);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           width: get-rem-tablet(11);
         }
 

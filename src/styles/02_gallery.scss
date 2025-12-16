@@ -6,7 +6,7 @@
   .gallery-block {
     padding-top: get-rem-desktop(294);
 
-    @media (max-width: 1366px) {
+    @media (max-width: 1440px) {
       padding-top: get-rem-tablet(204);
     }
 
@@ -25,7 +25,7 @@
         width: calc(33.333% - 100px);
         margin-bottom: get-rem-desktop(150);
 
-        @media (max-width: 1366px) {
+        @media (max-width: 1440px) {
           width: calc(33.333% - 66.67px);
           margin-bottom: get-rem-desktop(100);
         }
@@ -94,7 +94,7 @@
       opacity: 0;
       animation: fadeInContent 0.4s ease-out 0.2s forwards;
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         padding: get-rem-tablet(100) get-rem-tablet(30);
       }
 
@@ -135,7 +135,7 @@
           right: calc(get-rem-desktop(50) + 0.5em);
           cursor: pointer;
 
-          @media (max-width: 1366px) {
+          @media (max-width: 1440px) {
             right: calc(get-rem-tablet(30) + 0.5em);
           }
 
@@ -205,7 +205,7 @@
         position: relative;
         z-index: 1;
 
-        @media (max-width: 1366px) {
+        @media (max-width: 1440px) {
           width: calc(100% - get-rem-tablet(96));
         }
 
@@ -245,7 +245,7 @@
             box-sizing: border-box;
             overflow: hidden;
 
-            @media (max-width: 1366px) {
+            @media (max-width: 1440px) {
               padding-left: get-rem-tablet(30);
               padding-right: get-rem-tablet(30);
             }
@@ -286,7 +286,7 @@
       z-index: 10001;
       padding: 0 get-rem-desktop(50);
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         padding: 0 get-rem-tablet(30);
       }
 
@@ -340,7 +340,7 @@
           height: auto;
           display: block;
 
-          @media (max-width: 1366px) {
+          @media (max-width: 1440px) {
             width: 18px;
           }
 
@@ -367,7 +367,7 @@
     opacity: 1;
     @include transition(opacity 0.5s ease-in-out);
 
-    @media (max-width: 1366px) {
+    @media (max-width: 1440px) {
       bottom: get-rem-tablet(40);
     }
 

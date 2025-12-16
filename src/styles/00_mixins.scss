@@ -33,7 +33,7 @@ FONT SIZE MIXIN FUNCTION --------------------
 // default font scale bounding
 $font-lock-min:  393px !default; 
 $font-lock-max: 1920px !default;
-$font-lock-tablet: 1366px !default;
+$font-lock-tablet: 1440px !default;
 
 // font-size 
 @mixin font-size(
@@ -659,7 +659,7 @@ MIXINS --------------------
 	and (-webkit-min-device-pixel-ratio: 2),
 	only screen 
 	and (min-device-width: 1024px) 
-	and (max-device-width: 1366px)
+	and (max-device-width: 1440px)
 	and (-webkit-min-device-pixel-ratio: 2) {
 	  @content; 
 	}

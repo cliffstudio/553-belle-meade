@@ -6,7 +6,7 @@
   padding-top: get-rem-desktop(150);
   overflow: hidden;
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-top: get-rem-tablet(200);
   }
 
@@ -17,7 +17,7 @@
   .press-row {
     margin-bottom: get-rem-desktop(145);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       margin-bottom: get-rem-tablet(95);
     }
 
@@ -39,7 +39,7 @@
       .card-2 {
         margin-top: get-rem-desktop(180);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(200);
         }
 
@@ -53,7 +53,7 @@
           margin-right: get-rem-desktop(-50);
           width: calc(100% + get-rem-desktop(50));
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-right: get-rem-tablet(-30);
             width: calc(100% + get-rem-tablet(30));
           }
@@ -72,7 +72,7 @@
           margin-left: get-rem-desktop(-50);
           width: calc(100% + get-rem-desktop(50));
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-left: get-rem-tablet(-30);
             width: calc(100% + get-rem-tablet(30));
           }
@@ -88,7 +88,7 @@
       .card-2 {
         margin-top: get-rem-desktop(180);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(200);
         }
 
@@ -112,7 +112,7 @@
       .card-1 {
         margin-top: get-rem-desktop(180);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(200);
         }
 
@@ -126,7 +126,7 @@
           margin-left: get-rem-desktop(-50);
           width: calc(100% + get-rem-desktop(50));
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-left: get-rem-tablet(-30);
             width: calc(100% + get-rem-tablet(30));
           }
@@ -149,7 +149,7 @@
           margin-right: get-rem-desktop(-50);
           width: calc(100% + get-rem-desktop(50));
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-right: get-rem-tablet(-30);
             width: calc(100% + get-rem-tablet(30));
           }
@@ -172,7 +172,7 @@
       .card-1 {
         margin-top: get-rem-desktop(180);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(200);
         }
 
@@ -215,7 +215,7 @@
           img {
             max-width: get-rem-desktop(246);
 
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               max-width: get-rem-tablet(175);
             }
 
@@ -230,7 +230,7 @@
         margin-top: get-rem-desktop(45);
         max-width: get-rem-desktop(600);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(45);
           max-width: get-rem-tablet(420);
         }
@@ -243,7 +243,7 @@
         .date {
           margin-bottom: get-rem-desktop(15);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-bottom: get-rem-tablet(15);
           }
 
@@ -255,7 +255,7 @@
         .title {
           margin-bottom: get-rem-desktop(8);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-bottom: get-rem-tablet(10);
           }
 
@@ -267,7 +267,7 @@
         .underline-link {
           margin-top: get-rem-desktop(10);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-top: get-rem-tablet(8);
           }
 
@@ -285,7 +285,7 @@
     padding-bottom: get-rem-desktop(182);
     text-align: center;
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       margin-bottom: get-rem-tablet(100);
       padding-top: get-rem-tablet(145);
       padding-bottom: get-rem-tablet(135);
@@ -300,7 +300,7 @@
     .source {
       margin-bottom: get-rem-desktop(25);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(25);
       }
 
@@ -317,7 +317,7 @@
     .publish-date {
       margin-bottom: get-rem-desktop(25);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(25);
       }
 
@@ -331,7 +331,7 @@
     padding-top: get-rem-desktop(148);
     padding-bottom: get-rem-desktop(145);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding-top: get-rem-tablet(98);
       padding-bottom: get-rem-tablet(95);
     }
@@ -345,7 +345,7 @@
   .press-header {
     margin-bottom: get-rem-desktop(30);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       margin-bottom: get-rem-tablet(35);
     }
 
@@ -357,7 +357,7 @@
   .underline-link {
     margin-top: get-rem-desktop(35);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       margin-top: get-rem-tablet(40);
     }
 

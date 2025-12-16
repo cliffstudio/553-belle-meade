@@ -10,7 +10,7 @@
     .text-wrap {
       max-width: get-rem-desktop(870);
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         max-width: get-rem-tablet(625);
       }
     }
@@ -41,7 +41,7 @@
       .text-wrap {
         max-width: get-rem-desktop(597);
 
-        @media (max-width: 1366px) {
+        @media (max-width: 1440px) {
           max-width: get-rem-tablet(425);
         }
       }
@@ -52,7 +52,7 @@
         @include justify-content(flex-end);
         column-gap: get-rem-desktop(49);
 
-        @media (max-width: 1366px) {
+        @media (max-width: 1440px) {
           column-gap: get-rem-tablet(35);
         }
 
@@ -89,7 +89,7 @@
             width: 12px;
             height: auto;
 
-            @media (max-width: 1366px) {
+            @media (max-width: 1440px) {
               width: 8px;
             }
 
@@ -104,7 +104,7 @@
     .carousel-container {
       margin-top: get-rem-desktop(90);
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         margin-top: get-rem-tablet(80);
       }
 
@@ -121,7 +121,7 @@
           width: 25vw;
           margin-right: get-rem-desktop(50);
 
-          @media (max-width: 1366px) {
+          @media (max-width: 1440px) {
             margin-right: get-rem-tablet(50);
           }
 
@@ -154,7 +154,7 @@
           .caption {
             margin-top: get-rem-desktop(15);
 
-            @media (max-width: 1366px) {
+            @media (max-width: 1440px) {
               margin-top: get-rem-tablet(15);
             }
 
