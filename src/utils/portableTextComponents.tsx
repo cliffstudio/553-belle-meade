@@ -5,8 +5,12 @@ export const portableTextComponents: PortableTextComponents = {
     link: ({ value, children }) => {
       const href = value?.href || ''
       const blank = value?.blank
-
-      if (blank) {
+      
+      // Automatically detect external links (starting with http:// or https://)
+      const isExternal = href.startsWith('http://') || href.startsWith('https://')
+      
+      // Add target="_blank" if explicitly set to blank OR if it's an external link
+      if (blank || isExternal) {
         return (
           <a
             href={href}

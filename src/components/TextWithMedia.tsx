@@ -335,7 +335,11 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
             {body && <div><PortableText value={body} /></div>}
 
             {href && <div className="cta-font underline-link link">
-              <a href={href}>{text}</a>
+              <a 
+                href={href} 
+                target={cta?.linkType === 'external' ? '_blank' : undefined} 
+                rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}
+              >{text}</a>
 
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
                 <path d="M1 1L13.5 13.5L0.999999 26"/>
