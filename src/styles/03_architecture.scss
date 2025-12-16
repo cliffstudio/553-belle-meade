@@ -7,7 +7,7 @@
     padding-top: 0;
     // padding-bottom: get-rem-desktop(145);
 
-    // @media only screen and (max-width: 1366px) {
+    // @media only screen and (max-width: 1440px) {
     //   padding-bottom: get-rem-tablet(95);
     // }
 
@@ -19,7 +19,7 @@
     //   margin-top: 0;
       // margin-bottom: get-rem-desktop(48);
 
-      // @media only screen and (max-width: 1366px) {
+      // @media only screen and (max-width: 1440px) {
       //   margin-bottom: get-rem-tablet(30);
       // }
 
@@ -33,7 +33,7 @@
     .media-wrap {
       margin-right: get-rem-desktop(153);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-right: get-rem-tablet(110);
       }
 
@@ -48,7 +48,7 @@
     padding-top: get-rem-desktop(90);
     padding-bottom: get-rem-desktop(90);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding-top: get-rem-tablet(95);
       padding-bottom: get-rem-tablet(95);
     }
@@ -62,7 +62,7 @@
       max-width: get-rem-desktop(180);
       margin-bottom: get-rem-desktop(10);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         max-width: get-rem-tablet(220);
         margin-bottom: get-rem-tablet(10);
       }
@@ -76,7 +76,7 @@
     .body {
       max-width: get-rem-desktop(510);
   
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         max-width: get-rem-tablet(370);
       }
       
@@ -91,7 +91,7 @@
       column-gap: get-rem-desktop(15);
       row-gap: get-rem-desktop(90);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         row-gap: get-rem-tablet(95);
       }
 
@@ -109,14 +109,14 @@
         .architect-content {
           max-width: get-rem-desktop(510);
   
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             max-width: get-rem-tablet(370);
           }
   
           .architect-name {
             margin-bottom: get-rem-desktop(20);
   
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               margin-bottom: get-rem-tablet(10);
             }
 

@@ -7,7 +7,7 @@
   padding-left: get-rem-desktop(50);
   padding-right: get-rem-desktop(50);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-left: get-rem-tablet(30);
     padding-right: get-rem-tablet(30);
   }
@@ -33,7 +33,7 @@
   column-gap: get-rem-desktop(10);
   margin-top: get-rem-desktop(22);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     margin-top: get-rem-tablet(18);
   }
 
@@ -137,7 +137,7 @@ section {
   padding: get-rem-desktop(50);
   column-gap: get-rem-desktop(30);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding: get-rem-tablet(50);
     column-gap: get-rem-tablet(25);
   }
@@ -174,7 +174,7 @@ section {
       height: get-rem-desktop(20);
       width: get-rem-desktop(11);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         height: get-rem-tablet(22);
         width: get-rem-tablet(12.09);
       }
@@ -195,7 +195,7 @@ section {
   .full-screen-button {
     width: fit-content;
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       display: none;
     }
 
@@ -210,7 +210,7 @@ section {
     display: none;
     width: fit-content;
     
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       display: block;
     }
 
@@ -222,7 +222,7 @@ section {
 
     .volume,
     .mute {
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         height: get-rem-tablet(22);
         width: get-rem-tablet(22);
       }
@@ -251,7 +251,7 @@ section {
   padding-top: get-rem-desktop(255);
   padding-bottom: get-rem-desktop(90);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-top: get-rem-tablet(188);
     padding-bottom: get-rem-tablet(88);
   }
@@ -265,7 +265,7 @@ section {
     max-width: get-rem-desktop(800);
     text-align: center;
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       max-width: get-rem-tablet(590);
     }
 
@@ -278,7 +278,7 @@ section {
     margin-top: 0;
     margin-bottom: get-rem-desktop(15);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       margin-bottom: get-rem-tablet(8);
     }
 
@@ -295,7 +295,7 @@ section {
     @include align-items(center);
     row-gap: get-rem-desktop(18);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       row-gap: get-rem-tablet(10);
     }
 
@@ -311,7 +311,7 @@ section {
   padding-bottom: get-rem-desktop(90);
   overflow: hidden;
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-top: get-rem-tablet(195);
     padding-bottom: get-rem-tablet(100);
   }
@@ -324,14 +324,14 @@ section {
   .text-wrap {
     max-width: get-rem-desktop(846);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       max-width: get-rem-tablet(470);
     }
 
     .heading {
       margin-bottom: get-rem-desktop(20);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(10);
       }
 
@@ -350,7 +350,7 @@ section {
     bottom: get-rem-desktop(-36);
     left: 0;
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       bottom: get-rem-tablet(-28);
     }
 
@@ -361,7 +361,7 @@ section {
 
   &.layout-1 {
     .row-1 {
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(62);
       }
 
@@ -375,7 +375,7 @@ section {
         margin-right: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-right: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -390,7 +390,7 @@ section {
     .row-3 {
       margin-top: -8vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -7.5vw;
       }
 
@@ -402,7 +402,7 @@ section {
         margin-left: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-left: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -417,7 +417,7 @@ section {
     .row-4 {
       margin-top: -18.5vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -19vw;
       }
 
@@ -469,7 +469,7 @@ section {
     .row-3 {
       margin-top: -8vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -7.5vw;
       }
 
@@ -481,7 +481,7 @@ section {
         margin-left: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-left: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -496,7 +496,7 @@ section {
     .row-4 {
       margin-top: -26vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -26.5vw;
       }
 
@@ -508,7 +508,7 @@ section {
         margin-right: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-right: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -542,7 +542,7 @@ section {
 
   &.layout-3 {
     .row-1 {
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(62);
       }
     }
@@ -556,7 +556,7 @@ section {
         margin-right: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-right: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -571,7 +571,7 @@ section {
     .row-3 {
       margin-top: -8vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -7.5vw;
       }
 
@@ -583,7 +583,7 @@ section {
         margin-left: get-rem-desktop(-50);
         width: calc(100% + get-rem-desktop(50));
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-left: get-rem-tablet(-30);
           width: calc(100% + get-rem-tablet(30));
         }
@@ -598,7 +598,7 @@ section {
     .row-4 {
       margin-top: -7.5vw;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -9vw;
       }
 
@@ -658,7 +658,7 @@ section {
   padding-top: get-rem-desktop(90);
   padding-bottom: get-rem-desktop(90);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-top: get-rem-tablet(100);
     padding-bottom: get-rem-tablet(100);
   }
@@ -682,7 +682,7 @@ section {
     .heading {
       margin-bottom: get-rem-desktop(10);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(10);
       }
 
@@ -726,7 +726,7 @@ section {
   .text-wrap {
     max-width: get-rem-desktop(597);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       max-width: get-rem-tablet(425);
     }
   }
@@ -739,7 +739,7 @@ section {
       margin-left: auto;
       margin-right: get-rem-desktop(50);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         max-width: get-rem-tablet(250);
         margin-right: 0;
       }
@@ -754,12 +754,27 @@ section {
   @include flex-direction(column);
   row-gap: get-rem-desktop(90);
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     row-gap: get-rem-tablet(95);
   }
 
   @media only screen and (max-width: 768px) {
     row-gap: get-rem-mobile(70);
+  }
+
+  &.layout-1 {
+    padding-top: get-rem-desktop(50);
+    padding-bottom: get-rem-desktop(50);
+
+    @media only screen and (max-width: 1440px) {
+      padding-top: get-rem-tablet(30);
+      padding-bottom: get-rem-tablet(30);
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding-top: get-rem-mobile(15);
+      padding-bottom: get-rem-mobile(15);
+    }
   }
 
   .colour-background {
@@ -774,7 +789,7 @@ section {
   .text-wrap {
     max-width: get-rem-desktop(597);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       max-width: get-rem-tablet(425);
     }
   }
@@ -787,7 +802,7 @@ section {
   .video-controls {
     opacity: 1;
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding: get-rem-tablet(20);
     }
 
@@ -811,7 +826,7 @@ section {
   }
 
   .heading {
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       max-width: get-rem-tablet(260);
     }
   }
@@ -829,7 +844,7 @@ section {
       margin-top: 10vw;
       @include aspect-ratio(3, 4);
   
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-left: get-rem-tablet(-30);
         width: calc(100% + get-rem-tablet(30));
         margin-top: 11vw;
@@ -848,7 +863,7 @@ section {
       width: calc(100% + get-rem-desktop(50));
       @include aspect-ratio(16, 9);
   
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-right: get-rem-tablet(-30);
         width: calc(100% + get-rem-tablet(30));
       }
@@ -865,7 +880,7 @@ section {
     padding-top: get-rem-desktop(180);
     // padding-bottom: get-rem-desktop(150);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding-top: get-rem-tablet(200);
       // padding-bottom: get-rem-tablet(100);
     }
@@ -881,7 +896,7 @@ section {
       .heading {
         margin-bottom: get-rem-desktop(20);
   
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-bottom: get-rem-tablet(10);
         }
   
@@ -896,7 +911,7 @@ section {
       width: calc(100% + get-rem-desktop(50));
       @include aspect-ratio(1, 1);
   
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-right: get-rem-tablet(-30);
         width: calc(100% + get-rem-tablet(30));
       }
@@ -926,7 +941,7 @@ section {
     // padding-top: get-rem-desktop(148);
     // padding-bottom: get-rem-desktop(150);
 
-    // @media only screen and (max-width: 1366px) {
+    // @media only screen and (max-width: 1440px) {
     //   padding-top: get-rem-tablet(200);
     //   padding-bottom: get-rem-tablet(100);
     // }
@@ -946,7 +961,7 @@ section {
       .heading {
         margin-bottom: get-rem-desktop(20);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-bottom: get-rem-tablet(10);
         }
 
@@ -960,7 +975,7 @@ section {
       @include aspect-ratio(1, 1);
       margin-top: get-rem-desktop(178);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: get-rem-tablet(125);
       }
 
@@ -975,7 +990,7 @@ section {
       margin-left: get-rem-desktop(-50);
       width: calc(100% + get-rem-desktop(50));
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: -32.6vw;
       }
 
@@ -994,14 +1009,14 @@ body.page-type-homepage {
     .text-wrap {
       max-width: get-rem-desktop(585);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         max-width: get-rem-tablet(470);
       }
 
       h2 {
         max-width: get-rem-desktop(500);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           max-width: get-rem-tablet(350);
         }
       }
@@ -1031,7 +1046,7 @@ body.page-type-homepage {
     @include align-items(center);
     column-gap: get-rem-desktop(30);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding-top: get-rem-tablet(25);
       padding-bottom: get-rem-tablet(16);
       column-gap: get-rem-tablet(20);
@@ -1050,7 +1065,7 @@ body.page-type-homepage {
       stroke-width: 2px;
       aspect-ratio: 1 / 2;
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         width: get-rem-tablet(9);
       }
 
@@ -1082,7 +1097,7 @@ body.page-type-homepage {
       text-align: center;
       max-width: get-rem-desktop(870);
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         max-width: get-rem-tablet(625);
       }
 
@@ -1112,7 +1127,7 @@ body.page-type-homepage {
       pointer-events: auto;
     }
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding: get-rem-tablet(50);
       column-gap: get-rem-tablet(25);
     }
@@ -1134,7 +1149,7 @@ body.page-type-homepage {
       max-width: get-rem-desktop(870);
       margin: 0 auto;
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         max-width: get-rem-tablet(625);
       }
     }
@@ -1157,7 +1172,7 @@ body.page-type-homepage {
       color: $colour-cream;
       max-width: get-rem-desktop(870);
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1440px) {
         max-width: get-rem-tablet(625);
       }
     }
@@ -1220,7 +1235,7 @@ body.page-type-homepage {
     }
 
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       &:not(.has-content) {
         .caption svg {
           display: none !important;
@@ -1234,7 +1249,7 @@ body.page-type-homepage {
         // box-shadow: 5px 5px 2px 0 rgba(0, 0, 0, 0.30);
         overflow: hidden;
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-bottom: get-rem-tablet(12);
         }
 
@@ -1275,7 +1290,7 @@ body.page-type-homepage {
       }
 
       .caption {
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           @include flex;
           @include justify-content(space-between);
           column-gap: get-rem-tablet(20);
@@ -1290,7 +1305,7 @@ body.page-type-homepage {
           stroke: $colour-cream;
           display: none;
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             display: block;
             width: get-rem-tablet(11);
             height: get-rem-tablet(11);
@@ -1318,7 +1333,7 @@ body.page-type-homepage {
           @include justify-content(center);
           @include align-items(center);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             max-width: get-rem-tablet(420);
           }
 
@@ -1376,7 +1391,7 @@ body.page-type-homepage {
         .text-wrap {
           max-width: get-rem-desktop(450);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             max-width: get-rem-tablet(450);
           }
         }
@@ -1396,7 +1411,7 @@ body.page-type-homepage {
         @include justify-content(center);
         padding-top: get-rem-desktop(175);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           padding-top: get-rem-tablet(137);
         }
 
@@ -1409,7 +1424,7 @@ body.page-type-homepage {
         .artefact-image {
           max-width: get-rem-desktop(276);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             max-width: get-rem-tablet(214);
           }
 
@@ -1425,7 +1440,7 @@ body.page-type-homepage {
         .caption {
           text-align: center;
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             text-align: left;
           }
         }
@@ -1437,7 +1452,7 @@ body.page-type-homepage {
         .artefact-image {
           max-width: get-rem-desktop(361);
 
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             max-width: get-rem-tablet(272);
           }
 
@@ -1452,7 +1467,7 @@ body.page-type-homepage {
       padding-top: get-rem-desktop(480);
       padding-bottom: get-rem-desktop(90);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         padding-top: get-rem-tablet(436);
         padding-bottom: get-rem-tablet(205);
       }
@@ -1472,7 +1487,7 @@ body.page-type-homepage {
             margin-left: get-rem-desktop(-50);
             width: calc(100% + get-rem-desktop(50));
 
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               margin-left: get-rem-tablet(-30);
               width: calc(100% + get-rem-tablet(30));
             }
@@ -1488,7 +1503,7 @@ body.page-type-homepage {
       .artefact-4 {
         padding-top: get-rem-desktop(314);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           padding-top: get-rem-tablet(317);
         }
 
@@ -1511,7 +1526,7 @@ body.page-type-homepage {
       .artefact-1 {
         padding-top: get-rem-desktop(336);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           padding-top: get-rem-tablet(444);
         }
 
@@ -1525,7 +1540,7 @@ body.page-type-homepage {
         max-width: get-rem-desktop(186);
         margin-left: auto;
         
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           max-width: unset;
         }
 
@@ -1540,7 +1555,7 @@ body.page-type-homepage {
       padding-top: get-rem-desktop(18);
       padding-bottom: get-rem-desktop(90);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         padding-top: get-rem-tablet(130);
         padding-bottom: get-rem-tablet(205);
       }
@@ -1560,7 +1575,7 @@ body.page-type-homepage {
             margin-right: get-rem-desktop(-50);
             width: calc(100% + get-rem-desktop(50));
 
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               margin-right: get-rem-tablet(-30);
               width: calc(100% + get-rem-tablet(30));
             }
@@ -1585,7 +1600,7 @@ body.page-type-homepage {
       .artefact-1 {
         margin-top: get-rem-desktop(268);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(334);
         }
 
@@ -1611,7 +1626,7 @@ body.page-type-homepage {
             margin-right: get-rem-desktop(-50);
             width: calc(100% + get-rem-desktop(50));
 
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               margin-right: get-rem-tablet(-30);
               width: calc(100% + get-rem-tablet(30));
             }
@@ -1628,7 +1643,7 @@ body.page-type-homepage {
     .artefacts-row-2 {
       margin-top: get-rem-desktop(390);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-top: get-rem-tablet(395);
       }
 
@@ -1642,7 +1657,7 @@ body.page-type-homepage {
         margin-top: get-rem-desktop(161);
         margin-right: get-rem-desktop(50);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           margin-top: get-rem-tablet(201);
           margin-right: get-rem-tablet(30);
         }
@@ -1657,7 +1672,7 @@ body.page-type-homepage {
             margin-left: get-rem-desktop(-50);
             width: calc(100% + get-rem-desktop(50));
 
-            @media only screen and (max-width: 1366px) {
+            @media only screen and (max-width: 1440px) {
               margin-left: get-rem-tablet(-30);
               width: calc(100% + get-rem-tablet(30));
             }
@@ -1677,7 +1692,7 @@ body.page-type-homepage {
         }
 
         .artefact-image .media-wrap {
-          @media only screen and (max-width: 1366px) {
+          @media only screen and (max-width: 1440px) {
             margin-right: get-rem-tablet(-30);
             width: calc(100% + get-rem-tablet(30));
           }
@@ -1696,7 +1711,7 @@ body.page-type-homepage {
       padding-top: get-rem-desktop(90);
       padding-bottom: get-rem-desktop(50);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         padding-top: get-rem-tablet(205);
         padding-bottom: get-rem-tablet(50);
       }
@@ -1709,7 +1724,7 @@ body.page-type-homepage {
       img {
         width: get-rem-desktop(121);
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           width: get-rem-tablet(121);
         }
 
@@ -1759,7 +1774,7 @@ body.page-type-homepage {
     @include align-items(center);
     column-gap: get-rem-desktop(50);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       padding: get-rem-tablet(40);
       height: get-rem-tablet(425);
       column-gap: get-rem-desktop(40);
@@ -1834,7 +1849,7 @@ body.page-type-homepage {
       width: get-rem-tablet(458);
       min-width: get-rem-tablet(458);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         width: get-rem-tablet(325);
         min-width: get-rem-tablet(325);
       }
@@ -1858,7 +1873,7 @@ body.page-type-homepage {
         -webkit-overflow-scrolling: touch;
         touch-action: pan-y;
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           max-height: get-rem-tablet(167);
         }
 
@@ -1874,7 +1889,7 @@ body.page-type-homepage {
       @include align-items(flex-start);
       column-gap: get-rem-desktop(50);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         column-gap: get-rem-tablet(40);
       }
 
@@ -1891,7 +1906,7 @@ body.page-type-homepage {
         width: get-rem-desktop(30);
         cursor: pointer;
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           width: get-rem-tablet(20);
         }
 
@@ -1906,7 +1921,7 @@ body.page-type-homepage {
 .scroll-buffer {
   height: 100dvh;
 
-  @media only screen and (max-width: 1366px) and (hover: none) {
+  @media only screen and (max-width: 1440px) and (hover: none) {
     height: 50dvh;
   }
 

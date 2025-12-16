@@ -11,7 +11,7 @@
   row-gap: get-rem-desktop(230);
   overflow: hidden;
 
-  @media only screen and (max-width: 1366px) {
+  @media only screen and (max-width: 1440px) {
     padding-top: get-rem-tablet(50);
     row-gap: get-rem-tablet(195);
   }
@@ -41,7 +41,7 @@
     @include flex-direction(column);
     row-gap: get-rem-desktop(25);
 
-    @media only screen and (max-width: 1366px) {
+    @media only screen and (max-width: 1440px) {
       row-gap: get-rem-tablet(25);
     }
 
@@ -52,7 +52,7 @@
     .heading {
       margin-bottom: get-rem-desktop(10);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(10);
       }
 
@@ -85,7 +85,7 @@
       @include flex;
       margin-bottom: get-rem-desktop(16);
 
-      @media only screen and (max-width: 1366px) {
+      @media only screen and (max-width: 1440px) {
         margin-bottom: get-rem-tablet(12);
       }
 
@@ -99,7 +99,7 @@
         width: 100%;
         color: $colour-cream;
 
-        @media only screen and (max-width: 1366px) {
+        @media only screen and (max-width: 1440px) {
           padding-bottom: get-rem-tablet(13);
         }
 
