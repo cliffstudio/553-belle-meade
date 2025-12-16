@@ -463,6 +463,12 @@ section {
   }
 
   &.layout-2 {
+    .desktop {
+      @media only screen and (max-width: 1440px) {
+        display: none;
+      }
+    }
+
     .row-1 {
       @media only screen and (max-width: 844px) {
         margin-bottom: get-rem-mobile(62);
@@ -480,7 +486,7 @@ section {
     .row-2 {
       display: none;
 
-      @media only screen and (max-width: 844px) {
+      @media only screen and (max-width: 1440px) {
         display: grid;
       }
 
