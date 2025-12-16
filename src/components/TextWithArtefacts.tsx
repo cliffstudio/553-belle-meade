@@ -1693,7 +1693,7 @@ export default function TextWithArtefacts({
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
                   <div 
-                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''} ${artefact1.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
                     style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
                   >
@@ -1745,7 +1745,7 @@ export default function TextWithArtefacts({
 
                 {artefact2 && (
                   <div 
-                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''} ${artefact2.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
                     style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
                   >
@@ -1798,7 +1798,7 @@ export default function TextWithArtefacts({
               <div className="artefacts-row-2 row-lg">
                 {artefact3 && (
                   <div 
-                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''} ${artefact3.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
                     style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
                   >
@@ -1852,7 +1852,7 @@ export default function TextWithArtefacts({
 
                 {artefact4 && (
                   <div 
-                    className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-4 col-3-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''} ${artefact4.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact4.title || artefact4.description) && handleArtefactClick(artefact4, e)}
                     style={{ cursor: (artefact4.title || artefact4.description) ? 'pointer' : 'default' }}
                   >
@@ -1909,7 +1909,7 @@ export default function TextWithArtefacts({
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
                   <div 
-                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-1 col-3-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''} ${artefact1.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
                     style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
                   >
@@ -1961,7 +1961,7 @@ export default function TextWithArtefacts({
 
                 {artefact2 && (
                   <div 
-                    className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''} ${artefact2.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
                     style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
                   >
@@ -2018,7 +2018,7 @@ export default function TextWithArtefacts({
 
                 {artefact3 && (
                   <div 
-                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-3 col-3-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''} ${artefact3.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
                     style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
                   >
@@ -2073,7 +2073,7 @@ export default function TextWithArtefacts({
               <div className="artefacts-row-1 row-lg">
                 {artefact1 && (
                   <div 
-                    className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-1 col-2-12_lg ${artefact1.title || artefact1.description ? 'has-content' : ''} ${artefact1.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact1.title || artefact1.description) && handleArtefactClick(artefact1, e)}
                     style={{ cursor: (artefact1.title || artefact1.description) ? 'pointer' : 'default' }}
                   >
@@ -2125,7 +2125,7 @@ export default function TextWithArtefacts({
 
                 {artefact2 && (
                   <div 
-                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''} ${artefact2.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
                     style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
                   >
@@ -2178,7 +2178,7 @@ export default function TextWithArtefacts({
               <div className="artefacts-row-2 row-lg">
                 {artefact3 && (
                   <div 
-                    className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-3 col-2-12_lg ${artefact3.title || artefact3.description ? 'has-content' : ''} ${artefact3.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact3.title || artefact3.description) && handleArtefactClick(artefact3, e)}
                     style={{ cursor: (artefact3.title || artefact3.description) ? 'pointer' : 'default' }}
                   >
@@ -2230,7 +2230,7 @@ export default function TextWithArtefacts({
 
                 {artefact4 && (
                   <div 
-                    className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''}`}
+                    className={`artefact artefact-4 col-2-12_lg ${artefact4.title || artefact4.description ? 'has-content' : ''} ${artefact4.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact4.title || artefact4.description) && handleArtefactClick(artefact4, e)}
                     style={{ cursor: (artefact4.title || artefact4.description) ? 'pointer' : 'default' }}
                   >
