@@ -25,8 +25,8 @@ body {
 	margin: 0;
 	padding: 0;
   opacity: 0;
-  @include font-size(15px, 15px, 19px);
   @include transition(opacity 300ms cubic-bezier(0.25,0.1,0.25,1));
+  @include font-size(15px, 15px, 19px);
 }
 
 p, ul, ol {
