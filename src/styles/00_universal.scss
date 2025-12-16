@@ -1014,7 +1014,7 @@ body.page-type-homepage {
 
   @media (hover: hover) {
     &:hover {
-      h1 {
+      h2 {
         font-family: 'Millionaire-Script';
         @include transform(translateY(-0.17em));
         padding-left: 0.2em;
