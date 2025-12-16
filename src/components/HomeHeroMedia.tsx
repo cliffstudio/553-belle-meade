@@ -705,8 +705,8 @@ export default function HomeHeroMedia(props: HomeHeroMediaProps) {
             <line x1="10.5" x2="10.5" y2="20"/>
           </svg>
 
-          <svg className={`play ${!isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20">
-            <path d="M.5,1l10,9L.5,19V1Z"/>
+          <svg className={`play ${!isPlaying ? 'active' : ''} button`} xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 17 20">
+            <path d="M16.0137005,10L.5,19.125V.874023l15.5137005,9.125977Z"/>
           </svg>
         </div>
         
