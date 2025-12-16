@@ -263,12 +263,7 @@ export const pageQuery = groq`
         showControls
       },
       shoppingCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
     
@@ -290,12 +285,7 @@ export const pageQuery = groq`
         cta ${linkFragment}
       },
       walkthroughCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
     
@@ -357,12 +347,7 @@ export const pageQuery = groq`
         body
       },
       spacesCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
 
@@ -464,12 +449,7 @@ export const pageQuery = groq`
         }
       },
       heritageCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
 
@@ -531,12 +511,7 @@ export const pageQuery = groq`
         showControls
       },
       creekCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
 
@@ -608,12 +583,7 @@ export const pageQuery = groq`
         videoUrl2
       },
       carouselCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
 
@@ -686,12 +656,7 @@ export const pageQuery = groq`
         }
       },
       architectureCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     },
 
@@ -743,12 +708,7 @@ export const pageQuery = groq`
         },
       },
       pressCta {
-        pageLink {
-          _ref,
-          _type,
-          "slug": *[_type == "page" && _id == ^._ref][0].slug.current,
-          "title": *[_type == "page" && _id == ^._ref][0].title
-        }
+        cta ${linkFragment}
       }
     }
     

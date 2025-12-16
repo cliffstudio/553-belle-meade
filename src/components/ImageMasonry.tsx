@@ -10,10 +10,25 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { portableTextComponents } from '../utils/portableTextComponents'
 
+type PageReference = {
+  _ref: string
+  _type: 'reference'
+  slug?: string
+  title?: string
+}
+
+type Link = {
+  linkType?: 'internal' | 'external' | 'jump'
+  label?: string
+  href?: string
+  pageLink?: PageReference
+  jumpLink?: string
+}
+
 type ImageMasonryProps = { 
   heading?: string
   body?: PortableTextBlock[]
-  cta?: { label?: string; href?: string }
+  cta?: Link
   layout?: 'layout-1' | 'layout-2' | 'layout-3'
   backgroundColour?: 'Lilac' | 'Green' | 'Tan'
   mediaType1?: 'image' | 'video'
@@ -26,6 +41,19 @@ type ImageMasonryProps = {
   video2?: SanityVideo
   videoSource2?: 'file' | 'url'
   videoUrl2?: string
+}
+
+// Helper function to get link text and href from cta
+const getLinkInfo = (cta?: Link) => {
+  if (!cta) return { text: '', href: '' }
+  
+  if (cta.linkType === 'external') {
+    return { text: cta.label || '', href: cta.href || '' }
+  } else if (cta.linkType === 'jump') {
+    return { text: cta.label || '', href: cta.jumpLink || '' }
+  } else {
+    return { text: cta.label || cta.pageLink?.title || '', href: cta.pageLink?.slug ? `/${cta.pageLink.slug}` : '' }
+  }
 }
 
 export default function ImageMasonry({ 
@@ -45,6 +73,7 @@ export default function ImageMasonry({
   videoSource2 = 'file',
   videoUrl2
 }: ImageMasonryProps) {
+  const { text: linkText, href: linkHref } = getLinkInfo(cta)
 
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -124,8 +153,12 @@ export default function ImageMasonry({
               
               {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
-              {cta?.href && <div className="cta-font underline-link link">
-                <a href={cta.href}>{cta.label || ''}</a>
+              {linkHref && <div className="cta-font underline-link link">
+                <a 
+                  href={linkHref} 
+                  target={cta?.linkType === 'external' ? '_blank' : undefined} 
+                  rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}
+                >{linkText}</a>
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
                   <path d="M1 1L13.5 13.5L0.999999 26"/>

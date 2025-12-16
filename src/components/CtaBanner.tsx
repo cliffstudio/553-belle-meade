@@ -7,29 +7,51 @@ type PageReference = {
   title?: string
 }
 
-type CtaBannerProps = {
+type Link = {
+  linkType?: 'internal' | 'external' | 'jump'
+  label?: string
+  href?: string
   pageLink?: PageReference
+  jumpLink?: string
 }
 
-export default function CtaBanner({ pageLink }: CtaBannerProps) {
-  if (!pageLink) return null
+type CtaBannerProps = {
+  cta?: Link
+}
 
-  const linkText = pageLink.title || ''
-  const linkHref = pageLink.slug ? `/${pageLink.slug}` : ''
+// Helper function to get link text and href from cta
+const getLinkInfo = (cta?: Link) => {
+  if (!cta) return { text: '', href: '' }
+  
+  if (cta.linkType === 'external') {
+    return { text: cta.label || '', href: cta.href || '' }
+  } else if (cta.linkType === 'jump') {
+    return { text: cta.label || '', href: cta.jumpLink || '' }
+  } else {
+    return { text: cta.label || cta.pageLink?.title || '', href: cta.pageLink?.slug ? `/${cta.pageLink.slug}` : '' }
+  }
+}
+
+export default function CtaBanner({ cta }: CtaBannerProps) {
+  const { text, href } = getLinkInfo(cta)
+  
+  if (!href) return null
 
   return (
     <section className="cta-banner-block">
-      {linkHref && (
-        <div className="inner-wrap h-pad relative out-of-view">
-          <h2>{linkText}</h2>
+      <div className="inner-wrap h-pad relative out-of-view">
+        <h2>{text}</h2>
 
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-            <path d="M1 1L13.5 13.5L0.999999 26"/>
-          </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+          <path d="M1 1L13.5 13.5L0.999999 26"/>
+        </svg>
 
-          <a href={linkHref}></a>
-        </div>
-      )}
+        <a 
+          href={href} 
+          target={cta?.linkType === 'external' ? '_blank' : undefined} 
+          rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}
+        ></a>
+      </div>
     </section>
   )
 }
