@@ -143,4 +143,15 @@ export default defineType({
       hidden: ({ document }) => document?.pageType !== 'creek'
     }),
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Stacked Text & Media Section',
+        subtitle: heading || 'No heading'
+      }
+    }
+  }
 })

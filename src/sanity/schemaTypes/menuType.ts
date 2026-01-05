@@ -1,9 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { MenuIcon } from '@sanity/icons'
 
 export const menuType = defineType({
   name: 'menu',
   title: 'Menu',
   type: 'document',
+  icon: MenuIcon,
   fields: [
     defineField({
       name: 'title',

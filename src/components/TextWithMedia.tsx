@@ -50,7 +50,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
   const { text, href } = getLinkInfo(cta)
 
   if (layout === 'layout-1') {
-    // Layout 1: large media and text (used on homepage)
+    // Layout 1: large media and text
     return (
       <section className="text-with-media-block layout-1 h-pad">
         <div className="row-lg">
@@ -144,7 +144,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
   }
 
   if (layout === 'layout-2') {
-    // Layout 2: small media and text (used on shopping)
+    // Layout 2: small media and text
     return (
       <section className="text-with-media-block layout-2 h-pad">
         <div className="row-lg">

@@ -4,6 +4,10 @@ export default defineType({
   name: 'link',
   title: 'Link',
   type: 'object',
+  options: {
+    collapsible: false,
+    collapsed: false,
+  },
   fields: [
     defineField({
       name: 'linkType',

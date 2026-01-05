@@ -724,12 +724,9 @@ export default defineType({
     }),
   ],
   preview: {
-    select: {
-      numberOfTiles: 'numberOfTiles'
-    },
-    prepare({ numberOfTiles }) {
+    prepare() {
       return {
-        title: `Link Tiles (${numberOfTiles} tiles)`
+        title: 'Link Tiles Section',
       }
     }
   }

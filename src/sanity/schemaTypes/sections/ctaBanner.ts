@@ -12,4 +12,11 @@ export default defineType({
       type: 'link'
     }),
   ],
+  preview: {
+    prepare() {
+      return {
+        title: 'CTA Banner Section',
+      }
+    }
+  }
 })

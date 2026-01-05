@@ -336,18 +336,26 @@ export default defineType({
   fieldsets: [
     {
       name: 'media1',
-      title: 'Media Tile 1',
-      options: { collapsible: true, collapsed: false }
+      title: 'Media Tile 1'
     },
     {
       name: 'media2',
-      title: 'Media Tile 2',
-      options: { collapsible: true, collapsed: false }
+      title: 'Media Tile 2'
     },
     {
       name: 'media3',
-      title: 'Media Tile 3',
-      options: { collapsible: true, collapsed: false }
+      title: 'Media Tile 3'
     }
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Staggered Images Section',
+        subtitle: heading || 'No heading'
+      }
+    }
+  }
 })

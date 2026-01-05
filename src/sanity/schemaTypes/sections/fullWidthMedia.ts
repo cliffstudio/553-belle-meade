@@ -107,4 +107,11 @@ export default defineType({
       hidden: ({ parent }) => parent?.mediaType !== 'video'
     }),
   ],
+  preview: {
+    prepare({  }) {
+      return {
+        title: 'Full Width Media Section'
+      }
+    }
+  }
 })

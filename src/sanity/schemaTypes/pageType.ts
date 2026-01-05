@@ -24,8 +24,7 @@ export const pageType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Homepage', value: 'homepage' },
-          { title: 'Shopping', value: 'shopping' },
+          { title: 'Sign In', value: 'sign-in' },
           { title: 'Walkthrough', value: 'walkthrough' },
           { title: 'Spaces', value: 'spaces' },
           { title: 'Heritage', value: 'heritage' },
@@ -34,86 +33,30 @@ export const pageType = defineType({
           { title: 'Gallery', value: 'gallery' },
           { title: 'Architecture', value: 'architecture' },
           { title: 'Press', value: 'press' },
+          { title: 'General', value: 'general' },
         ],
       },
     }),
-    
-    // Homepage specific fields
     defineField({
-      name: 'homepageHero',
-      title: 'Hero',
-      type: 'homeHeroMedia',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageTextBlock',
-      title: 'Text Block',
-      type: 'textBlock',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageLinkTiles',
-      title: 'Link Tiles',
-      type: 'linkTiles',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageFullWidthMedia',
-      title: 'Full Width Media',
-      type: 'fullWidthMedia',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageStackedMediaText',
-      title: 'Stacked Text & Media',
-      type: 'stackedMediaText',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageLargeMediaText',
-      title: 'Text & Media',
-      type: 'largeMediaText',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
-    }),
-    defineField({
-      name: 'homepageImageMasonry',
-      title: 'Image Masonry',
-      type: 'imageMasonry',
-      hidden: ({ document }) => document?.pageType !== 'homepage',
+      name: 'contentBlocks',
+      title: 'Content Blocks',
+      type: 'flexibleContent',
+      description: 'Add and arrange content blocks to build your page',
+      hidden: ({ document }) => {
+        // Only show for general pages or pages without a specific pageType
+        const pageType = document?.pageType
+        return pageType && pageType !== 'general'
+      },
     }),
     
-    // Shopping specific fields
+    // Sign In specific fields
     defineField({
-      name: 'shoppingHero',
+      name: 'signInHero',
       title: 'Hero',
-      type: 'heroMedia',
-      hidden: ({ document }) => document?.pageType !== 'shopping',
+      type: 'signInHeroMedia',
+      hidden: ({ document }) => document?.pageType !== 'sign-in',
     }),
-    defineField({
-      name: 'shoppingStaggered',
-      title: 'Staggered Images',
-      type: 'staggeredImages',
-      hidden: ({ document }) => document?.pageType !== 'shopping',
-    }),
-    defineField({
-      name: 'shoppingFullWidthMedia',
-      title: 'Full Width Media',
-      type: 'fullWidthMedia',
-      hidden: ({ document }) => document?.pageType !== 'shopping',
-    }),
-    defineField({
-      name: 'shoppingSmallMediaText',
-      title: 'Text & Media',
-      type: 'smallMediaText',
-      hidden: ({ document }) => document?.pageType !== 'shopping',
-    }),
-    defineField({
-      name: 'shoppingCta',
-      title: 'CTA Banner',
-      type: 'ctaBanner',
-      hidden: ({ document }) => document?.pageType !== 'shopping',
-    }),
-
+    
     // Walkthrough specific fields
     defineField({
       name: 'walkthroughHero',

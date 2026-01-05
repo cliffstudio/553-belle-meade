@@ -236,20 +236,28 @@ export default defineType({
       initialValue: 'Lilac',
       options: {
         list: ['Lilac', 'Green', 'Tan']
-      },
-      hidden: ({ document }) => document?.pageType !== 'homepage'
+      }
     }),
   ],
   fieldsets: [
     {
       name: 'media1',
-      title: 'Media',
-      options: { collapsible: true, collapsed: false }
+      title: 'Media 1',
     },
     {
       name: 'media2',
-      title: 'Media',
-      options: { collapsible: true, collapsed: false }
+      title: 'Media 2',
     }
-  ]
+  ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Image Masonry Section',
+        subtitle: heading || 'No heading'
+      }
+    }
+  }
 })

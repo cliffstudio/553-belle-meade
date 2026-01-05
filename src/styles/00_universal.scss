@@ -867,6 +867,22 @@ section {
   &.layout-1 {
     background-color: transparent;
 
+    .text-wrap {
+      max-width: get-rem-desktop(585);
+
+      @media only screen and (max-width: 1440px) {
+        max-width: get-rem-tablet(470);
+      }
+
+      h2 {
+        max-width: get-rem-desktop(500);
+
+        @media only screen and (max-width: 1440px) {
+          max-width: get-rem-tablet(350);
+        }
+      }
+    }
+
     .media-1 {
       margin-left: get-rem-desktop(-50);
       width: calc(100% + get-rem-desktop(50));
@@ -1028,26 +1044,6 @@ section {
         margin-left: get-rem-mobile(-15);
         margin-right: get-rem-mobile(30);
         width: calc(100% + get-rem-mobile(15) - get-rem-mobile(30));
-      }
-    }
-  }
-}
-
-body.page-type-homepage {
-  .image-masonry-block {
-    .text-wrap {
-      max-width: get-rem-desktop(585);
-
-      @media only screen and (max-width: 1440px) {
-        max-width: get-rem-tablet(470);
-      }
-
-      h2 {
-        max-width: get-rem-desktop(500);
-
-        @media only screen and (max-width: 1440px) {
-          max-width: get-rem-tablet(350);
-        }
       }
     }
   }

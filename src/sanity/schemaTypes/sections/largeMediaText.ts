@@ -114,4 +114,15 @@ export default defineType({
       hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
     }),
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Large Text & Media Section',
+        subtitle: heading || 'No heading'
+      }
+    }
+  }
 })

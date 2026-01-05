@@ -39,6 +39,122 @@ const linkFragment = `{
   }
 }`
 
+// Flexible content block fragments
+// Main flexible content fragment - queries all possible fields for all block types
+const flexibleContentFragment = `[] {
+  _type,
+  _key,
+  // LinkTiles fields
+  numberOfTiles,
+  linkTile1 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile2 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile3 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile4 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile5 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile6 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  linkTile7 {
+    mediaType,
+    image ${imageFragment},
+    video ${videoFragment},
+    ${videoSourceFragment},
+    videoUrl,
+    showControls,
+    cta ${linkFragment}
+  },
+  // StackedMediaText fields
+  layout,
+  heading,
+  body,
+  cta ${linkFragment},
+  backgroundColour,
+  mediaType,
+  image ${imageFragment},
+  video ${videoFragment},
+  videoSource,
+  videoUrl,
+  showControls,
+  // FlexibleHeroSection fields
+  desktopTitle,
+  mobileTitle,
+  backgroundMediaType,
+  desktopBackgroundImage ${imageFragment},
+  mobileBackgroundImage ${imageFragment},
+  desktopBackgroundVideo ${videoFragment},
+  videoSource,
+  desktopBackgroundVideoUrl,
+  desktopBackgroundVideoPlaceholder ${imageFragment},
+  overlayDarkness,
+  cta ${linkFragment},
+  // ImageMasonry fields
+  mediaType1,
+  image1 ${imageFragment},
+  video1 ${videoFragment},
+  videoSource1,
+  videoUrl1,
+  mediaType2,
+  image2 ${imageFragment},
+  video2 ${videoFragment},
+  videoSource2,
+  videoUrl2,
+  // StaggeredImages fields
+  caption1,
+  caption2,
+  caption3,
+  mediaType3,
+  image3 ${imageFragment},
+  video3 ${videoFragment},
+  videoSource3,
+  videoUrl3
+}`
+
 const mediaFragment = `{
   mediaType,
   image ${imageFragment},
@@ -55,164 +171,9 @@ export const pageQuery = groq`
     slug,
     pageType,
     
-    // Homepage fields
-    pageType == "homepage" => {
-      homepageHero {
-        backgroundMediaType,
-        desktopBackgroundImage {
-          asset {
-            _ref,
-            _type
-          },
-          hotspot,
-          crop
-        },
-        mobileBackgroundImage {
-          asset {
-            _ref,
-            _type
-          },
-          hotspot,
-          crop
-        },
-        desktopBackgroundVideo {
-          asset {
-            _ref,
-            _type
-          }
-        },
-        videoSource,
-        desktopBackgroundVideoUrl,
-        desktopBackgroundVideoPlaceholder {
-          asset {
-            _ref,
-            _type
-          },
-          hotspot,
-          crop
-        },
-        showControls,
-        overlayDarkness
-      },
-      homepageTextBlock {
-        heading,
-        body
-      },
-      homepageLinkTiles {
-        numberOfTiles,
-        linkTile1 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile2 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile3 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile4 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile5 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile6 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        },
-        linkTile7 {
-          mediaType,
-          image ${imageFragment},
-          video ${videoFragment},
-          ${videoSourceFragment},
-          videoUrl,
-          showControls,
-          cta ${linkFragment}
-        }
-      },
-      homepageFullWidthMedia {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      homepageStackedMediaText {
-        layout,
-        heading,
-        body,
-        cta ${linkFragment},
-        backgroundColour,
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      homepageLargeMediaText {
-        heading,
-        body,
-        cta ${linkFragment},
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      homepageImageMasonry {
-        heading,
-        body,
-        cta ${linkFragment},
-        layout,
-        backgroundColour,
-        mediaType1,
-        image1 ${imageFragment},
-        video1 ${videoFragment},
-        videoSource1,
-        videoUrl1,
-        mediaType2,
-        image2 ${imageFragment},
-        video2 ${videoFragment}
-      }
-    },
-    
-    // Shopping fields
-    pageType == "shopping" => {
-      shoppingHero {
-        layout,
-        desktopTitle,
-        mobileTitle,
+    // Sign In fields
+    pageType == "sign-in" => {
+      signInHero {
         backgroundMediaType,
         desktopBackgroundImage ${imageFragment},
         mobileBackgroundImage ${imageFragment},
@@ -220,50 +181,7 @@ export const pageQuery = groq`
         videoSource,
         desktopBackgroundVideoUrl,
         desktopBackgroundVideoPlaceholder ${imageFragment},
-        showControls,
-        overlayDarkness,
-        cta ${linkFragment}
-      },
-      shoppingStaggered {
-        heading,
-        body,
-        layout,
-        mediaType1,
-        image1 ${imageFragment},
-        video1 ${videoFragment},
-        videoSource1,
-        videoUrl1,
-        caption1,
-        mediaType2,
-        image2 ${imageFragment},
-        video2 ${videoFragment},
-        videoSource2,
-        videoUrl2,
-        caption2,
-        mediaType3,
-        image3 ${imageFragment},
-        video3 ${videoFragment},
-        videoSource3,
-        videoUrl3,
-        caption3
-      },
-      shoppingFullWidthMedia {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      shoppingSmallMediaText {
-        heading,
-        body,
-        cta ${linkFragment},
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      shoppingCta {
-        cta ${linkFragment}
+        overlayDarkness
       }
     },
     
@@ -710,6 +628,11 @@ export const pageQuery = groq`
       pressCta {
         cta ${linkFragment}
       }
+    },
+    
+    // General page fields (flexible content blocks)
+    pageType == "general" => {
+      contentBlocks ${flexibleContentFragment}
     }
     
     // Add new page types here following the same pattern:
@@ -725,144 +648,6 @@ export const pageQuery = groq`
 export const pageSlugsQuery = groq`
   *[_type == "page"] {
     slug
-  }
-`
-
-// Homepage specific query
-export const homepageQuery = groq`
-  *[_type == "page" && pageType == "homepage"][0] {
-    _id,
-    _type,
-    title,
-    pageType,
-    homepageHero {
-      backgroundMediaType,
-      desktopBackgroundImage ${imageFragment},
-      mobileBackgroundImage ${imageFragment},
-      desktopBackgroundVideo ${videoFragment},
-      videoSource,
-      desktopBackgroundVideoUrl,
-      desktopBackgroundVideoPlaceholder ${imageFragment},
-      showControls,
-      overlayDarkness
-    },
-    homepageTextBlock {
-      heading,
-      body
-    },
-    homepageLinkTiles {
-      numberOfTiles,
-      linkTile1 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile2 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile3 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile4 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile5 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile6 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      },
-      linkTile7 {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        videoSource,
-        videoUrl,
-        showControls,
-        cta ${linkFragment}
-      }
-    },
-    homepageFullWidthMedia {
-      mediaType,
-      image ${imageFragment},
-      video ${videoFragment},
-      videoSource,
-      videoUrl,
-      showControls
-    },
-    homepageStackedMediaText {
-      layout,
-      heading,
-      body,
-      cta ${linkFragment},
-      backgroundColour,
-      mediaType,
-      image ${imageFragment},
-      video ${videoFragment},
-      videoSource,
-      videoUrl,
-      showControls
-    },
-    homepageLargeMediaText {
-      heading,
-      body,
-      cta ${linkFragment},
-      mediaType,
-      image ${imageFragment},
-      video ${videoFragment},
-      showControls
-    },
-    homepageImageMasonry {
-      heading,
-      body,
-      cta ${linkFragment},
-      layout,
-      backgroundColour,
-      mediaType1,
-      image1 ${imageFragment},
-      video1 ${videoFragment},
-      videoSource1,
-      videoUrl1,
-      mediaType2,
-      image2 ${imageFragment},
-      video2 ${videoFragment},
-      videoSource2,
-      videoUrl2
-    }
   }
 `
 

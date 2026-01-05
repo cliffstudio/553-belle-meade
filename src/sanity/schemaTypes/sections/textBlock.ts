@@ -16,4 +16,15 @@ export default defineType({
       type: 'richPortableText'
     }),
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Text Section',
+        subtitle: heading || 'No heading',
+      }
+    }
+  }
 })

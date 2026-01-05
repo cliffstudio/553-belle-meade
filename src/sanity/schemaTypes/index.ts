@@ -9,6 +9,7 @@ import { metaDataType } from './metaDataType'
 // Objects
 import link from './objects/link'
 import richPortableText from './objects/richPortableText'
+import flexibleContent from './objects/flexibleContent'
 
 // Sections
 import heroMedia from './sections/heroMedia'
@@ -30,6 +31,8 @@ import contactForm from './sections/contactForm'
 import leasingMap from './sections/leasingMap'
 import textBlock from './sections/textBlock'
 import issuuEmbed from './sections/issuuEmbed'
+import flexibleHeroSection from './sections/flexibleHeroSection'
+import signInHeroMedia from './sections/signInHeroMedia'
 
 export const schemaTypes = [
   // Global
@@ -43,6 +46,7 @@ export const schemaTypes = [
   // Objects
   link,
   richPortableText,
+  flexibleContent,
 
   // Sections
   heroMedia,
@@ -64,4 +68,6 @@ export const schemaTypes = [
   leasingMap,
   textBlock,
   issuuEmbed,
+  flexibleHeroSection,
+  signInHeroMedia,
 ]

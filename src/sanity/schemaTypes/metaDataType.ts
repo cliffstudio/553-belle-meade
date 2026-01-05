@@ -1,9 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { CogIcon } from '@sanity/icons'
 
 export const metaDataType = defineType({
   name: 'metaData',
   title: 'Meta Data',
   type: 'document',
+  icon: CogIcon,
   fields: [
     defineField({
       name: 'title',
