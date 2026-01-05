@@ -45,7 +45,7 @@ export const pageType = defineType({
       hidden: ({ document }) => {
         // Only show for general pages or pages without a specific pageType
         const pageType = document?.pageType
-        return pageType && pageType !== 'general'
+        return !!(pageType && pageType !== 'general')
       },
     }),
     
