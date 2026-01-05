@@ -50,7 +50,7 @@ type StackedMediaTextProps = {
   body?: PortableTextBlock[]
   cta?: Link
   showControls?: boolean
-  // backgroundColour?: 'Lilac' | 'Green' | 'Tan'
+  backgroundColour?: 'Lilac' | 'Green' | 'Tan'
 }
 
 // Helper function to get link text and href from cta
@@ -66,7 +66,7 @@ const getLinkInfo = (cta?: Link) => {
   }
 }
 
-export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta, showControls = false /*, backgroundColour = 'Lilac' */ }: StackedMediaTextProps) {
+export default function StackedMediaText({ layout = 'layout-1', mediaType = 'image', image, video, videoSource = 'file', videoUrl, heading, body, cta, showControls = false, backgroundColour }: StackedMediaTextProps) {
   const { text, href } = getLinkInfo(cta)
   
   const [isPlaying, setIsPlaying] = useState(true)
