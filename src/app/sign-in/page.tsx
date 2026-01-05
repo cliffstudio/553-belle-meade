@@ -2,7 +2,7 @@ import { getSession } from "@/sanity/utils/auth";
 import { redirect } from "next/navigation";
 import { auth } from "./actions";
 import { clientNoCdn } from "../../../sanity.client";
-import { homepageQuery } from "../../sanity/lib/queries";
+import { pageQuery } from "../../sanity/lib/queries";
 import SignInHeroMedia from "../../components/SignInHeroMedia";
 import BodyClassProvider from "../../components/BodyClassProvider";
 
@@ -18,17 +18,30 @@ export default async function SignIn(props: Props) {
     redirect("/");
   }
 
-  // Fetch homepage hero data
-  const homepage = await clientNoCdn.fetch(homepageQuery, {}, {
+  // Fetch sign-in page content from CMS
+  const page = await clientNoCdn.fetch(pageQuery, { slug: 'sign-in' }, {
     next: { revalidate: 0 }
   });
 
+  if (!page || page.pageType !== 'sign-in') {
+    // Fallback if page doesn't exist in CMS
+    return (
+      <>
+        <BodyClassProvider pageType="sign-in" slug={undefined} />
+        <SignInHeroMedia 
+          auth={auth}
+          redirect={searchParams.redirect}
+        />
+      </>
+    );
+  }
+
   return (
     <>
-      <BodyClassProvider pageType="sign-in" slug={homepage?.slug?.current} />
-      {homepage?.homepageHero && (
+      <BodyClassProvider pageType="sign-in" slug={page.slug?.current} />
+      {page.signInHero && (
         <SignInHeroMedia 
-          {...homepage.homepageHero} 
+          {...page.signInHero}
           auth={auth}
           redirect={searchParams.redirect}
         />

@@ -17,27 +17,27 @@ The page type system consists of four main parts:
 
 Open `src/sanity/schemaTypes/pageType.ts` and add your new field in the appropriate section for your page type.
 
-**Example: Adding a new field to the "homepage" page type**
+**Example: Adding a new field to the "walkthrough" page type**
 
 ```typescript
-// Homepage specific fields
+// Walkthrough specific fields
 defineField({
-  name: 'homepageHero',
+  name: 'walkthroughHero',
   title: 'Hero',
-  type: 'homeHeroMedia',
-  hidden: ({ document }) => document?.pageType !== 'homepage',
+  type: 'heroMedia',
+  hidden: ({ document }) => document?.pageType !== 'walkthrough',
 }),
 // Add your new field here
 defineField({
-  name: 'homepageNewField',
+  name: 'walkthroughNewField',
   title: 'New Field',
   type: 'string', // or another type like 'image', 'text', etc.
-  hidden: ({ document }) => document?.pageType !== 'homepage',
+  hidden: ({ document }) => document?.pageType !== 'walkthrough',
 }),
 ```
 
 **Key points:**
-- Use the naming convention: `{pageType}{FieldName}` (e.g., `homepageNewField`, `shoppingNewField`)
+- Use the naming convention: `{pageType}{FieldName}` (e.g., `walkthroughNewField`, `spacesNewField`)
 - Always include the `hidden` property to conditionally show/hide the field based on `pageType`
 - Use `defineField` from Sanity for proper typing
 
@@ -48,12 +48,12 @@ Open `src/sanity/lib/queries.ts` and add your field to the appropriate condition
 **Example: Adding the same field to the query**
 
 ```typescript
-// Homepage fields
-pageType == "homepage" => {
-  homepageHero { ... },
-  homepageLinkTiles { ... },
+// Walkthrough fields
+pageType == "walkthrough" => {
+  walkthroughHero { ... },
+  walkthroughCta { ... },
   // Add your new field here
-  homepageNewField
+  walkthroughNewField
 },
 ```
 
@@ -81,9 +81,9 @@ const sectionComponents = {
 
 3. **Add it to the getSections() function** in the appropriate case:
 ```typescript
-case 'homepage':
-  addSection(sections, page.homepageHero, 'homeHeroMedia', 'homepage-hero')
-  addSection(sections, page.homepageNewField, 'newSection', 'homepage-new-field')
+case 'walkthrough':
+  addSection(sections, page.walkthroughHero, 'heroMedia', 'walkthrough-hero')
+  addSection(sections, page.walkthroughNewField, 'newSection', 'walkthrough-new-field')
   break
 ```
 
@@ -396,7 +396,7 @@ newPageTypeField {
 
 See existing implementations for reference:
 
-- **Simple field**: `homepageHero` → `homeHeroMedia` section
+- **Simple field**: `walkthroughHero` → `heroMedia` section
 - **Reusable section**: `heroMedia` section used across multiple page types
 - **Complex section**: `leasingMap` section with nested arrays and objects
 - **Conditional rendering**: `textWithArtefacts` with layout-dependent fields

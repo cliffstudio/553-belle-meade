@@ -5,6 +5,7 @@ import { pageQuery } from '../sanity/lib/queries'
 import { notFound } from 'next/navigation'
 import { SanityImage, SanityVideo, PortableTextBlock } from '../types/sanity'
 import BodyClassProvider from './BodyClassProvider'
+import { auth } from '../app/sign-in/actions'
 
 // Import section components
 import HomeHeroMedia from './HomeHeroMedia'
@@ -27,12 +28,15 @@ import LeasingMap from './LeasingMap'
 import IssuuEmbed from './IssuuEmbed'
 import VirtualTourEmbed from './VirtualTourEmbed'
 import TextBlock from './TextBlock'
+import FlexibleContent from './FlexibleContent'
 
 interface PageProps {
   params: Promise<{
     slug: string
   }>
 }
+
+import SignInHeroMedia from './SignInHeroMedia'
 
 const sectionComponents = {
   homeHeroMedia: HomeHeroMedia,
@@ -55,6 +59,7 @@ const sectionComponents = {
   issuuEmbed: IssuuEmbed,
   virtualTourEmbed: VirtualTourEmbed,
   textBlock: TextBlock,
+  signInHeroMedia: SignInHeroMedia,
 }
 
 
@@ -91,20 +96,10 @@ export default async function DynamicPage({ params }: PageProps) {
     }> = []
     
     switch (page.pageType) {
-      case 'homepage':
-        addSection(sections, page.homepageHero, 'homeHeroMedia', 'homepage-hero')
-        addSection(sections, page.homepageLinkTiles, 'linkTiles', 'homepage-link-tiles')
-        addSection(sections, page.homepageFullWidthMedia, 'fullWidthMedia', 'homepage-full-width-media')
-        addSection(sections, page.homepageLargeMediaText, 'largeMediaText', 'homepage-large-media-text')
-        addSection(sections, page.homepageImageMasonry, 'imageMasonry', 'homepage-image-masonry')
-        break
-        
-      case 'shopping':
-        addSection(sections, page.shoppingHero, 'heroMedia', 'shopping-hero')
-        addSection(sections, page.shoppingStaggered, 'staggeredImages', 'shopping-staggered')
-        addSection(sections, page.shoppingFullWidthMedia, 'fullWidthMedia', 'shopping-full-width-media')
-        addSection(sections, page.shoppingSmallMediaText, 'smallMediaText', 'shopping-small-media-text')
-        addSection(sections, page.shoppingCta, 'ctaBanner', 'shopping-cta')
+      case 'sign-in':
+        // Note: Sign-in pages require special handling with auth function
+        // This case is for CMS-managed sign-in pages that may not need authentication
+        addSection(sections, page.signInHero, 'signInHeroMedia', 'sign-in-hero')
         break
         
       case 'walkthrough':
@@ -166,12 +161,30 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.pressSection, 'pressSection', 'press-section')
         addSection(sections, page.pressCta, 'ctaBanner', 'press-cta')
         break
+        
+      case 'general':
+        // General pages use flexible content blocks
+        // No sections to add here, flexible content will be rendered separately
+        break
     }
     
     return sections
   }
 
   const sections = getSections()
+  
+  // Handle general pages with flexible content blocks
+  if (page.pageType === 'general' && page.contentBlocks) {
+    return (
+      <>
+        <BodyClassProvider 
+          pageType={page.pageType} 
+          slug={page.slug?.current} 
+        />
+        <FlexibleContent contentBlocks={page.contentBlocks || []} />
+      </>
+    )
+  }
 
   return (
     <>
@@ -284,6 +297,37 @@ export default async function DynamicPage({ params }: PageProps) {
                 bio: PortableTextBlock[]; 
                 cta: { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } 
               }> | []}
+            />
+          )
+        }
+
+        // Special handling for SignInHeroMedia component
+        if (section._type === 'signInHeroMedia') {
+          // Extract the individual props from the section data
+          const {
+            backgroundMediaType,
+            desktopBackgroundImage,
+            mobileBackgroundImage,
+            desktopBackgroundVideo,
+            videoSource,
+            desktopBackgroundVideoUrl,
+            desktopBackgroundVideoPlaceholder,
+            overlayDarkness
+          } = section
+          
+          const SignInHeroMediaComponent = Component as typeof SignInHeroMedia
+          return (
+            <SignInHeroMediaComponent 
+              key={section._key} 
+              backgroundMediaType={backgroundMediaType as 'image' | 'video' | undefined}
+              desktopBackgroundImage={desktopBackgroundImage as SanityImage | undefined}
+              mobileBackgroundImage={mobileBackgroundImage as SanityImage | undefined}
+              desktopBackgroundVideo={desktopBackgroundVideo as SanityVideo | undefined}
+              videoSource={videoSource as 'file' | 'url' | undefined}
+              desktopBackgroundVideoUrl={desktopBackgroundVideoUrl as string | undefined}
+              desktopBackgroundVideoPlaceholder={desktopBackgroundVideoPlaceholder as SanityImage | undefined}
+              overlayDarkness={overlayDarkness as number | undefined}
+              auth={auth}
             />
           )
         }
