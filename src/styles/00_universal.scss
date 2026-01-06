@@ -791,21 +791,6 @@ section {
     row-gap: get-rem-mobile(70);
   }
 
-  &.layout-1 {
-    padding-top: get-rem-desktop(50);
-    padding-bottom: get-rem-desktop(50);
-
-    @media only screen and (max-width: 1440px) {
-      padding-top: get-rem-tablet(30);
-      padding-bottom: get-rem-tablet(30);
-    }
-
-    @media only screen and (max-width: 768px) {
-      padding-top: get-rem-mobile(15);
-      padding-bottom: get-rem-mobile(15);
-    }
-  }
-
   .colour-background {
     position: absolute;
     top: 0;
