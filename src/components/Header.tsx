@@ -490,14 +490,28 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   // Apply extra height and background to header when dropdown is hovered
   useEffect(() => {
     if (headerRef.current) {
-      headerRef.current.style.paddingBottom = headerExtraHeight > 0 
-        ? `${headerExtraHeight}px` 
-        : ''
-      
-      // Add background color when dropdown is hovered (if header doesn't already have one)
       if (headerExtraHeight > 0) {
+        // Temporarily clear padding-bottom to measure natural header height
+        headerRef.current.style.paddingBottom = ''
+        
+        // Force a reflow to get accurate measurement
+        void headerRef.current.offsetHeight
+        
+        // Calculate the natural header height (without any extra padding)
+        const naturalHeaderHeight = headerRef.current.offsetHeight
+        
+        // Determine extra padding based on screen size: Desktop (> 1440px): 64px, Tablet (≤ 1440px): 54px
+        const isTablet = typeof window !== 'undefined' && window.innerWidth <= 1440
+        const extraPadding = isTablet ? 54 : 64
+        
+        // Set padding-bottom so that total header height equals dropdown height + extra padding
+        // padding-bottom = (dropdown height + extra padding) - natural header height
+        const paddingBottom = (headerExtraHeight + extraPadding) - naturalHeaderHeight
+        
+        headerRef.current.style.paddingBottom = `${Math.max(0, paddingBottom)}px`
         headerRef.current.classList.add('dropdown-hovered')
       } else {
+        headerRef.current.style.paddingBottom = ''
         headerRef.current.classList.remove('dropdown-hovered')
       }
     }
