@@ -3,7 +3,7 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'architects',
-  title: 'Architects',
+  title: 'Text Grid',
   type: 'object',
   fields: [
     defineField({
@@ -18,13 +18,13 @@ export default defineType({
     }),
     defineField({ 
       name: 'architects',
-      title: 'Architects',
+      title: 'Text Block',
       type: 'array',
       of: [
         {
           type: 'object',
           name: 'architect',
-          title: 'Architect',
+          title: 'Text Block',
           fields: [
             {
               name: 'name',
@@ -51,4 +51,15 @@ export default defineType({
       ]
     }),
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+    },
+    prepare({ heading }) {
+      return {
+        title: 'Text Grid Section',
+        subtitle: heading || 'No heading',
+      }
+    }
+  }
 })

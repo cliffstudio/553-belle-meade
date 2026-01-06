@@ -50,7 +50,7 @@ type StackedMediaTextProps = {
   body?: PortableTextBlock[]
   cta?: Link
   showControls?: boolean
-  backgroundColour?: 'Lilac' | 'Green' | 'Tan'
+  backgroundColour?: 'None' | 'Lilac' | 'Green' | 'Tan'
 }
 
 // Helper function to get link text and href from cta
@@ -553,78 +553,75 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
   }, [isFullscreen])
 
   // Color mapping for background colours
-  // const getBackgroundColor = (colour: string) => {
-  //   switch (colour) {
-  //     case 'Lilac':
-  //       return '#E3DDE7' // $colour-light-purple
-  //     case 'Green':
-  //       return '#C4C7B2' // $colour-green
-  //     case 'Tan':
-  //       return '#E6D3C3' // $colour-tan
-  //     default:
-  //       return '#E3DDE7' // Default to Lilac
-  //   }
-  // }
+  const getBackgroundColor = (colour: string) => {
+    switch (colour) {
+      case 'Lilac':
+        return '#E3DDE7' // $colour-light-purple
+      case 'Green':
+        return '#C4C7B2' // $colour-green
+      case 'Tan':
+        return '#E6D3C3' // $colour-tan
+      default:
+        return '#E3DDE7' // Default to Lilac
+    }
+  }
 
-  // Background color scroll trigger for creek and architecture pages
-  // useEffect(() => {
-  //   // Only set up scroll trigger if on a page with page-type-creek or page-type-architecture class
-  //   if (!sectionRef.current) return
-  //   
-  //   const isCreekPage = document.body.classList.contains('page-type-creek')
-  //   const isArchitecturePage = document.body.classList.contains('page-type-architecture')
-  //   if (!isCreekPage && !isArchitecturePage) return
+  // Background color scroll trigger for layout-1
+  useEffect(() => {
+    // Only set up scroll trigger for layout-1
+    if (layout !== 'layout-1' || !sectionRef.current) return
+    if (!backgroundColour || backgroundColour === 'None') return
 
-  //   // Register ScrollTrigger plugin
-  //   gsap.registerPlugin(ScrollTrigger)
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger)
 
-  //   // Get the colour-background elements
-  //   const colourBackgrounds = sectionRef.current.querySelectorAll('.colour-background')
+    // Get the colour-background elements
+    const colourBackgrounds = sectionRef.current.querySelectorAll('.colour-background')
 
-  //   // Initialize opacity to 0 if backgrounds exist
-  //   if (colourBackgrounds.length > 0) {
-  //     gsap.set(colourBackgrounds, { opacity: 0 })
-  //   }
+    // Initialize opacity to 0 if backgrounds exist
+    if (colourBackgrounds.length > 0) {
+      gsap.set(colourBackgrounds, { opacity: 0 })
+    }
 
-  //   // Create scroll trigger to fade in colour background when section comes into view
-  //   const trigger = ScrollTrigger.create({
-  //     trigger: sectionRef.current,
-  //     start: "top 50%",
-  //     end: "bottom top",
-  //     onEnter: () => {
-  //       colourBackgrounds.forEach(bg => {
-  //         gsap.to(bg, {
-  //           opacity: 1,
-  //           duration: 0.8,
-  //           ease: "cubic-bezier(0.25,0.1,0.25,1)"
-  //         })
-  //       })
-  //     },
-  //     onEnterBack: () => {
-  //       colourBackgrounds.forEach(bg => {
-  //         gsap.to(bg, {
-  //           opacity: 1,
-  //           duration: 0.8,
-  //           ease: "cubic-bezier(0.25,0.1,0.25,1)"
-  //         })
-  //       })
-  //     },
-  //   })
+    // Create scroll trigger to fade in colour background when section comes into view
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top 50%",
+      end: "bottom top",
+      onEnter: () => {
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
+        })
+      },
+      onEnterBack: () => {
+        colourBackgrounds.forEach(bg => {
+          gsap.to(bg, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "cubic-bezier(0.25,0.1,0.25,1)"
+          })
+        })
+      },
+    })
 
-  //   // Cleanup
-  //   return () => {
-  //     trigger.kill()
-  //   }
-  // }, [backgroundColour])
+    // Cleanup
+    return () => {
+      trigger.kill()
+    }
+  }, [layout, backgroundColour])
 
   return (
     <>
     
       {layout === 'layout-1' && (
         <section ref={sectionRef} className="stacked-media-text-block layout-1 h-pad">
-          {/* {backgroundColour && (
+          {backgroundColour && backgroundColour !== 'None' && (
             <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
-          )} */}
+          )}
 
           {(heading || body) && (
             <div className="text-wrap out-of-view">
@@ -724,6 +721,9 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
 
       {layout === 'layout-2' && (
         <section ref={sectionRef} className="stacked-media-text-block layout-2 h-pad">
+          {backgroundColour && backgroundColour !== 'None' && (
+            <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+          )}
           <div className="row-lg">
             <div className="col-9-12_lg">
               {mediaType === 'image' && image && (

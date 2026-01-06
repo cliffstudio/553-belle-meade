@@ -238,7 +238,7 @@ export default function TextWithMedia({ layout = 'layout-1', mediaType = 'image'
   }
 
   if (layout === 'layout-3') {
-    // Layout 3: Full-width text above, media below (used on creek)
+    // Layout 3: Full-width text above, media below
     return (
       <section className="text-with-media-block layout-3 h-pad">
         <div className="inner-wrap">

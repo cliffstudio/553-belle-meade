@@ -30,7 +30,7 @@ type ImageMasonryProps = {
   body?: PortableTextBlock[]
   cta?: Link
   layout?: 'layout-1' | 'layout-2' | 'layout-3'
-  backgroundColour?: 'Lilac' | 'Green' | 'Tan'
+  backgroundColour?: 'None' | 'Lilac' | 'Green' | 'Tan'
   mediaType1?: 'image' | 'video'
   image1?: SanityImage
   video1?: SanityVideo
@@ -61,7 +61,7 @@ export default function ImageMasonry({
   body, 
   cta, 
   layout,
-  backgroundColour = 'Lilac',
+  backgroundColour = 'None',
   mediaType1 = 'image',
   image1, 
   video1,
@@ -78,7 +78,7 @@ export default function ImageMasonry({
   const sectionRef = useRef<HTMLDivElement>(null)
 
   // Color mapping for background colours
-  const getBackgroundColor = (colour: string) => {
+  const getBackgroundColor = (colour: string): string | undefined => {
     switch (colour) {
       case 'Lilac':
         return '#E3DDE7' // $colour-light-purple
@@ -86,10 +86,17 @@ export default function ImageMasonry({
         return '#C4C7B2' // $colour-green
       case 'Tan':
         return '#E6D3C3' // $colour-tan
+      case 'None':
+        return undefined // No background colour
       default:
-        return '#E3DDE7' // Default to Lilac
+        return undefined // Default to None (no background colour)
     }
   }
+
+  // Get the background color value if a valid color is selected
+  const backgroundColorValue = backgroundColour && backgroundColour !== 'None' 
+    ? getBackgroundColor(backgroundColour) 
+    : undefined
 
   useEffect(() => {
     // Only set up scroll trigger for layout-1
@@ -144,8 +151,8 @@ export default function ImageMasonry({
         <div ref={sectionRef}>
           {/* Desktop */}
           <section className="image-masonry-block layout-1 h-pad desktop">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            {backgroundColorValue && (
+              <div className="colour-background" style={{ backgroundColor: backgroundColorValue }}></div>
             )}
 
             <div className="text-wrap out-of-view">
@@ -239,8 +246,8 @@ export default function ImageMasonry({
 
           {/* Mobile */}
           <section className="image-masonry-block layout-1 h-pad mobile">
-            {backgroundColour && (
-              <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
+            {backgroundColorValue && (
+              <div className="colour-background" style={{ backgroundColor: backgroundColorValue }}></div>
             )}
 
             <div>

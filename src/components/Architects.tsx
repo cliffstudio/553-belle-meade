@@ -26,7 +26,7 @@ type Architect = {
 type ArchitectsProps = {
   heading?: string
   body?: PortableTextBlock[]
-  architects: Architect[]
+  architects?: Architect[]
 }
 
 // Helper function to get link text and href from cta
@@ -48,7 +48,7 @@ export default function Architects({ heading, body, architects }: ArchitectsProp
   }
 
   return (
-    <section className="architects-block h-pad">
+    <section className="text-grid-block h-pad">
       <div className="inner-wrap row-lg">
         {heading && (
           <div className="col-4-12_lg out-of-view">
