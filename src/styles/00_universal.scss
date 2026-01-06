@@ -107,7 +107,7 @@
   }
 
   @media only screen and (max-width: 768px) {
-    max-width: 72vw;
+    max-width: 100%;
   }
 }
 
@@ -1517,6 +1517,15 @@ section {
       .tile-1 {
         margin-left: get-rem-tablet(-30);
         width: calc(100% + get-rem-tablet(30));
+      }
+    }
+  }
+
+  @media only screen and (max-width: 769px) and (orientation: portrait) {
+    // 2 tiles layout
+    &.tiles-2 {
+      .tile-1 {
+        margin-top: 0;
       }
     }
   }
