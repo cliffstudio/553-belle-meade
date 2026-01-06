@@ -106,7 +106,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
         {(heading || body) && (
           <div className="carousel-header row-lg">
             <div className="col-11-12_lg">
-              <div className="text-wrap out-of-view">
+              <div className="text-wrap max-width-text out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
 
                 {body && (

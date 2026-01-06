@@ -155,7 +155,7 @@ export default function ImageMasonry({
               <div className="colour-background" style={{ backgroundColor: backgroundColorValue }}></div>
             )}
 
-            <div className="text-wrap out-of-view">
+            <div className="text-wrap max-width-text out-of-view">
               {heading && <h2 className="heading">{heading}</h2>}
               
               {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
@@ -251,7 +251,7 @@ export default function ImageMasonry({
             )}
 
             <div>
-              <div className="text-wrap out-of-view">
+              <div className="text-wrap max-width-text out-of-view">
                 {heading && <h2 className="heading">{heading}</h2>}
                 
                 {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
@@ -349,7 +349,7 @@ export default function ImageMasonry({
           <section className="image-masonry-block layout-2 h-pad desktop">
             <div className="row-lg">
               <div className="col-7-12_lg">
-                <div className="text-wrap out-of-view">
+                <div className="text-wrap max-width-text out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
                   {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
@@ -443,7 +443,7 @@ export default function ImageMasonry({
           {/* Mobile */}
           <section className="image-masonry-block layout-2 h-pad mobile">
             <div>
-              <div className="text-wrap out-of-view">
+              <div className="text-wrap max-width-text out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
                 
                 {body && <h2><PortableText value={body} /></h2>}
@@ -541,7 +541,7 @@ export default function ImageMasonry({
           <section className="image-masonry-block layout-3 h-pad desktop">
             <div className="row-lg">
               <div className="col-6-12_lg">
-                <div className="text-wrap out-of-view">
+                <div className="text-wrap max-width-text out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
                   {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
@@ -631,7 +631,7 @@ export default function ImageMasonry({
           {/* Mobile */}
           <section className="image-masonry-block layout-3 h-pad mobile">
             <div>
-              <div className="text-wrap out-of-view">
+              <div className="text-wrap max-width-text out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
                 
                 {body && <h2><PortableText value={body} /></h2>}
