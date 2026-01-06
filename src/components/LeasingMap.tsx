@@ -434,10 +434,9 @@ export default function LeasingMap({
               disabled={zoomLevel >= 2}
               title="Zoom In"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 50 50">
-                <rect className="st0" x=".5" y=".5" width="49" height="49"/>
-                <line className="st1" x1="25" y1="12.5" x2="25" y2="37.5"/>
-                <line className="st1" x1="37.5" y1="25" x2="12.5" y2="25"/>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 25 25">
+                <line className="st0" x1="12.5" x2="12.5" y2="25"/>
+                <line className="st0" x1="25" y1="12.5" y2="12.5"/>
               </svg>
             </button>
 
@@ -447,9 +446,8 @@ export default function LeasingMap({
               disabled={zoomLevel <= 1}
               title="Zoom Out"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 50 50">
-                <rect className="st0" x=".5" y=".5" width="49" height="49"/>
-                <line className="st1" x1="37.5" y1="25" x2="12.5" y2="25"/>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 25 25">
+                <line className="st0" x1="25" y1="12.5" y2="12.5"/>
               </svg>
             </button>
           </div>

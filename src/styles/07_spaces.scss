@@ -72,12 +72,12 @@ LEASING MAP STYLES --------------------
     z-index: 10;
     @include flex;
     @include flex-direction(column);
-    row-gap: get-rem-desktop(10);
+    row-gap: get-rem-desktop(15);
 
     @media only screen and (max-width: 1440px) {
       bottom: get-rem-tablet(40);
       right: get-rem-tablet(50);
-      row-gap: get-rem-tablet(10);
+      row-gap: get-rem-tablet(15);
     }
 
     @media only screen and (max-width: 768px) {
@@ -91,62 +91,42 @@ LEASING MAP STYLES --------------------
     display: flex;
     align-items: center;
     justify-content: center;
-    width: get-rem-desktop(50);
-    height: get-rem-desktop(50);
+    width: get-rem-desktop(45);
+    height: get-rem-desktop(45);
     cursor: pointer;
     @include transition(all 400ms cubic-bezier(0.25,0.1,0.25,1));
-    border-radius: get-rem-desktop(2);
+    border-radius: 50px;
+    background: rgba($colour-cream, 0.15);
+    border: 1px solid rgba($colour-cream, 0.5);
 
     @media only screen and (max-width: 1440px) {
-      width: get-rem-tablet(50);
-      height: get-rem-tablet(50);
+      width: get-rem-tablet(45);
+      height: get-rem-tablet(45);
     }
 
     @media only screen and (max-width: 768px) {
-      width: get-rem-mobile(30);
-      height: get-rem-mobile(30);
+      width: get-rem-mobile(33);
+      height: get-rem-mobile(33);
     }
 
     &:disabled {
       cursor: not-allowed;
-
-      svg {
-        .st0 {
-          fill: #D3C1C1;
-        }
-      }
-    }
-
-    span {
-      font-weight: 500;
-      @include font-size(10px, 12px, 12px);
     }
 
     svg {
-      width: get-rem-desktop(50);
-      height: get-rem-desktop(50);
+      width: get-rem-desktop(22);
+      height: get-rem-desktop(22);
       pointer-events: none;
+      stroke: $colour-cream;
 
       @media only screen and (max-width: 1440px) {
-        width: get-rem-tablet(50);
-        height: get-rem-tablet(50);
+        width: get-rem-tablet(22);
+        height: get-rem-tablet(22);
       }
 
       @media only screen and (max-width: 768px) {
-        width: get-rem-mobile(30);
-        height: get-rem-mobile(30);
-      }
-
-      .st0 {
-        fill: $colour-burgundy;
-      }
-
-      .st0, .st1 {
-        stroke: $colour-cream;
-      }
-
-      .st1 {
-        fill: none;
+        width: get-rem-mobile(16);
+        height: get-rem-mobile(16);
       }
     }
   }
@@ -172,8 +152,7 @@ LEASING MAP STYLES --------------------
         display: none;
       }
 
-      @media screen and (max-width: 1440px),
-      screen and (orientation: landscape) {
+      @media screen and (max-width: 1440px) {
         .desktop {
           display: none;
         }
@@ -183,7 +162,7 @@ LEASING MAP STYLES --------------------
         }
       }
 
-      @media screen and (max-width: 768px) and (orientation: portrait) {
+      @media screen and (max-width: 768px) {
         .tablet {
           display: none;
         }
