@@ -127,29 +127,11 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.heritageCta, 'ctaBanner', 'heritage-cta')
         break
 
-      case 'creek':
-        addSection(sections, page.creekHero, 'heroMedia', 'creek-hero')
-        addSection(sections, page.creekStaggered, 'staggeredImages', 'creek-staggered')
-        addSection(sections, page.creekStackedMediaText, 'stackedMediaText', 'creek-stacked-media-text')
-        addSection(sections, page.creekFullWidthMedia, 'fullWidthMedia', 'creek-full-width-media')
-        addSection(sections, page.creekCta, 'ctaBanner', 'creek-cta')
-        break
-
       case 'carousel':
         addSection(sections, page.carouselTextWithArtefacts, 'textWithArtefacts', 'carousel-text-with-artefacts')
         addSection(sections, page.carouselFullWidthMedia, 'fullWidthMedia', 'carousel-full-width-media')
         addSection(sections, page.carouselImageMasonry, 'imageMasonry', 'carousel-image-masonry')
         addSection(sections, page.carouselCta, 'ctaBanner', 'carousel-cta')
-        break
-
-      case 'architecture':
-        addSection(sections, page.architectureHero, 'heroMedia', 'architecture-hero')
-        addSection(sections, page.architectureImageMasonry, 'imageMasonry', 'architecture-image-masonry')
-        addSection(sections, page.architectureStackedMediaText, 'stackedMediaText', 'architecture-stacked-media-text')
-        addSection(sections, page.architectureFullWidthMedia, 'fullWidthMedia', 'architecture-full-width-media')
-        addSection(sections, page.architectureLargeMediaText, 'largeMediaText', 'architecture-large-media-text')
-        addSection(sections, page.architectureArchitects, 'architects', 'architecture-architects')
-        addSection(sections, page.architectureCta, 'ctaBanner', 'architecture-cta')
         break
 
       case 'gallery':
@@ -166,12 +148,26 @@ export default async function DynamicPage({ params }: PageProps) {
         // General pages use flexible content blocks
         // No sections to add here, flexible content will be rendered separately
         break
+        
+      case 'architecture':
+        // Architecture page type has been removed
+        // Return empty sections array to prevent errors
+        break
+        
+      default:
+        // Unknown page types return empty sections
+        break
     }
     
     return sections
   }
 
   const sections = getSections()
+  
+  // Handle removed architecture page type - show not found
+  if (page.pageType === 'architecture') {
+    notFound()
+  }
   
   // Handle general pages with flexible content blocks
   if (page.pageType === 'general' && page.contentBlocks) {
@@ -272,7 +268,7 @@ export default async function DynamicPage({ params }: PageProps) {
               body={body as PortableTextBlock[] | undefined}
               cta={cta as { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } | undefined}
               showControls={showControls as boolean | undefined}
-              backgroundColour={backgroundColour as 'Lilac' | 'Green' | 'Tan' | undefined}
+              backgroundColour={backgroundColour as 'None' | 'Lilac' | 'Green' | 'Tan' | undefined}
             />
           )
         }

@@ -233,10 +233,11 @@ export default defineType({
       name: 'backgroundColour',
       title: 'Background Colour',
       type: 'string',
-      initialValue: 'Lilac',
+      initialValue: 'None',
       options: {
-        list: ['Lilac', 'Green', 'Tan']
-      }
+        list: ['None', 'Lilac', 'Green', 'Tan']
+      },
+      hidden: ({ parent }) => parent?.layout !== 'layout-1',
     }),
   ],
   fieldsets: [

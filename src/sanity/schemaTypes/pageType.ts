@@ -28,10 +28,8 @@ export const pageType = defineType({
           { title: 'Walkthrough', value: 'walkthrough' },
           { title: 'Spaces', value: 'spaces' },
           { title: 'Heritage', value: 'heritage' },
-          { title: 'Creek', value: 'creek' },
           { title: 'Carousel', value: 'carousel' },
           { title: 'Gallery', value: 'gallery' },
-          { title: 'Architecture', value: 'architecture' },
           { title: 'Press', value: 'press' },
           { title: 'General', value: 'general' },
         ],
@@ -141,38 +139,6 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'heritage',
     }),
 
-    // Creek specific fields
-    defineField({
-      name: 'creekHero',
-      title: 'Hero',
-      type: 'heroMedia',
-      hidden: ({ document }) => document?.pageType !== 'creek',
-    }),
-    defineField({
-      name: 'creekStaggered',
-      title: 'Staggered Images',
-      type: 'staggeredImages',
-      hidden: ({ document }) => document?.pageType !== 'creek',
-    }),
-    defineField({
-      name: 'creekStackedMediaText',
-      title: 'Text & Media',
-      type: 'stackedMediaText',
-      hidden: ({ document }) => document?.pageType !== 'creek',
-    }),
-    defineField({
-      name: 'creekFullWidthMedia',
-      title: 'Full Width Media',
-      type: 'fullWidthMedia',
-      hidden: ({ document }) => document?.pageType !== 'creek',
-    }),
-    defineField({
-      name: 'creekCta',
-      title: 'CTA Banner',
-      type: 'ctaBanner',
-      hidden: ({ document }) => document?.pageType !== 'creek',
-    }),
-
     // Carousel specific fields
     defineField({
       name: 'carouselTextWithArtefacts',
@@ -197,50 +163,6 @@ export const pageType = defineType({
       title: 'CTA Banner',
       type: 'ctaBanner',
       hidden: ({ document }) => document?.pageType !== 'carousel',
-    }),
-
-    // Architecture specific fields
-    defineField({
-      name: 'architectureHero',
-      title: 'Hero',
-      type: 'heroMedia',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureImageMasonry',
-      title: 'Image Masonry',
-      type: 'imageMasonry',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureStackedMediaText',
-      title: 'Text & Media',
-      type: 'stackedMediaText',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureFullWidthMedia',
-      title: 'Full Width Media',
-      type: 'fullWidthMedia',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureLargeMediaText',
-      title: 'Text & Media',
-      type: 'largeMediaText',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureArchitects',
-      title: 'Architects',
-      type: 'architects',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
-    }),
-    defineField({
-      name: 'architectureCta',
-      title: 'CTA Banner',
-      type: 'ctaBanner',
-      hidden: ({ document }) => document?.pageType !== 'architecture',
     }),
 
     // Gallery specific fields

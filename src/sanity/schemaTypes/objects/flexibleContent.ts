@@ -45,6 +45,10 @@ export default defineType({
       type: 'ctaBanner',
       title: 'CTA Banner Section'
     },
+    {
+      type: 'architects',
+      title: 'Text Grid'
+    },
     // Add more block types here as you create them
   ],
   options: {

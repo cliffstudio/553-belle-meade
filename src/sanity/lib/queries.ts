@@ -152,7 +152,13 @@ const flexibleContentFragment = `[] {
   image3 ${imageFragment},
   video3 ${videoFragment},
   videoSource3,
-  videoUrl3
+  videoUrl3,
+  // Architects fields
+  architects[] {
+    name,
+    bio,
+    cta ${linkFragment}
+  }
 }`
 
 const mediaFragment = `{
@@ -371,68 +377,6 @@ export const pageQuery = groq`
       }
     },
 
-    // Creek fields
-    pageType == "creek" => {
-      creekHero {
-        layout,
-        desktopTitle,
-        mobileTitle,
-        backgroundMediaType,
-        desktopBackgroundImage ${imageFragment},
-        mobileBackgroundImage ${imageFragment},
-        desktopBackgroundVideo ${videoFragment},
-        videoSource,
-        desktopBackgroundVideoUrl,
-        desktopBackgroundVideoPlaceholder ${imageFragment},
-        showControls,
-        overlayDarkness,
-        cta ${linkFragment}
-      },
-      creekStaggered {
-        heading,
-        body,
-        layout,
-        mediaType1,
-        image1 ${imageFragment},
-        video1 ${videoFragment},
-        videoSource1,
-        videoUrl1,
-        caption1,
-        mediaType2,
-        image2 ${imageFragment},
-        video2 ${videoFragment},
-        videoSource2,
-        videoUrl2,
-        caption2,
-        mediaType3,
-        image3 ${imageFragment},
-        video3 ${videoFragment},
-        videoSource3,
-        videoUrl3,
-        caption3
-      },
-      creekStackedMediaText {
-        layout,
-        heading,
-        body,
-        cta ${linkFragment},
-        backgroundColour,
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      creekFullWidthMedia {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      creekCta {
-        cta ${linkFragment}
-      }
-    },
-
     // Carousel fields
     pageType == "carousel" => {
       carouselTextWithArtefacts {
@@ -501,79 +445,6 @@ export const pageQuery = groq`
         videoUrl2
       },
       carouselCta {
-        cta ${linkFragment}
-      }
-    },
-
-    // Architecture fields
-    pageType == "architecture" => {
-      architectureHero {
-        layout,
-        desktopTitle,
-        mobileTitle,
-        backgroundMediaType,
-        desktopBackgroundImage ${imageFragment},
-        mobileBackgroundImage ${imageFragment},
-        desktopBackgroundVideo ${videoFragment},
-        videoSource,
-        desktopBackgroundVideoUrl,
-        desktopBackgroundVideoPlaceholder ${imageFragment},
-        showControls,
-        overlayDarkness,
-        cta ${linkFragment}
-      },
-      architectureImageMasonry {
-        heading,
-        body,
-        cta ${linkFragment},
-        layout,
-        mediaType1,
-        image1 ${imageFragment},
-        video1 ${videoFragment},
-        videoSource1,
-        videoUrl1,
-        mediaType2,
-        image2 ${imageFragment},
-        video2 ${videoFragment},
-        videoSource2,
-        videoUrl2
-      },
-      architectureStackedMediaText {
-        layout,
-        heading,
-        body,
-        cta ${linkFragment},
-        backgroundColour,
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      architectureFullWidthMedia {
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      architectureLargeMediaText {
-        heading,
-        body,
-        cta ${linkFragment},
-        mediaType,
-        image ${imageFragment},
-        video ${videoFragment},
-        showControls
-      },
-      architectureArchitects {
-        heading,
-        body,
-        architects[] {
-          name,
-          bio,
-          cta ${linkFragment}
-        }
-      },
-      architectureCta {
         cta ${linkFragment}
       }
     },

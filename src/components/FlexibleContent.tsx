@@ -9,6 +9,7 @@ import ImageMasonry from './ImageMasonry'
 import StaggeredImages from './StaggeredImages'
 import SmallMediaText from './SmallMediaText'
 import CtaBanner from './CtaBanner'
+import Architects from './Architects'
 
 interface ContentBlock {
   _type: string
@@ -51,6 +52,8 @@ const FlexibleContent: React.FC<FlexibleContentProps> = ({ contentBlocks }) => {
             return <SmallMediaText key={key} {...(block as ContentBlock)} />
           case 'ctaBanner':
             return <CtaBanner key={key} {...(block as ContentBlock)} />
+          case 'architects':
+            return <Architects key={key} {...(block as ContentBlock)} />
           default:
             console.warn(`Unknown content block type: ${block._type}`)
             return null
