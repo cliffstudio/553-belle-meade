@@ -10,7 +10,7 @@ type TextBlockProps = {
 export default function TextBlock({ heading, body }: TextBlockProps) {
   return (
     <section className="text-block h-pad">
-      <div className="text-wrap max-width-text out-of-view">
+      <div className="text-wrap max-width-big-text out-of-view">
         {heading && <div className="heading cta-font">{heading}</div>}
         
         {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}

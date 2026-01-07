@@ -89,7 +89,7 @@ export default function LargeMediaText({ mediaType = 'image', image, video, vide
           <div className="col-1-12_lg desktop"></div>
 
           <div className="col-4-12_lg">
-            <div className="text-wrap max-width-text out-of-view">
+            <div className="text-wrap max-width-small-text offset-margin-top out-of-view">
               {heading && <h2 className="heading">{heading}</h2>}
               
               {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
