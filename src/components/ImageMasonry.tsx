@@ -345,9 +345,8 @@ export default function ImageMasonry({
 
       {layout === 'layout-2' && (
         <>
-          {/* Desktop */}
-          <section className="image-masonry-block layout-2 h-pad desktop">
-            <div className="row-lg">
+          <section className="image-masonry-block layout-2 h-pad">
+            <div className="row-1 row-lg">
               <div className="col-7-12_lg">
                 <div className="text-wrap max-width-big-text out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
@@ -364,7 +363,8 @@ export default function ImageMasonry({
                 </div>
               </div>
 
-              <div className="col-5-12_lg">
+              {/* Desktop only */}
+              <div className="col-5-12_lg desktop">
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
@@ -395,14 +395,51 @@ export default function ImageMasonry({
                     </div>
                   </div>
                 )}
-
               </div>
             </div>
 
-            <div className="row-lg">
+            {/* Tablet & Mobile only */}
+            <div className="row-2 row-lg row-sm">
+              <div className="col-7-12_lg col-1-5_sm"></div>
+
+              <div className="col-5-12_lg col-4-5_sm">
+                {mediaType1 === 'image' && image1 && (
+                  <div className="media-1 media-wrap out-of-opacity">
+                    <img 
+                    data-src={urlFor(image1).url()} 
+                    alt="" 
+                    className="lazy full-bleed-image"
+                    style={{
+                      objectPosition: image1?.hotspot
+                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
+                        : "center",
+                    }}
+                    />
+                    <div className="loading-overlay" />
+                  </div>
+                )}
+
+                {mediaType1 === 'video' && (video1 || videoUrl1) && (
+                  <div className="media-1 media-wrap out-of-opacity">
+                    <div className="fill-space-video-wrap">
+                      <video
+                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="row-3 row-lg row-sm">
               <div className="col-1-12_lg desktop"></div>
 
-              <div className="col-4-12_lg">
+              <div className="col-4-12_lg col-4-5_sm">
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
@@ -436,100 +473,7 @@ export default function ImageMasonry({
 
               </div>
 
-              <div className="col-8-12_lg desktop"></div>
-            </div>
-          </section>
-
-          {/* Mobile */}
-          <section className="image-masonry-block layout-2 h-pad mobile">
-            <div>
-              <div className="text-wrap max-width-big-text out-of-view">
-                {heading && <div className="heading cta-font">{heading}</div>}
-                
-                {body && <h2><PortableText value={body} /></h2>}
-
-                {cta?.href && <div className="cta-font underline-link link">
-                  <a href={cta.href}>{cta.label || ''}</a>
-
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                    <path d="M1 1L13.5 13.5L0.999999 26"/>
-                  </svg>
-                </div>}
-              </div>
-            </div>
-
-            <div className="row-sm">
-              <div className="col-1-5_sm"></div>
-
-              <div className="col-4-5_sm">
-                {mediaType1 === 'image' && image1 && (
-                  <div className="media-1 media-wrap out-of-opacity">
-                    <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
-                    className="lazy full-bleed-image"
-                    style={{
-                      objectPosition: image1?.hotspot
-                        ? `${image1.hotspot.x * 100}% ${image1.hotspot.y * 100}%`
-                        : "center",
-                    }}
-                    />
-                    <div className="loading-overlay" />
-                  </div>
-                )}
-
-                {mediaType1 === 'video' && (video1 || videoUrl1) && (
-                  <div className="media-2 media-wrap out-of-opacity">
-                    <div className="fill-space-video-wrap">
-                      <video
-                        src={videoSource1 === 'url' && videoUrl1 ? videoUrl1 : videoUrlFor(video1)}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="row-sm">
-              <div className="col-4-5_sm">
-                {mediaType2 === 'image' && image2 && (
-                  <div className="media-2 media-wrap out-of-opacity">
-                    <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
-                    className="lazy full-bleed-image"
-                    style={{
-                      objectPosition: image2?.hotspot
-                        ? `${image2.hotspot.x * 100}% ${image2.hotspot.y * 100}%`
-                        : "center",
-                    }}
-                    />
-                    <div className="loading-overlay" />
-                  </div>
-                )}
-
-                {mediaType2 === 'video' && (video2 || videoUrl2) && (
-                  <div className="media-2 media-wrap out-of-opacity">
-                    <div className="fill-space-video-wrap">
-                      <video
-                        src={videoSource2 === 'url' && videoUrl2 ? videoUrl2 : videoUrlFor(video2)}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="col-1-5_sm"></div>
-              </div>
+              <div className="col-7-12_lg col-1-5_sm"></div>
             </div>
           </section>
         </>

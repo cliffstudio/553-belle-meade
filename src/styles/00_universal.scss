@@ -851,12 +851,6 @@ section {
     background-color: transparent;
 
     .text-wrap {
-      // max-width: get-rem-desktop(585);
-
-      // @media only screen and (max-width: 1440px) {
-      //   max-width: get-rem-tablet(470);
-      // }
-
       h2 {
         max-width: get-rem-desktop(500);
 
@@ -906,21 +900,30 @@ section {
 
   &.layout-2 {
     padding-top: get-rem-desktop(180);
-    // padding-bottom: get-rem-desktop(150);
 
     @media only screen and (max-width: 1440px) {
       padding-top: get-rem-tablet(200);
-      // padding-bottom: get-rem-tablet(100);
     }
 
     @media only screen and (max-width: 768px) {
       padding-top: get-rem-mobile(145);
-      // padding-bottom: get-rem-mobile(75);
+    }
+
+    .row-1 .desktop {
+      @media only screen and (max-width: 1440px) {
+        display: none;
+      }
+    }
+
+    .row-2 {
+      display: none;
+
+      @media only screen and (max-width: 1440px) {
+        display: grid;
+      }
     }
 
     .text-wrap {
-      // max-width: get-rem-desktop(900);
-
       .heading {
         margin-bottom: get-rem-desktop(20);
   
@@ -966,22 +969,7 @@ section {
   }
 
   &.layout-3 {
-    // padding-top: get-rem-desktop(148);
-    // padding-bottom: get-rem-desktop(150);
-
-    // @media only screen and (max-width: 1440px) {
-    //   padding-top: get-rem-tablet(200);
-    //   padding-bottom: get-rem-tablet(100);
-    // }
-
-    // @media only screen and (max-width: 768px) {
-    //   padding-top: get-rem-mobile(160);
-    //   padding-bottom: get-rem-mobile(75);
-    // }
-
     .text-wrap {
-      // max-width: get-rem-desktop(900);
-
       @media only screen and (max-width: 768px) {
         margin-bottom: get-rem-mobile(62);
       }
