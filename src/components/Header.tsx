@@ -571,6 +571,75 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
   }, [])
 
+  // Handle landscape mobile scroll - transform header off top on scroll
+  useEffect(() => {
+    let lastScrollY = window.scrollY
+    let ticking = false
+
+    const handleScroll = () => {
+      if (!headerRef.current || ticking) return
+      
+      ticking = true
+      requestAnimationFrame(() => {
+        if (!headerRef.current) {
+          ticking = false
+          return
+        }
+
+        // Check if we're in landscape mobile (max-width: 950px and orientation: landscape)
+        const isLandscapeMobile = window.innerWidth <= 950 && window.matchMedia('(orientation: landscape)').matches
+        
+        if (isLandscapeMobile) {
+          const currentScrollY = window.scrollY
+          const scrollDelta = currentScrollY - lastScrollY
+          
+          // Only hide on scroll down, show on scroll up or at top
+          if (currentScrollY > 10 && scrollDelta > 0) {
+            // Scrolling down (with small threshold to avoid flickering at top)
+            headerRef.current.classList.add('header-scrolled-down')
+          } else if (scrollDelta < 0 || currentScrollY <= 10) {
+            // Scrolling up or near top
+            headerRef.current.classList.remove('header-scrolled-down')
+          }
+          
+          lastScrollY = currentScrollY
+        } else {
+          // Not in landscape mobile, ensure class is removed
+          headerRef.current.classList.remove('header-scrolled-down')
+          lastScrollY = window.scrollY
+        }
+        
+        ticking = false
+      })
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Check initial state
+    handleScroll()
+    
+    // Also handle resize/orientation change
+    const handleResize = () => {
+      if (headerRef.current) {
+        const isLandscapeMobile = window.innerWidth <= 950 && window.matchMedia('(orientation: landscape)').matches
+        if (!isLandscapeMobile) {
+          headerRef.current.classList.remove('header-scrolled-down')
+        }
+      }
+      handleScroll()
+    }
+    
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('orientationchange', handleResize)
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('orientationchange', handleResize)
+    }
+  }, [])
+
   // Handle homepage header visibility
   useEffect(() => {
     if (!headerRef.current) return
