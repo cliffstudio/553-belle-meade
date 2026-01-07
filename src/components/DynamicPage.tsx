@@ -8,7 +8,6 @@ import BodyClassProvider from './BodyClassProvider'
 import { auth } from '../app/sign-in/actions'
 
 // Import section components
-import HomeHeroMedia from './HomeHeroMedia'
 import HeroMedia from './HeroMedia'
 import LinkTiles from './LinkTiles'
 import FullWidthMedia from './FullWidthMedia'
@@ -39,7 +38,6 @@ interface PageProps {
 import SignInHeroMedia from './SignInHeroMedia'
 
 const sectionComponents = {
-  homeHeroMedia: HomeHeroMedia,
   heroMedia: HeroMedia,
   linkTiles: LinkTiles,
   fullWidthMedia: FullWidthMedia,

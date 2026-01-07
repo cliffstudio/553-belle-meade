@@ -18,7 +18,6 @@ import imageMasonry from './sections/imageMasonry'
 import staggeredImages from './sections/staggeredImages'
 import ctaBanner from './sections/ctaBanner'
 import fullWidthMedia from './sections/fullWidthMedia'
-import homeHeroMedia from './sections/homeHeroMedia'
 import smallMediaText from './sections/smallMediaText'
 import largeMediaText from './sections/largeMediaText'
 import stackedMediaText from './sections/stackedMediaText'
@@ -55,7 +54,6 @@ export const schemaTypes = [
   staggeredImages,
   ctaBanner,
   fullWidthMedia,
-  homeHeroMedia,
   smallMediaText,
   largeMediaText,
   stackedMediaText,
