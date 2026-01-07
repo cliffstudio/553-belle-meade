@@ -148,7 +148,7 @@ export default function StaggeredImages({
       {layout === 'layout-1' && (
         <section className="staggered-images-block h-pad layout-1">
           <div className="row-1">
-            <div className="text-wrap out-of-view">
+            <div className="text-wrap max-width-big-text out-of-view">
               {heading && <div className="heading cta-font">{heading}</div>}
               {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
             </div>
@@ -204,7 +204,7 @@ export default function StaggeredImages({
         <section className="staggered-images-block h-pad layout-2">
           <div className="row-1 row-lg">
             <div className="col-1 col-7-12_lg out-of-view">
-              <div className="text-wrap">
+              <div className="text-wrap max-width-big-text">
                 {heading && <div className="heading cta-font">{heading}</div>}
                 {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
               </div>
@@ -274,7 +274,7 @@ export default function StaggeredImages({
       {layout === 'layout-3' && (
         <section className="staggered-images-block h-pad layout-3">
           <div className="row-1">
-            <div className="text-wrap out-of-view">
+            <div className="text-wrap max-width-big-text out-of-view">
               {heading && <div className="heading cta-font">{heading}</div>}
               {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
             </div>
