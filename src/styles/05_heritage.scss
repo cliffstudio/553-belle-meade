@@ -3,9 +3,15 @@
 
 .page-heritage {
 
+  .text-with-artefacts .text-block {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
   .text-block {
     position: relative;
     z-index: 6;
+    background-color: transparent;
 
     .text-wrap {
       max-width: get-rem-desktop(870);
