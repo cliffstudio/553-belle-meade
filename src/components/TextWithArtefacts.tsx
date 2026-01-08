@@ -105,6 +105,7 @@ export default function TextWithArtefacts({
   const [isClosing, setIsClosing] = React.useState(false)
   const [isWidthCalculated, setIsWidthCalculated] = React.useState(false)
   const [imageOrientation, setImageOrientation] = React.useState<'portrait' | 'landscape' | 'square' | null>(null)
+  const [viewportHeight, setViewportHeight] = React.useState<number | null>(null)
   
   // Video control functions
   const togglePlayPause = () => {
@@ -687,6 +688,11 @@ export default function TextWithArtefacts({
   // Lock background scroll when overlay is open
   useEffect(() => {
     if (selectedArtefact) {
+      // Capture viewport height before opening modal to prevent iOS layout shifts
+      // This fixes the issue where iOS viewport height changes when browser UI shows/hides
+      const capturedHeight = window.innerHeight
+      setViewportHeight(capturedHeight)
+      
       // Disable ScrollTrigger instances to prevent them from recalculating when body becomes fixed
       // This prevents layout shifts when the body position changes
       const triggers = ScrollTrigger.getAll()
@@ -696,6 +702,8 @@ export default function TextWithArtefacts({
       })
       DisableBodyScroll()
     } else {
+      // Clear viewport height when closing
+      setViewportHeight(null)
       EnableBodyScroll()
       // Re-enable ScrollTrigger after a short delay to allow body styles to settle
       setTimeout(() => {
@@ -2293,7 +2301,10 @@ export default function TextWithArtefacts({
       </section>
 
       {selectedArtefact && (
-        <div className={`artefact-overlay ${isClosing ? 'closing' : ''}`}>
+        <div 
+          className={`artefact-overlay ${isClosing ? 'closing' : ''}`}
+          style={viewportHeight ? { height: `${viewportHeight}px` } : undefined}
+        >
           <div 
             className="artefact-content" 
             ref={artefactContentRef}
