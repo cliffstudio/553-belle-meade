@@ -65,10 +65,10 @@ export default defineType({
               type: 'string',
               options: {
                 list: [
-                  { title: '16:9', value: '16:9' },
-                  { title: '1:1', value: '1:1' },
-                  { title: '4:3', value: '4:3' },
-                  { title: '2:3', value: '2:3' },
+                  { title: '16:9 (Landscape)', value: '16:9' },
+                  { title: '1:1 (Square)', value: '1:1' },
+                  { title: '4:3 (Landscape)', value: '4:3' },
+                  { title: '2:3 (Portrait)', value: '2:3' },
                 ]
               },
             },
