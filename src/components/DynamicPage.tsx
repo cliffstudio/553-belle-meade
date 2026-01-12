@@ -28,6 +28,8 @@ import IssuuEmbed from './IssuuEmbed'
 import VirtualTourEmbed from './VirtualTourEmbed'
 import TextBlock from './TextBlock'
 import FlexibleContent from './FlexibleContent'
+import SimpleTextBlock from './SimpleTextBlock'
+import FlexibleHeroSection from './FlexibleHeroSection'
 
 interface PageProps {
   params: Promise<{
@@ -58,6 +60,8 @@ const sectionComponents = {
   virtualTourEmbed: VirtualTourEmbed,
   textBlock: TextBlock,
   signInHeroMedia: SignInHeroMedia,
+  flexibleHeroSection: FlexibleHeroSection,
+  simpleTextBlock: SimpleTextBlock,
 }
 
 
@@ -140,6 +144,17 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.pressHero, 'heroMedia', 'press-hero')
         addSection(sections, page.pressSection, 'pressSection', 'press-section')
         addSection(sections, page.pressCta, 'ctaBanner', 'press-cta')
+        break
+
+      case 'text':
+        addSection(sections, page.textHero, 'flexibleHeroSection', 'text-hero')
+        if (page.textBlocks && Array.isArray(page.textBlocks)) {
+          page.textBlocks.forEach((block: unknown, index: number) => {
+            if (block) {
+              sections.push({ ...(block as Record<string, unknown>), _type: 'simpleTextBlock', _key: `text-block-${index}` })
+            }
+          })
+        }
         break
         
       case 'general':
@@ -291,6 +306,46 @@ export default async function DynamicPage({ params }: PageProps) {
                 bio: PortableTextBlock[]; 
                 cta: { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } 
               }> | []}
+            />
+          )
+        }
+
+        // Special handling for FlexibleHeroSection component
+        if (section._type === 'flexibleHeroSection') {
+          // Extract the individual props from the section data
+          const {
+            layout,
+            desktopTitle,
+            mobileTitle,
+            backgroundMediaType,
+            desktopBackgroundImage,
+            mobileBackgroundImage,
+            desktopBackgroundVideo,
+            videoSource,
+            desktopBackgroundVideoUrl,
+            desktopBackgroundVideoPlaceholder,
+            showControls,
+            overlayDarkness,
+            cta
+          } = section
+          
+          const FlexibleHeroSectionComponent = Component as typeof FlexibleHeroSection
+          return (
+            <FlexibleHeroSectionComponent 
+              key={section._key} 
+              layout={layout as 'layout-1' | 'layout-2' | 'layout-3' | 'homepage' | undefined}
+              desktopTitle={desktopTitle as string | undefined}
+              mobileTitle={mobileTitle as string | undefined}
+              backgroundMediaType={backgroundMediaType as 'image' | 'video' | undefined}
+              desktopBackgroundImage={desktopBackgroundImage as SanityImage | undefined}
+              mobileBackgroundImage={mobileBackgroundImage as SanityImage | undefined}
+              desktopBackgroundVideo={desktopBackgroundVideo as SanityVideo | undefined}
+              videoSource={videoSource as 'file' | 'url' | undefined}
+              desktopBackgroundVideoUrl={desktopBackgroundVideoUrl as string | undefined}
+              desktopBackgroundVideoPlaceholder={desktopBackgroundVideoPlaceholder as SanityImage | undefined}
+              showControls={showControls as boolean | undefined}
+              overlayDarkness={overlayDarkness as number | undefined}
+              cta={cta as { linkType?: 'internal' | 'external'; label?: string; href?: string; pageLink?: { _ref: string; _type: 'reference'; slug?: string; title?: string } } | undefined}
             />
           )
         }

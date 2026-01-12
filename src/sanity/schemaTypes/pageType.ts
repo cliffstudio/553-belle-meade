@@ -31,6 +31,7 @@ export const pageType = defineType({
           { title: 'Carousel', value: 'carousel' },
           { title: 'Gallery', value: 'gallery' },
           { title: 'Press', value: 'press' },
+          { title: 'Text', value: 'text' },
           { title: 'General', value: 'general' },
         ],
       },
@@ -191,6 +192,21 @@ export const pageType = defineType({
       title: 'CTA Banner',
       type: 'ctaBanner',
       hidden: ({ document }) => document?.pageType !== 'press',
+    }),
+
+    // Text specific fields
+    defineField({
+      name: 'textHero',
+      title: 'Hero',
+      type: 'flexibleHeroSection',
+      hidden: ({ document }) => document?.pageType !== 'text',
+    }),
+    defineField({
+      name: 'textBlocks',
+      title: 'Text Blocks',
+      type: 'array',
+      of: [{ type: 'simpleTextBlock' }],
+      hidden: ({ document }) => document?.pageType !== 'text',
     }),
   ],
   preview: {
