@@ -32,6 +32,7 @@ import textBlock from './sections/textBlock'
 import issuuEmbed from './sections/issuuEmbed'
 import flexibleHeroSection from './sections/flexibleHeroSection'
 import signInHeroMedia from './sections/signInHeroMedia'
+import simpleTextBlock from './sections/simpleTextBlock'
 
 export const schemaTypes = [
   // Global
@@ -68,4 +69,5 @@ export const schemaTypes = [
   issuuEmbed,
   flexibleHeroSection,
   signInHeroMedia,
+  simpleTextBlock,
 ]

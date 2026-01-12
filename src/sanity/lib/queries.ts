@@ -500,6 +500,29 @@ export const pageQuery = groq`
         cta ${linkFragment}
       }
     },
+
+    // Text fields
+    pageType == "text" => {
+      textHero {
+        layout,
+        desktopTitle,
+        mobileTitle,
+        backgroundMediaType,
+        desktopBackgroundImage ${imageFragment},
+        mobileBackgroundImage ${imageFragment},
+        desktopBackgroundVideo ${videoFragment},
+        videoSource,
+        desktopBackgroundVideoUrl,
+        desktopBackgroundVideoPlaceholder ${imageFragment},
+        showControls,
+        overlayDarkness,
+        cta ${linkFragment}
+      },
+      textBlocks[] {
+        title,
+        text
+      }
+    },
     
     // General page fields (flexible content blocks)
     pageType == "general" => {
