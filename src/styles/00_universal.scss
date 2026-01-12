@@ -1932,7 +1932,7 @@ section {
 
         @media only screen and (max-width: 768px) {
           display: unset;
-          padding-top: get-rem-mobile(160);
+          padding-top: get-rem-mobile(114);
           margin-left: get-rem-mobile(21);
         }
 
@@ -1973,6 +1973,7 @@ section {
 
           @media only screen and (max-width: 768px) {
             max-width: get-rem-mobile(181);
+            padding-top: get-rem-mobile(114);
           }
         }
       }
@@ -2046,7 +2047,7 @@ section {
         }
 
         @media only screen and (max-width: 768px) {
-          padding-top: get-rem-mobile(216);
+          padding-top: get-rem-mobile(114);
           max-width: get-rem-mobile(287);
         }
       }
@@ -2062,6 +2063,7 @@ section {
         @media only screen and (max-width: 768px) {
           max-width: get-rem-mobile(208);
           margin-left: auto;
+          padding-top: get-rem-mobile(114);
         }
       }
     }
@@ -2076,7 +2078,7 @@ section {
       }
 
       @media only screen and (max-width: 768px) {
-        padding-top: get-rem-mobile(274);
+        padding-top: get-rem-mobile(114);
         padding-bottom: get-rem-mobile(300);
       }
 
@@ -2120,7 +2122,7 @@ section {
         }
 
         @media only screen and (max-width: 768px) {
-          margin-top: get-rem-mobile(170);
+          margin-top: get-rem-mobile(114);
           width: get-rem-mobile(291);
 
           .artefact-image .media-wrap {
@@ -2134,6 +2136,7 @@ section {
         @media only screen and (max-width: 768px) {
           width: get-rem-mobile(288);
           margin-left: auto;
+          padding-top: get-rem-mobile(114);
         }
 
         .artefact-image {
