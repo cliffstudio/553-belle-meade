@@ -2,15 +2,17 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { PortableText } from '@portabletext/react'
 import { PortableTextBlock, SanityImage } from '../types/sanity'
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
 import { fileUrlFor, SanityFile } from '../sanity/utils/fileUrlBuilder'
+import { portableTextComponents } from '../utils/portableTextComponents'
 import Link from 'next/link'
 
 interface ClickableSpot {
   id: string
   title: string
-  description?: string
+  description?: PortableTextBlock[]
   position: {
     top: string // percentage or pixel value
     left: string // percentage or pixel value
@@ -23,7 +25,7 @@ interface ClickableSpot {
   }
   popupContent: {
     title: string
-    description?: string
+    description?: PortableTextBlock[]
     image?: string
     mobileImage?: string
     details?: string[]
@@ -38,7 +40,7 @@ interface Position {
 interface CMSSpot {
   id: string
   title: string
-  description?: string
+  description?: PortableTextBlock[]
   image?: SanityImage
   desktopMarkerImage?: SanityImage
   mobileMarkerImage?: SanityImage
@@ -552,7 +554,7 @@ export default function LeasingMap({
         </div>
         
         {/* Popup */}
-        <div className={`leasing-map__popup ${selectedSpot ? 'visible' : ''}`} data-space-id={selectedSpot?.id}>
+        <div className={`leasing-map__popup ${selectedSpot ? 'visible' : ''}`}>
           <div className="leasing-map__popup-content">
             <div className="leasing-map__popup-inner">
               <div className="leasing-map__popup-text">
@@ -574,7 +576,9 @@ export default function LeasingMap({
                 </div>
                 
                 {displaySpot?.popupContent.description && (
-                  <h3 className="leasing-map__popup-description">{displaySpot.popupContent.description}</h3>
+                  <div className="leasing-map__popup-description">
+                    <PortableText value={displaySpot.popupContent.description} components={portableTextComponents} />
+                  </div>
                 )}
                 <div className="cta-font underline-link link cream">
                   <Link href="#contact-form">Inquire</Link>

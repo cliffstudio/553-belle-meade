@@ -160,7 +160,8 @@ export default defineType({
                       name: 'id',
                       title: 'ID',
                       type: 'string',
-                      validation: Rule => Rule.required()
+                      description: 'ID should be the name of the layer in the SVG file',
+                      validation: Rule => Rule.required(),
                     },
                     {
                       name: 'title',
@@ -171,8 +172,7 @@ export default defineType({
                     {
                       name: 'description',
                       title: 'Description',
-                      type: 'text',
-                      rows: 2
+                      type: 'richPortableText',
                     },
                     {
                       name: 'image',
@@ -206,14 +206,12 @@ export default defineType({
                   preview: {
                     select: {
                       title: 'title',
-                      subtitle: 'description',
                       media: 'image'
                     },
                     prepare(selection) {
-                      const { title, subtitle, media } = selection
+                      const { title, media } = selection
                       return {
                         title: title || 'Untitled Space',
-                        subtitle: subtitle,
                         media: media
                       }
                     }
