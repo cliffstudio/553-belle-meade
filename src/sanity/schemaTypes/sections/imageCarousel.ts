@@ -24,8 +24,20 @@ export default defineType({
         {
           type: 'object',
           name: 'imageWithCaption',
-          title: 'Image',
+          title: 'Image or Video',
           fields: [
+            {
+              name: 'mediaType',
+              title: 'Media Type',
+              type: 'string',
+              initialValue: 'image',
+              options: {
+                list: [
+                  { title: 'Image', value: 'image' },
+                  { title: 'Video', value: 'video' }
+                ]
+              }
+            },
             {
               name: 'image',
               title: 'Image',
@@ -52,7 +64,67 @@ export default defineType({
                 }
                 
                 return true;
-              })
+              }),
+              hidden: ({ parent }) => parent?.mediaType !== 'image'
+            },
+            {
+              name: 'videoSource',
+              title: 'Video Source',
+              type: 'string',
+              initialValue: 'file',
+              options: { 
+                list: [
+                  { title: 'Upload File', value: 'file' },
+                  { title: 'Video URL', value: 'url' }
+                ]
+              },
+              hidden: ({ parent }) => parent?.mediaType !== 'video'
+            },
+            {
+              name: 'video',
+              title: 'Video File',
+              type: 'file',
+              description: 'Please upload .mp4 files under 10MB',
+              options: { 
+                accept: 'video/mp4' 
+              },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  if (asset && asset.size && asset.size > maxSize) {
+                    return 'File size must be under 10MB';
+                  }
+                  
+                  const filename = asset?.originalFilename || '';
+                  if (filename && !filename.toLowerCase().endsWith('.mp4')) {
+                    return 'Only .mp4 files are allowed';
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              }),
+              hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource === 'url'
+            },
+            {
+              name: 'videoUrl',
+              title: 'Video URL',
+              type: 'url',
+              description: 'Enter a direct URL to a video file (e.g., https://example.com/video.mp4)',
+              validation: (Rule) => Rule.uri({
+                scheme: ['http', 'https']
+              }),
+              hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
             },
             {
               name: 'caption',
@@ -71,16 +143,26 @@ export default defineType({
                   { title: '2:3 (Portrait)', value: '2:3' },
                 ]
               },
+              hidden: ({ parent }) => parent?.mediaType !== 'image'
             },
           ],
           preview: {
             select: {
+              mediaType: 'mediaType',
               title: 'image.asset.title',
               subtitle: 'image.asset.originalFilename',
+              videoTitle: 'video.asset.originalFilename',
               media: 'image'
             },
             prepare(selection) {
-              const { title, subtitle, media } = selection
+              const { mediaType, title, subtitle, videoTitle, media } = selection
+              if (mediaType === 'video') {
+                return {
+                  title: videoTitle || 'Untitled Video',
+                  subtitle: 'Video',
+                  media: media
+                }
+              }
               return {
                 title: title || subtitle || 'Untitled Image',
                 subtitle: title && subtitle ? subtitle : null,

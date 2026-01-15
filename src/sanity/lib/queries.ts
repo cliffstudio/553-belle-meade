@@ -367,7 +367,11 @@ export const pageQuery = groq`
         heading,
         body,
         images[] {
+          mediaType,
           image ${imageFragment},
+          video ${videoFragment},
+          videoSource,
+          videoUrl,
           caption,
           imageSize
         }
