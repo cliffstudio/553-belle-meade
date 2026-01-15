@@ -161,6 +161,53 @@ const flexibleContentFragment = `[] {
   }
 }`
 
+// Press content blocks fragment - only for press pages
+const pressContentBlocksFragment = `[] {
+  _type,
+  _key,
+  // PressPostsSection fields
+  post1-> {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    thumbnailType,
+    thumbnailImage ${imageFragment},
+    thumbnailLogo ${imageFragment},
+    thumbnailBackgroundColour,
+    excerpt,
+    featuredImage ${imageFragment},
+    content,
+    source,
+    sourceUrl,
+    layout
+  },
+  post2-> {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    thumbnailType,
+    thumbnailImage ${imageFragment},
+    thumbnailLogo ${imageFragment},
+    thumbnailBackgroundColour,
+    excerpt,
+    featuredImage ${imageFragment},
+    content,
+    source,
+    sourceUrl,
+    layout
+  },
+  layout,
+  // TestimonialSection fields
+  testimonial-> {
+    _id,
+    name,
+    source,
+    backgroundColour
+  }
+}`
+
 const mediaFragment = `{
   mediaType,
   image ${imageFragment},
@@ -481,28 +528,7 @@ export const pageQuery = groq`
         overlayDarkness,
         cta ${linkFragment}
       },
-      pressSection {
-        heading,
-        subheading,
-        layout,
-        postsPerPage,
-        showCategories,
-        showSearch,
-        featuredPosts[]-> {
-          _id,
-          title,
-          slug,
-          publishedAt,
-          excerpt,
-          featuredImage ${imageFragment},
-          source,
-          author,
-          categories
-        },
-      },
-      pressCta {
-        cta ${linkFragment}
-      }
+      pressContentBlocks ${pressContentBlocksFragment}
     },
 
     // Text fields

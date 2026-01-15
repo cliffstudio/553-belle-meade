@@ -10,6 +10,8 @@ import StaggeredImages from './StaggeredImages'
 import SmallMediaText from './SmallMediaText'
 import CtaBanner from './CtaBanner'
 import Architects from './Architects'
+import PressPostsSection from './PressPostsSection'
+import TestimonialSection from './TestimonialSection'
 
 interface ContentBlock {
   _type: string
@@ -54,6 +56,10 @@ const FlexibleContent: React.FC<FlexibleContentProps> = ({ contentBlocks }) => {
             return <CtaBanner key={key} {...(block as ContentBlock)} />
           case 'architects':
             return <Architects key={key} {...(block as ContentBlock)} />
+          case 'pressPostsSection':
+            return <PressPostsSection key={key} {...(block as ContentBlock)} />
+          case 'testimonialSection':
+            return <TestimonialSection key={key} {...(block as ContentBlock)} />
           default:
             console.warn(`Unknown content block type: ${block._type}`)
             return null

@@ -19,7 +19,6 @@ import LargeMediaText from './LargeMediaText'
 import StackedMediaText from './StackedMediaText'
 import Gallery from './Gallery'
 import Architects from './Architects'
-import PressSection from './PressSection'
 import TextWithArtefacts from './TextWithArtefacts'
 import ImageCarousel from './ImageCarousel'
 import ContactForm from './ContactForm'
@@ -51,7 +50,6 @@ const sectionComponents = {
   stackedMediaText: StackedMediaText,
   gallery: Gallery,
   architects: Architects,
-  pressSection: PressSection,
   textWithArtefacts: TextWithArtefacts,
   imageCarousel: ImageCarousel,
   contactForm: ContactForm,
@@ -142,8 +140,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       case 'press':
         addSection(sections, page.pressHero, 'heroMedia', 'press-hero')
-        addSection(sections, page.pressSection, 'pressSection', 'press-section')
-        addSection(sections, page.pressCta, 'ctaBanner', 'press-cta')
+        // pressContentBlocks will be rendered separately using FlexibleContent
         break
 
       case 'text':
@@ -194,6 +191,9 @@ export default async function DynamicPage({ params }: PageProps) {
       </>
     )
   }
+
+  // Handle press pages with press content blocks
+  const pressContentBlocks = page.pageType === 'press' ? page.pressContentBlocks : null
 
   return (
     <>
@@ -386,6 +386,9 @@ export default async function DynamicPage({ params }: PageProps) {
         const GenericComponent = Component as React.ComponentType<Record<string, unknown>>
         return <GenericComponent key={section._key} {...(section as Record<string, unknown>)} />
       })}
+      {pressContentBlocks && (
+        <FlexibleContent contentBlocks={pressContentBlocks || []} />
+      )}
     </>
   )
 }
