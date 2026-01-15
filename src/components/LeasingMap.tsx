@@ -570,8 +570,8 @@ export default function LeasingMap({
                     onClick={closePopup}
                     style={{ cursor: 'pointer' }}
                   >
-                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)" stroke="#FFF9F2" strokeWidth="1.2"/>
-                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)" stroke="#FFF9F2" strokeWidth="1.2"/>
+                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(0.703601 -0.710596 0.703601 0.710596 1.29761 31.0078)"/>
+                    <line y1="-0.6" x2="42.23" y2="-0.6" transform="matrix(-0.703601 -0.710596 -0.703601 0.710596 30.7131 31.0059)"/>
                   </svg>
                 </div>
                 
@@ -580,7 +580,7 @@ export default function LeasingMap({
                     <PortableText value={displaySpot.popupContent.description} components={portableTextComponents} />
                   </div>
                 )}
-                <div className="cta-font underline-link link cream">
+                <div className="cta-font underline-link link">
                   <Link href="#contact-form">Inquire</Link>
 
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
