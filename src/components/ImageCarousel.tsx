@@ -2,7 +2,8 @@
 "use client"
 
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
-import { SanityImage } from '../types/sanity'
+import { videoUrlFor } from '../sanity/utils/videoUrlBuilder'
+import { SanityImage, SanityVideo, SanityVideoUrl } from '../types/sanity'
 import { PortableText } from '@portabletext/react'
 import { PortableTextBlock } from '@portabletext/react'
 import { useEffect, useRef } from 'react'
@@ -11,7 +12,11 @@ import 'flickity/css/flickity.css'
 import { portableTextComponents } from '../utils/portableTextComponents'
 
 type ImageWithCaption = {
-  image: SanityImage
+  mediaType?: 'image' | 'video'
+  image?: SanityImage
+  video?: SanityVideo
+  videoSource?: 'file' | 'url'
+  videoUrl?: SanityVideoUrl
   caption?: string
   imageSize?: '16:9' | '1:1' | '4:3' | '2:3'
 }
@@ -143,27 +148,53 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
             className="carousel flickity-enabled"
             data-flickity='{"cellAlign": "center", "contain": true, "wrapAround": true}'
           >
-            {images.map((item, index) => (
-              <div key={index} className="carousel-cell">
-                <div className={`media-wrap ${getAspectRatioClass(item.imageSize)}`}>
-                  <img
-                    data-src={urlFor(item.image).url()}
-                    alt=""
-                    className="lazy full-bleed-image"
-                    style={{
-                      objectPosition: item.image?.hotspot
-                        ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
-                        : "center",
-                    }}
-                  />
-                  <div className="loading-overlay" />
-                </div>
+            {images.map((item, index) => {
+              const mediaType = item.mediaType || 'image'
+              const isVideo = mediaType === 'video' && (item.video || item.videoUrl)
+              const isImage = mediaType === 'image' && item.image
+              
+              if (!isImage && !isVideo) {
+                return null
+              }
 
-                {item.caption && (
-                  <div className="caption caption-font">{item.caption}</div>
-                )}
-              </div>
-            ))}
+              return (
+                <div key={index} className="carousel-cell">
+                  <div className={`media-wrap ${getAspectRatioClass(item.imageSize)}`}>
+                    {isImage && item.image && (
+                      <>
+                        <img
+                          data-src={urlFor(item.image).url()}
+                          alt=""
+                          className="lazy full-bleed-image"
+                          style={{
+                            objectPosition: item.image?.hotspot
+                              ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
+                              : "center",
+                          }}
+                        />
+                        <div className="loading-overlay" />
+                      </>
+                    )}
+                    {isVideo && (
+                      <div className="fill-space-video-wrap">
+                        <video
+                          src={item.videoSource === 'url' && item.videoUrl ? item.videoUrl : videoUrlFor(item.video)}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {item.caption && (
+                    <div className="caption caption-font">{item.caption}</div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
