@@ -59,34 +59,6 @@ export default defineType({
               })
             },
             {
-              name: 'tabletImage',
-              title: 'Floor Plan Image (Tablet)',
-              type: 'image',
-              description: 'Please upload image files under 1MB',
-              options: { hotspot: true },
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              validation: (Rule) => Rule.custom(async (file: any, context) => {
-                if (!file?.asset?._ref) {
-                  return true;
-                }
-                
-                const maxSize = 1024 * 1024; // 1MB
-                
-                try {
-                  const client = context.getClient({ apiVersion: '2025-05-08' })
-                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
-                  
-                  if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 1MB';
-                  }
-                } catch {
-                  // If we can't fetch the asset yet (e.g., during upload), skip validation
-                }
-                
-                return true;
-              })
-            },
-            {
               name: 'mobileImage',
               title: 'Floor Plan Image (Mobile)',
               type: 'image',
@@ -115,15 +87,81 @@ export default defineType({
               })
             },
             {
+              name: 'desktopSpacesOverlayImage',
+              title: 'Spaces Overlay SVG (Desktop)',
+              type: 'file',
+              description: 'Upload an SVG file to be embedded inline',
+              options: {
+                accept: 'image/svg+xml,.svg'
+              },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  // Check file extension
+                  const filename = asset?.originalFilename || ''
+                  if (filename && !filename.toLowerCase().endsWith('.svg')) {
+                    return 'Only .svg files are allowed'
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              })
+            },
+            {
+              name: 'mobileSpacesOverlayImage',
+              title: 'Spaces Overlay SVG (Mobile)',
+              type: 'file',
+              description: 'Upload an SVG file to be embedded inline',
+              options: {
+                accept: 'image/svg+xml,.svg'
+              },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              validation: (Rule) => Rule.custom(async (file: any, context) => {
+                if (!file?.asset?._ref) {
+                  return true;
+                }
+                
+                try {
+                  const client = context.getClient({ apiVersion: '2025-05-08' })
+                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+                  
+                  // Check file extension
+                  const filename = asset?.originalFilename || ''
+                  if (filename && !filename.toLowerCase().endsWith('.svg')) {
+                    return 'Only .svg files are allowed'
+                  }
+                } catch {
+                  // If we can't fetch the asset yet (e.g., during upload), skip validation
+                }
+                
+                return true;
+              })
+            },
+            {
               name: 'spots',
-              title: 'Clickable Spots',
+              title: 'Spaces',
               type: 'array',
               of: [
                 {
                   type: 'object',
-                  name: 'spot',
-                  title: 'Spot',
+                  name: 'space',
+                  title: 'Space',
                   fields: [
+                    {
+                      name: 'id',
+                      title: 'ID',
+                      type: 'string',
+                      validation: Rule => Rule.required()
+                    },
                     {
                       name: 'title',
                       title: 'Title',
@@ -137,13 +175,13 @@ export default defineType({
                       rows: 2
                     },
                     {
-                      name: 'desktopMarkerImage',
-                      title: 'Marker/Hover Image (Desktop)',
+                      name: 'image',
+                      title: 'Image',
                       type: 'image',
-                      description: 'Image shown on hover and in popup - Desktop. Please upload image files under 1MB',
+                      description: 'Please upload image files under 1MB',
                       options: { hotspot: true },
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      validation: (Rule) => Rule.custom(async (file: any, context) => {
+                      validation: (Rule) => Rule.required().custom(async (file: any, context) => {
                         if (!file?.asset?._ref) {
                           return true;
                         }
@@ -164,134 +202,17 @@ export default defineType({
                         return true;
                       })
                     },
-                    {
-                      name: 'tabletMarkerImage',
-                      title: 'Marker/Hover Image (Tablet)',
-                      type: 'image',
-                      description: 'Optional - falls back to desktop. Please upload image files under 1MB',
-                      options: { hotspot: true },
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      validation: (Rule) => Rule.custom(async (file: any, context) => {
-                        if (!file?.asset?._ref) {
-                          return true;
-                        }
-                        
-                        const maxSize = 1024 * 1024; // 1MB
-                        
-                        try {
-                          const client = context.getClient({ apiVersion: '2025-05-08' })
-                          const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
-                          
-                          if (asset && asset.size && asset.size > maxSize) {
-                            return 'File size must be under 1MB';
-                          }
-                        } catch {
-                          // If we can't fetch the asset yet (e.g., during upload), skip validation
-                        }
-                        
-                        return true;
-                      })
-                    },
-                    {
-                      name: 'mobileMarkerImage',
-                      title: 'Marker/Hover Image (Mobile)',
-                      type: 'image',
-                      description: 'Optional - falls back to tablet/desktop. Please upload image files under 1MB',
-                      options: { hotspot: true },
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      validation: (Rule) => Rule.custom(async (file: any, context) => {
-                        if (!file?.asset?._ref) {
-                          return true;
-                        }
-                        
-                        const maxSize = 1024 * 1024; // 1MB
-                        
-                        try {
-                          const client = context.getClient({ apiVersion: '2025-05-08' })
-                          const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
-                          
-                          if (asset && asset.size && asset.size > maxSize) {
-                            return 'File size must be under 1MB';
-                          }
-                        } catch {
-                          // If we can't fetch the asset yet (e.g., during upload), skip validation
-                        }
-                        
-                        return true;
-                      })
-                    },
-                    {
-                      name: 'desktopPosition',
-                      title: 'Position (Desktop)',
-                      type: 'object',
-                      fields: [
-                        {
-                          name: 'top',
-                          title: 'Top (%)',
-                          type: 'string',
-                          description: 'e.g., "57%"',
-                          validation: Rule => Rule.required()
-                        },
-                        {
-                          name: 'left',
-                          title: 'Left (%)',
-                          type: 'string',
-                          description: 'e.g., "74%"',
-                          validation: Rule => Rule.required()
-                        }
-                      ]
-                    },
-                    {
-                      name: 'tabletPosition',
-                      title: 'Position (Tablet)',
-                      type: 'object',
-                      description: 'Optional - falls back to desktop position',
-                      fields: [
-                        {
-                          name: 'top',
-                          title: 'Top (%)',
-                          type: 'string',
-                          description: 'e.g., "57%"'
-                        },
-                        {
-                          name: 'left',
-                          title: 'Left (%)',
-                          type: 'string',
-                          description: 'e.g., "74%"'
-                        }
-                      ]
-                    },
-                    {
-                      name: 'mobilePosition',
-                      title: 'Position (Mobile)',
-                      type: 'object',
-                      description: 'Optional - falls back to tablet/desktop position',
-                      fields: [
-                        {
-                          name: 'top',
-                          title: 'Top (%)',
-                          type: 'string',
-                          description: 'e.g., "57%"'
-                        },
-                        {
-                          name: 'left',
-                          title: 'Left (%)',
-                          type: 'string',
-                          description: 'e.g., "74%"'
-                        }
-                      ]
-                    }
                   ],
                   preview: {
                     select: {
                       title: 'title',
                       subtitle: 'description',
-                      media: 'desktopMarkerImage'
+                      media: 'image'
                     },
                     prepare(selection) {
                       const { title, subtitle, media } = selection
                       return {
-                        title: title || 'Untitled Spot',
+                        title: title || 'Untitled Space',
                         subtitle: subtitle,
                         media: media
                       }
@@ -304,14 +225,12 @@ export default defineType({
           preview: {
             select: {
               title: 'label',
-              subtitle: 'mobileLabel',
               media: 'desktopImage'
             },
             prepare(selection) {
-              const { title, subtitle, media } = selection
+              const { title, media } = selection
               return {
                 title: title || 'Untitled Floor',
-                subtitle: subtitle,
                 media: media
               }
             }
