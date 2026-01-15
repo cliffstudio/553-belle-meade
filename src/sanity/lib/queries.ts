@@ -281,19 +281,27 @@ export const pageQuery = groq`
           label,
           mobileLabel,
           desktopImage ${imageFragment},
-          tabletImage ${imageFragment},
           mobileImage ${imageFragment},
+          desktopSpacesOverlayImage {
+            asset {
+              _ref,
+              _type
+            }
+          },
+          mobileSpacesOverlayImage {
+            asset {
+              _ref,
+              _type
+            }
+          },
           spots[] {
+            id,
             title,
             description,
+            image ${imageFragment},
             desktopMarkerImage ${imageFragment},
-            tabletMarkerImage ${imageFragment},
             mobileMarkerImage ${imageFragment},
             desktopPosition {
-              top,
-              left
-            },
-            tabletPosition {
               top,
               left
             },

@@ -146,24 +146,12 @@ LEASING MAP STYLES --------------------
       img {
         pointer-events: none;
       }
-
-      .tablet,
       .mobile {
         display: none;
       }
 
-      @media screen and (max-width: 1440px) {
-        .desktop {
-          display: none;
-        }
-
-        .tablet {
-          display: block;
-        }
-      }
-
       @media screen and (max-width: 768px) {
-        .tablet {
+        .desktop {
           display: none;
         }
 
@@ -193,50 +181,25 @@ LEASING MAP STYLES --------------------
     }
   }
 
-  // Clickable Spots
-  &__spot {
+  // Clickable Spaces
+  &__svg-overlay {
     position: absolute;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-    width: get-rem-desktop(40);
-    height: get-rem-desktop(40);
-    @include flex;
-    @include align-items(center);
-    @include justify-content(center);
-    pointer-events: all;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
 
-    @media only screen and (min-width: 1367px) {
-      &.hovered {
-        .leasing-map__spot-indicator {
+    g {
+      opacity: 0;
+      @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+      cursor: pointer;
+
+      @media (hover: hover) {
+        &:hover {
           opacity: 1;
         }
       }
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        .leasing-map__spot-indicator {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  &__spot-indicator {
-    width: get-rem-desktop(27);
-    height: get-rem-desktop(27);
-    opacity: 0;
-    @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
-
-    .st0 {
-      fill: none;
-      stroke: $colour-burgundy;
-    }
-
-    .st1 {
-      fill: $colour-cream;
     }
   }
 

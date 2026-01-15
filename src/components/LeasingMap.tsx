@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { PortableTextBlock, SanityImage } from '../types/sanity'
 import { urlFor } from '../sanity/utils/imageUrlBuilder'
+import { fileUrlFor, SanityFile } from '../sanity/utils/fileUrlBuilder'
 import Link from 'next/link'
 
 interface ClickableSpot {
@@ -15,12 +16,7 @@ interface ClickableSpot {
     left: string // percentage or pixel value
   }
   hoverImage?: string // optional image to show on hover
-  tabletHoverImage?: string
   mobileHoverImage?: string
-  tabletPosition?: {
-    top: string
-    left: string
-  }
   mobilePosition?: {
     top: string
     left: string
@@ -29,7 +25,6 @@ interface ClickableSpot {
     title: string
     description?: string
     image?: string
-    tabletImage?: string
     mobileImage?: string
     details?: string[]
   }
@@ -41,13 +36,13 @@ interface Position {
 }
 
 interface CMSSpot {
+  id: string
   title: string
   description?: string
+  image?: SanityImage
   desktopMarkerImage?: SanityImage
-  tabletMarkerImage?: SanityImage
   mobileMarkerImage?: SanityImage
   desktopPosition: Position
-  tabletPosition?: Position
   mobilePosition?: Position
 }
 
@@ -55,8 +50,9 @@ interface Floor {
   label: string
   mobileLabel: string
   desktopImage: SanityImage
-  tabletImage?: SanityImage
   mobileImage?: SanityImage
+  desktopSpacesOverlayImage?: SanityFile
+  mobileSpacesOverlayImage?: SanityFile
   spots?: CMSSpot[]
 }
 
@@ -77,7 +73,6 @@ export default function LeasingMap({
 }: LeasingMapProps) {
   const [activeTab, setActiveTab] = useState<string>('floor-1')
   const [zoomLevel, setZoomLevel] = useState(1)
-  const [hoveredSpot, setHoveredSpot] = useState<string | null>(null)
   const [selectedSpot, setSelectedSpot] = useState<ClickableSpot | null>(null)
   const [displaySpot, setDisplaySpot] = useState<ClickableSpot | null>(null)
   const [currentBreakpoint, setCurrentBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
@@ -126,8 +121,9 @@ export default function LeasingMap({
     label: string
     mobileLabel: string
     image: string
-    tabletImage: string
     mobileImage: string
+    desktopSpacesOverlayImage?: SanityFile
+    mobileSpacesOverlayImage?: SanityFile
     spots?: ClickableSpot[]
   }> = [
     { 
@@ -135,7 +131,6 @@ export default function LeasingMap({
       label: 'First Floor', 
       mobileLabel: 'Floor 1',
       image: '/images/map-floor-1.jpg',
-      tabletImage: '/images/map-floor-1.jpg',
       mobileImage: '/images/map-floor-1.jpg',
       spots: []
     },
@@ -144,7 +139,6 @@ export default function LeasingMap({
       label: 'Second Floor', 
       mobileLabel: 'Floor 2',
       image: '/images/map-floor-2.jpg',
-      tabletImage: '/images/map-floor-2.jpg',
       mobileImage: '/images/map-floor-2.jpg',
       spots: []
     },
@@ -153,11 +147,18 @@ export default function LeasingMap({
       label: 'Third Floor', 
       mobileLabel: 'Floor 3',
       image: '/images/map-floor-3.jpg',
-      tabletImage: '/images/map-floor-3.jpg',
       mobileImage: '/images/map-floor-3.jpg',
       spots: []
     }
   ]
+
+  // Helper function to normalize IDs (convert spaces to underscores, handle special chars)
+  const normalizeId = (id: string): string => {
+    return id
+      .trim()
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .replace(/[^a-zA-Z0-9_]/g, '') // Remove special characters except underscores
+  }
 
   // Transform CMS floors to component format
   const floors = cmsFloors && cmsFloors.length > 0
@@ -169,41 +170,42 @@ export default function LeasingMap({
         }
 
         const desktopImageUrl = urlFor(floor.desktopImage).width(2000).url() || ''
-        const tabletImageUrl = floor.tabletImage 
-          ? urlFor(floor.tabletImage).width(1200).url() || desktopImageUrl
-          : desktopImageUrl
         const mobileImageUrl = floor.mobileImage 
-          ? urlFor(floor.mobileImage).width(800).url() || tabletImageUrl
-          : tabletImageUrl
+          ? urlFor(floor.mobileImage).width(800).url() || desktopImageUrl
+          : desktopImageUrl
 
         // Transform CMS spots into component format
         const transformedSpots = floor.spots?.map((spot, spotIndex) => {
           const desktopMarkerUrl = spot.desktopMarkerImage 
             ? urlFor(spot.desktopMarkerImage).width(2000).url() || ''
             : ''
-          const tabletMarkerUrl = spot.tabletMarkerImage 
-            ? urlFor(spot.tabletMarkerImage).width(1200).url() || desktopMarkerUrl
-            : desktopMarkerUrl
           const mobileMarkerUrl = spot.mobileMarkerImage 
-            ? urlFor(spot.mobileMarkerImage).width(800).url() || tabletMarkerUrl
-            : tabletMarkerUrl
+            ? urlFor(spot.mobileMarkerImage).width(800).url() || desktopMarkerUrl
+            : desktopMarkerUrl
 
+          // Use the spot image field for popup, with fallback to marker images
+          const popupImageUrl = spot.image
+            ? urlFor(spot.image).width(2000).url() || ''
+            : desktopMarkerUrl
+          const popupMobileImageUrl = spot.image
+            ? urlFor(spot.image).width(800).url() || popupImageUrl
+            : mobileMarkerUrl
+
+          const normalizedId = spot.id ? normalizeId(spot.id) : `floor-${index + 1}-spot-${spotIndex + 1}`
+          
           return {
-            id: `floor-${index + 1}-spot-${spotIndex + 1}`,
+            id: normalizedId,
             title: spot.title,
             description: spot.description,
             position: spot.desktopPosition,
-            tabletPosition: spot.tabletPosition || spot.desktopPosition,
-            mobilePosition: spot.mobilePosition || spot.tabletPosition || spot.desktopPosition,
+            mobilePosition: spot.mobilePosition || spot.desktopPosition,
             hoverImage: desktopMarkerUrl,
-            tabletHoverImage: tabletMarkerUrl,
             mobileHoverImage: mobileMarkerUrl,
             popupContent: {
               title: spot.title,
               description: spot.description,
-              image: desktopMarkerUrl,
-              tabletImage: tabletMarkerUrl,
-              mobileImage: mobileMarkerUrl,
+              image: popupImageUrl,
+              mobileImage: popupMobileImageUrl,
             }
           }
         }) || []
@@ -213,29 +215,26 @@ export default function LeasingMap({
           label: floor.label,
           mobileLabel: floor.mobileLabel,
           image: desktopImageUrl,
-          tabletImage: tabletImageUrl,
           mobileImage: mobileImageUrl,
+          desktopSpacesOverlayImage: floor.desktopSpacesOverlayImage,
+          mobileSpacesOverlayImage: floor.mobileSpacesOverlayImage,
           spots: transformedSpots
         }
       })
     : defaultFloors
 
-  // Build spots object from CMS data
-  const buildSpotsFromFloors = () => {
-    const spotsObj: {
-      [key: string]: ClickableSpot[]
-    } = {}
-    
+  // Create a lookup map for spots by ID
+  const spotsById = React.useMemo(() => {
+    const lookup: { [key: string]: ClickableSpot } = {}
     floors.forEach((floor) => {
-      if (floor.spots && floor.spots.length > 0) {
-        spotsObj[floor.id] = floor.spots
+      if (floor.spots) {
+        floor.spots.forEach((spot) => {
+          lookup[spot.id] = spot
+        })
       }
     })
-    
-    return spotsObj
-  }
-
-  const activeSpots = buildSpotsFromFloors()
+    return lookup
+  }, [floors])
 
   // Preload all floor images to prevent flashing when switching tabs
   React.useEffect(() => {
@@ -243,7 +242,6 @@ export default function LeasingMap({
     
     floors.forEach((floor) => {
       if (floor.image) imagesToPreload.push(floor.image)
-      if (floor.tabletImage) imagesToPreload.push(floor.tabletImage)
       if (floor.mobileImage) imagesToPreload.push(floor.mobileImage)
     })
 
@@ -254,12 +252,11 @@ export default function LeasingMap({
   }, [floors])
 
   const handleImageLoad = (floorId: string) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev)
-      newSet.add(floorId)
-      console.log('Image loaded for floor:', floorId, 'Loaded floors:', Array.from(newSet))
-      return newSet
-    })
+      setLoadedImages(prev => {
+        const newSet = new Set(prev)
+        newSet.add(floorId)
+        return newSet
+      })
   }
 
   const handleZoomIn = () => {
@@ -270,20 +267,159 @@ export default function LeasingMap({
     setZoomLevel(prev => Math.max(prev - 0.25, 1))
   }
 
-  const handleSpotHover = (spot: ClickableSpot) => {
-    setHoveredSpot(spot.id)
-  }
-
-  const handleSpotLeave = () => {
-    setHoveredSpot(null)
-  }
-
-  const handleSpotClick = (spot: ClickableSpot) => {
+  const handleSpotClick = React.useCallback((spot: ClickableSpot) => {
     setSelectedSpot(spot)
-  }
+  }, [])
 
   const closePopup = () => {
     setSelectedSpot(null)
+  }
+
+  // Component to render inline SVG overlay
+  const SvgOverlay = ({ svgFile, className }: { svgFile?: SanityFile; className?: string }) => {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const [svgContent, setSvgContent] = useState<string | null>(null)
+
+    // Fetch SVG when component mounts and svgFile is available
+    useEffect(() => {
+      if (!svgFile) {
+        return
+      }
+
+      const svgUrl = fileUrlFor(svgFile)
+      
+      if (!svgUrl) {
+        console.warn('No SVG URL generated for overlay file', svgFile)
+        return
+      }
+
+
+      // Fetch the SVG file and inject it inline
+      fetch(svgUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch SVG: ${response.statusText}`)
+          }
+          return response.text()
+        })
+        .then((text) => {
+          setSvgContent(text)
+        })
+        .catch((err) => {
+          console.error('Error loading SVG overlay:', err)
+        })
+    }, [svgFile])
+
+    // Inject SVG into DOM when content is loaded and add click handlers
+    useEffect(() => {
+      if (!svgContent || !containerRef.current) {
+        return
+      }
+
+      // Parse and inject the SVG inline
+      const parser = new DOMParser()
+      const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml')
+      const svgElement = svgDoc.documentElement
+
+      // Check for parsing errors
+      const parserError = svgDoc.querySelector('parsererror')
+      if (parserError) {
+        console.error('SVG parsing error:', parserError.textContent)
+        return
+      }
+
+      // Clear container and inject the SVG
+      containerRef.current.innerHTML = ''
+      containerRef.current.appendChild(svgElement)
+
+      // Helper function to find a matching spot ID by traversing up the DOM tree
+      const findSpotId = (element: Element | null): string | null => {
+        let current: Element | null = element
+        while (current && current !== svgElement) {
+          const id = current.getAttribute('id')
+          if (id && spotsById[id]) {
+            return id
+          }
+          current = current.parentElement
+        }
+        return null
+      }
+
+      // Add a single click handler to the SVG root (event delegation)
+      const svgClickHandler = (e: Event) => {
+        const target = e.target as Element
+        if (!target) return
+        
+        const spotId = findSpotId(target)
+        
+        if (spotId) {
+          e.stopPropagation()
+          const spot = spotsById[spotId]
+          if (spot) {
+            handleSpotClick(spot)
+          }
+        }
+      }
+      
+      svgElement.addEventListener('click', svgClickHandler)
+      
+      // Make all elements with matching IDs show pointer cursor and ensure they're clickable
+      const makeClickable = (element: Element) => {
+        const elementId = element.getAttribute('id')
+        if (elementId && spotsById[elementId]) {
+          const currentStyle = element.getAttribute('style') || ''
+          let newStyle = currentStyle
+          if (!currentStyle.includes('cursor')) {
+            newStyle = `${newStyle} cursor: pointer;`.trim()
+          }
+          if (!currentStyle.includes('pointer-events')) {
+            newStyle = `${newStyle} pointer-events: auto;`.trim()
+          }
+          element.setAttribute('style', newStyle)
+        }
+        
+        // Recursively process children
+        Array.from(element.children).forEach((child) => {
+          makeClickable(child)
+        })
+      }
+      
+      makeClickable(svgElement)
+      
+      // Also ensure child elements (like paths) inherit pointer-events from parent groups
+      const ensureChildrenClickable = (element: Element) => {
+        const elementId = element.getAttribute('id')
+        if (elementId && spotsById[elementId]) {
+          // Make all children clickable too
+          Array.from(element.children).forEach((child) => {
+            const currentStyle = child.getAttribute('style') || ''
+            let newStyle = currentStyle
+            if (!currentStyle.includes('pointer-events')) {
+              newStyle = `${newStyle} pointer-events: auto;`.trim()
+            }
+            if (!currentStyle.includes('cursor')) {
+              newStyle = `${newStyle} cursor: pointer;`.trim()
+            }
+            child.setAttribute('style', newStyle)
+            ensureChildrenClickable(child)
+          })
+        }
+      }
+      
+      ensureChildrenClickable(svgElement)
+
+      // Cleanup function to remove event listeners
+      return () => {
+        svgElement.removeEventListener('click', svgClickHandler)
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [svgContent, spotsById, handleSpotClick])
+
+    if (!svgFile) {
+      return null
+    }
+
+    return <div ref={containerRef} className={className} />
   }
 
   return (
@@ -331,22 +467,6 @@ export default function LeasingMap({
                   />
                 )}
 
-                {/* Tablet Image */}
-                {floor.tabletImage && (
-                  <img 
-                    src={floor.tabletImage} 
-                    alt="" 
-                    className="regular tablet leasing-map__base-image"
-                    onLoad={() => handleImageLoad(floor.id)}
-                    ref={(img) => {
-                      // Handle images that are already cached - only update if not already loaded
-                      if (img?.complete && !loadedImages.has(floor.id)) {
-                        handleImageLoad(floor.id)
-                      }
-                    }}
-                  />
-                )}
-
                 {/* Mobile Image */}
                 {floor.mobileImage && (
                   <img 
@@ -367,61 +487,39 @@ export default function LeasingMap({
                 {floor.id === 'floor-1' && (
                   <div className={`loading-overlay ${loadedImages.has(floor.id) ? 'hidden' : ''}`} />
                 )}
-                
-                {/* Hover overlay images - preload all images for this floor */}
-                {activeSpots[floor.id as keyof typeof activeSpots]?.map((spot: ClickableSpot) => {
-                  // Get the appropriate hover image based on breakpoint
-                  let imageToUse = spot.hoverImage || ''
-                  if (currentBreakpoint === 'mobile' && spot.mobileHoverImage) {
-                    imageToUse = spot.mobileHoverImage
-                  } else if (currentBreakpoint === 'tablet' && spot.tabletHoverImage) {
-                    imageToUse = spot.tabletHoverImage
-                  }
 
-                  return imageToUse ? (
-                    <img
-                      key={spot.id}
-                      src={imageToUse}
-                      alt=""
-                      className={`regular leasing-map__hover-image ${(hoveredSpot === spot.id || selectedSpot?.id === spot.id) && activeTab === floor.id ? 'visible' : ''}`}
-                    />
-                  ) : null
-                })}
-                
-                {/* Clickable Spots */}
-                {activeSpots[floor.id as keyof typeof activeSpots] && activeSpots[floor.id as keyof typeof activeSpots]!.map((spot: ClickableSpot) => {
-                  // Determine which position to use based on breakpoint
-                  let position = spot.position
-                  if (currentBreakpoint === 'mobile' && spot.mobilePosition) {
-                    position = spot.mobilePosition
-                  } else if (currentBreakpoint === 'tablet' && spot.tabletPosition) {
-                    position = spot.tabletPosition
+                {/* SVG Overlay Images - Inline SVG based on breakpoint */}
+                {(() => {
+                  // Render appropriate overlay based on breakpoint
+                  if (currentBreakpoint === 'desktop' && floor.desktopSpacesOverlayImage) {
+                    return (
+                      <SvgOverlay 
+                        svgFile={floor.desktopSpacesOverlayImage} 
+                        className="regular desktop leasing-map__svg-overlay"
+                        key={`${floor.id}-desktop-overlay`}
+                      />
+                    )
                   }
-
-                  return (
-                    <button
-                      key={spot.id}
-                      className={`leasing-map__spot${hoveredSpot === spot.id ? ' hovered' : ''}`}
-                      style={{
-                        top: position.top,
-                        left: position.left,
-                      }}
-                      onMouseEnter={() => handleSpotHover(spot)}
-                      onMouseLeave={handleSpotLeave}
-                      onClick={() => handleSpotClick(spot)}
-                      title={spot.title}
-                    >
-                    <svg className="leasing-map__spot-indicator" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 27 27">
-                      <circle className="st1" cx="13.5" cy="13.5" r="13.5"/>
-                      <g>
-                        <line className="st0" x1="7.5741997" y1="19.1464014" x2="18.8683014" y2="7.8523016"/>
-                        <path className="st0" d="M7.5,12.4413996v7.0587997h7.0587997"/>
-                        <path className="st0" d="M19.5,14.5586023v-7.0588017h-7.0587997"/>
-                      </g>
-                    </svg>
-                  </button>
-                  )
-                })}
+                  if (currentBreakpoint === 'tablet' && floor.desktopSpacesOverlayImage) {
+                    return (
+                      <SvgOverlay 
+                        svgFile={floor.desktopSpacesOverlayImage} 
+                        className="regular tablet leasing-map__svg-overlay"
+                        key={`${floor.id}-tablet-overlay`}
+                      />
+                    )
+                  }
+                  if (currentBreakpoint === 'mobile' && (floor.mobileSpacesOverlayImage || floor.desktopSpacesOverlayImage)) {
+                    return (
+                      <SvgOverlay 
+                        svgFile={floor.mobileSpacesOverlayImage || floor.desktopSpacesOverlayImage} 
+                        className="regular mobile leasing-map__svg-overlay"
+                        key={`${floor.id}-mobile-overlay`}
+                      />
+                    )
+                  }
+                  return null
+                })()}
               </div>
             </div>
           ))}
@@ -454,7 +552,7 @@ export default function LeasingMap({
         </div>
         
         {/* Popup */}
-        <div className={`leasing-map__popup ${selectedSpot ? 'visible' : ''}`}>
+        <div className={`leasing-map__popup ${selectedSpot ? 'visible' : ''}`} data-space-id={selectedSpot?.id}>
           <div className="leasing-map__popup-content">
             <div className="leasing-map__popup-inner">
               <div className="leasing-map__popup-text">
