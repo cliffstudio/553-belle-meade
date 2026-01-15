@@ -182,16 +182,17 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'press',
     }),
     defineField({
-      name: 'pressSection',
-      title: 'Press Section',
-      type: 'pressSection',
+      name: 'pressContentBlocks',
+      title: 'Press Content Blocks',
+      type: 'pressContentBlocks',
+      description: 'Add and arrange press posts and testimonials',
       hidden: ({ document }) => document?.pageType !== 'press',
     }),
     defineField({
       name: 'pressCta',
       title: 'CTA Banner',
       type: 'ctaBanner',
-      hidden: ({ document }) => document?.pageType !== 'press',
+      hidden: () => true, // CTA banner removed from press pages
     }),
 
     // Text specific fields

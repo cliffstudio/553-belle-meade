@@ -172,8 +172,8 @@ export const pressType = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Layout 1', value: 'layout-1' },
-          { title: 'Layout 2', value: 'layout-2' }
+          { title: 'Layout 1 (Full Bleed Image)', value: 'layout-1' },
+          { title: 'Layout 2 (Inset Image)', value: 'layout-2' }
         ]
       }
     }),
@@ -182,16 +182,17 @@ export const pressType = defineType({
     select: {
       title: 'title',
       source: 'source',
-      media: 'featuredImage',
+      thumbnailImage: 'thumbnailImage',
+      featuredImage: 'featuredImage',
       publishedAt: 'publishedAt',
     },
     prepare(selection) {
-      const { title, source, media, publishedAt } = selection
+      const { title, source, thumbnailImage, featuredImage, publishedAt } = selection
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString() : ''
       return {
         title,
         subtitle: `${source} • ${date ? date : ''}`,
-        media,
+        media: thumbnailImage || featuredImage,
       }
     },
   },
