@@ -225,14 +225,14 @@ LEASING MAP STYLES --------------------
   }
 
   &__popup-content {
-    background-color: $colour-burgundy;
-    color: $colour-cream;
+    background-color: $colour-light-purple;
+    color: $colour-burgundy;
     position: absolute;
     top: 50%;
     left: get-rem-desktop(57);
     @include transform(translateY(-50%));
     padding: get-rem-desktop(25) get-rem-desktop(30) get-rem-desktop(30);
-    z-index: 9999;
+    z-index: 499;
     pointer-events: none;
     will-change: opacity;
     opacity: 0;
@@ -258,15 +258,15 @@ LEASING MAP STYLES --------------------
   &__popup-inner {
     @include flex;
     @include flex-direction(column);
-    row-gap: get-rem-desktop(95);
+    row-gap: get-rem-desktop(90);
     height: 100%;
 
     @media only screen and (max-width: 1440px) {
-      row-gap: get-rem-tablet(135);
+      row-gap: get-rem-tablet(100);
     }
 
     @media only screen and (max-width: 768px) {
-      row-gap: get-rem-mobile(45);
+      row-gap: get-rem-mobile(75);
       height: auto;
     }
   }
@@ -306,6 +306,7 @@ LEASING MAP STYLES --------------------
 
     svg {
       width: get-rem-desktop(20);
+      stroke: $colour-burgundy;
 
       @media only screen and (max-width: 1440px) {
         width: get-rem-tablet(20);
@@ -335,7 +336,7 @@ LEASING MAP STYLES --------------------
 
   &__popup-media {
     width: get-rem-desktop(440);
-    aspect-ratio: 440 / 248;
+    aspect-ratio: 3 / 2;
 
     @media only screen and (max-width: 1440px) {
       width: get-rem-tablet(365);
