@@ -260,6 +260,39 @@ LEASING MAP STYLES --------------------
         }
       }
     }
+
+    @media (orientation: portrait) {
+      position: relative;
+      display: block;
+
+      &.visible {
+        .leasing-map__popup-content {
+          display: block !important;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 950px) and (orientation: landscape) {
+      position: relative;
+      display: block;
+
+      &.visible {
+        .leasing-map__popup-content {
+          display: block !important;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 1024px) and (orientation: landscape) {
+      position: relative;
+      display: block;
+
+      &.visible {
+        .leasing-map__popup-content {
+          display: block !important;
+        }
+      }
+    }
   }
 
   &__popup-content {
@@ -291,6 +324,39 @@ LEASING MAP STYLES --------------------
       opacity: 1;
       pointer-events: all;
     }
+
+    @media (orientation: portrait) {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      padding: get-rem-mobile(45) get-rem-mobile(18) get-rem-mobile(18);
+      display: none;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @media only screen and (max-width: 950px) and (orientation: landscape) {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      padding: get-rem-mobile(45) get-rem-mobile(18) get-rem-mobile(18);
+      display: none;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @media only screen and (max-width: 1024px) and (orientation: landscape) {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      padding: get-rem-mobile(45) get-rem-mobile(18) get-rem-mobile(18);
+      display: none;
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 
   &__popup-inner {
@@ -304,6 +370,21 @@ LEASING MAP STYLES --------------------
     }
 
     @media only screen and (max-width: 768px) {
+      row-gap: get-rem-mobile(75);
+      height: auto;
+    }
+
+    @media (orientation: portrait) {
+      row-gap: get-rem-mobile(75);
+      height: auto;
+    }
+
+    @media only screen and (max-width: 950px) and (orientation: landscape) {
+      row-gap: get-rem-mobile(75);
+      height: auto;
+    }
+
+    @media only screen and (max-width: 1024px) and (orientation: landscape) {
       row-gap: get-rem-mobile(75);
       height: auto;
     }
@@ -323,6 +404,21 @@ LEASING MAP STYLES --------------------
     }
 
     @media only screen and (max-width: 768px) {
+      row-gap: get-rem-mobile(10);
+      height: auto;
+    }
+
+    @media (orientation: portrait) {
+      row-gap: get-rem-mobile(10);
+      height: auto;
+    }
+
+    @media only screen and (max-width: 950px) and (orientation: landscape) {
+      row-gap: get-rem-mobile(10);
+      height: auto;
+    }
+
+    @media only screen and (max-width: 1024px) and (orientation: landscape) {
       row-gap: get-rem-mobile(10);
       height: auto;
     }
@@ -353,6 +449,18 @@ LEASING MAP STYLES --------------------
       @media only screen and (max-width: 768px) {
         display: none;
       }
+
+      @media (orientation: portrait) {
+        display: none;
+      }
+
+      @media only screen and (max-width: 950px) and (orientation: landscape) {
+        display: none;
+      }
+
+      @media only screen and (max-width: 1024px) and (orientation: landscape) {
+        display: none;
+      }
     }
   }
 
@@ -381,6 +489,18 @@ LEASING MAP STYLES --------------------
     }
 
     @media only screen and (max-width: 768px) {
+      width: 100%;
+    }
+
+    @media (orientation: portrait) {
+      width: 100%;
+    }
+
+    @media only screen and (max-width: 950px) and (orientation: landscape) {
+      width: 100%;
+    }
+
+    @media only screen and (max-width: 1024px) and (orientation: landscape) {
       width: 100%;
     }
   }
