@@ -116,9 +116,9 @@ const PressPost: React.FC<PressPostProps> = ({
 
             <div className="col-2-12_lg desktop"></div>
 
-            <div className="col-5-12_lg">
+            <div className="col-5-12_lg out-of-opacity">
               {featuredImage && (
-                <div className="media-wrap relative out-of-opacity">
+                <div className="media-wrap relative">
                   <img 
                   data-src={urlFor(featuredImage).url()} 
                   alt="" 
