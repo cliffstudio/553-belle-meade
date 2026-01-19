@@ -75,10 +75,48 @@ export default function LeasingMap({
 }: LeasingMapProps) {
   const [activeTab, setActiveTab] = useState<string>('floor-1')
   const [zoomLevel, setZoomLevel] = useState(1)
+  const [panX, setPanX] = useState(0)
+  const [panY, setPanY] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartRef = useRef({ x: 0, y: 0 })
+  const justDraggedRef = useRef(false)
+  const hasDraggedRef = useRef(false)
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  // Constrain pan values to keep content within bounds
+  const constrainPan = React.useCallback((x: number, y: number, zoom: number): { x: number; y: number } => {
+    if (zoom <= 1) return { x: 0, y: 0 }
+    
+    if (!panelRef.current) return { x, y }
+    
+    const container = panelRef.current
+    const containerWidth = container.offsetWidth
+    const containerHeight = container.offsetHeight
+    
+    // Get the image dimensions (assuming images fill the container)
+    const imageWidth = containerWidth
+    const imageHeight = containerHeight
+    
+    // Calculate scaled dimensions
+    const scaledWidth = imageWidth * zoom
+    const scaledHeight = imageHeight * zoom
+    
+    // Calculate maximum pan distance
+    // When zoomed, we can pan up to half the difference between scaled and container size
+    const maxPanX = (scaledWidth - containerWidth) / 2
+    const maxPanY = (scaledHeight - containerHeight) / 2
+    
+    // Constrain the pan values
+    const constrainedX = Math.max(-maxPanX, Math.min(maxPanX, x))
+    const constrainedY = Math.max(-maxPanY, Math.min(maxPanY, y))
+    
+    return { x: constrainedX, y: constrainedY }
+  }, [])
   const [selectedSpot, setSelectedSpot] = useState<ClickableSpot | null>(null)
   const [displaySpot, setDisplaySpot] = useState<ClickableSpot | null>(null)
   const [currentBreakpoint, setCurrentBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
+  const mediaWrapRef = useRef<HTMLDivElement>(null)
 
   // Detect current breakpoint
   React.useEffect(() => {
@@ -266,8 +304,206 @@ export default function LeasingMap({
   }
 
   const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.25, 1))
+    const newZoom = Math.max(zoomLevel - 0.25, 1)
+    setZoomLevel(newZoom)
+    // Reset pan when zooming back to 1
+    if (newZoom === 1) {
+      setPanX(0)
+      setPanY(0)
+    }
   }
+
+  // Drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomLevel <= 1) return
+    // Don't start dragging if clicking directly on a clickable spot
+    const target = e.target as Element
+    // Check if the clicked element or any parent has an ID that matches a spot
+    let current: Element | null = target
+    while (current && current !== e.currentTarget) {
+      const id = current.getAttribute('id')
+      if (id && spotsById[id]) {
+        // This is a clickable spot, don't start dragging
+        return
+      }
+      current = current.parentElement
+    }
+    e.preventDefault()
+    setIsDragging(true)
+    hasDraggedRef.current = false
+    dragStartRef.current = {
+      x: e.clientX - panX,
+      y: e.clientY - panY
+    }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || zoomLevel <= 1) return
+    e.preventDefault()
+    const deltaX = e.clientX - dragStartRef.current.x
+    const deltaY = e.clientY - dragStartRef.current.y
+    // Only consider it a drag if moved more than 5px
+    if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+      hasDraggedRef.current = true
+    }
+    const constrained = constrainPan(deltaX, deltaY, zoomLevel)
+    setPanX(constrained.x)
+    setPanY(constrained.y)
+  }
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (isDragging && hasDraggedRef.current) {
+      // Prevent click events if we dragged
+      e.preventDefault()
+      e.stopPropagation()
+      justDraggedRef.current = true
+      // Clear the flag after a short delay to allow normal clicks again
+      setTimeout(() => {
+        justDraggedRef.current = false
+      }, 100)
+    }
+    setIsDragging(false)
+    hasDraggedRef.current = false
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (zoomLevel <= 1) return
+    if (e.touches.length === 1) {
+      // Don't start dragging if touching directly on a clickable spot
+      const target = e.target as Element
+      // Check if the touched element or any parent has an ID that matches a spot
+      let current: Element | null = target
+      while (current && current !== e.currentTarget) {
+        const id = current.getAttribute('id')
+        if (id && spotsById[id]) {
+          // This is a clickable spot, don't start dragging
+          return
+        }
+        current = current.parentElement
+      }
+      e.preventDefault()
+      setIsDragging(true)
+      hasDraggedRef.current = false
+      dragStartRef.current = {
+        x: e.touches[0].clientX - panX,
+        y: e.touches[0].clientY - panY
+      }
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || zoomLevel <= 1 || e.touches.length !== 1) return
+    e.preventDefault()
+    const deltaX = e.touches[0].clientX - dragStartRef.current.x
+    const deltaY = e.touches[0].clientY - dragStartRef.current.y
+    // Only consider it a drag if moved more than 5px
+    if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+      hasDraggedRef.current = true
+    }
+    const constrained = constrainPan(deltaX, deltaY, zoomLevel)
+    setPanX(constrained.x)
+    setPanY(constrained.y)
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (isDragging && hasDraggedRef.current) {
+      // Prevent click events if we dragged
+      e.preventDefault()
+      e.stopPropagation()
+      justDraggedRef.current = true
+      // Clear the flag after a short delay to allow normal clicks again
+      setTimeout(() => {
+        justDraggedRef.current = false
+      }, 100)
+    }
+    setIsDragging(false)
+    hasDraggedRef.current = false
+  }
+
+  // Reset pan when zoom resets to 1, and constrain pan when zoom changes
+  React.useEffect(() => {
+    if (zoomLevel === 1) {
+      setPanX(0)
+      setPanY(0)
+    } else {
+      // Constrain existing pan values when zoom changes using functional updates
+      setPanX(prevX => {
+        let constrainedX = prevX
+        setPanY(prevY => {
+          const constrained = constrainPan(prevX, prevY, zoomLevel)
+          constrainedX = constrained.x
+          return constrained.y
+        })
+        return constrainedX
+      })
+    }
+  }, [zoomLevel, constrainPan])
+
+  // Add global mouse/touch event listeners for dragging
+  React.useEffect(() => {
+    if (!isDragging) return
+
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (zoomLevel <= 1) return
+      const deltaX = e.clientX - dragStartRef.current.x
+      const deltaY = e.clientY - dragStartRef.current.y
+      // Only consider it a drag if moved more than 5px
+      if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+        hasDraggedRef.current = true
+      }
+      const constrained = constrainPan(deltaX, deltaY, zoomLevel)
+      setPanX(constrained.x)
+      setPanY(constrained.y)
+    }
+
+    const handleGlobalMouseUp = () => {
+      if (hasDraggedRef.current) {
+        justDraggedRef.current = true
+        setTimeout(() => {
+          justDraggedRef.current = false
+        }, 100)
+      }
+      setIsDragging(false)
+      hasDraggedRef.current = false
+    }
+
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (zoomLevel <= 1 || e.touches.length !== 1) return
+      e.preventDefault()
+      const deltaX = e.touches[0].clientX - dragStartRef.current.x
+      const deltaY = e.touches[0].clientY - dragStartRef.current.y
+      // Only consider it a drag if moved more than 5px
+      if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+        hasDraggedRef.current = true
+      }
+      const constrained = constrainPan(deltaX, deltaY, zoomLevel)
+      setPanX(constrained.x)
+      setPanY(constrained.y)
+    }
+
+    const handleGlobalTouchEnd = () => {
+      if (hasDraggedRef.current) {
+        justDraggedRef.current = true
+        setTimeout(() => {
+          justDraggedRef.current = false
+        }, 100)
+      }
+      setIsDragging(false)
+      hasDraggedRef.current = false
+    }
+
+    window.addEventListener('mousemove', handleGlobalMouseMove)
+    window.addEventListener('mouseup', handleGlobalMouseUp)
+    window.addEventListener('touchmove', handleGlobalTouchMove, { passive: false })
+    window.addEventListener('touchend', handleGlobalTouchEnd)
+
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove)
+      window.removeEventListener('mouseup', handleGlobalMouseUp)
+      window.removeEventListener('touchmove', handleGlobalTouchMove)
+      window.removeEventListener('touchend', handleGlobalTouchEnd)
+    }
+  }, [isDragging, zoomLevel, constrainPan])
 
   const handleSpotClick = React.useCallback((spot: ClickableSpot) => {
     setSelectedSpot(spot)
@@ -349,6 +585,13 @@ export default function LeasingMap({
 
       // Add a single click handler to the SVG root (event delegation)
       const svgClickHandler = (e: Event) => {
+        // Prevent clicks immediately after dragging
+        if (justDraggedRef.current) {
+          e.preventDefault()
+          e.stopPropagation()
+          return
+        }
+        
         const target = e.target as Element
         if (!target) return
         
@@ -374,8 +617,12 @@ export default function LeasingMap({
           if (!currentStyle.includes('cursor')) {
             newStyle = `${newStyle} cursor: pointer;`.trim()
           }
+          // Always set pointer-events: auto for clickable elements
           if (!currentStyle.includes('pointer-events')) {
             newStyle = `${newStyle} pointer-events: auto;`.trim()
+          } else if (!currentStyle.includes('pointer-events: auto')) {
+            // Replace any existing pointer-events with auto
+            newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
           }
           element.setAttribute('style', newStyle)
         }
@@ -398,6 +645,9 @@ export default function LeasingMap({
             let newStyle = currentStyle
             if (!currentStyle.includes('pointer-events')) {
               newStyle = `${newStyle} pointer-events: auto;`.trim()
+            } else if (!currentStyle.includes('pointer-events: auto')) {
+              // Replace any existing pointer-events with auto
+              newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
             }
             if (!currentStyle.includes('cursor')) {
               newStyle = `${newStyle} cursor: pointer;`.trim()
@@ -446,11 +696,23 @@ export default function LeasingMap({
           {floors.map((floor) => (
             <div
               key={floor.id}
+              ref={activeTab === floor.id ? panelRef : null}
               className={`leasing-map__panel ${activeTab === floor.id ? 'active' : ''}`}
             >
               <div 
+                ref={activeTab === floor.id ? mediaWrapRef : null}
                 className="media-wrap"
-                style={{ transform: `scale(${zoomLevel})` }}
+                style={activeTab === floor.id ? { 
+                  transform: `scale(${zoomLevel}) translate(${panX}px, ${panY}px)`,
+                  cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+                } : undefined}
+                onMouseDown={activeTab === floor.id && zoomLevel > 1 ? handleMouseDown : undefined}
+                onMouseMove={activeTab === floor.id && zoomLevel > 1 ? handleMouseMove : undefined}
+                onMouseUp={activeTab === floor.id ? handleMouseUp : undefined}
+                onMouseLeave={activeTab === floor.id ? handleMouseUp : undefined}
+                onTouchStart={activeTab === floor.id && zoomLevel > 1 ? handleTouchStart : undefined}
+                onTouchMove={activeTab === floor.id && zoomLevel > 1 ? handleTouchMove : undefined}
+                onTouchEnd={activeTab === floor.id ? handleTouchEnd : undefined}
               >
                 {/* Base floor plan images */}
                 {/* Desktop Image */}
