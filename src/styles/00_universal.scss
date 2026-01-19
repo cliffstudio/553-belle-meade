@@ -1015,6 +1015,7 @@ section {
 
   @media (hover: hover) {
     &:hover {
+      h1,
       h2 {
         font-family: 'Millionaire-Script';
         @include transform(translateY(-0.17em));
@@ -1087,7 +1088,7 @@ section {
   }
   
   .heading {
-    max-width: get-rem-desktop(180);
+    max-width: get-rem-desktop(310);
     margin-bottom: get-rem-desktop(10);
 
     @media only screen and (max-width: 1440px) {
