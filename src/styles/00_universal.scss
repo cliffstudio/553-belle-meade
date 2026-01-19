@@ -2166,7 +2166,7 @@ section {
       }
 
       @media only screen and (max-width: 768px) {
-        margin-top: get-rem-mobile(160);
+        margin-top: get-rem-mobile(114);
         @include flex;
         @include flex-direction(column-reverse);
       }
@@ -2235,7 +2235,7 @@ section {
       }
 
       @media only screen and (max-width: 768px) {
-        padding-top: get-rem-mobile(300);
+        padding-top: get-rem-mobile(114);
         padding-bottom: get-rem-mobile(56);
       }
 
@@ -2445,5 +2445,13 @@ section {
 
   @media only screen and (max-width: 768px) and (orientation: portrait) {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+  .page-carousel {
+    .scroll-buffer {
+      display: block;
+    }
   }
 }
