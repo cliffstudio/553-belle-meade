@@ -2,7 +2,7 @@
 
 import { PortableText, PortableTextBlock } from '@portabletext/react';
 import React, { useState } from 'react';
-import Select, { MultiValue } from 'react-select';
+import Select from 'react-select';
 import { portableTextComponents } from '../utils/portableTextComponents';
 
 type Option = {
@@ -24,7 +24,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
     city: '',
     province: '',
     postcode: '',
-    leasing_interest: [] as string[],
+    leasing_interest: '',
     comments: '',
     source: 'Website',
     redirect_success: '',
@@ -89,10 +89,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
       submitData.append('contact[postcode]', formData.postcode);
       
       // Add other fields
-      if (formData.leasing_interest.length > 0) {
-        formData.leasing_interest.forEach(interest => {
-          submitData.append('answers[24729][answers][]', interest);
-        });
+      if (formData.leasing_interest) {
+        submitData.append('answers[24729][answers]', formData.leasing_interest);
       }
       if (formData.comments) {
         submitData.append('contact[comments]', formData.comments);
@@ -123,7 +121,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
             city: '',
             province: '',
             postcode: '',
-            leasing_interest: [],
+            leasing_interest: '',
             comments: '',
             source: 'Website',
             redirect_success: '',
@@ -148,7 +146,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
             city: '',
             province: '',
             postcode: '',
-            leasing_interest: [],
+            leasing_interest: '',
             comments: '',
             source: 'Website',
             redirect_success: '',
@@ -180,10 +178,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
   ];
 
   const leasingInterestOptions = [
-    { value: 'One Bedroom', label: 'One Bedroom' },
-    { value: 'Two Bedrooms', label: 'Two Bedrooms' },
-    { value: 'Three Bedrooms', label: 'Three Bedrooms' },
-    { value: 'Four Bedrooms', label: 'Four Bedrooms' },
+    { value: 'Shopping', label: 'Shopping' },
+    { value: 'Dining', label: 'Dining' },
+    { value: 'Wellness', label: 'Wellness' },
   ] as Option[];
 
 
@@ -326,29 +323,27 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
             <div className="form-group">
               <Select
                 instanceId="leasing_interest"
-                inputId="leasing_interest"
-                placeholder="I am interested in"
+                inputId="answers_24729"
+                placeholder="Leasing interest"
                 classNamePrefix="rs"
-                isMulti
                 isSearchable={false}
                 options={leasingInterestOptions}
-                value={formData.leasing_interest.map<Option>(interest => ({ value: interest, label: interest }))}
-                onChange={(selectedOptions) => {
-                  const values = (selectedOptions as MultiValue<Option> | null)?.map(o => o.value) ?? [];
-                  setFormData((prev) => ({ ...prev, leasing_interest: values }));
+                value={leasingInterestOptions.find(option => option.value === formData.leasing_interest) || null}
+                onChange={(selectedOption) => {
+                  const value = selectedOption ? selectedOption.value : '';
+                  setFormData((prev) => ({ ...prev, leasing_interest: value }));
                 }}
                 styles={{
                   control: (base) => ({ ...base, borderRadius: 0 }),
                 }}
               />
-              {formData.leasing_interest.map((interest, index) => (
+              {formData.leasing_interest && (
                 <input
-                  key={index}
                   type="hidden"
-                  name="answers[24729][answers][]"
-                  value={interest}
+                  name="answers[24729][answers]"
+                  value={formData.leasing_interest}
                 />
-              ))}
+              )}
             </div>
 
             <div className="form-group">
