@@ -18,16 +18,16 @@ interface ClickableSpot {
     left: string // percentage or pixel value
   }
   hoverImage?: string // optional image to show on hover
-  mobileHoverImage?: string
-  mobilePosition?: {
-    top: string
-    left: string
-  }
+  // mobileHoverImage?: string
+  // mobilePosition?: {
+  //   top: string
+  //   left: string
+  // }
   popupContent: {
     title: string
     description?: PortableTextBlock[]
     image?: string
-    mobileImage?: string
+    // mobileImage?: string
     details?: string[]
   }
 }
@@ -43,18 +43,18 @@ interface CMSSpot {
   description?: PortableTextBlock[]
   image?: SanityImage
   desktopMarkerImage?: SanityImage
-  mobileMarkerImage?: SanityImage
+  // mobileMarkerImage?: SanityImage
   desktopPosition: Position
-  mobilePosition?: Position
+  // mobilePosition?: Position
 }
 
 interface Floor {
   label: string
   mobileLabel: string
   desktopImage: SanityImage
-  mobileImage?: SanityImage
+  // mobileImage?: SanityImage
   desktopSpacesOverlayImage?: SanityFile
-  mobileSpacesOverlayImage?: SanityFile
+  // mobileSpacesOverlayImage?: SanityFile
   spots?: CMSSpot[]
 }
 
@@ -161,9 +161,9 @@ export default function LeasingMap({
     label: string
     mobileLabel: string
     image: string
-    mobileImage: string
+    // mobileImage: string
     desktopSpacesOverlayImage?: SanityFile
-    mobileSpacesOverlayImage?: SanityFile
+    // mobileSpacesOverlayImage?: SanityFile
     spots?: ClickableSpot[]
   }> = [
     { 
@@ -171,7 +171,7 @@ export default function LeasingMap({
       label: 'First Floor', 
       mobileLabel: 'Floor 1',
       image: '/images/map-floor-1.jpg',
-      mobileImage: '/images/map-floor-1.jpg',
+      // mobileImage: '/images/map-floor-1.jpg',
       spots: []
     },
     { 
@@ -179,7 +179,7 @@ export default function LeasingMap({
       label: 'Second Floor', 
       mobileLabel: 'Floor 2',
       image: '/images/map-floor-2.jpg',
-      mobileImage: '/images/map-floor-2.jpg',
+      // mobileImage: '/images/map-floor-2.jpg',
       spots: []
     },
     { 
@@ -187,7 +187,7 @@ export default function LeasingMap({
       label: 'Third Floor', 
       mobileLabel: 'Floor 3',
       image: '/images/map-floor-3.jpg',
-      mobileImage: '/images/map-floor-3.jpg',
+      // mobileImage: '/images/map-floor-3.jpg',
       spots: []
     }
   ]
@@ -210,26 +210,26 @@ export default function LeasingMap({
         }
 
         const desktopImageUrl = urlFor(floor.desktopImage).width(2000).url() || ''
-        const mobileImageUrl = floor.mobileImage 
-          ? urlFor(floor.mobileImage).width(800).url() || desktopImageUrl
-          : desktopImageUrl
+        // const mobileImageUrl = floor.mobileImage 
+        //   ? urlFor(floor.mobileImage).width(800).url() || desktopImageUrl
+        //   : desktopImageUrl
 
         // Transform CMS spots into component format
         const transformedSpots = floor.spots?.map((spot, spotIndex) => {
           const desktopMarkerUrl = spot.desktopMarkerImage 
             ? urlFor(spot.desktopMarkerImage).width(2000).url() || ''
             : ''
-          const mobileMarkerUrl = spot.mobileMarkerImage 
-            ? urlFor(spot.mobileMarkerImage).width(800).url() || desktopMarkerUrl
-            : desktopMarkerUrl
+          // const mobileMarkerUrl = spot.mobileMarkerImage 
+          //   ? urlFor(spot.mobileMarkerImage).width(800).url() || desktopMarkerUrl
+          //   : desktopMarkerUrl
 
           // Use the spot image field for popup, with fallback to marker images
           const popupImageUrl = spot.image
             ? urlFor(spot.image).width(2000).url() || ''
             : desktopMarkerUrl
-          const popupMobileImageUrl = spot.image
-            ? urlFor(spot.image).width(800).url() || popupImageUrl
-            : mobileMarkerUrl
+          // const popupMobileImageUrl = spot.image
+          //   ? urlFor(spot.image).width(800).url() || popupImageUrl
+          //   : mobileMarkerUrl
 
           const normalizedId = spot.id ? normalizeId(spot.id) : `floor-${index + 1}-spot-${spotIndex + 1}`
           
@@ -238,14 +238,14 @@ export default function LeasingMap({
             title: spot.title,
             description: spot.description,
             position: spot.desktopPosition,
-            mobilePosition: spot.mobilePosition || spot.desktopPosition,
+            // mobilePosition: spot.mobilePosition || spot.desktopPosition,
             hoverImage: desktopMarkerUrl,
-            mobileHoverImage: mobileMarkerUrl,
+            // mobileHoverImage: mobileMarkerUrl,
             popupContent: {
               title: spot.title,
               description: spot.description,
               image: popupImageUrl,
-              mobileImage: popupMobileImageUrl,
+              // mobileImage: popupMobileImageUrl,
             }
           }
         }) || []
@@ -255,9 +255,9 @@ export default function LeasingMap({
           label: floor.label,
           mobileLabel: floor.mobileLabel,
           image: desktopImageUrl,
-          mobileImage: mobileImageUrl,
+          // mobileImage: mobileImageUrl,
           desktopSpacesOverlayImage: floor.desktopSpacesOverlayImage,
-          mobileSpacesOverlayImage: floor.mobileSpacesOverlayImage,
+          // mobileSpacesOverlayImage: floor.mobileSpacesOverlayImage,
           spots: transformedSpots
         }
       })
@@ -282,7 +282,7 @@ export default function LeasingMap({
     
     floors.forEach((floor) => {
       if (floor.image) imagesToPreload.push(floor.image)
-      if (floor.mobileImage) imagesToPreload.push(floor.mobileImage)
+      // if (floor.mobileImage) imagesToPreload.push(floor.mobileImage)
     })
 
     imagesToPreload.forEach((src) => {
@@ -514,9 +514,10 @@ export default function LeasingMap({
   }
 
   // Component to render inline SVG overlay
-  const SvgOverlay = ({ svgFile, className }: { svgFile?: SanityFile; className?: string }) => {
+  const SvgOverlay = ({ svgFile, className, activeSpotId }: { svgFile?: SanityFile; className?: string; activeSpotId?: string | null }) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [svgContent, setSvgContent] = useState<string | null>(null)
+    const activeSpotIdRef = useRef<string | null>(null)
 
     // Fetch SVG when component mounts and svgFile is available
     useEffect(() => {
@@ -566,21 +567,33 @@ export default function LeasingMap({
         return
       }
 
+      // Set SVG attributes to scale like the image (cover behavior)
+      svgElement.setAttribute('width', '100%')
+      svgElement.setAttribute('height', '100%')
+      svgElement.setAttribute('preserveAspectRatio', 'xMidYMid slice')
+
       // Clear container and inject the SVG
       containerRef.current.innerHTML = ''
       containerRef.current.appendChild(svgElement)
 
-      // Helper function to find a matching spot ID by traversing up the DOM tree
-      const findSpotId = (element: Element | null): string | null => {
+      // Helper function to find a matching spot ID and element by traversing up the DOM tree
+      const findSpotIdAndElement = (element: Element | null): { spotId: string | null; element: Element | null } => {
         let current: Element | null = element
         while (current && current !== svgElement) {
           const id = current.getAttribute('id')
-          if (id && spotsById[id]) {
-            return id
+          if (id) {
+            // Check both the raw ID and normalized ID
+            const normalizedId = normalizeId(id)
+            if (spotsById[id]) {
+              return { spotId: id, element: current }
+            }
+            if (spotsById[normalizedId]) {
+              return { spotId: normalizedId, element: current }
+            }
           }
           current = current.parentElement
         }
-        return null
+        return { spotId: null, element: null }
       }
 
       // Add a single click handler to the SVG root (event delegation)
@@ -595,12 +608,79 @@ export default function LeasingMap({
         const target = e.target as Element
         if (!target) return
         
-        const spotId = findSpotId(target)
+        const { spotId, element: clickedElement } = findSpotIdAndElement(target)
         
-        if (spotId) {
+        if (spotId && clickedElement) {
           e.stopPropagation()
           const spot = spotsById[spotId]
           if (spot) {
+            // Query from the actual DOM container, not the parsed SVG element
+            // This ensures we're working with the actual DOM elements
+            const container = containerRef.current
+            if (!container) {
+              handleSpotClick(spot)
+              return
+            }
+            
+            // Remove 'active' class from all elements first
+            const allElements = container.querySelectorAll('[id]')
+            allElements.forEach((element) => {
+              element.classList.remove('active')
+              // Also remove from children
+              element.querySelectorAll('*').forEach((child) => {
+                child.classList.remove('active')
+              })
+            })
+            
+            // Use clickedElement directly - it should already be the element with the matching ID
+            // But also try to find it by ID from the actual DOM to ensure we have the correct element
+            const clickedElementId = clickedElement.getAttribute('id')
+            let targetElement: Element | null = clickedElement // Start with clickedElement
+            
+            // Try to find the element by ID from the actual DOM
+            // This handles cases where the SVG might be regenerated or the element reference is stale
+            if (clickedElementId) {
+              // Try to find by the clicked element's ID
+              const foundById = container.querySelector(`#${CSS.escape(clickedElementId)}`)
+              if (foundById) {
+                targetElement = foundById
+              } else {
+                // Try with spotId
+                const foundBySpotId = container.querySelector(`#${CSS.escape(spotId)}`)
+                if (foundBySpotId) {
+                  targetElement = foundBySpotId
+                }
+              }
+            } else {
+              // If clickedElement doesn't have an ID, try finding by spotId
+              const foundBySpotId = container.querySelector(`#${CSS.escape(spotId)}`)
+              if (foundBySpotId) {
+                targetElement = foundBySpotId
+              }
+            }
+            
+            // Add 'active' class to the element
+            if (targetElement) {
+              // Store the active spot ID
+              activeSpotIdRef.current = spotId
+              
+              // Use both classList and setAttribute to ensure the class is added
+              targetElement.classList.add('active')
+              const currentClass = targetElement.getAttribute('class') || ''
+              if (!currentClass.includes('active')) {
+                targetElement.setAttribute('class', currentClass ? `${currentClass} active` : 'active')
+              }
+              
+              // Also add to all children
+              targetElement.querySelectorAll('*').forEach((child) => {
+                child.classList.add('active')
+                const childClass = child.getAttribute('class') || ''
+                if (!childClass.includes('active')) {
+                  child.setAttribute('class', childClass ? `${childClass} active` : 'active')
+                }
+              })
+            }
+            
             handleSpotClick(spot)
           }
         }
@@ -611,20 +691,26 @@ export default function LeasingMap({
       // Make all elements with matching IDs show pointer cursor and ensure they're clickable
       const makeClickable = (element: Element) => {
         const elementId = element.getAttribute('id')
-        if (elementId && spotsById[elementId]) {
-          const currentStyle = element.getAttribute('style') || ''
-          let newStyle = currentStyle
-          if (!currentStyle.includes('cursor')) {
-            newStyle = `${newStyle} cursor: pointer;`.trim()
+        if (elementId) {
+          // Check both raw ID and normalized ID
+          const normalizedId = normalizeId(elementId)
+          const isClickable = spotsById[elementId] || spotsById[normalizedId]
+          
+          if (isClickable) {
+            const currentStyle = element.getAttribute('style') || ''
+            let newStyle = currentStyle
+            if (!currentStyle.includes('cursor')) {
+              newStyle = `${newStyle} cursor: pointer;`.trim()
+            }
+            // Always set pointer-events: auto for clickable elements
+            if (!currentStyle.includes('pointer-events')) {
+              newStyle = `${newStyle} pointer-events: auto;`.trim()
+            } else if (!currentStyle.includes('pointer-events: auto')) {
+              // Replace any existing pointer-events with auto
+              newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
+            }
+            element.setAttribute('style', newStyle)
           }
-          // Always set pointer-events: auto for clickable elements
-          if (!currentStyle.includes('pointer-events')) {
-            newStyle = `${newStyle} pointer-events: auto;`.trim()
-          } else if (!currentStyle.includes('pointer-events: auto')) {
-            // Replace any existing pointer-events with auto
-            newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
-          }
-          element.setAttribute('style', newStyle)
         }
         
         // Recursively process children
@@ -638,23 +724,29 @@ export default function LeasingMap({
       // Also ensure child elements (like paths) inherit pointer-events from parent groups
       const ensureChildrenClickable = (element: Element) => {
         const elementId = element.getAttribute('id')
-        if (elementId && spotsById[elementId]) {
-          // Make all children clickable too
-          Array.from(element.children).forEach((child) => {
-            const currentStyle = child.getAttribute('style') || ''
-            let newStyle = currentStyle
-            if (!currentStyle.includes('pointer-events')) {
-              newStyle = `${newStyle} pointer-events: auto;`.trim()
-            } else if (!currentStyle.includes('pointer-events: auto')) {
-              // Replace any existing pointer-events with auto
-              newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
-            }
-            if (!currentStyle.includes('cursor')) {
-              newStyle = `${newStyle} cursor: pointer;`.trim()
-            }
-            child.setAttribute('style', newStyle)
-            ensureChildrenClickable(child)
-          })
+        if (elementId) {
+          // Check both raw ID and normalized ID
+          const normalizedId = normalizeId(elementId)
+          const isClickable = spotsById[elementId] || spotsById[normalizedId]
+          
+          if (isClickable) {
+            // Make all children clickable too
+            Array.from(element.children).forEach((child) => {
+              const currentStyle = child.getAttribute('style') || ''
+              let newStyle = currentStyle
+              if (!currentStyle.includes('pointer-events')) {
+                newStyle = `${newStyle} pointer-events: auto;`.trim()
+              } else if (!currentStyle.includes('pointer-events: auto')) {
+                // Replace any existing pointer-events with auto
+                newStyle = newStyle.replace(/pointer-events:\s*[^;]+;?/g, 'pointer-events: auto;')
+              }
+              if (!currentStyle.includes('cursor')) {
+                newStyle = `${newStyle} cursor: pointer;`.trim()
+              }
+              child.setAttribute('style', newStyle)
+              ensureChildrenClickable(child)
+            })
+          }
         }
       }
       
@@ -666,6 +758,87 @@ export default function LeasingMap({
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [svgContent, spotsById, handleSpotClick])
+
+    // Effect to apply/remove active class based on activeSpotId prop
+    useEffect(() => {
+      const container = containerRef.current
+      if (!container) return
+
+      // Function to apply active class to an element by spotId
+      const applyActiveClass = (spotId: string) => {
+        // Remove active class from all elements first
+        const allElements = container.querySelectorAll('[id]')
+        allElements.forEach((element) => {
+          element.classList.remove('active')
+          element.querySelectorAll('*').forEach((child) => {
+            child.classList.remove('active')
+          })
+        })
+
+        // Find and activate the element with matching ID
+        // Try multiple strategies to find the element
+        let targetElement: Element | null = null
+        
+        // Strategy 1: Try exact match
+        targetElement = container.querySelector(`#${CSS.escape(spotId)}`)
+        
+        // Strategy 2: Try normalized version
+        if (!targetElement) {
+          const normalizedId = normalizeId(spotId)
+          targetElement = container.querySelector(`#${CSS.escape(normalizedId)}`)
+        }
+        
+        // Strategy 3: Iterate through all elements and find by ID match
+        if (!targetElement) {
+          allElements.forEach((element) => {
+            const elementId = element.getAttribute('id')
+            if (elementId) {
+              if (elementId === spotId || normalizeId(elementId) === spotId || normalizeId(spotId) === elementId) {
+                targetElement = element
+              }
+            }
+          })
+        }
+        
+        if (targetElement) {
+          targetElement.classList.add('active')
+          const currentClass = targetElement.getAttribute('class') || ''
+          if (!currentClass.includes('active')) {
+            targetElement.setAttribute('class', currentClass ? `${currentClass} active` : 'active')
+          }
+          targetElement.querySelectorAll('*').forEach((child) => {
+            child.classList.add('active')
+            const childClass = child.getAttribute('class') || ''
+            if (!childClass.includes('active')) {
+              child.setAttribute('class', childClass ? `${childClass} active` : 'active')
+            }
+          })
+        }
+      }
+
+      // Function to remove active class from all elements
+      const removeActiveClass = () => {
+        const allElements = container.querySelectorAll('[id]')
+        allElements.forEach((element) => {
+          element.classList.remove('active')
+          element.querySelectorAll('*').forEach((child) => {
+            child.classList.remove('active')
+          })
+        })
+        activeSpotIdRef.current = null
+      }
+
+      // Apply or remove active class based on activeSpotId
+      if (activeSpotId) {
+        activeSpotIdRef.current = activeSpotId
+        // Use requestAnimationFrame to ensure DOM is ready
+        requestAnimationFrame(() => {
+          applyActiveClass(activeSpotId)
+        })
+      } else {
+        removeActiveClass()
+      }
+    }, [activeSpotId, svgContent])
 
     if (!svgFile) {
       return null
@@ -720,7 +893,7 @@ export default function LeasingMap({
                   <img 
                     src={floor.image} 
                     alt="" 
-                    className="regular desktop leasing-map__base-image"
+                    className="regular leasing-map__base-image"
                     onLoad={() => handleImageLoad(floor.id)}
                     ref={(img) => {
                       // Handle images that are already cached - only update if not already loaded
@@ -732,7 +905,7 @@ export default function LeasingMap({
                 )}
 
                 {/* Mobile Image */}
-                {floor.mobileImage && (
+                {/* {floor.mobileImage && (
                   <img 
                     src={floor.mobileImage} 
                     alt="" 
@@ -745,7 +918,7 @@ export default function LeasingMap({
                       }
                     }}
                   />
-                )}
+                )} */}
 
                 {/* Only show loading overlay on the first floor */}
                 {floor.id === 'floor-1' && (
@@ -753,7 +926,7 @@ export default function LeasingMap({
                 )}
 
                 {/* SVG Overlay Images - Inline SVG based on breakpoint */}
-                {(() => {
+                {/* {(() => {
                   // Render appropriate overlay based on breakpoint
                   if (currentBreakpoint === 'desktop' && floor.desktopSpacesOverlayImage) {
                     return (
@@ -773,6 +946,15 @@ export default function LeasingMap({
                       />
                     )
                   }
+                  if (currentBreakpoint === 'mobile' && floor.desktopSpacesOverlayImage) {
+                    return (
+                      <SvgOverlay 
+                        svgFile={floor.desktopSpacesOverlayImage} 
+                        className="regular mobile leasing-map__svg-overlay"
+                        key={`${floor.id}-mobile-overlay`}
+                      />
+                    )
+                  }
                   if (currentBreakpoint === 'mobile' && (floor.mobileSpacesOverlayImage || floor.desktopSpacesOverlayImage)) {
                     return (
                       <SvgOverlay 
@@ -783,7 +965,16 @@ export default function LeasingMap({
                     )
                   }
                   return null
-                })()}
+                })()} */}
+
+                {floor.desktopSpacesOverlayImage && (
+                  <SvgOverlay 
+                    svgFile={floor.desktopSpacesOverlayImage} 
+                    className="regular leasing-map__svg-overlay"
+                    activeSpotId={selectedSpot?.id || null}
+                    key={`${floor.id}-desktop-overlay`}
+                  />
+                )}
               </div>
             </div>
           ))}
