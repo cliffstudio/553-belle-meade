@@ -152,7 +152,7 @@ export default function VirtualTourEmbed({ className }: VirtualTourEmbedProps) {
     >
       <iframe 
         ref={iframeRef}
-        src="//storage.net-fs.com/hosting/7298008/15/" 
+        src="//storage.net-fs.com/hosting/7298008/18/" 
         width="100%"
         height="100%"
         allow="fullscreen; accelerometer; gyroscope; magnetometer; vr; xr; xr-spatial-tracking; autoplay; camera; microphone" 
