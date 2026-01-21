@@ -32,7 +32,7 @@ export default defineType({
             },
             {
               name: 'desktopImage',
-              title: 'Floor Plan Image (Desktop)',
+              title: 'Floor Plan Image',
               type: 'image',
               description: 'Please upload image files under 1MB',
               options: { hotspot: true },
@@ -58,37 +58,37 @@ export default defineType({
                 return true;
               })
             },
-            {
-              name: 'mobileImage',
-              title: 'Floor Plan Image (Mobile)',
-              type: 'image',
-              description: 'Please upload image files under 1MB',
-              options: { hotspot: true },
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              validation: (Rule) => Rule.custom(async (file: any, context) => {
-                if (!file?.asset?._ref) {
-                  return true;
-                }
+            // {
+            //   name: 'mobileImage',
+            //   title: 'Floor Plan Image (Mobile)',
+            //   type: 'image',
+            //   description: 'Please upload image files under 1MB',
+            //   options: { hotspot: true },
+            //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            //   validation: (Rule) => Rule.custom(async (file: any, context) => {
+            //     if (!file?.asset?._ref) {
+            //       return true;
+            //     }
                 
-                const maxSize = 1024 * 1024; // 1MB
+            //     const maxSize = 1024 * 1024; // 1MB
                 
-                try {
-                  const client = context.getClient({ apiVersion: '2025-05-08' })
-                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+            //     try {
+            //       const client = context.getClient({ apiVersion: '2025-05-08' })
+            //       const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                   
-                  if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 1MB';
-                  }
-                } catch {
-                  // If we can't fetch the asset yet (e.g., during upload), skip validation
-                }
+            //       if (asset && asset.size && asset.size > maxSize) {
+            //         return 'File size must be under 1MB';
+            //       }
+            //     } catch {
+            //       // If we can't fetch the asset yet (e.g., during upload), skip validation
+            //     }
                 
-                return true;
-              })
-            },
+            //     return true;
+            //   })
+            // },
             {
               name: 'desktopSpacesOverlayImage',
-              title: 'Spaces Overlay SVG (Desktop)',
+              title: 'Spaces Overlay SVG',
               type: 'file',
               description: 'Upload an SVG file to be embedded inline',
               options: {
@@ -116,36 +116,36 @@ export default defineType({
                 return true;
               })
             },
-            {
-              name: 'mobileSpacesOverlayImage',
-              title: 'Spaces Overlay SVG (Mobile)',
-              type: 'file',
-              description: 'Upload an SVG file to be embedded inline',
-              options: {
-                accept: 'image/svg+xml,.svg'
-              },
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              validation: (Rule) => Rule.custom(async (file: any, context) => {
-                if (!file?.asset?._ref) {
-                  return true;
-                }
+            // {
+            //   name: 'mobileSpacesOverlayImage',
+            //   title: 'Spaces Overlay SVG (Mobile)',
+            //   type: 'file',
+            //   description: 'Upload an SVG file to be embedded inline',
+            //   options: {
+            //     accept: 'image/svg+xml,.svg'
+            //   },
+            //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            //   validation: (Rule) => Rule.custom(async (file: any, context) => {
+            //     if (!file?.asset?._ref) {
+            //       return true;
+            //     }
                 
-                try {
-                  const client = context.getClient({ apiVersion: '2025-05-08' })
-                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+            //     try {
+            //       const client = context.getClient({ apiVersion: '2025-05-08' })
+            //       const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
                   
-                  // Check file extension
-                  const filename = asset?.originalFilename || ''
-                  if (filename && !filename.toLowerCase().endsWith('.svg')) {
-                    return 'Only .svg files are allowed'
-                  }
-                } catch {
-                  // If we can't fetch the asset yet (e.g., during upload), skip validation
-                }
+            //       // Check file extension
+            //       const filename = asset?.originalFilename || ''
+            //       if (filename && !filename.toLowerCase().endsWith('.svg')) {
+            //         return 'Only .svg files are allowed'
+            //       }
+            //     } catch {
+            //       // If we can't fetch the asset yet (e.g., during upload), skip validation
+            //     }
                 
-                return true;
-              })
-            },
+            //     return true;
+            //   })
+            // },
             {
               name: 'spots',
               title: 'Spaces',
