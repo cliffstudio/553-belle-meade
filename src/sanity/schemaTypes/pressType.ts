@@ -177,6 +177,13 @@ export const pressType = defineType({
         ]
       }
     }),
+    defineField({
+      name: 'metadata',
+      title: 'Meta Data',
+      type: 'reference',
+      to: [{ type: 'metaData' }],
+      description: 'Optional post-specific metadata. If not set, global metadata will be used.',
+    }),
   ],
   preview: {
     select: {

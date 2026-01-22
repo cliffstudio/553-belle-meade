@@ -3,6 +3,8 @@ import { client, clientNoCdn } from '../../../../../sanity.client'
 import { pressPostQuery, pressPostsQuery } from '../../../../sanity/lib/queries'
 import PressPost from '../../../../components/PressPost'
 import BodyClassProvider from '../../../../components/BodyClassProvider'
+import type { Metadata } from 'next'
+import { buildMetadata } from '../../../../utils/metadata'
 
 interface PressPostPageProps {
   params: Promise<{
@@ -24,6 +26,21 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 0 // Ensure fresh content for press posts
+
+export async function generateMetadata({ params }: PressPostPageProps): Promise<Metadata> {
+  const resolvedParams = await params
+  
+  // Fetch post data to get metadata
+  const post = await clientNoCdn.fetch(pressPostQuery, { slug: resolvedParams.slug }, {
+    next: { revalidate: 0 }
+  })
+
+  if (!post) {
+    return {}
+  }
+
+  return buildMetadata(post.metadata)
+}
 
 export default async function PressPostPage({ params }: PressPostPageProps) {
   const resolvedParams = await params
