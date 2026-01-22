@@ -5,9 +5,6 @@ import "./globals.css";
 import "@/styles/style.scss";
 import OverflowController from "../components/OverflowController";
 import BodyFadeIn from "../components/BodyFadeIn";
-import { clientNoCdn } from "../../sanity.client";
-import { metadataQuery } from "../sanity/lib/queries";
-import { urlFor } from "../sanity/utils/imageUrlBuilder";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,39 +24,18 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Generate metadata dynamically from Sanity CMS
-export async function generateMetadata(): Promise<Metadata> {
-  // Use non-CDN client to ensure fresh metadata bypasses Sanity CDN caching
-  const metaData = await clientNoCdn.fetch(metadataQuery, {}, {
-    next: { revalidate: 0 }
-  });
-  
-  // Build social image URL if available
-  let socialImageUrl: string | undefined;
-  if (metaData?.socialimage?.asset?._ref) {
-    socialImageUrl = urlFor(metaData.socialimage).width(1200).height(630).url();
-  }
-  
-  return {
-    title: metaData?.title,
-    description: metaData?.description,
-    keywords: metaData?.keywords,
-    authors: [{ name: "Belle Meade Village" }],
-    openGraph: {
-      title: metaData?.title,
-      description: metaData?.description,
-      type: "website",
-      locale: "en_US",
-      ...(socialImageUrl && { images: [socialImageUrl] }),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: metaData?.title,
-      description: metaData?.description,
-      ...(socialImageUrl && { images: [socialImageUrl] }),
-    },
-  };
-}
+// Default metadata for the root layout
+// Individual pages will override this with their own SEO settings
+export const metadata: Metadata = {
+  authors: [{ name: "Belle Meade Village" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+};
 
 export default function RootLayout({
   children,

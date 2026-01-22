@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     next: { revalidate: 0 }
   })
 
-  return buildMetadata(page?.metadata)
+  return buildMetadata(page?.seo)
 }
 
 export default async function Home() {

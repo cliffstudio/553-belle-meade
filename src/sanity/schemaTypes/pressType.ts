@@ -178,11 +178,10 @@ export const pressType = defineType({
       }
     }),
     defineField({
-      name: 'metadata',
-      title: 'Meta Data',
-      type: 'reference',
-      to: [{ type: 'metaData' }],
-      description: 'Optional post-specific metadata. If not set, global metadata will be used.',
+      name: 'seo',
+      title: 'SEO / Share settings',
+      type: 'seo',
+      description: 'Optional post-specific SEO settings for search engines and social media sharing.',
     }),
   ],
   preview: {

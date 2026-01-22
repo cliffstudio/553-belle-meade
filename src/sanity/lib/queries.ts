@@ -223,11 +223,10 @@ export const pageQuery = groq`
     title,
     slug,
     pageType,
-    metadata-> {
-      title,
-      description,
-      keywords,
-      socialimage ${imageFragment}
+    seo {
+      metaTitle,
+      metaDescription,
+      socialImage ${imageFragment}
     },
     
     // Sign In fields
@@ -709,11 +708,10 @@ export const pressPostQuery = groq`
     source,
     sourceUrl,
     layout,
-    metadata-> {
-      title,
-      description,
-      keywords,
-      socialimage ${imageFragment}
+    seo {
+      metaTitle,
+      metaDescription,
+      socialImage ${imageFragment}
     }
   }
 `
@@ -734,17 +732,6 @@ export const randomTestimonialQuery = groq`
     name,
     source,
     backgroundColour
-  }
-`
-
-// Metadata query
-export const metadataQuery = groq`
-  *[_type == "metaData"][0] {
-    _id,
-    title,
-    description,
-    keywords,
-    socialimage ${imageFragment}
   }
 `
 
