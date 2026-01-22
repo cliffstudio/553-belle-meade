@@ -5,9 +5,20 @@ import { clientNoCdn } from "../../../sanity.client";
 import { pageQuery } from "../../sanity/lib/queries";
 import SignInHeroMedia from "../../components/SignInHeroMedia";
 import BodyClassProvider from "../../components/BodyClassProvider";
+import type { Metadata } from 'next';
+import { buildMetadata } from "../../utils/metadata";
 
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Fetch sign-in page data to get metadata
+  const page = await clientNoCdn.fetch(pageQuery, { slug: 'sign-in' }, {
+    next: { revalidate: 0 }
+  });
+
+  return buildMetadata(page?.metadata);
 }
 
 export default async function SignIn(props: Props) {

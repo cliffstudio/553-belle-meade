@@ -223,6 +223,12 @@ export const pageQuery = groq`
     title,
     slug,
     pageType,
+    metadata-> {
+      title,
+      description,
+      keywords,
+      socialimage ${imageFragment}
+    },
     
     // Sign In fields
     pageType == "sign-in" => {
@@ -702,7 +708,13 @@ export const pressPostQuery = groq`
     content,
     source,
     sourceUrl,
-    layout
+    layout,
+    metadata-> {
+      title,
+      description,
+      keywords,
+      socialimage ${imageFragment}
+    }
   }
 `
 
