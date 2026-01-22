@@ -16,7 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Configure viewport meta tag
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -24,8 +23,6 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Default metadata for the root layout
-// Individual pages will override this with their own SEO settings
 export const metadata: Metadata = {
   authors: [{ name: "Belle Meade Village" }],
   openGraph: {
