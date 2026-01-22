@@ -47,7 +47,6 @@ export default defineType({
             return 'File size must be under 1MB';
           }
         } catch {
-          // If we can't fetch the asset yet (e.g., during upload), skip validation
         }
         
         return true;

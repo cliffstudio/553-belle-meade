@@ -14,14 +14,10 @@ interface PageSEO {
   }
 }
 
-/**
- * Builds metadata for a page using page-specific SEO fields
- */
 export async function buildMetadata(pageSEO?: PageSEO | null): Promise<Metadata> {
   const title = pageSEO?.metaTitle
   const description = pageSEO?.metaDescription
 
-  // Build social image URL if available
   let socialImageUrl: string | undefined
   if (pageSEO?.socialImage?.asset?._ref) {
     socialImageUrl = urlFor(pageSEO.socialImage).width(1200).height(630).url()
