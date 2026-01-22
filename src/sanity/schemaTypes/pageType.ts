@@ -37,11 +37,10 @@ export const pageType = defineType({
       },
     }),
     defineField({
-      name: 'metadata',
-      title: 'Meta Data',
-      type: 'reference',
-      to: [{ type: 'metaData' }],
-      description: 'Optional page-specific metadata. If not set, global metadata will be used.',
+      name: 'seo',
+      title: 'SEO / Share settings',
+      type: 'seo',
+      description: 'Optional page-specific SEO settings for search engines and social media sharing.',
     }),
     defineField({
       name: 'contentBlocks',

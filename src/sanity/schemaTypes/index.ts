@@ -4,13 +4,14 @@ import { menuType } from './menuType'
 import { footerType } from './footerType'
 import { pressType } from './pressType'
 import { testimonialsType } from './testimonialsType'
-import { metaDataType } from './metaDataType'
+import { metaDataType } from './metaDataType' // Legacy - kept for backwards compatibility
 
 // Objects
 import link from './objects/link'
 import richPortableText from './objects/richPortableText'
 import flexibleContent from './objects/flexibleContent'
 import pressContentBlocks from './objects/pressContentBlocks'
+import seo from './objects/seo'
 
 // Sections
 import heroMedia from './sections/heroMedia'
@@ -44,13 +45,14 @@ export const schemaTypes = [
   footerType,
   pressType,
   testimonialsType,
-  metaDataType,
+  metaDataType, // Legacy - kept for backwards compatibility
 
   // Objects
   link,
   richPortableText,
   flexibleContent,
   pressContentBlocks,
+  seo,
 
   // Sections
   heroMedia,
