@@ -60,7 +60,7 @@ const PressPostsSection: React.FC<PressPostsSectionProps> = ({
       )}
 
       <div className="text-wrap">
-        <div className="date cta-font">{formatDate(post.publishedAt)}</div>
+        <div className="date cta-font">{post.source && `${post.source} | `}{formatDate(post.publishedAt)}</div>
 
         <h3 className="title">{post.title}</h3>
 
