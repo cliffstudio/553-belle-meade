@@ -822,6 +822,61 @@ section {
       padding: get-rem-mobile(20);
     }
   }
+
+  .stacked-media-text-controls {
+    .play-pause-button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .pause.button {
+        opacity: 0;
+        stroke: #FFF9F2;
+        stroke-width: 1px;
+        fill: none;
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+
+    .full-screen-button {
+      .button {
+        opacity: 1;
+        stroke: #FFF9F2;
+        stroke-width: 1px;
+        fill: none;
+      }
+    }
+
+    .volume-button {
+      cursor: pointer;
+
+      .mute.button {
+        opacity: 0;
+        stroke: #FFF9F2;
+        stroke-width: 1px;
+        fill: none;
+
+        &.active {
+          opacity: 1;
+        }
+      }
+
+      .volume.button {
+        opacity: 0;
+        stroke: #FFF9F2;
+        stroke-width: 1px;
+        fill: none;
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+  }
 }
 
 .image-masonry-block {
