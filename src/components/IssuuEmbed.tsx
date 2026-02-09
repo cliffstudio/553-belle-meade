@@ -13,15 +13,7 @@ export default function IssuuEmbed({ className, src, title }: IssuuEmbedProps) {
   }
   
   return (
-    <div id="leasing-brochure" 
-      className={`${className}`}
-      style={{
-        position: 'relative',
-        paddingTop: 'max(60%, 326px)',
-        height: 0,
-        width: '100%'
-      }}
-    >
+    <section className="leasing-brochure">
       <iframe
         allow="clipboard-write"
         sandbox="allow-top-navigation allow-top-navigation-by-user-activation allow-downloads allow-scripts allow-same-origin allow-popups allow-modals allow-popups-to-escape-sandbox allow-forms"
@@ -39,6 +31,6 @@ export default function IssuuEmbed({ className, src, title }: IssuuEmbedProps) {
         src={src}
         title={title}
       />
-    </div>
+    </section>
   )
 }

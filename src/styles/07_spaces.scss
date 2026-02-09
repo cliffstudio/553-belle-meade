@@ -529,6 +529,16 @@ LEASING MAP STYLES --------------------
   }
 }
 
+.leasing-brochure {
+  position: relative;
+  height: 90svh;
+  pointer-events: none;
+  
+  iframe {
+    pointer-events: auto;
+  }
+}
+
 /*
 CONTACT FORM STYLES --------------------
 */
