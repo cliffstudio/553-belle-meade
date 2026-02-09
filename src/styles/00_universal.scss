@@ -2021,14 +2021,10 @@ section {
         margin-left: auto;
 
         .artefact-image {
-          max-width: get-rem-desktop(361);
-
-          @media only screen and (max-width: 1440px) {
-            max-width: get-rem-tablet(272);
-          }
+          max-width: get-rem-desktop(200);
 
           @media only screen and (max-width: 768px) {
-            max-width: get-rem-mobile(181);
+            max-width: get-rem-mobile(180);
             padding-top: get-rem-mobile(114);
           }
         }
@@ -2139,11 +2135,11 @@ section {
       }
 
       .artefact-3 {
-        @media only screen and (max-width: 768px) {
-          margin-left: auto;
-        }
-        
         .artefact-image {
+          @media only screen and (max-width: 768px) {
+            margin-left: auto;
+          }
+
           .media-wrap {
             margin-right: get-rem-desktop(-50);
             width: calc(100% + get-rem-desktop(50));

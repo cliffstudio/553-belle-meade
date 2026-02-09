@@ -1722,11 +1722,11 @@ export default function TextWithArtefacts({
                   </div>
                 )}
 
-                <div className="col-6-12_lg desktop"></div>
+                <div className="col-7-12_lg desktop"></div>
 
                 {artefact2 && (
                   <div 
-                    className={`artefact artefact-2 col-3-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''} ${artefact2.hoverImage ? 'has-hover-image' : ''}`}
+                    className={`artefact artefact-2 col-2-12_lg ${artefact2.title || artefact2.description ? 'has-content' : ''} ${artefact2.hoverImage ? 'has-hover-image' : ''}`}
                     onClick={(e) => (artefact2.title || artefact2.description) && handleArtefactClick(artefact2, e)}
                     style={{ cursor: (artefact2.title || artefact2.description) ? 'pointer' : 'default' }}
                   >
