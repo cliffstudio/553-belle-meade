@@ -12,6 +12,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('menu').title('Menu'),
       S.documentTypeListItem('footer').title('Footer'),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['page', 'press', 'testimonials', 'menu', 'footer'].includes(item.getId()!),
+        (item) => item.getId() && !['page', 'press', 'testimonials', 'menu', 'footer', 'metaData'].includes(item.getId()!),
       ),
     ])
