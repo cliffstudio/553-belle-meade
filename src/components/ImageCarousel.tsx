@@ -6,7 +6,7 @@ import { videoUrlFor } from '../sanity/utils/videoUrlBuilder'
 import { SanityImage, SanityVideo, SanityVideoUrl } from '../types/sanity'
 import { PortableText } from '@portabletext/react'
 import { PortableTextBlock } from '@portabletext/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mediaLazyloading from '../utils/lazyLoad'
 import 'flickity/css/flickity.css'
 import { portableTextComponents } from '../utils/portableTextComponents'
@@ -30,8 +30,42 @@ type ImageCarouselProps = {
 export default function ImageCarousel({ heading, body, images }: ImageCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const flickityRef = useRef<unknown>(null)
+  const [isPreviousDisabled, setIsPreviousDisabled] = useState(false)
+  const [isNextDisabled, setIsNextDisabled] = useState(false)
 
   useEffect(() => {
+    const updateButtonStates = (flickityInstance: {
+      selectedIndex?: number
+      cells?: { length: number }
+      options?: { wrapAround?: boolean }
+    }) => {
+      // Defensive checks - ensure instance is fully initialized
+      if (!flickityInstance || flickityInstance.cells === undefined || flickityInstance.selectedIndex === undefined) {
+        return
+      }
+
+      const wrapAround = flickityInstance.options?.wrapAround ?? false
+      const selectedIndex = flickityInstance.selectedIndex
+      const cellCount = flickityInstance.cells.length
+
+      // If there's only one slide, disable both buttons
+      if (cellCount <= 1) {
+        setIsPreviousDisabled(true)
+        setIsNextDisabled(true)
+        return
+      }
+
+      if (wrapAround) {
+        // If wrapAround is enabled, buttons are never disabled
+        setIsPreviousDisabled(false)
+        setIsNextDisabled(false)
+      } else {
+        // Disable previous button if at first slide
+        setIsPreviousDisabled(selectedIndex === 0)
+        // Disable next button if at last slide
+        setIsNextDisabled(selectedIndex === cellCount - 1)
+      }
+    }
     if (!carouselRef.current || !images || images.length === 0) return
 
     // Dynamically import Flickity only on client side
@@ -42,18 +76,59 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
 
         // Initialize Flickity
         if (carouselRef.current) {
-          flickityRef.current = new Flickity(carouselRef.current, {
-          cellAlign: 'left',
-          prevNextButtons: false,
-          pageDots: false,
-          imagesLoaded: true,
-          lazyLoad: true,
-          on: {
-            ready: () => {
-              mediaLazyloading()
+          // Create instance
+          let flickityInstance: typeof Flickity.prototype | null = null
+          
+          flickityInstance = new Flickity(carouselRef.current, {
+            cellAlign: 'left',
+            prevNextButtons: false,
+            pageDots: false,
+            imagesLoaded: true,
+            lazyLoad: true,
+            wrapAround: false,
+            on: {
+              ready: () => {
+                mediaLazyloading()
+              }
+            }
+          })
+          
+          // Assign to ref immediately after creation
+          flickityRef.current = flickityInstance
+          
+          // Attach select event listener after instance is created and assigned
+          const handleSelect = () => {
+            try {
+              // Use ref to ensure we have the latest instance
+              if (flickityRef.current) {
+                updateButtonStates(flickityRef.current as {
+                  selectedIndex?: number
+                  cells?: { length: number }
+                  options?: { wrapAround?: boolean }
+                })
+              }
+            } catch (error) {
+              console.error('Error updating button states:', error)
             }
           }
-        })
+          
+          flickityInstance.on('select', handleSelect)
+          
+          // Update button states after instance is fully set up
+          // Use requestAnimationFrame to ensure DOM is ready
+          requestAnimationFrame(() => {
+            try {
+              if (flickityRef.current) {
+                updateButtonStates(flickityRef.current as {
+                  selectedIndex?: number
+                  cells?: { length: number }
+                  options?: { wrapAround?: boolean }
+                })
+              }
+            } catch (error) {
+              console.error('Error updating initial button states:', error)
+            }
+          })
         }
       } catch (error) {
         console.error('Failed to load Flickity:', error)
@@ -77,6 +152,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
   }
 
   const handlePrevious = () => {
+    if (isPreviousDisabled) return
     if (flickityRef.current && typeof flickityRef.current === 'object' && 'previous' in flickityRef.current) {
       const flickityInstance = flickityRef.current as { previous: () => void }
       flickityInstance.previous()
@@ -84,6 +160,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
   }
 
   const handleNext = () => {
+    if (isNextDisabled) return
     if (flickityRef.current && typeof flickityRef.current === 'object' && 'next' in flickityRef.current) {
       const flickityInstance = flickityRef.current as { next: () => void }
       flickityInstance.next()
@@ -121,28 +198,21 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
                 )}
               </div>
             </div>
-
-            {images.length > 1 && (
-              <div className="col-1-12_lg">
-                <div className="carousel-arrows">
-                  <button className="left-arrow" onClick={handlePrevious} type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                      <path d="M1 1L13.5 13.5L0.999999 26"/>
-                    </svg>
-                  </button>
-
-                  <button className="right-arrow" onClick={handleNext} type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                      <path d="M1 1L13.5 13.5L0.999999 26"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
         <div className="carousel-container">
+          <button 
+            className={`left-arrow ${isPreviousDisabled ? 'flickity-button-disabled' : ''}`}
+            onClick={handlePrevious} 
+            type="button"
+            disabled={isPreviousDisabled}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+              <path d="M1 1L13.5 13.5L0.999999 26"/>
+            </svg>
+          </button>
+
           <div 
             ref={carouselRef}
             className="carousel flickity-enabled"
@@ -196,6 +266,17 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
               )
             })}
           </div>
+
+          <button 
+            className={`right-arrow ${isNextDisabled ? 'flickity-button-disabled' : ''}`}
+            onClick={handleNext} 
+            type="button"
+            disabled={isNextDisabled}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+              <path d="M1 1L13.5 13.5L0.999999 26"/>
+            </svg>
+          </button>
         </div>
       </div>
     </section>
