@@ -105,27 +105,8 @@
   }
 
   .down-arrow {
-    position: absolute;
-    bottom: get-rem-desktop(50);
-    left: 50%;
-    @include transform(translateX(-50%));
-    width: get-rem-desktop(25);
     opacity: 0;
     transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
-
-    @media only screen and (max-width: 1440px) {
-      bottom: get-rem-tablet(50);
-      width: get-rem-tablet(20);
-    }
-
-    @media only screen and (max-width: 768px) {
-      bottom: get-rem-mobile(25);
-      width: get-rem-mobile(20);
-    }
-
-    svg {
-      @include animation(arrowBounce 2s infinite);
-    }
   }
 
   .video-controls {
@@ -136,17 +117,5 @@
     &.visible {
       pointer-events: all;
     }
-  }
-}
-
-@keyframes arrowBounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
   }
 }

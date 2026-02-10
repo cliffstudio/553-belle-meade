@@ -1631,6 +1631,12 @@ export default function TextWithArtefacts({
               <h2 className="text-wrap">
                 <PortableText value={body} components={portableTextComponents} />
               </h2>
+              
+              <div className="down-arrow z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
+                  <path d="M21 1L11 11L1 0.999999" stroke="#FFF9F2"/>
+                </svg>
+              </div>
             </div>
           </div>
         )}
@@ -1651,19 +1657,31 @@ export default function TextWithArtefacts({
 
         {/* For non-Layout-1, render body as pinned text-block (existing behavior) */}
         {layout !== 'layout-1' && body && (
-          <div className="text-block h-pad z-5">
+          <div className="text-block h-pad z-5 relative">
             <h2 className="text-wrap">
               <PortableText value={body} components={portableTextComponents} />
             </h2>
+
+            <div className="down-arrow z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
+                <path d="M21 1L11 11L1 0.999999" stroke="#FFF9F2"/>
+              </svg>
+            </div>
           </div>
         )}
         
         {/* For Layout 1, render body2 as pinned text-block (takes place of what body1 used to do) */}
         {layout === 'layout-1' && body2 && (
-          <div className="text-block h-pad z-5">
+          <div className="text-block h-pad z-5 relative">
             <h2 className="text-wrap">
               <PortableText value={body2} components={portableTextComponents} />
             </h2>
+
+            <div className="down-arrow z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
+                <path d="M21 1L11 11L1 0.999999" stroke="#FFF9F2"/>
+              </svg>
+            </div>
           </div>
         )}
           
