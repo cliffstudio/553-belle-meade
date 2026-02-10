@@ -15,7 +15,7 @@ export default defineType({
       type: 'string',
       initialValue: 'internal',
       options: { 
-        list: ['internal','external', 'jump'] 
+        list: ['internal', 'external', 'jump'] 
       }
     }),
     defineField({ 

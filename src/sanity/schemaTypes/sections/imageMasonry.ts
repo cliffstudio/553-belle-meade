@@ -27,9 +27,9 @@ export default defineType({
       initialValue: 'layout-1',
       options: {
         list: [
-          { title: 'Layout 1', value: 'layout-1' },
-          { title: 'Layout 2', value: 'layout-2' },
-          { title: 'Layout 3', value: 'layout-3' }
+          { title: 'Layout 1 (3 cols + 2 spacer + 7 cols)', value: 'layout-1' },
+          { title: 'Layout 2 (1 spacer + 4 cols + 2 spacer + 5 cols)', value: 'layout-2' },
+          { title: 'Layout 3 (4 cols + 2 spacer + 6 cols)', value: 'layout-3' }
         ]
       }
     }),

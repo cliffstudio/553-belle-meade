@@ -25,7 +25,6 @@ import largeMediaText from './sections/largeMediaText'
 import stackedMediaText from './sections/stackedMediaText'
 import gallery from './sections/gallery'
 import architects from './sections/architects'
-import pressSection from './sections/pressSection'
 import textWithArtefacts from './sections/textWithArtefacts'
 import imageCarousel from './sections/imageCarousel'
 import contactForm from './sections/contactForm'
@@ -66,7 +65,6 @@ export const schemaTypes = [
   stackedMediaText,
   gallery,
   architects,
-  pressSection,
   textWithArtefacts,
   imageCarousel,
   contactForm,
