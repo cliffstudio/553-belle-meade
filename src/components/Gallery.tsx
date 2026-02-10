@@ -28,7 +28,6 @@ export default function Gallery({ images }: GalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   const [displayedSlideIndex, setDisplayedSlideIndex] = useState(0)
-  const [resizeKey, setResizeKey] = useState(0)
 
   const getAspectRatioClass = (imageSize?: string) => {
     switch (imageSize) {
@@ -154,7 +153,8 @@ export default function Gallery({ images }: GalleryProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [selectedIndex]) // Only depend on selectedIndex, not currentSlideIndex to avoid re-initializing on every slide change
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally omit currentSlideIndex to avoid re-init on every slide change
+  }, [selectedIndex])
 
   useEffect(() => {
     if (!images || images.length === 0) return
@@ -308,7 +308,7 @@ export default function Gallery({ images }: GalleryProps) {
       }
 
       // Force container reflow
-      container.offsetHeight
+      void container.offsetHeight
 
       // Use requestAnimationFrame to ensure layout has settled
       requestAnimationFrame(() => {
@@ -318,7 +318,7 @@ export default function Gallery({ images }: GalleryProps) {
             flickityRef.current.reloadCells()
             
             // Force a reflow
-            container.offsetHeight
+            void container.offsetHeight
             
             // Clear viewport height again to ensure it's not set
             if (viewport) {
@@ -411,7 +411,7 @@ export default function Gallery({ images }: GalleryProps) {
     // Use ResizeObserver to watch multiple containers for size changes
     const setupResizeObserver = () => {
       if (typeof ResizeObserver === 'undefined') return
-      
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- ResizeObserver callback requires first param
       resizeObserver = new ResizeObserver((entries) => {
         // Debounce the resize observer callback
         if (resizeTimeout) {
@@ -456,7 +456,7 @@ export default function Gallery({ images }: GalleryProps) {
         window.visualViewport.removeEventListener('resize', handleResize)
       }
     }
-  }, [isCarouselOpen])
+  }, [isCarouselOpen, initCarousel])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -546,7 +546,7 @@ export default function Gallery({ images }: GalleryProps) {
                               ? `${item.image.hotspot.x * 100}% ${item.image.hotspot.y * 100}%`
                               : "center",
                           }}
-                          onLoad={(e) => {
+                          onLoad={() => {
                             // Force Flickity to recalculate after image loads
                             if (flickityRef.current) {
                               requestAnimationFrame(() => {

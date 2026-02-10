@@ -114,7 +114,7 @@ export default function LeasingMap({
   }, [])
   const [selectedSpot, setSelectedSpot] = useState<ClickableSpot | null>(null)
   const [displaySpot, setDisplaySpot] = useState<ClickableSpot | null>(null)
-  const [currentBreakpoint, setCurrentBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
+  const [, setCurrentBreakpoint] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
   const mediaWrapRef = useRef<HTMLDivElement>(null)
 

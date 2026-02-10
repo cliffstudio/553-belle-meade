@@ -38,15 +38,15 @@ export default function LazyLoadInitializer() {
         
         try {
           // Check if ScrollSmoother is available on window (loaded via script tag)
-          // @ts-ignore - ScrollSmoother may not exist if Club plugin isn't installed
-          let ScrollSmoother = (window as any).ScrollSmoother
+          type WindowWithScrollSmoother = Window & { ScrollSmoother?: unknown }
+          let ScrollSmoother: unknown = (window as WindowWithScrollSmoother).ScrollSmoother
           
           // If not on window, try dynamic import using Function to prevent webpack static analysis
           if (!ScrollSmoother) {
             // Use Function constructor to create a dynamic import that webpack won't analyze
             const dynamicImport = new Function('specifier', 'return import(specifier)')
-            const module = await dynamicImport('gsap/ScrollSmoother')
-            ScrollSmoother = module.ScrollSmoother || module.default
+            const scrollSmootherModule = await dynamicImport('gsap/ScrollSmoother')
+            ScrollSmoother = scrollSmootherModule.ScrollSmoother || scrollSmootherModule.default
           }
           
           if (ScrollSmoother) {
@@ -54,7 +54,8 @@ export default function LazyLoadInitializer() {
             const wrapper = document.querySelector('#smooth-wrapper')
             const content = document.querySelector('#smooth-content')
             if (wrapper && content) {
-              scrollSmootherRef.current = ScrollSmoother.create({
+              const create = (ScrollSmoother as { create: (config: { wrapper: string; content: string; smooth: number; effects: boolean }) => { kill: () => void } }).create
+              scrollSmootherRef.current = create({
                 wrapper: '#smooth-wrapper',
                 content: '#smooth-content',
                 smooth: 1,
