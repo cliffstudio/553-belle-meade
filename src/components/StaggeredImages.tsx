@@ -55,52 +55,6 @@ export default function StaggeredImages({
   caption3,
   layout = 'layout-1' 
 }: StaggeredImagesProps) {
-  // Define layout-specific CSS classes
-  const layoutClasses = {
-    'layout-1': {
-      layout: 'layout-1',
-      row1Section1: 'col-6-12_lg',
-      row1Section2: 'col-6-12_lg',
-      row1Section3: 'hidden',
-      row1Section4: 'hidden',
-      row2Section1: 'col-7-12_lg col-1-5_sm',
-      row2Section2: 'col-5-12_lg col-4-5_sm',
-      row3Section1: 'col-3-12_lg col-2-5_sm',
-      row3Section2: 'col-9-12_lg col-3-5_sm',
-      row4Section1: 'col-4-12_lg col-1-5_sm',
-      row4Section2: 'col-4-12_lg col-3-5_sm',
-      row4Section3: 'col-4-12_lg col-1-5_sm',
-    },
-    'layout-2': {
-      layout: 'layout-2',
-      row1Section1: 'col-6-12_lg',
-      row1Section2: 'col-1-12_lg',
-      row1Section3: 'col-3-12_lg desktop',
-      row1Section4: 'col-2-12_lg',
-      row2Section1: 'col-7-12_lg col-3-5_sm',
-      row2Section2: 'col-5-12_lg col-2-5_sm',
-      row3Section1: 'col-5-12_lg col-2-5_sm',
-      row3Section2: 'col-7-12_lg col-3-5_sm',
-      row4Section1: 'col-8-12_lg col-2-5_sm',
-      row4Section2: 'col-4-12_lg col-3-5_sm',
-      row4Section3: 'hidden',
-    },
-    'layout-3': {
-      layout: 'layout-3',
-      row1Section1: 'col-6-12_lg',
-      row1Section2: 'col-6-12_lg',
-      row1Section3: 'hidden',
-      row1Section4: 'hidden',
-      row2Section1: 'col-8-12_lg col-2-5_sm',
-      row2Section2: 'col-4-12_lg col-3-5_sm',
-      row3Section1: 'col-5-12_lg col-3-5_sm',
-      row3Section2: 'col-7-12_lg col-2-5_sm',
-      row4Section1: 'col-6-12_lg col-3-5_sm',
-      row4Section2: 'col-3-12_lg col-2-5_sm',
-      row4Section3: 'col-3-12_lg desktop',
-    }
-  }
-
   // Helper function to render media (image or video)
   const renderMedia = (
     mediaType: 'image' | 'video', 
