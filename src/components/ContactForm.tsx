@@ -45,28 +45,44 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
     }));
   };
 
-  const validateForm = (): string[] => {
-    const errors: string[] = [];
-    
-    if (!formData.first_name.trim()) errors.push('First Name is required');
-    if (!formData.last_name.trim()) errors.push('Last Name is required');
-    if (!formData.email.trim()) errors.push('Email is required');
-    if (!formData.address_line_1.trim()) errors.push('Street address is required');
-    if (!formData.city.trim()) errors.push('City is required');
-    if (!formData.province.trim()) errors.push('Province/State is required');
-    if (!formData.postcode.trim()) errors.push('Postcode/Zip is required');
-    
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.push('Please enter a valid email address');
-    }
-    
-    return errors;
+  // Read field values from the form DOM (catches iOS autofill, which doesn't fire onChange)
+  const getFormValues = (form: HTMLFormElement) => {
+    const get = (name: string) => {
+      const el = form.elements.namedItem(name);
+      return (el as HTMLInputElement | HTMLTextAreaElement)?.value ?? '';
+    };
+    return {
+      first_name: get('first_name'),
+      last_name: get('last_name'),
+      email: get('email'),
+      country_id: (form.elements.namedItem('country_id') as HTMLInputElement)?.value ?? formData.country_id,
+      address_line_1: get('address_line_1'),
+      city: get('city'),
+      province: get('province'),
+      postcode: get('postcode'),
+      leasing_interest: formData.leasing_interest, // Select component, not native autofill target
+      comments: get('comments'),
+    };
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const errors = validateForm();
+    const form = e.currentTarget;
+    const values = getFormValues(form);
+    
+    // Validate using current field values (DOM + state) so autofilled data is checked
+    const errors: string[] = [];
+    if (!values.first_name.trim()) errors.push('First Name is required');
+    if (!values.last_name.trim()) errors.push('Last Name is required');
+    if (!values.email.trim()) errors.push('Email is required');
+    if (!values.address_line_1.trim()) errors.push('Street address is required');
+    if (!values.city.trim()) errors.push('City is required');
+    if (!values.province.trim()) errors.push('Province/State is required');
+    if (!values.postcode.trim()) errors.push('Postcode/Zip is required');
+    if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.push('Please enter a valid email address');
+    }
     if (errors.length > 0) {
       setValidationErrors(errors);
       return;
@@ -78,22 +94,22 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
     try {
       const submitData = new FormData();
       
-      // Add contact fields with proper naming convention
-      submitData.append('contact[first_name]', formData.first_name);
-      submitData.append('contact[last_name]', formData.last_name);
-      submitData.append('contact[email]', formData.email);
-      submitData.append('contact[country_id]', formData.country_id);
-      submitData.append('contact[address_line_1]', formData.address_line_1);
-      submitData.append('contact[city]', formData.city);
-      submitData.append('contact[province]', formData.province);
-      submitData.append('contact[postcode]', formData.postcode);
+      // Use values from DOM so iOS autofill is included
+      submitData.append('contact[first_name]', values.first_name);
+      submitData.append('contact[last_name]', values.last_name);
+      submitData.append('contact[email]', values.email);
+      submitData.append('contact[country_id]', values.country_id);
+      submitData.append('contact[address_line_1]', values.address_line_1);
+      submitData.append('contact[city]', values.city);
+      submitData.append('contact[province]', values.province);
+      submitData.append('contact[postcode]', values.postcode);
       
       // Add other fields
-      if (formData.leasing_interest) {
-        submitData.append('answers[24729][answers]', formData.leasing_interest);
+      if (values.leasing_interest) {
+        submitData.append('answers[24729][answers]', values.leasing_interest);
       }
-      if (formData.comments) {
-        submitData.append('contact[comments]', formData.comments);
+      if (values.comments) {
+        submitData.append('contact[comments]', values.comments);
       }
       
       // Add hidden fields
@@ -214,6 +230,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="FIRST NAME*"
+                  autoComplete="given-name"
                 />
               </div>
               
@@ -226,6 +243,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="LAST NAME*"
+                  autoComplete="family-name"
                 />
               </div>
             </div>
@@ -240,6 +258,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="EMAIL*"
+                  autoComplete="email"
                 />
               </div>
               
@@ -278,6 +297,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="ADDRESS*"
+                  autoComplete="street-address"
                 />
               </div>
               
@@ -290,6 +310,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="CITY*"
+                  autoComplete="address-level2"
                 />
               </div>
             </div>
@@ -304,6 +325,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="STATE*"
+                  autoComplete="address-level1"
                 />
               </div>
               
@@ -316,6 +338,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
                   onChange={handleInputChange}
                   required
                   placeholder="ZIPCODE*"
+                  autoComplete="postal-code"
                 />
               </div>
             </div>
