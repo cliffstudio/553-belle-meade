@@ -61,6 +61,11 @@ export const footerType = defineType({
       fieldset: 'column2',
       of: [{ type: 'link' }],
     }),
+    defineField({
+      name: 'newsletterText',
+      title: 'Newsletter Text',
+      type: 'richPortableText',
+    }),
   ],
   fieldsets: [
     {

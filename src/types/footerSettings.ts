@@ -27,6 +27,7 @@ export type Footer = {
   column1FooterItems?: FooterItem[]
   column2FooterItems?: FooterItem[]
   footerNav?: Link[]
+  newsletterText?: PortableTextBlock[]
 }
 
 export type FooterSettings = Footer
