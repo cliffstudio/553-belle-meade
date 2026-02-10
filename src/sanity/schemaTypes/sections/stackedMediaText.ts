@@ -12,8 +12,8 @@ export default defineType({
       initialValue: 'layout-1',
       options: { 
         list: [
-          { title: 'Layout 1', value: 'layout-1' },
-          { title: 'Layout 2', value: 'layout-2' },
+          { title: 'Layout 1 (Text Left, Media Right)', value: 'layout-1' },
+          { title: 'Layout 2 (Media Top, Text Bottom)', value: 'layout-2' },
         ]
       }
     }),
