@@ -1,13 +1,17 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { usePathname } from 'next/navigation'
 import mediaLazyloading from '../utils/lazyLoad'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { isIOSDevice } from '../utils/deviceUtils'
+
+const SCROLL_SMOOTHER_DESKTOP_MIN_WIDTH = 768
 
 export default function LazyLoadInitializer() {
   const pathname = usePathname()
+  const scrollSmootherRef = useRef<{ kill: () => void } | null>(null)
 
   useEffect(() => {
     // Initialize lazy loading on mount
@@ -19,6 +23,50 @@ export default function LazyLoadInitializer() {
       ScrollTrigger.config({ ignoreMobileResize: true })
       // Normalize wheel/touch input across devices (helps mobile smoothness)
       ScrollTrigger.normalizeScroll(true)
+      
+      // ScrollSmoother: only create on non-iOS desktop (same breakpoint as ScrollTrigger)
+      const initOrKillScrollSmoother = async () => {
+        const shouldUseScrollSmoother =
+          window.innerWidth > SCROLL_SMOOTHER_DESKTOP_MIN_WIDTH && !isIOSDevice()
+        
+        if (scrollSmootherRef.current) {
+          scrollSmootherRef.current.kill()
+          scrollSmootherRef.current = null
+        }
+        
+        if (!shouldUseScrollSmoother) return
+        
+        try {
+          // Check if ScrollSmoother is available on window (loaded via script tag)
+          // @ts-ignore - ScrollSmoother may not exist if Club plugin isn't installed
+          let ScrollSmoother = (window as any).ScrollSmoother
+          
+          // If not on window, try dynamic import using Function to prevent webpack static analysis
+          if (!ScrollSmoother) {
+            // Use Function constructor to create a dynamic import that webpack won't analyze
+            const dynamicImport = new Function('specifier', 'return import(specifier)')
+            const module = await dynamicImport('gsap/ScrollSmoother')
+            ScrollSmoother = module.ScrollSmoother || module.default
+          }
+          
+          if (ScrollSmoother) {
+            gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
+            const wrapper = document.querySelector('#smooth-wrapper')
+            const content = document.querySelector('#smooth-content')
+            if (wrapper && content) {
+              scrollSmootherRef.current = ScrollSmoother.create({
+                wrapper: '#smooth-wrapper',
+                content: '#smooth-content',
+                smooth: 1,
+                effects: true,
+              })
+            }
+          }
+        } catch {
+          // ScrollSmoother is a GSAP Club plugin; skip if not installed
+        }
+      }
+      initOrKillScrollSmoother()
       
       // Global function to fix video positions that might be affected by ScrollTrigger
       const fixAllVideoPositions = () => {
@@ -48,13 +96,14 @@ export default function LazyLoadInitializer() {
         })
       }
       
-      // Fix video positions on resize with debounce
+      // Fix video positions on resize with debounce; also init/kill ScrollSmoother when crossing breakpoint or iOS
       let resizeTimeout: NodeJS.Timeout | null = null
       const handleResize = () => {
         if (resizeTimeout) {
           clearTimeout(resizeTimeout)
         }
         resizeTimeout = setTimeout(() => {
+          initOrKillScrollSmoother()
           // Refresh ScrollTrigger first, then fix video positions
           ScrollTrigger.refresh()
           setTimeout(fixAllVideoPositions, 100)
@@ -71,6 +120,10 @@ export default function LazyLoadInitializer() {
           clearTimeout(resizeTimeout)
         }
         window.removeEventListener('resize', handleResize)
+        if (scrollSmootherRef.current) {
+          scrollSmootherRef.current.kill()
+          scrollSmootherRef.current = null
+        }
       }
     }
   }, [])

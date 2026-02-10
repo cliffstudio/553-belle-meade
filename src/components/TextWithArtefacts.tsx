@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { portableTextComponents } from '../utils/portableTextComponents'
 import { usePathname } from 'next/navigation'
 import { DisableBodyScroll, EnableBodyScroll } from '../utils/bodyScroll'
+import { isIOSDevice } from '../utils/deviceUtils'
 
 // Extended types for fullscreen API
 interface ExtendedDocument extends Document {
@@ -1234,7 +1235,8 @@ export default function TextWithArtefacts({
             // Video controls are now fixed to viewport, so no pinning needed
           
             // 1.5. Pin text-block-scroll (text 1) for Layout 1 - pin for 3 viewport heights before scrolling away
-            if (layout === 'layout-1' && textBlockScroll && window.innerWidth > 768) {
+            // Only on desktop (not iOS devices)
+            if (layout === 'layout-1' && textBlockScroll && window.innerWidth > 768 && !isIOSDevice()) {
               ScrollTrigger.create({
                 trigger: textBlockScroll,
                 start: "top top",
@@ -1244,8 +1246,8 @@ export default function TextWithArtefacts({
               })
             }
           
-            // 2. Pin text block (text 2) when it reaches viewport top (only on screens larger than 768px)
-            if (window.innerWidth > 768) {
+            // 2. Pin text block (text 2) when it reaches viewport top (only on screens larger than 768px, not iOS)
+            if (window.innerWidth > 768 && !isIOSDevice()) {
               const opacityOverlay = sectionRef.current?.querySelector('.opacity-overlay') as HTMLElement
               
               if (opacityOverlay) {
@@ -1290,8 +1292,8 @@ export default function TextWithArtefacts({
               }
             }
 
-            // 3. Pin artefacts grid when it reaches viewport bottom
-            if (window.innerWidth > 768) {
+            // 3. Pin artefacts grid when it reaches viewport bottom (only on desktop, not iOS)
+            if (window.innerWidth > 768 && !isIOSDevice()) {
               ScrollTrigger.create({
                 trigger: artefactsGrid,
                 start: "bottom bottom",
