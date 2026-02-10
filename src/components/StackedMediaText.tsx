@@ -619,28 +619,32 @@ export default function StackedMediaText({ layout = 'layout-1', mediaType = 'ima
     <>
     
       {layout === 'layout-1' && (
-        <section ref={sectionRef} className="stacked-media-text-block layout-1 h-pad">
+        <section ref={sectionRef} className="stacked-media-text-block layout-1 h-pad row-lg">
           {backgroundColour && backgroundColour !== 'None' && (
             <div className="colour-background" style={{ backgroundColor: getBackgroundColor(backgroundColour) }}></div>
           )}
 
           {(heading || body) && (
-            <div className="text-wrap max-width-small-text out-of-view">
-              {heading && <h2 className="heading">{heading}</h2>}
-              
-              {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
+            <div className="col-4-12_lg">
+              <div className="text-wrap max-width-small-text out-of-view">
+                {heading && <h2 className="heading">{heading}</h2>}
+                
+                {body && <div><PortableText value={body} components={portableTextComponents} /></div>}
 
-              {href && <div className="cta-font underline-link link">
-                <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
+                {href && <div className="cta-font underline-link link">
+                  <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text}</a>
 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
-                  <path d="M1 1L13.5 13.5L0.999999 26"/>
-                </svg>
-              </div>}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
+                    <path d="M1 1L13.5 13.5L0.999999 26"/>
+                  </svg>
+                </div>}
+              </div>
             </div>
           )}
 
-          <div>
+          <div className="col-1-12_lg desktop"></div>
+
+          <div className="col-7-12_lg">
             {mediaType === 'image' && image && (
               <div className="media-wrap out-of-opacity">
                 <img 
