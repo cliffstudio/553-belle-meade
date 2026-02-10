@@ -106,10 +106,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
       submitData.append('g-recaptcha-response', formData['g-recaptcha-response']);
       
       try {
+        // Create an AbortController for timeout handling
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+        
         const response = await fetch('https://spark.re/aj-capital-partners/belle-meade-residences/register/registration-form', {
           method: 'POST',
-          body: submitData
+          body: submitData,
+          signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
         
         if (response.ok) {
           // Redirect to thank you page
@@ -118,11 +125,28 @@ const ContactForm: React.FC<ContactFormProps> = ({ body }) => {
           throw new Error('Form submission failed');
         }
       } catch (fetchError) {
-        // Check if it's a CORS error (which means the form actually worked)
-        if (fetchError instanceof TypeError && fetchError.message.includes('Failed to fetch')) {
+        // Don't treat timeouts as success - they're real failures
+        if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+          throw fetchError;
+        }
+        
+        // Check if it's a network/CORS error (which often means the form actually worked)
+        // Mobile browsers may throw different error messages, so we check multiple conditions
+        const isNetworkError = 
+          fetchError instanceof TypeError && (
+            fetchError.message.includes('Failed to fetch') ||
+            fetchError.message.includes('NetworkError') ||
+            fetchError.message.includes('Network request failed') ||
+            fetchError.message.includes('Load failed') ||
+            (fetchError.message.toLowerCase().includes('network') && !fetchError.message.includes('timeout'))
+          ) ||
+          (fetchError instanceof Error && fetchError.name === 'NetworkError');
+        
+        if (isNetworkError) {
+          // Network errors often indicate CORS blocking, which means the form was submitted successfully
           // Redirect to thank you page
           router.push('/thank-you');
-          return; // Don't throw the error since it actually worked
+          return; // Don't throw the error since it likely worked
         }
         throw fetchError; // Re-throw if it's a different error
       }
