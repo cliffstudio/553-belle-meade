@@ -79,6 +79,10 @@
       order: 1;
     }
 
+    .newsletter-text {
+      margin-bottom: get-rem-desktop(16);
+    }
+
     .input-wrap {
       position: relative;
       border-bottom: 1px solid rgba($colour-cream, 0.5);
@@ -95,6 +99,7 @@
 
       input {
         @include reset-input;
+        padding-top: get-rem-desktop(1);
         padding-bottom: get-rem-desktop(10);
         flex: 1;
         min-width: 0;

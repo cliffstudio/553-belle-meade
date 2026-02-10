@@ -88,6 +88,12 @@ export default function Footer({ footer }: FooterProps) {
         <div className="column-3 col-3-12_lg">
           <div id="mc_embed_shell_desktop">
             <div id="mc_embed_signup_desktop">
+              {footer.newsletterText && (
+                <div className="newsletter-text cta-font">
+                  <PortableText value={footer.newsletterText} components={portableTextComponents} />
+                </div>
+              )}
+              
               <form action="https://bmvillage.us4.list-manage.com/subscribe/post?u=b09c67fbb5b3ce6ee63196093&amp;id=4824c65abe&amp;f_id=00de6ceaf0" method="post" id="mc-embedded-subscribe-form-desktop" name="mc-embedded-subscribe-form-desktop" className="validate" target="_blank" noValidate>
                 <div id="mc_embed_signup_scroll_desktop">
                   <div className="mc-field-group">

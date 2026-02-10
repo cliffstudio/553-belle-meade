@@ -593,6 +593,7 @@ export const footerQuery = groq`
   *[_type == "footer"][0] {
     _id,
     title,
+    newsletterText,
     column1FooterItems[] {
       heading,
       text
