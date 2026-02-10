@@ -51,88 +51,77 @@
           max-width: get-rem-tablet(425);
         }
       }
-
-      .carousel-arrows {
-        margin-top: 3.4em;
-        @include flex;
-        @include justify-content(flex-end);
-        column-gap: get-rem-desktop(49);
-
-        @media (max-width: 1440px) {
-          column-gap: get-rem-tablet(35);
-        }
-
-        @media (max-width: 768px) {
-          margin-top: 0;
-          column-gap: get-rem-mobile(29);
-          margin-top: get-rem-mobile(75);
-        }
-    
-        .left-arrow {
-          @include transform(rotate(180deg));
-        }
-    
-        .left-arrow,
-        .right-arrow {
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-
-          &:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            @include transform(translate(-50%, -50%));
-            width: 200%;
-            height: 200%;
-          }
-    
-          svg {
-            fill: none;
-            stroke: $colour-burgundy;
-            stroke-width: 1px;
-            width: 12px;
-            height: auto;
-
-            @media (max-width: 1440px) {
-              width: 8px;
-            }
-
-            @media (max-width: 768px) {
-              width: 8px;
-            }
-          }
-        }
-      }
     }
 
     .carousel-container {
       margin-top: get-rem-desktop(90);
+      @include flex;
+      column-gap: get-rem-desktop(50);
 
       @media (max-width: 1440px) {
         margin-top: get-rem-tablet(80);
+        column-gap: get-rem-tablet(30);
       }
 
       @media (max-width: 768px) {
         margin-top: get-rem-mobile(30);
+        column-gap: get-rem-mobile(15);
+      }
+
+      .left-arrow {
+        @include transform(rotate(180deg));
+      }
+  
+      .left-arrow,
+      .right-arrow {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        width: 16px;
+
+        &.flickity-button-disabled {
+          opacity: 0.2;
+          pointer-events: none;
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          @include transform(translate(-50%, -50%));
+          width: 200%;
+          height: 200%;
+        }
+  
+        svg {
+          fill: none;
+          stroke: $colour-burgundy;
+          stroke-width: 1px;
+          width: 14px;
+          height: auto;
+        }
       }
 
       .carousel {
+        width: 100%;
+        overflow: hidden;
+        
         .flickity-viewport {
           overflow: visible;
         }
 
         .carousel-cell {
-          width: 25vw;
+          width: calc(33.3333% - get-rem-desktop(33.3333));
           margin-right: get-rem-desktop(50);
 
           @media (max-width: 1440px) {
-            margin-right: get-rem-tablet(50);
+            width: calc(33.3333% - get-rem-tablet(20));
+            margin-right: get-rem-tablet(30);
           }
 
           @media (max-width: 768px) {
-            width: 60vw;
+            width: 100%;
             margin-right: get-rem-mobile(24);
           }
 
