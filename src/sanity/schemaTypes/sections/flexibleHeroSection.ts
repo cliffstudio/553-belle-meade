@@ -13,9 +13,9 @@ export default defineType({
       initialValue: 'layout-1',
       options: { 
         list: [
-          { title: 'Layout 1', value: 'layout-1' },
-          { title: 'Layout 2', value: 'layout-2' },
-          { title: 'Layout 3', value: 'layout-3' },
+          { title: 'Layout 1 (Full Bleed Media & Title)', value: 'layout-1' },
+          { title: 'Layout 2 (Centred Title & CTA)', value: 'layout-2' },
+          { title: 'Layout 3 (Title Only)', value: 'layout-3' },
           { title: 'Homepage', value: 'homepage' }
         ]
       }

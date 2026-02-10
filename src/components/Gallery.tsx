@@ -12,7 +12,7 @@ type GalleryProps = {
   images?: {
     image?: SanityImage
     caption?: string
-    imageSize?: '16:9' | '1:1' | '4:3' | '2:3'
+    imageSize?: '16:9' | '1:1' | '4:3' | '2:3' | 'no-defined-size'
   }[]
 }
 
@@ -40,6 +40,8 @@ export default function Gallery({ images }: GalleryProps) {
         return 'aspect-4-3'
       case '2:3':
         return 'aspect-2-3'
+      case 'no-defined-size':
+        return 'natural-aspect-ratio'
       default:
         return 'aspect-16-9'
     }

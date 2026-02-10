@@ -58,6 +58,27 @@
         &.aspect-2-3 {
           aspect-ratio: 2/3;
         }
+
+        &.natural-aspect-ratio {
+          width: 100%;
+          height: auto;
+
+          .fill-space-image-wrap {
+            position: relative;
+            width: 100%;
+            height: auto;
+            top: auto;
+            left: auto;
+          }
+
+          img {
+            position: static;
+            object-fit: unset;
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+          }
+        }
       }
     }
   }

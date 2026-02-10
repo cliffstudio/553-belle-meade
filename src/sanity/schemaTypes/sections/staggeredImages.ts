@@ -13,9 +13,9 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Layout 1', value: 'layout-1' },
-          { title: 'Layout 2', value: 'layout-2' },
-          { title: 'Layout 3', value: 'layout-3' }
+          { title: 'Layout 1 (portrait + square + landscape)', value: 'layout-1' },
+          { title: 'Layout 2 (square + portrait + portrait)', value: 'layout-2' },
+          { title: 'Layout 3 (landscape + portrait + landscape)', value: 'layout-3' }
         ]
       },
       initialValue: 'layout-1'
