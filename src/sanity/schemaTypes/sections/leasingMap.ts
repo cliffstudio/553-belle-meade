@@ -34,29 +34,8 @@ export default defineType({
               name: 'desktopImage',
               title: 'Floor Plan Image',
               type: 'image',
-              description: 'Please upload image files under 1MB',
               options: { hotspot: true },
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              validation: (Rule) => Rule.required().custom(async (file: any, context) => {
-                if (!file?.asset?._ref) {
-                  return true;
-                }
-                
-                const maxSize = 1024 * 1024; // 1MB
-                
-                try {
-                  const client = context.getClient({ apiVersion: '2025-05-08' })
-                  const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
-                  
-                  if (asset && asset.size && asset.size > maxSize) {
-                    return 'File size must be under 1MB';
-                  }
-                } catch {
-                  // If we can't fetch the asset yet (e.g., during upload), skip validation
-                }
-                
-                return true;
-              })
+              validation: Rule => Rule.required()
             },
             // {
             //   name: 'mobileImage',
