@@ -56,6 +56,13 @@ export const pageType = defineType({
     
     // Sign In specific fields
     defineField({
+      name: 'signInPageEnabled',
+      title: 'Enable Sign In page',
+      type: 'boolean',
+      initialValue: false,
+      hidden: ({ document }) => document?.pageType !== 'sign-in',
+    }),
+    defineField({
       name: 'signInHero',
       title: 'Hero',
       type: 'signInHeroMedia',
