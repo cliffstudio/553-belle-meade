@@ -215,6 +215,11 @@ const mediaFragment = `{
   showControls
 }`
 
+// Lightweight query to check if sign-in page is enabled (avoids redirect loops when disabled)
+export const signInPageEnabledQuery = groq`
+  *[_type == "page" && slug.current == "sign-in"][0].signInPageEnabled
+`
+
 // Main page query with conditional field fetching
 export const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
@@ -231,6 +236,7 @@ export const pageQuery = groq`
     
     // Sign In fields
     pageType == "sign-in" => {
+      signInPageEnabled,
       signInHero {
         backgroundMediaType,
         desktopBackgroundImage ${imageFragment},

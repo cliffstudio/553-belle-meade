@@ -34,6 +34,11 @@ export default async function SignIn(props: Props) {
     next: { revalidate: 0 }
   });
 
+  // When Sign In page is not enabled in CMS, redirect to homepage
+  if (page?.pageType === 'sign-in' && !page.signInPageEnabled) {
+    redirect("/");
+  }
+
   if (!page || page.pageType !== 'sign-in') {
     // Fallback if page doesn't exist in CMS
     return (

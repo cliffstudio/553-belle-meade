@@ -3,7 +3,7 @@ import { getSession } from '@/sanity/utils/auth'
 import { redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import { clientNoCdn } from '../../../sanity.client'
-import { pageQuery } from '../../sanity/lib/queries'
+import { pageQuery, signInPageEnabledQuery } from '../../sanity/lib/queries'
 import { buildMetadata } from '../../utils/metadata'
 
 // Disable static generation for this page to ensure fresh content from Sanity
@@ -22,9 +22,12 @@ export default async function Home() {
   const session = await getSession()
 
   if (!session.isAuthenticated) {
-    redirect("/sign-in?redirect=/")
+    const signInEnabled = await clientNoCdn.fetch(signInPageEnabledQuery, {}, { next: { revalidate: 0 } })
+    if (signInEnabled) {
+      redirect("/sign-in?redirect=/")
+    }
   }
-  
+
   // Render the page with slug "/home" using the general page template
   return <DynamicPage params={Promise.resolve({ slug: 'home' })} />
 }
