@@ -42,9 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(getBaseUrl()),
-    title: {
-      default: siteTitle,
-    },
+    title: siteTitle,
     description: siteDescription,
     authors: [{ name: siteTitle }],
     openGraph: {
