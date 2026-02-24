@@ -1,28 +1,42 @@
 /**
- * This configuration is used to for the Sanity Studio that's mounted on the `/app/studio/[[...tool]]/page.tsx` route
+ * Sanity Studio config. Studio is mounted at the /studio URL route (see src/app/studio/[[...index]]/page.tsx).
+ * basePaths must have the same number of segments: /studio/production and /studio/staging.
+ * Redirect /studio → /studio/production in vercel.json so the short URL still works.
  */
 
 import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 
-// Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import {apiVersion, dataset, projectId} from './src/sanity/env'
+import {apiVersion, projectId} from './src/sanity/env'
 import {schemaTypes} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
 
-export default defineConfig({
-  basePath: '/studio',
-  projectId,
-  dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
+const sharedConfig = {
   schema: {
     types: schemaTypes,
   },
   plugins: [
     structureTool({structure}),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
   ],
-})
+}
+
+export default defineConfig([
+  {
+    name: 'production',
+    title: 'Production',
+    projectId,
+    dataset: 'production',
+    basePath: '/studio/production',
+    ...sharedConfig,
+  },
+  {
+    name: 'staging',
+    title: 'Staging',
+    projectId,
+    dataset: 'staging',
+    basePath: '/studio/staging',
+    ...sharedConfig,
+  },
+])

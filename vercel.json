@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/studio",
+      "destination": "/studio/production",
+      "permanent": false
+    },
+    {
+      "source": "/studio/staging",
+      "destination": "/studio/production",
+      "permanent": false,
+      "has": [{"type": "host", "value": "bmvillage.com"}]
+    }
+  ]
+}
