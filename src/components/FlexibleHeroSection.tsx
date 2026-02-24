@@ -64,6 +64,32 @@ type FlexibleHeroSectionProps = {
   cta?: Link
 }
 
+// Cookie for homepage loading sequence: only show once per month
+const HOMEPAGE_SEQUENCE_COOKIE = 'bm_homepage_sequence_seen'
+const HOMEPAGE_SEQUENCE_DAYS = 30
+
+function getHomepageSequenceSeenDate(): number | null {
+  if (typeof document === 'undefined') return null
+  const match = document.cookie.match(new RegExp(`(?:^|; )${HOMEPAGE_SEQUENCE_COOKIE}=([^;]*)`))
+  if (!match) return null
+  const parsed = Date.parse(match[1])
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+function setHomepageSequenceSeen(): void {
+  if (typeof document === 'undefined') return
+  const seenAt = new Date().toISOString()
+  const maxAge = HOMEPAGE_SEQUENCE_DAYS * 24 * 60 * 60
+  document.cookie = `${HOMEPAGE_SEQUENCE_COOKIE}=${seenAt}; path=/; max-age=${maxAge}; SameSite=Lax`
+}
+
+function shouldSkipHomepageSequence(): boolean {
+  const seen = getHomepageSequenceSeenDate()
+  if (!seen) return false
+  const monthMs = HOMEPAGE_SEQUENCE_DAYS * 24 * 60 * 60 * 1000
+  return Date.now() - seen < monthMs
+}
+
 // Helper function to get link text and href from cta
 const getLinkInfo = (cta?: Link) => {
   if (!cta) return { text: '', href: '' }
@@ -497,9 +523,49 @@ export default function FlexibleHeroSection({
     })
   }
 
-  // Homepage animation sequence (only for homepage layout)
+  // Homepage animation sequence (only for homepage layout); skip if seen within last 30 days
   useEffect(() => {
     if (!isHomepageLayout) return
+
+    const applyFinalState = () => {
+      const logo = logoRef.current
+      const symbol = symbolRef.current
+      const siteHeader = document.querySelector('.site-header') as HTMLElement
+      const opacityOverlay = document.querySelector('.home-hero-media-block .opacity-overlay-home') as HTMLElement
+      const downArrow = document.querySelector('.home-hero-media-block .down-arrow') as HTMLElement
+      const videoControls = document.querySelector('.home-hero-media-block .video-controls') as HTMLElement
+
+      if (logo) logo.style.opacity = '1'
+      if (symbol) symbol.style.opacity = '0'
+      if (siteHeader) {
+        siteHeader.classList.remove('header-hidden')
+        siteHeader.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        siteHeader.style.opacity = '1'
+      }
+      if (opacityOverlay) {
+        opacityOverlay.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        opacityOverlay.style.opacity = String(overlayDarkness)
+      }
+      if (downArrow) {
+        downArrow.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        downArrow.style.opacity = '1'
+      }
+      if (videoControls && showControls) {
+        videoControls.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
+        videoControls.style.opacity = '1'
+      }
+      // Unlock scroll (OverflowController will remove preventers when it sees this class)
+      document.documentElement.classList.add('scroll-enabled')
+      if (typeof window !== 'undefined' && window.__homepageScrollPreventers) {
+        const p = window.__homepageScrollPreventers
+        const opts = { capture: true }
+        document.removeEventListener('wheel', p.wheel, opts)
+        document.removeEventListener('touchmove', p.touchmove, opts)
+        document.removeEventListener('touchstart', p.touchstart, opts)
+        document.removeEventListener('keydown', p.keydown, opts)
+        delete window.__homepageScrollPreventers
+      }
+    }
 
     const initAnimation = () => {
       const logo = logoRef.current
@@ -575,6 +641,7 @@ export default function FlexibleHeroSection({
             if (videoControls && showControls) {
               videoControls.style.opacity = '1'
             }
+            setHomepageSequenceSeen()
           })
         }, 5500)
       }
@@ -584,10 +651,18 @@ export default function FlexibleHeroSection({
       finalPhase()
     }
 
+    const run = () => {
+      if (shouldSkipHomepageSequence()) {
+        applyFinalState()
+      } else {
+        initAnimation()
+      }
+    }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAnimation)
+      document.addEventListener('DOMContentLoaded', run)
     } else {
-      setTimeout(initAnimation, 0)
+      setTimeout(run, 0)
     }
   }, [isHomepageLayout, overlayDarkness, showControls])
 
