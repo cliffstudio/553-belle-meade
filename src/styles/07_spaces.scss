@@ -533,11 +533,14 @@ LEASING MAP STYLES --------------------
 
 .leasing-brochure {
   position: relative;
-  height: 90svh;
+  height: 85svh;
   pointer-events: none;
+  background-color: rgb(51, 51, 51);
   
   iframe {
     pointer-events: auto;
+    padding-left: get-rem-desktop(50);
+    padding-right: get-rem-desktop(50);
   }
 }
 
