@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity'
 
 export default defineType({
-  title: 'SEO / Share settings',
+  title: 'SEO',
   name: 'seo',
   type: 'object',
   options: {
@@ -13,7 +13,7 @@ export default defineType({
       type: 'string',
       title: 'Title',
       name: 'metaTitle',
-      description: 'Title used for search engines and browsers',
+      description: 'Full title for this page (replaces "Document title | Site name"). Leave empty to use document title.',
       validation: Rule => Rule.max(50).warning('Longer titles may be truncated by search engines')
     }),
     defineField({
@@ -21,14 +21,14 @@ export default defineType({
       title: 'Description',
       name: 'metaDescription',
       rows: 3,
-      description: 'Description for search engines',
+      description: 'Summary for search results and social shares. Leave empty for site default.',
       validation: Rule => Rule.max(150).warning('Longer descriptions may be truncated by search engines')
     }),
     defineField({
       name: 'socialImage',
       title: 'Social Image',
       type: 'image',
-      description: 'Image used for social media sharing (Open Graph, Twitter). Recommended size: 1200x630px. Please upload image files under 1MB',
+      description: 'Image for social previews. Overrides site default. 1200×630px, under 1MB.',
       options: {
         hotspot: true,
       },

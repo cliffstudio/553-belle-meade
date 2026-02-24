@@ -179,9 +179,9 @@ export const pressType = defineType({
     }),
     defineField({
       name: 'seo',
-      title: 'SEO / Share settings',
+      title: 'SEO',
       type: 'seo',
-      description: 'Optional post-specific SEO settings for search engines and social media sharing.',
+      description: 'Override title, description and image for search and social. Empty = use Site Settings.',
     }),
   ],
   preview: {

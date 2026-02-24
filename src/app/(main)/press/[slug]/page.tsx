@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PressPostPageProps): Promise<
     return {}
   }
 
-  return buildMetadata(post.seo)
+  return buildMetadata(post.seo, post.title)
 }
 
 export default async function PressPostPage({ params }: PressPostPageProps) {

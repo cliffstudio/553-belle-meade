@@ -1,4 +1,5 @@
 import type {StructureResolver} from 'sanity/structure'
+import { CogIcon } from '@sanity/icons'
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
@@ -9,9 +10,17 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('press').title('Press'),
       S.documentTypeListItem('testimonials').title('Testimonials'),
       S.divider(),
+      S.listItem()
+        .title('Site Settings')
+        .icon(CogIcon)
+        .child(
+          S.document()
+            .schemaType('siteSettings')
+            .documentId('siteSettings'),
+        ),
       S.documentTypeListItem('menu').title('Menu'),
       S.documentTypeListItem('footer').title('Footer'),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['page', 'press', 'testimonials', 'menu', 'footer', 'metaData'].includes(item.getId()!),
+        (item) => item.getId() && !['page', 'press', 'testimonials', 'menu', 'footer', 'metaData', 'siteSettings'].includes(item.getId()!),
       ),
     ])

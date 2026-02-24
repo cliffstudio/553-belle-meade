@@ -5,6 +5,7 @@ import { footerType } from './footerType'
 import { pressType } from './pressType'
 import { testimonialsType } from './testimonialsType'
 import { metaDataType } from './metaDataType'
+import { siteSettingsType } from './siteSettings'
 
 // Objects
 import link from './objects/link'
@@ -45,6 +46,7 @@ export const schemaTypes = [
   pressType,
   testimonialsType,
   metaDataType,
+  siteSettingsType,
 
   // Objects
   link,
