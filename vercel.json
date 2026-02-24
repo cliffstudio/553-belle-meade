@@ -9,7 +9,7 @@
       "source": "/studio/staging",
       "destination": "/studio/production",
       "permanent": false,
-      "has": [{"type": "host", "value": "bmvillage.com"}]
+      "has": [{"type": "header", "key": "host", "value": "bmvillage.com"}]
     }
   ]
 }
