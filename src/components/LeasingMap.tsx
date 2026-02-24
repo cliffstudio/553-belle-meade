@@ -232,9 +232,11 @@ export default function LeasingMap({
           //   : mobileMarkerUrl
 
           const normalizedId = spot.id ? normalizeId(spot.id) : `floor-${index + 1}-spot-${spotIndex + 1}`
-          
+          const floorId = `floor-${index + 1}`
+          const compositeId = `${floorId}|${normalizedId}`
+
           return {
-            id: normalizedId,
+            id: compositeId,
             title: spot.title,
             description: spot.description,
             position: spot.desktopPosition,
@@ -263,7 +265,7 @@ export default function LeasingMap({
       })
     : defaultFloors
 
-  // Create a lookup map for spots by ID
+  // Create a lookup map for spots by floor|spot ID (spot.id is already composite so same space name on different floors shows correct content)
   const spotsById = React.useMemo(() => {
     const lookup: { [key: string]: ClickableSpot } = {}
     floors.forEach((floor) => {
@@ -316,14 +318,12 @@ export default function LeasingMap({
   // Drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (zoomLevel <= 1) return
-    // Don't start dragging if clicking directly on a clickable spot
+    // Don't start dragging if clicking directly on a clickable spot (use activeTab so we match spot on current floor)
     const target = e.target as Element
-    // Check if the clicked element or any parent has an ID that matches a spot
     let current: Element | null = target
     while (current && current !== e.currentTarget) {
       const id = current.getAttribute('id')
-      if (id && spotsById[id]) {
-        // This is a clickable spot, don't start dragging
+      if (id && (spotsById[`${activeTab}|${id}`] || spotsById[`${activeTab}|${normalizeId(id)}`])) {
         return
       }
       current = current.parentElement
@@ -371,12 +371,10 @@ export default function LeasingMap({
     if (e.touches.length === 1) {
       // Don't start dragging if touching directly on a clickable spot
       const target = e.target as Element
-      // Check if the touched element or any parent has an ID that matches a spot
       let current: Element | null = target
       while (current && current !== e.currentTarget) {
         const id = current.getAttribute('id')
-        if (id && spotsById[id]) {
-          // This is a clickable spot, don't start dragging
+        if (id && (spotsById[`${activeTab}|${id}`] || spotsById[`${activeTab}|${normalizeId(id)}`])) {
           return
         }
         current = current.parentElement
@@ -513,8 +511,8 @@ export default function LeasingMap({
     setSelectedSpot(null)
   }
 
-  // Component to render inline SVG overlay
-  const SvgOverlay = ({ svgFile, className, activeSpotId }: { svgFile?: SanityFile; className?: string; activeSpotId?: string | null }) => {
+  // Component to render inline SVG overlay (floorId used to look up spot so same space name on different floors shows correct content)
+  const SvgOverlay = ({ svgFile, className, activeSpotId, floorId }: { svgFile?: SanityFile; className?: string; activeSpotId?: string | null; floorId?: string }) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [svgContent, setSvgContent] = useState<string | null>(null)
     const activeSpotIdRef = useRef<string | null>(null)
@@ -576,19 +574,21 @@ export default function LeasingMap({
       containerRef.current.innerHTML = ''
       containerRef.current.appendChild(svgElement)
 
-      // Helper function to find a matching spot ID and element by traversing up the DOM tree
+      // Helper function to find a matching spot ID and element by traversing up the DOM tree (uses floorId so correct floor's content is shown)
       const findSpotIdAndElement = (element: Element | null): { spotId: string | null; element: Element | null } => {
+        if (!floorId) return { spotId: null, element: null }
         let current: Element | null = element
         while (current && current !== svgElement) {
           const id = current.getAttribute('id')
           if (id) {
-            // Check both the raw ID and normalized ID
             const normalizedId = normalizeId(id)
-            if (spotsById[id]) {
-              return { spotId: id, element: current }
+            const compositeByRaw = `${floorId}|${id}`
+            const compositeByNormalized = `${floorId}|${normalizedId}`
+            if (spotsById[compositeByRaw]) {
+              return { spotId: compositeByRaw, element: current }
             }
-            if (spotsById[normalizedId]) {
-              return { spotId: normalizedId, element: current }
+            if (spotsById[compositeByNormalized]) {
+              return { spotId: compositeByNormalized, element: current }
             }
           }
           current = current.parentElement
@@ -637,23 +637,20 @@ export default function LeasingMap({
             const clickedElementId = clickedElement.getAttribute('id')
             let targetElement: Element | null = clickedElement // Start with clickedElement
             
-            // Try to find the element by ID from the actual DOM
-            // This handles cases where the SVG might be regenerated or the element reference is stale
+            // Try to find the element by ID from the actual DOM (spotId may be composite "floorId|spotId", SVG ids are just the spot part)
+            const spotIdForDom = spotId.includes('|') ? spotId.split('|')[1] : spotId
             if (clickedElementId) {
-              // Try to find by the clicked element's ID
               const foundById = container.querySelector(`#${CSS.escape(clickedElementId)}`)
               if (foundById) {
                 targetElement = foundById
               } else {
-                // Try with spotId
-                const foundBySpotId = container.querySelector(`#${CSS.escape(spotId)}`)
+                const foundBySpotId = container.querySelector(`#${CSS.escape(spotIdForDom)}`)
                 if (foundBySpotId) {
                   targetElement = foundBySpotId
                 }
               }
             } else {
-              // If clickedElement doesn't have an ID, try finding by spotId
-              const foundBySpotId = container.querySelector(`#${CSS.escape(spotId)}`)
+              const foundBySpotId = container.querySelector(`#${CSS.escape(spotIdForDom)}`)
               if (foundBySpotId) {
                 targetElement = foundBySpotId
               }
@@ -691,10 +688,9 @@ export default function LeasingMap({
       // Make all elements with matching IDs show pointer cursor and ensure they're clickable
       const makeClickable = (element: Element) => {
         const elementId = element.getAttribute('id')
-        if (elementId) {
-          // Check both raw ID and normalized ID
+        if (elementId && floorId) {
           const normalizedId = normalizeId(elementId)
-          const isClickable = spotsById[elementId] || spotsById[normalizedId]
+          const isClickable = spotsById[`${floorId}|${elementId}`] || spotsById[`${floorId}|${normalizedId}`]
           
           if (isClickable) {
             const currentStyle = element.getAttribute('style') || ''
@@ -724,10 +720,9 @@ export default function LeasingMap({
       // Also ensure child elements (like paths) inherit pointer-events from parent groups
       const ensureChildrenClickable = (element: Element) => {
         const elementId = element.getAttribute('id')
-        if (elementId) {
-          // Check both raw ID and normalized ID
+        if (elementId && floorId) {
           const normalizedId = normalizeId(elementId)
-          const isClickable = spotsById[elementId] || spotsById[normalizedId]
+          const isClickable = spotsById[`${floorId}|${elementId}`] || spotsById[`${floorId}|${normalizedId}`]
           
           if (isClickable) {
             // Make all children clickable too
@@ -757,16 +752,15 @@ export default function LeasingMap({
         svgElement.removeEventListener('click', svgClickHandler)
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [svgContent, spotsById, handleSpotClick])
+    }, [svgContent, spotsById, handleSpotClick, floorId])
 
     // Effect to apply/remove active class based on activeSpotId prop
     useEffect(() => {
       const container = containerRef.current
       if (!container) return
 
-      // Function to apply active class to an element by spotId
+      // Function to apply active class to an element by spotId (spotId may be composite "floorId|spotId")
       const applyActiveClass = (spotId: string) => {
-        // Remove active class from all elements first
         const allElements = container.querySelectorAll('[id]')
         allElements.forEach((element) => {
           element.classList.remove('active')
@@ -775,27 +769,19 @@ export default function LeasingMap({
           })
         })
 
-        // Find and activate the element with matching ID
-        // Try multiple strategies to find the element
+        const spotIdForDom = spotId.includes('|') ? spotId.split('|')[1] : spotId
         let targetElement: Element | null = null
-        
-        // Strategy 1: Try exact match
-        targetElement = container.querySelector(`#${CSS.escape(spotId)}`)
-        
-        // Strategy 2: Try normalized version
+
+        targetElement = container.querySelector(`#${CSS.escape(spotIdForDom)}`)
         if (!targetElement) {
-          const normalizedId = normalizeId(spotId)
+          const normalizedId = normalizeId(spotIdForDom)
           targetElement = container.querySelector(`#${CSS.escape(normalizedId)}`)
         }
-        
-        // Strategy 3: Iterate through all elements and find by ID match
         if (!targetElement) {
           allElements.forEach((element) => {
             const elementId = element.getAttribute('id')
-            if (elementId) {
-              if (elementId === spotId || normalizeId(elementId) === spotId || normalizeId(spotId) === elementId) {
-                targetElement = element
-              }
+            if (elementId && (elementId === spotIdForDom || normalizeId(elementId) === spotIdForDom || normalizeId(spotIdForDom) === elementId)) {
+              targetElement = element
             }
           })
         }
@@ -855,7 +841,10 @@ export default function LeasingMap({
           <button
             key={floor.id}
             className={`leasing-map__tab ${activeTab === floor.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(floor.id)}
+            onClick={() => {
+              setSelectedSpot(null)
+              setActiveTab(floor.id)
+            }}
           >
             <span className="leasing-map__tab-label-desktop">{floor.label}</span>
             <span className="leasing-map__tab-label-mobile">{floor.mobileLabel}</span>
@@ -972,6 +961,7 @@ export default function LeasingMap({
                     svgFile={floor.desktopSpacesOverlayImage} 
                     className="regular leasing-map__svg-overlay"
                     activeSpotId={selectedSpot?.id || null}
+                    floorId={floor.id}
                     key={`${floor.id}-desktop-overlay`}
                   />
                 )}
