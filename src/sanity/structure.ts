@@ -4,7 +4,7 @@ import { CogIcon } from '@sanity/icons'
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Blog')
+    .title('Belle Meade Village')
     .items([
       S.documentTypeListItem('page').title('Pages'),
       S.documentTypeListItem('press').title('Press'),
