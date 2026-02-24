@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {}
   }
 
-  return buildMetadata(page.seo)
+  return buildMetadata(page.seo, page.title)
 }
 
 export default async function Page({ params }: PageProps) {

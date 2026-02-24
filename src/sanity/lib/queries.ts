@@ -679,6 +679,16 @@ export const rightMenuQuery = groq`
   }
 `
 
+// Metadata query (from Site Settings)
+export const metadataQuery = groq`
+  *[_type == "siteSettings"][0] {
+    _id,
+    title,
+    description,
+    socialimage ${imageFragment}
+  }
+`
+
 // Press queries
 export const pressPostsQuery = groq`
   *[_type == "press"] | order(publishedAt desc) {

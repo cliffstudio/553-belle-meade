@@ -5,6 +5,7 @@ import "./globals.css";
 import "@/styles/style.scss";
 import OverflowController from "../components/OverflowController";
 import BodyFadeIn from "../components/BodyFadeIn";
+import { getSiteSettings, getDefaultTitle, getDefaultDescription } from "../sanity/lib/siteSettings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,16 +24,39 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export const metadata: Metadata = {
-  authors: [{ name: "Belle Meade Village" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
+// Base URL for metadata (required for Open Graph/Twitter images and canonical URLs)
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "http://localhost:3000";
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteSettings();
+  const siteTitle = getDefaultTitle(site);
+  const siteDescription = getDefaultDescription(site);
+
+  return {
+    metadataBase: new URL(getBaseUrl()),
+    title: {
+      default: siteTitle,
+    },
+    description: siteDescription,
+    authors: [{ name: siteTitle }],
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      siteName: siteTitle,
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
+}
 
 export default function RootLayout({
   children,
