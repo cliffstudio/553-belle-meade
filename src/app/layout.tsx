@@ -78,56 +78,9 @@ export default function RootLayout({
                 history.scrollRestoration = 'manual';
               }
               
-              // Enable scrolling by default (scrolling works immediately on non-homepage pages)
+              // Enable scrolling by default
               // This runs before React hydrates, so we suppress hydration warning on html tag
               document.documentElement.classList.add('scroll-enabled');
-              
-              // Immediately disable scrolling on homepage before React hydrates
-              (function() {
-                const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
-                if (isHomepage) {
-                  // Remove scroll-enabled class immediately to disable scrolling on homepage
-                  document.documentElement.classList.remove('scroll-enabled');
-                  
-                  // Prevent all scroll methods immediately
-                  const preventScroll = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                  };
-                  
-                  // Prevent wheel, touch, and keyboard scrolling
-                  const options = { passive: false, capture: true };
-                  
-                  // Store handlers for cleanup later
-                  window.__homepageScrollPreventers = {
-                    wheel: preventScroll,
-                    touchmove: function(e) {
-                      // Prevent all touch scrolling
-                      e.preventDefault();
-                      e.stopPropagation();
-                      return false;
-                    },
-                    touchstart: function(e) {
-                      // Allow touchstart (for taps) but scrolling is prevented by touchmove
-                    },
-                    keydown: function(e) {
-                      const scrollKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
-                      if (scrollKeys.includes(e.key)) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                      }
-                    }
-                  };
-                  
-                  // Add listeners immediately
-                  document.addEventListener('wheel', window.__homepageScrollPreventers.wheel, options);
-                  document.addEventListener('touchmove', window.__homepageScrollPreventers.touchmove, options);
-                  document.addEventListener('touchstart', window.__homepageScrollPreventers.touchstart, options);
-                  document.addEventListener('keydown', window.__homepageScrollPreventers.keydown, options);
-                }
-              })();
             `
           }}
         />

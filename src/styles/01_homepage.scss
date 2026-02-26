@@ -12,8 +12,6 @@
     top: 50%;
     left: 50%;
     @include transform(translate(-50%, -50%));
-    opacity: 0;
-    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
 
     svg {
       width: 44vw;
@@ -26,96 +24,6 @@
       @media only screen and (max-width: 768px) {
         width: get-rem-mobile(300);
       }
-    }
-  }
-
-  .symbol {
-    position: fixed;
-    width: 9vw;
-    height: 10vw;
-    left: 50%;
-    margin-left: -4.5vw;
-    top: 50%;
-    margin-top: -5vw;
-    opacity: 0;
-    @include transition(all 800ms cubic-bezier(0.25,0.1,0.25,1));
-
-    &.animated {
-      width: get-rem-desktop(81);
-      height: get-rem-desktop(90);
-      margin-left: get-rem-desktop(-40.5);
-      top: get-rem-desktop(20);
-      margin-top: 0;
-    }
-
-    @media only screen and (max-width: 1440px) {
-      width: get-rem-tablet(125);
-      height: get-rem-tablet(138.88);
-      margin-left: get-rem-tablet(-62.5);
-      margin-top: get-rem-tablet(-69.44);
-
-      &.animated {
-        width: get-rem-tablet(62);
-        height: get-rem-tablet(68.88);
-        margin-left: get-rem-tablet(-31);
-        top: get-rem-tablet(20);
-      }
-    }
-
-    @media only screen and (max-width: 768px) {
-      width: get-rem-mobile(125);
-      height: get-rem-mobile(138.88);
-      margin-left: get-rem-mobile(-62.5);
-      margin-top: get-rem-mobile(-69.44);
-
-      &.animated {
-        width: get-rem-mobile(62);
-        height: get-rem-mobile(68.88);
-        margin-left: get-rem-mobile(-31);
-        top: get-rem-mobile(17);
-      }
-    }
-
-    @media only screen and (max-width: 950px) and (orientation: landscape) {
-      width: get-rem-mobile(125);
-      height: get-rem-mobile(138.88);
-      margin-left: get-rem-mobile(-62.5);
-      margin-top: get-rem-mobile(-69.44);
-
-      &.animated {
-        width: get-rem-mobile(42);
-        height: get-rem-mobile(46.66);
-        margin-left: get-rem-mobile(-21);
-      }
-    }
-
-    svg {
-      fill: $colour-cream;
-      transition: width 1s cubic-bezier(0.25,0.1,0.25,1), height 1s cubic-bezier(0.25,0.1,0.25,1);
-    }
-  }
-
-  .text-wrap {
-    opacity: 0;
-    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
-  }
-
-  .opacity-overlay-home {
-    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
-  }
-
-  .down-arrow {
-    opacity: 0;
-    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
-  }
-
-  .video-controls {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 400ms cubic-bezier(0.25,0.1,0.25,1);
-
-    &.visible {
-      pointer-events: all;
     }
   }
 }

@@ -64,32 +64,6 @@ type FlexibleHeroSectionProps = {
   cta?: Link
 }
 
-// Cookie for homepage loading sequence: only show once per month
-const HOMEPAGE_SEQUENCE_COOKIE = 'bm_homepage_sequence_seen'
-const HOMEPAGE_SEQUENCE_DAYS = 30
-
-function getHomepageSequenceSeenDate(): number | null {
-  if (typeof document === 'undefined') return null
-  const match = document.cookie.match(new RegExp(`(?:^|; )${HOMEPAGE_SEQUENCE_COOKIE}=([^;]*)`))
-  if (!match) return null
-  const parsed = Date.parse(match[1])
-  return Number.isFinite(parsed) ? parsed : null
-}
-
-function setHomepageSequenceSeen(): void {
-  if (typeof document === 'undefined') return
-  const seenAt = new Date().toISOString()
-  const maxAge = HOMEPAGE_SEQUENCE_DAYS * 24 * 60 * 60
-  document.cookie = `${HOMEPAGE_SEQUENCE_COOKIE}=${seenAt}; path=/; max-age=${maxAge}; SameSite=Lax`
-}
-
-function shouldSkipHomepageSequence(): boolean {
-  const seen = getHomepageSequenceSeenDate()
-  if (!seen) return false
-  const monthMs = HOMEPAGE_SEQUENCE_DAYS * 24 * 60 * 60 * 1000
-  return Date.now() - seen < monthMs
-}
-
 // Helper function to get link text and href from cta
 const getLinkInfo = (cta?: Link) => {
   if (!cta) return { text: '', href: '' }
@@ -523,149 +497,6 @@ export default function FlexibleHeroSection({
     })
   }
 
-  // Homepage animation sequence (only for homepage layout); skip if seen within last 30 days
-  useEffect(() => {
-    if (!isHomepageLayout) return
-
-    const applyFinalState = () => {
-      const logo = logoRef.current
-      const symbol = symbolRef.current
-      const siteHeader = document.querySelector('.site-header') as HTMLElement
-      const opacityOverlay = document.querySelector('.home-hero-media-block .opacity-overlay-home') as HTMLElement
-      const downArrow = document.querySelector('.home-hero-media-block .down-arrow') as HTMLElement
-      const videoControls = document.querySelector('.home-hero-media-block .video-controls') as HTMLElement
-
-      if (logo) logo.style.opacity = '1'
-      if (symbol) symbol.style.opacity = '0'
-      if (siteHeader) {
-        siteHeader.classList.remove('header-hidden')
-        siteHeader.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-        siteHeader.style.opacity = '1'
-      }
-      if (opacityOverlay) {
-        opacityOverlay.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-        opacityOverlay.style.opacity = String(overlayDarkness)
-      }
-      if (downArrow) {
-        downArrow.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-        downArrow.style.opacity = '1'
-      }
-      if (videoControls && showControls) {
-        videoControls.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-        videoControls.style.opacity = '1'
-      }
-      // Unlock scroll (OverflowController will remove preventers when it sees this class)
-      document.documentElement.classList.add('scroll-enabled')
-      if (typeof window !== 'undefined' && window.__homepageScrollPreventers) {
-        const p = window.__homepageScrollPreventers
-        const opts = { capture: true }
-        document.removeEventListener('wheel', p.wheel, opts)
-        document.removeEventListener('touchmove', p.touchmove, opts)
-        document.removeEventListener('touchstart', p.touchstart, opts)
-        document.removeEventListener('keydown', p.keydown, opts)
-        delete window.__homepageScrollPreventers
-      }
-    }
-
-    const initAnimation = () => {
-      const logo = logoRef.current
-      const symbol = symbolRef.current
-      const symbolSvg = symbolSvgRef.current
-      const siteHeader = document.querySelector('.site-header') as HTMLElement
-      const opacityOverlay = document.querySelector('.home-hero-media-block .opacity-overlay-home') as HTMLElement
-      const downArrow = document.querySelector('.home-hero-media-block .down-arrow') as HTMLElement
-      const videoControls = document.querySelector('.home-hero-media-block .video-controls') as HTMLElement
-
-      if (logo) logo.style.opacity = '0'
-      if (symbol) symbol.style.opacity = '0'
-      if (siteHeader) siteHeader.style.opacity = '0'
-      if (opacityOverlay) opacityOverlay.style.opacity = '0'
-      if (downArrow) downArrow.style.opacity = '0'
-      if (videoControls) videoControls.style.opacity = '0'
-
-      const symbolSequence = () => {
-        if (!symbol || !symbolSvg) return
-
-        setTimeout(() => {
-          if (symbol) {
-            symbol.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-            symbol.style.opacity = '1'
-          }
-        }, 500)
-
-        setTimeout(() => {
-          if (symbol) {
-            symbol.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-            symbol.style.opacity = '0'
-          }
-        }, 3000)
-      }
-
-      const logoSequence = () => {
-        if (!logo) return
-
-        setTimeout(() => {
-          if (logo) {
-            logo.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-            logo.style.opacity = '1'
-          }
-        }, 4000)
-      }
-
-      const finalPhase = () => {
-        setTimeout(() => {
-          if (siteHeader) {
-            siteHeader.classList.remove('header-hidden')
-            siteHeader.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-          }
-          if (opacityOverlay) {
-            opacityOverlay.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-          }
-          if (downArrow) {
-            downArrow.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-          }
-          if (videoControls && showControls) {
-            videoControls.style.transition = 'opacity 500ms cubic-bezier(0.25,0.1,0.25,1)'
-          }
-          
-          requestAnimationFrame(() => {
-            if (siteHeader) {
-              siteHeader.style.opacity = '1'
-            }
-            if (opacityOverlay) {
-              opacityOverlay.style.opacity = String(overlayDarkness)
-            }
-            if (downArrow) {
-              downArrow.style.opacity = '1'
-            }
-            if (videoControls && showControls) {
-              videoControls.style.opacity = '1'
-            }
-            setHomepageSequenceSeen()
-          })
-        }, 5500)
-      }
-
-      symbolSequence()
-      logoSequence()
-      finalPhase()
-    }
-
-    const run = () => {
-      if (shouldSkipHomepageSequence()) {
-        applyFinalState()
-      } else {
-        initAnimation()
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', run)
-    } else {
-      setTimeout(run, 0)
-    }
-  }, [isHomepageLayout, overlayDarkness, showControls])
-
   // Handle fullscreen change events
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -906,9 +737,9 @@ export default function FlexibleHeroSection({
           </div>
         )}
 
-        <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: 0 }} data-overlay-darkness={overlayDarkness} />
+        <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: overlayDarkness }} data-overlay-darkness={overlayDarkness} />
 
-        <div ref={logoRef} className="logo z-10 h-pad">
+        <div ref={logoRef} className="logo z-10 h-pad out-of-opacity">
           <div className="desktop">
             <Logo />
           </div>
@@ -917,11 +748,7 @@ export default function FlexibleHeroSection({
           </div>
         </div>
 
-        <div ref={symbolRef} className="symbol z-500">
-          <Symbol ref={symbolSvgRef} />
-        </div>
-
-        <div className="down-arrow z-10" onClick={handleScrollDown} style={{ cursor: 'pointer' }}>
+        <div className="down-arrow z-10 out-of-opacity" onClick={handleScrollDown}>
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
             <path d="M21 1L11 11L1 0.999999" stroke="#FFF9F2"/>
           </svg>
@@ -933,7 +760,7 @@ export default function FlexibleHeroSection({
           onPlayPause={togglePlayPause}
           onMute={toggleMute}
           onFullscreen={toggleFullscreen}
-          className="z-10"
+          className="z-10 out-of-opacity"
           showControls={showControls}
         />
       </section>
