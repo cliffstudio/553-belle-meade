@@ -41,6 +41,14 @@ export default defineType({
           type: 'image',
           description: 'Please upload image files under 1MB',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -120,6 +128,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({ 
           name: 'cta', 
@@ -147,6 +177,14 @@ export default defineType({
           type: 'image',
           description: 'Please upload image files under 1MB',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -226,6 +264,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({
           name: 'cta', 
@@ -253,6 +313,14 @@ export default defineType({
           type: 'image',
           description: 'Please upload image files under 1MB',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -332,6 +400,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({
           name: 'cta', 
@@ -359,6 +449,14 @@ export default defineType({
           type: 'image',
           description: 'Please upload image files under 1MB',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -440,6 +538,28 @@ export default defineType({
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
         }),
         defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
+        }),
+        defineField({
           name: 'cta', 
           title: 'CTA',
           type: 'link' 
@@ -464,6 +584,14 @@ export default defineType({
           title: 'Image',
           type: 'image',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({
@@ -523,6 +651,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({
           name: 'cta', 
@@ -549,6 +699,14 @@ export default defineType({
           title: 'Image',
           type: 'image',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           hidden: ({ parent }) => parent?.mediaType !== 'image'
         }),
         defineField({
@@ -608,6 +766,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({ 
           name: 'cta', 
@@ -635,6 +815,14 @@ export default defineType({
           type: 'image',
           description: 'Please upload image files under 1MB',
           options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -714,6 +902,28 @@ export default defineType({
             scheme: ['http', 'https']
           }),
           hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.videoSource !== 'url'
+        }),
+        defineField({
+          name: 'videoPlaceholder',
+          title: 'Video Placeholder',
+          type: 'image',
+          description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
+          validation: (Rule) => Rule.custom(async (file, context) => {
+            if (!file?.asset?._ref) {
+              return true;
+            }
+            const maxSize = 1024 * 1024; // 1MB
+            try {
+              const client = context.getClient({ apiVersion: '2025-05-08' })
+              const asset = await client.fetch('*[_id == $id][0]', { id: file.asset._ref })
+              if (asset && asset.size && asset.size > maxSize) {
+                return 'File size must be under 1MB';
+              }
+            } catch {
+            }
+            return true;
+          }),
+          hidden: ({ parent }) => parent?.mediaType !== 'video'
         }),
         defineField({ 
           name: 'cta', 

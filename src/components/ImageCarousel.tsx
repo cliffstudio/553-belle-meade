@@ -234,7 +234,7 @@ export default function ImageCarousel({ heading, body, images }: ImageCarouselPr
                       <>
                         <img
                           data-src={urlFor(item.image).url()}
-                          alt=""
+                          alt={item.image?.alt ?? ''}
                           className="lazy full-bleed-image"
                           style={{
                             objectPosition: item.image?.hotspot

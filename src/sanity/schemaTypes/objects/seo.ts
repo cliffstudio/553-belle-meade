@@ -32,6 +32,14 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;

@@ -42,6 +42,15 @@ export default defineType({
       title: 'Background Image (Desktop)',
       type: 'image',
       description: 'Please upload image files under 1MB',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
@@ -69,6 +78,15 @@ export default defineType({
       title: 'Background Image (Mobile)',
       type: 'image',
       description: 'Please upload image files under 1MB',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
@@ -149,8 +167,8 @@ export default defineType({
       }),
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video' || parent?.videoSource !== 'url'
     }),
-    defineField({ 
-      name: 'desktopBackgroundVideoPlaceholder', 
+    defineField({
+      name: 'desktopBackgroundVideoPlaceholder',
       title: 'Background Video Placeholder (Desktop)',
       type: 'image',
       description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
@@ -221,8 +239,8 @@ export default defineType({
       }),
       hidden: ({ parent }) => parent?.backgroundMediaType !== 'video' || parent?.videoSource !== 'url'
     }),
-    defineField({ 
-      name: 'mobileBackgroundVideoPlaceholder', 
+    defineField({
+      name: 'mobileBackgroundVideoPlaceholder',
       title: 'Background Video Placeholder (Mobile)',
       type: 'image',
       description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
@@ -286,6 +304,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -315,6 +341,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -366,6 +400,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -395,6 +437,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -446,6 +496,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -475,6 +533,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -526,6 +592,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -555,6 +629,14 @@ export default defineType({
           options: {
             hotspot: true
           },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Important for accessibility and SEO.',
+            },
+          ],
           validation: (Rule) => Rule.custom(async (file, context) => {
             if (!file?.asset?._ref) {
               return true;
@@ -599,6 +681,15 @@ export default defineType({
       title: 'Carousel Icon',
       type: 'image',
       description: 'Please upload image files under 1MB',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;

@@ -68,8 +68,8 @@ export default function StaggeredImages({
       return (
         <>
           <img 
-            data-src={urlFor(image).url()} 
-            alt="" 
+data-src={urlFor(image).url()}
+            alt={image?.alt ?? ''}
             className={`lazy ${className} full-bleed-image`}
             style={{
               objectPosition: image?.hotspot
@@ -103,8 +103,8 @@ export default function StaggeredImages({
         <section className="staggered-images-block h-pad layout-1">
           <div className="row-1">
             <div className="text-wrap max-width-big-text out-of-view">
-              {heading && <div className="heading cta-font">{heading}</div>}
-              {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
+              {heading && <h2 className="heading cta-font">{heading}</h2>}
+              {body && <div className="h2"><PortableText value={body} components={portableTextComponents} /></div>}
             </div>
           </div>
 
@@ -159,8 +159,8 @@ export default function StaggeredImages({
           <div className="row-1 row-lg">
             <div className="col-1 col-7-12_lg out-of-view">
               <div className="text-wrap max-width-big-text">
-                {heading && <div className="heading cta-font">{heading}</div>}
-                {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
+                {heading && <h2 className="heading cta-font">{heading}</h2>}
+                {body && <div className="h2"><PortableText value={body} components={portableTextComponents} /></div>}
               </div>
             </div>
 
@@ -229,8 +229,8 @@ export default function StaggeredImages({
         <section className="staggered-images-block h-pad layout-3">
           <div className="row-1">
             <div className="text-wrap max-width-big-text out-of-view">
-              {heading && <div className="heading cta-font">{heading}</div>}
-              {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
+              {heading && <h2 className="heading cta-font">{heading}</h2>}
+              {body && <div className="h2"><PortableText value={body} components={portableTextComponents} /></div>}
             </div>
           </div>
 

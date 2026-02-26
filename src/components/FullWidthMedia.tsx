@@ -546,8 +546,8 @@ export default function FullWidthMedia({ mediaType, image, video, videoSource = 
       {mediaType === 'image' && image && (
         <div className="fill-space-image-wrap">
           <img 
-            data-src={urlFor(image).url()} 
-            alt="" 
+data-src={urlFor(image).url()}
+            alt={image?.alt ?? ''}
             className="lazy full-bleed-image"
             style={{
               objectPosition: image?.hotspot

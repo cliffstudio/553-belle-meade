@@ -1576,8 +1576,8 @@ export default function TextWithArtefacts({
               {/* Desktop Image */}
               {desktopBackgroundImage && (
                 <img 
-                  data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+data-src={urlFor(desktopBackgroundImage).url()}
+                  alt={desktopBackgroundImage?.alt ?? ''}
                   className="lazy full-bleed-image desktop"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -1590,8 +1590,8 @@ export default function TextWithArtefacts({
               {/* Mobile Image */}
               {mobileBackgroundImage && (
                 <img 
-                  data-src={urlFor(mobileBackgroundImage).url()} 
-                  alt="" 
+data-src={urlFor(mobileBackgroundImage).url()}
+                  alt={mobileBackgroundImage?.alt ?? ''}
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: mobileBackgroundImage?.hotspot
@@ -1604,8 +1604,8 @@ export default function TextWithArtefacts({
               {/* Fallback to desktop image for mobile if no mobile image provided */}
               {!mobileBackgroundImage && desktopBackgroundImage && (
                 <img 
-                  data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+data-src={urlFor(desktopBackgroundImage).url()}
+                  alt={desktopBackgroundImage?.alt ?? ''}
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -1630,9 +1630,9 @@ export default function TextWithArtefacts({
         {layout === 'layout-1' && body && (
           <div className="text-block-scroll full-height flex items-center text-white relative z-6">
             <div className="h-pad z-3">
-              <h2 className="text-wrap">
+              <div className="text-wrap h2">
                 <PortableText value={body} components={portableTextComponents} />
-              </h2>
+              </div>
               
               <div className="down-arrow z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
@@ -1660,9 +1660,9 @@ export default function TextWithArtefacts({
         {/* For non-Layout-1, render body as pinned text-block (existing behavior) */}
         {layout !== 'layout-1' && body && (
           <div className="text-block h-pad z-5 relative">
-            <h2 className="text-wrap">
+            <div className="text-wrap h2">
               <PortableText value={body} components={portableTextComponents} />
-            </h2>
+            </div>
 
             <div className="down-arrow z-10">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
@@ -1675,9 +1675,9 @@ export default function TextWithArtefacts({
         {/* For Layout 1, render body2 as pinned text-block (takes place of what body1 used to do) */}
         {layout === 'layout-1' && body2 && (
           <div className="text-block h-pad z-5 relative">
-            <h2 className="text-wrap">
+            <div className="text-wrap h2">
               <PortableText value={body2} components={portableTextComponents} />
-            </h2>
+            </div>
 
             <div className="down-arrow z-10">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
@@ -1702,8 +1702,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact1.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact1.image).url()}
+                          alt={artefact1.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact1.image?.hotspot
@@ -1713,8 +1713,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact1.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact1.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact1.hoverImage).url()}
+                            alt={artefact1.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact1.hoverImage?.hotspot
@@ -1754,8 +1754,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact2.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact2.image).url()}
+                          alt={artefact2.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact2.image?.hotspot
@@ -1765,8 +1765,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact2.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact2.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact2.hoverImage).url()}
+                            alt={artefact2.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact2.hoverImage?.hotspot
@@ -1807,8 +1807,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact3.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact3.image).url()}
+                          alt={artefact3.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact3.image?.hotspot
@@ -1818,8 +1818,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact3.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact3.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact3.hoverImage).url()}
+                            alt={artefact3.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact3.hoverImage?.hotspot
@@ -1861,8 +1861,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact4.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact4.image).url()}
+                          alt={artefact4.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact4.image?.hotspot
@@ -1872,8 +1872,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact4.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact4.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact4.hoverImage).url()}
+                            alt={artefact4.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact4.hoverImage?.hotspot
@@ -1918,8 +1918,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact1.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact1.image).url()}
+                          alt={artefact1.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact1.image?.hotspot
@@ -1929,8 +1929,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact1.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact1.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact1.hoverImage).url()}
+                            alt={artefact1.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact1.hoverImage?.hotspot
@@ -1970,8 +1970,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact2.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact2.image).url()}
+                          alt={artefact2.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact2.image?.hotspot
@@ -1981,8 +1981,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact2.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact2.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact2.hoverImage).url()}
+                            alt={artefact2.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact2.hoverImage?.hotspot
@@ -2027,8 +2027,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact3.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact3.image).url()}
+                          alt={artefact3.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact3.image?.hotspot
@@ -2038,8 +2038,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact3.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact3.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact3.hoverImage).url()}
+                            alt={artefact3.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact3.hoverImage?.hotspot
@@ -2082,8 +2082,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact1.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact1.image).url()}
+                          alt={artefact1.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact1.image?.hotspot
@@ -2093,8 +2093,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact1.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact1.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact1.hoverImage).url()}
+                            alt={artefact1.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact1.hoverImage?.hotspot
@@ -2134,8 +2134,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact2.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact2.image).url()}
+                          alt={artefact2.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact2.image?.hotspot
@@ -2145,8 +2145,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact2.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact2.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact2.hoverImage).url()}
+                            alt={artefact2.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact2.hoverImage?.hotspot
@@ -2187,8 +2187,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact3.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact3.image).url()}
+                          alt={artefact3.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact3.image?.hotspot
@@ -2198,8 +2198,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact3.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact3.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact3.hoverImage).url()}
+                            alt={artefact3.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact3.hoverImage?.hotspot
@@ -2239,8 +2239,8 @@ export default function TextWithArtefacts({
                       <div className="artefact-image">
                         <div className="media-wrap relative">
                           <img 
-                          data-src={urlFor(artefact4.image).url()} 
-                          alt="" 
+data-src={urlFor(artefact4.image).url()}
+                          alt={artefact4.image?.alt ?? ''}
                           className="lazy"
                           style={{
                             objectPosition: artefact4.image?.hotspot
@@ -2250,8 +2250,8 @@ export default function TextWithArtefacts({
                           />
                           {artefact4.hoverImage && (
                             <img 
-                            data-src={urlFor(artefact4.hoverImage).url()} 
-                            alt="" 
+data-src={urlFor(artefact4.hoverImage).url()}
+                            alt={artefact4.hoverImage?.alt ?? ''}
                             className="lazy hover-image"
                             style={{
                               objectPosition: artefact4.hoverImage?.hotspot
@@ -2283,8 +2283,8 @@ export default function TextWithArtefacts({
               {carouselIcon && (
                 <div className="carousel-image">
                   <img 
-                    src={urlFor(carouselIcon).url()} 
-                    alt=""
+src={urlFor(carouselIcon).url()}
+                    alt={carouselIcon?.alt ?? ''}
                   />
                 </div>
               )}
@@ -2336,8 +2336,8 @@ export default function TextWithArtefacts({
                 }}
               >
                 <img 
-                  src={urlFor(selectedArtefact.image).url()} 
-                  alt=""
+src={urlFor(selectedArtefact.image).url()}
+                  alt={selectedArtefact.image?.alt ?? ''}
                   style={{
                     objectPosition: selectedArtefact.image?.hotspot
                       ? `${selectedArtefact.image.hotspot.x * 100}% ${selectedArtefact.image.hotspot.y * 100}%`

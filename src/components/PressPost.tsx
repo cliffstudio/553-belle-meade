@@ -60,8 +60,8 @@ const PressPost: React.FC<PressPostProps> = ({
             <div className="full-bleed-media-block relative out-of-opacity">
               <div className="fill-space-image-wrap">
                 <img 
-                data-src={urlFor(featuredImage).url()} 
-                alt="" 
+data-src={urlFor(featuredImage).url()}
+                alt={featuredImage?.alt ?? ''}
                 className="lazy full-bleed-image"
                 />
                 <div className="loading-overlay" />
@@ -120,8 +120,8 @@ const PressPost: React.FC<PressPostProps> = ({
               {featuredImage && (
                 <div className="media-wrap relative">
                   <img 
-                  data-src={urlFor(featuredImage).url()} 
-                  alt="" 
+data-src={urlFor(featuredImage).url()}
+                alt={featuredImage?.alt ?? ''}
                   className="lazy full-bleed-image"
                   />
                   <div className="loading-overlay" />
@@ -135,7 +135,7 @@ const PressPost: React.FC<PressPostProps> = ({
       <section className="cta-banner-block">
         {nextPostSlug && nextPostTitle && (
           <div className="inner-wrap h-pad relative out-of-view">
-            <h1 className="smaller">Next</h1>
+            <div className="h1 smaller link-text">Next</div>
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
               <path d="M1 1L13.5 13.5L0.999999 26"/>

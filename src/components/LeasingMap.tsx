@@ -247,6 +247,7 @@ export default function LeasingMap({
               title: spot.title,
               description: spot.description,
               image: popupImageUrl,
+              imageAlt: spot.image?.alt ?? spot.title ?? '',
               // mobileImage: popupMobileImageUrl,
             }
           }
@@ -257,6 +258,7 @@ export default function LeasingMap({
           label: floor.label,
           mobileLabel: floor.mobileLabel,
           image: desktopImageUrl,
+          imageAlt: floor.desktopImage?.alt ?? '',
           // mobileImage: mobileImageUrl,
           desktopSpacesOverlayImage: floor.desktopSpacesOverlayImage,
           // mobileSpacesOverlayImage: floor.mobileSpacesOverlayImage,
@@ -881,7 +883,7 @@ export default function LeasingMap({
                 {floor.image && (
                   <img 
                     src={floor.image} 
-                    alt="" 
+                    alt={floor.imageAlt ?? floor.label ?? ''} 
                     className="regular leasing-map__base-image"
                     onLoad={() => handleImageLoad(floor.id)}
                     ref={(img) => {
@@ -897,7 +899,7 @@ export default function LeasingMap({
                 {/* {floor.mobileImage && (
                   <img 
                     src={floor.mobileImage} 
-                    alt="" 
+                    alt={floor.imageAlt ?? floor.label ?? ''} 
                     className="regular mobile leasing-map__base-image"
                     onLoad={() => handleImageLoad(floor.id)}
                     ref={(img) => {
@@ -1035,9 +1037,9 @@ export default function LeasingMap({
               <div className="leasing-map__popup-media relative">
                 {displaySpot?.popupContent.image && (
                   <>
-                    <img 
-                      src={displaySpot.popupContent.image} 
-                      alt={displaySpot.popupContent.title}
+                    <img
+                      src={displaySpot.popupContent.image}
+                      alt={displaySpot.popupContent.imageAlt ?? displaySpot.popupContent.title ?? ''}
                       className="full-bleed-image"
                     />
                   </>

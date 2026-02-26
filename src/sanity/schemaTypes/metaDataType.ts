@@ -25,6 +25,15 @@ export const metaDataType = defineType({
       name: 'socialimage',
       title: 'Social Image',
       type: 'image',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
     },
   ],
 })

@@ -96,8 +96,8 @@ export default function SignInHeroMedia(props: SignInHeroMediaProps) {
           {/* Desktop Image */}
           {desktopBackgroundImage && (
             <img 
-              data-src={urlFor(desktopBackgroundImage).url()} 
-              alt="" 
+data-src={urlFor(desktopBackgroundImage).url()}
+              alt={desktopBackgroundImage?.alt ?? ''}
               className="lazy full-bleed-image desktop"
               style={{
                 objectPosition: desktopBackgroundImage?.hotspot
@@ -109,9 +109,9 @@ export default function SignInHeroMedia(props: SignInHeroMediaProps) {
           
           {/* Mobile Image */}
           {mobileBackgroundImage && (
-            <img 
-              data-src={urlFor(mobileBackgroundImage).url()} 
-              alt="" 
+            <img
+              data-src={urlFor(mobileBackgroundImage).url()}
+              alt={mobileBackgroundImage?.alt ?? ''}
               className="lazy full-bleed-image mobile"
               style={{
                 objectPosition: mobileBackgroundImage?.hotspot
@@ -124,8 +124,8 @@ export default function SignInHeroMedia(props: SignInHeroMediaProps) {
           {/* Fallback to desktop image for mobile if no mobile image provided */}
           {!mobileBackgroundImage && desktopBackgroundImage && (
             <img 
-              data-src={urlFor(desktopBackgroundImage).url()} 
-              alt="" 
+data-src={urlFor(desktopBackgroundImage).url()}
+              alt={desktopBackgroundImage?.alt ?? ''}
               className="lazy full-bleed-image mobile"
               style={{
                 objectPosition: desktopBackgroundImage?.hotspot

@@ -40,7 +40,7 @@ export default function CtaBanner({ cta }: CtaBannerProps) {
   return (
     <section className="cta-banner-block">
       <div className="inner-wrap h-pad relative out-of-view">
-        <h2>{text}</h2>
+        <div className="h2 link-text">{text}</div>
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 27">
           <path d="M1 1L13.5 13.5L0.999999 26"/>

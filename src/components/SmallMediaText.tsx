@@ -70,8 +70,8 @@ export default function SmallMediaText({ mediaType = 'image', image, video, vide
           {mediaType === 'image' && image && (
             <div className="media-wrap out-of-opacity">
               <img 
-              data-src={urlFor(image).url()} 
-              alt="" 
+data-src={urlFor(image).url()}
+              alt={image?.alt ?? ''}
               className="lazy full-bleed-image"
               />
               <div className="loading-overlay" />
@@ -103,8 +103,8 @@ export default function SmallMediaText({ mediaType = 'image', image, video, vide
             {mediaType === 'image' && image && (
               <div className="media-wrap out-of-opacity">
                 <img 
-                data-src={urlFor(image).url()} 
-                alt="" 
+data-src={urlFor(image).url()}
+              alt={image?.alt ?? ''}
                 className="lazy full-bleed-image"
                 style={{
                   objectPosition: image?.hotspot

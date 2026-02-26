@@ -13,6 +13,7 @@ const imageFragment = `{
     _ref,
     _type
   },
+  alt,
   hotspot,
   crop
 }`

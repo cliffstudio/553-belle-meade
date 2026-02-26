@@ -50,6 +50,14 @@ export const pressType = defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
@@ -77,6 +85,15 @@ export const pressType = defineType({
       title: 'Thumbnail Logo',
       type: 'image',
       description: 'Please upload image files under 1MB',
+      options: { hotspot: true },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;
@@ -129,6 +146,14 @@ export const pressType = defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Important for accessibility and SEO.',
+        },
+      ],
       validation: (Rule) => Rule.custom(async (file, context) => {
         if (!file?.asset?._ref) {
           return true;

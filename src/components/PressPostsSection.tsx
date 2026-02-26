@@ -45,8 +45,8 @@ const PressPostsSection: React.FC<PressPostsSectionProps> = ({
       {post.thumbnailImage && (
         <div className="media-wrap relative out-of-opacity">
           <img 
-          data-src={urlFor(post.thumbnailImage).url()} 
-          alt="" 
+data-src={urlFor(post.thumbnailImage).url()}
+          alt={post.thumbnailImage?.alt ?? post.title ?? ''}
           className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />
