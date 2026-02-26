@@ -86,8 +86,8 @@ const renderTile = (tile: LinkTile, tileIndex: number, numberOfTiles: number) =>
       {tile.mediaType === 'image' && tile.image && (
         <div className="fill-space-image-wrap">
           <img 
-            data-src={urlFor(tile.image).url()} 
-            alt="" 
+            data-src={urlFor(tile.image).url()}
+            alt={tile.image?.alt ?? ''}
             className="lazy full-bleed-image"
             style={{
               objectPosition: tile.image?.hotspot
@@ -277,8 +277,8 @@ export default function LinkTiles({
                 {activeTiles[0].mediaType === 'image' && activeTiles[0].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[0].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[0].image).url()}
+                      alt={activeTiles[0].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[0].image?.hotspot
@@ -325,8 +325,8 @@ export default function LinkTiles({
                 {activeTiles[1].mediaType === 'image' && activeTiles[1].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[1].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[1].image).url()}
+                      alt={activeTiles[1].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[1].image?.hotspot
@@ -369,8 +369,8 @@ export default function LinkTiles({
                 {activeTiles[2].mediaType === 'image' && activeTiles[2].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[2].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[2].image).url()}
+                      alt={activeTiles[2].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[2].image?.hotspot
@@ -417,8 +417,8 @@ export default function LinkTiles({
                 {activeTiles[3].mediaType === 'image' && activeTiles[3].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[3].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[3].image).url()}
+                      alt={activeTiles[3].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[3].image?.hotspot
@@ -460,8 +460,8 @@ export default function LinkTiles({
               {activeTiles[4].mediaType === 'image' && activeTiles[4].image && (
                 <div className="fill-space-image-wrap">
                   <img 
-                    data-src={urlFor(activeTiles[4].image).url()} 
-                    alt="" 
+data-src={urlFor(activeTiles[4].image).url()}
+                    alt={activeTiles[4].image?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: activeTiles[4].image?.hotspot
@@ -505,8 +505,8 @@ export default function LinkTiles({
                 {activeTiles[5].mediaType === 'image' && activeTiles[5].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[5].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[5].image).url()}
+                      alt={activeTiles[5].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[5].image?.hotspot
@@ -549,8 +549,8 @@ export default function LinkTiles({
                 {activeTiles[6].mediaType === 'image' && activeTiles[6].image && (
                   <div className="fill-space-image-wrap">
                     <img 
-                      data-src={urlFor(activeTiles[6].image).url()} 
-                      alt="" 
+data-src={urlFor(activeTiles[6].image).url()}
+                      alt={activeTiles[6].image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: activeTiles[6].image?.hotspot

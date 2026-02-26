@@ -178,8 +178,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot
@@ -213,8 +213,8 @@ export default function ImageMasonry({
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
+data-src={urlFor(image2).url()}
+                    alt={image2?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image2?.hotspot
@@ -273,8 +273,8 @@ export default function ImageMasonry({
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
+data-src={urlFor(image2).url()}
+                    alt={image2?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image2?.hotspot
@@ -308,8 +308,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot
@@ -351,7 +351,7 @@ export default function ImageMasonry({
                 <div className="text-wrap max-width-big-text out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
-                  {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
+                  {body && <div className="h2"><PortableText value={body} components={portableTextComponents} /></div>}
 
                   {cta?.href && <div className="cta-font underline-link link">
                     <a href={cta.href}>{cta.label || ''}</a>
@@ -368,8 +368,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+                    data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot
@@ -406,8 +406,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+                    data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot
@@ -443,8 +443,8 @@ export default function ImageMasonry({
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
+                    data-src={urlFor(image2).url()}
+                    alt={image2?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image2?.hotspot
@@ -488,7 +488,7 @@ export default function ImageMasonry({
                 <div className="text-wrap max-width-big-text out-of-view">
                   {heading && <div className="heading cta-font">{heading}</div>}
                   
-                  {body && <h2><PortableText value={body} components={portableTextComponents} /></h2>}
+                  {body && <div className="h2"><PortableText value={body} components={portableTextComponents} /></div>}
 
                   {cta?.href && <div className="cta-font underline-link link">
                     <a href={cta.href}>{cta.label || ''}</a>
@@ -504,8 +504,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+                    data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot
@@ -539,8 +539,8 @@ export default function ImageMasonry({
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
+                    data-src={urlFor(image2).url()}
+                    alt={image2?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image2?.hotspot
@@ -578,7 +578,7 @@ export default function ImageMasonry({
               <div className="text-wrap max-width-big-text out-of-view">
                 {heading && <div className="heading cta-font">{heading}</div>}
                 
-                {body && <h2><PortableText value={body} /></h2>}
+                {body && <div className="h2"><PortableText value={body} /></div>}
 
                 {cta?.href && <div className="cta-font underline-link link">
                   <a href={cta.href}>{cta.label || ''}</a>
@@ -595,8 +595,8 @@ export default function ImageMasonry({
                 {mediaType2 === 'image' && image2 && (
                   <div className="media-2 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image2).url()} 
-                    alt="" 
+data-src={urlFor(image2).url()}
+                    alt={image2?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image2?.hotspot
@@ -628,8 +628,8 @@ export default function ImageMasonry({
                 {mediaType1 === 'image' && image1 && (
                   <div className="media-1 media-wrap out-of-opacity">
                     <img 
-                    data-src={urlFor(image1).url()} 
-                    alt="" 
+data-src={urlFor(image1).url()}
+                    alt={image1?.alt ?? ''}
                     className="lazy full-bleed-image"
                     style={{
                       objectPosition: image1?.hotspot

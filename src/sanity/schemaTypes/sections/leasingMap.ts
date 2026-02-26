@@ -35,6 +35,14 @@ export default defineType({
               title: 'Floor Plan Image',
               type: 'image',
               options: { hotspot: true },
+              fields: [
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alt Text',
+                  description: 'Important for accessibility and SEO.',
+                },
+              ],
               validation: Rule => Rule.required()
             },
             // {
@@ -159,6 +167,14 @@ export default defineType({
                       type: 'image',
                       description: 'Please upload image files under 1MB',
                       options: { hotspot: true },
+                      fields: [
+                        {
+                          name: 'alt',
+                          type: 'string',
+                          title: 'Alt Text',
+                          description: 'Important for accessibility and SEO.',
+                        },
+                      ],
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       validation: (Rule) => Rule.required().custom(async (file: any, context) => {
                         if (!file?.asset?._ref) {

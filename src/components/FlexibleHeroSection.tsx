@@ -700,7 +700,7 @@ export default function FlexibleHeroSection({
             {desktopBackgroundImage && (
               <img 
                 data-src={urlFor(desktopBackgroundImage).url()} 
-                alt="" 
+                alt={desktopBackgroundImage?.alt ?? ''} 
                 className="lazy full-bleed-image desktop"
                 style={{
                   objectPosition: desktopBackgroundImage?.hotspot
@@ -712,7 +712,7 @@ export default function FlexibleHeroSection({
             {mobileBackgroundImage && (
               <img 
                 data-src={urlFor(mobileBackgroundImage).url()} 
-                alt="" 
+                alt={mobileBackgroundImage?.alt ?? ''} 
                 className="lazy full-bleed-image mobile"
                 style={{
                   objectPosition: mobileBackgroundImage?.hotspot
@@ -724,7 +724,7 @@ export default function FlexibleHeroSection({
             {!mobileBackgroundImage && desktopBackgroundImage && (
               <img 
                 data-src={urlFor(desktopBackgroundImage).url()} 
-                alt="" 
+                alt={desktopBackgroundImage?.alt ?? ''} 
                 className="lazy full-bleed-image mobile"
                 style={{
                   objectPosition: desktopBackgroundImage?.hotspot
@@ -739,14 +739,17 @@ export default function FlexibleHeroSection({
 
         <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: overlayDarkness }} data-overlay-darkness={overlayDarkness} />
 
-        <div ref={logoRef} className="logo z-10 h-pad out-of-opacity">
-          <div className="desktop">
-            <Logo />
-          </div>
-          <div className="mobile">
-            <StackedLogo />
-          </div>
-        </div>
+        <h1 ref={logoRef} className="logo z-10 h-pad out-of-opacity">
+          <a href="/" className="block">
+            <span className="sr-only">Belle Meade Village</span>
+            <div className="desktop" aria-hidden>
+              <Logo />
+            </div>
+            <div className="mobile" aria-hidden>
+              <StackedLogo />
+            </div>
+          </a>
+        </h1>
 
         <div className="down-arrow z-10 out-of-opacity" onClick={handleScrollDown}>
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="12" viewBox="0 0 22 12" fill="none" >
@@ -804,7 +807,7 @@ export default function FlexibleHeroSection({
               {desktopBackgroundImage && (
                 <img 
                   data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+                  alt={desktopBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image desktop"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -816,7 +819,7 @@ export default function FlexibleHeroSection({
               {mobileBackgroundImage && (
                 <img 
                   data-src={urlFor(mobileBackgroundImage).url()} 
-                  alt="" 
+                  alt={mobileBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: mobileBackgroundImage?.hotspot
@@ -828,7 +831,7 @@ export default function FlexibleHeroSection({
               {!mobileBackgroundImage && desktopBackgroundImage && (
                 <img 
                   data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+                  alt={desktopBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -864,8 +867,8 @@ export default function FlexibleHeroSection({
       {layout === 'layout-2' && (
         <section className="hero-media-block layout-2 flex items-center justify-center text-white relative">
           <div className="inner-wrap h-pad out-of-view">
-            {desktopTitle && <div className="desktop text-wrap"><h2>{desktopTitle}</h2></div>}
-            {mobileTitle && <div className="mobile text-wrap"><h2>{mobileTitle}</h2></div>}
+            {desktopTitle && <div className="desktop text-wrap h2">{desktopTitle}</div>}
+            {mobileTitle && <div className="mobile text-wrap h2">{mobileTitle}</div>}
             {cta && (
               <div className="cta-font underline-link link cream">
                 <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text || 'Learn More'}</a>
@@ -881,8 +884,8 @@ export default function FlexibleHeroSection({
       {layout === 'layout-3' && (
         <section className="hero-media-block layout-3 flex items-center text-white relative">
           <div className="h-pad out-of-view">
-            {desktopTitle && <div className="desktop"><h2>{desktopTitle}</h2></div>}
-            {mobileTitle && <div className="mobile"><h2>{mobileTitle}</h2></div>}
+            {desktopTitle && <div className="desktop"><h1 className="h2">{desktopTitle}</h1></div>}
+            {mobileTitle && <div className="mobile"><h1 className="h2">{mobileTitle}</h1></div>}
           </div>
         </section>
       )}

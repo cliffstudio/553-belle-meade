@@ -474,6 +474,8 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <>
+      <h1 className="sr-only">Gallery</h1>
+
       <section className="gallery-block">
         <div ref={gridRef} className="gallery-grid out-of-opacity">
           {images.map((item, index) => {
@@ -489,7 +491,7 @@ export default function Gallery({ images }: GalleryProps) {
                   <div className="fill-space-image-wrap">
                     <img
                       data-src={urlFor(item.image).url()}
-                      alt=""
+                      alt={item.image?.alt ?? ''}
                       className="lazy full-bleed-image"
                       style={{
                         objectPosition: item.image?.hotspot
@@ -539,7 +541,7 @@ export default function Gallery({ images }: GalleryProps) {
                       <div className="carousel-image">
                         <img
                           src={urlFor(item.image).width(1200).url()}
-                          alt={item.caption || ''}
+                          alt={item.image?.alt ?? item.caption ?? ''}
                           className="carousel-img"
                           style={{
                             objectPosition: item.image?.hotspot

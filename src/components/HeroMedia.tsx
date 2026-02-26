@@ -834,7 +834,7 @@ export default function HeroMedia({
               {desktopBackgroundImage && (
                 <img 
                   data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+                  alt={desktopBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image desktop"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -848,7 +848,7 @@ export default function HeroMedia({
               {mobileBackgroundImage && (
                 <img 
                   data-src={urlFor(mobileBackgroundImage).url()} 
-                  alt="" 
+                  alt={mobileBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: mobileBackgroundImage?.hotspot
@@ -862,7 +862,7 @@ export default function HeroMedia({
               {!mobileBackgroundImage && desktopBackgroundImage && (
                 <img 
                   data-src={urlFor(desktopBackgroundImage).url()} 
-                  alt="" 
+                  alt={desktopBackgroundImage?.alt ?? ''} 
                   className="lazy full-bleed-image mobile"
                   style={{
                     objectPosition: desktopBackgroundImage?.hotspot
@@ -899,8 +899,8 @@ export default function HeroMedia({
       {layout === 'layout-2' && (
         <section className="hero-media-block layout-2 flex items-center justify-center text-white relative">
           <div className="inner-wrap h-pad out-of-view">
-            {desktopTitle && <div className="desktop text-wrap"><h2>{desktopTitle}</h2></div>}
-            {mobileTitle && <div className="mobile text-wrap"><h2>{mobileTitle}</h2></div>}
+            {desktopTitle && <div className="desktop text-wrap h2">{desktopTitle}</div>}
+            {mobileTitle && <div className="mobile text-wrap h2">{mobileTitle}</div>}
 
             {cta && <div className="cta-font underline-link link cream">
               <a href={href} target={cta?.linkType === 'external' ? '_blank' : undefined} rel={cta?.linkType === 'external' ? 'noopener noreferrer' : undefined}>{text || 'Learn More'}</a>
@@ -916,8 +916,8 @@ export default function HeroMedia({
       {layout === 'layout-3' && (
         <section className="hero-media-block layout-3 flex items-center text-white relative">
           <div className="h-pad out-of-view">
-            {desktopTitle && <div className="desktop"><h2>{desktopTitle}</h2></div>}
-            {mobileTitle && <div className="mobile"><h2>{mobileTitle}</h2></div>}
+            {desktopTitle && <div className="desktop"><h1 className="h2">{desktopTitle}</h1></div>}
+            {mobileTitle && <div className="mobile"><h1 className="h2">{mobileTitle}</h1></div>}
           </div>
         </section>
       )}
