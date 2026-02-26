@@ -640,37 +640,11 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
     }
   }, [])
 
-  // Handle homepage header visibility
+  // Ensure header is visible when not on homepage (e.g. after navigation)
   useEffect(() => {
-    if (!headerRef.current) return
-    
-    if (isHomepage) {
-      // Hide header initially on homepage (will be shown by HomeHeroMedia animation)
-      headerRef.current.classList.add('header-hidden')
-    } else {
-      // Show header immediately on other pages
-      headerRef.current.classList.remove('header-hidden')
-      headerRef.current.style.opacity = '1'
-      
-      // Show text-wrap and down-arrow immediately on other pages
-      const textWrap = document.querySelector('.text-wrap')
-      const downArrow = document.querySelector('.down-arrow')
-      const videoControls = document.querySelector('.video-controls')
-      const opacityOverlay = document.querySelector('.opacity-overlay-home')
-      
-      if (textWrap instanceof HTMLElement) {
-        textWrap.style.opacity = '1'
-      }
-      if (downArrow instanceof HTMLElement) {
-        downArrow.style.opacity = '1'
-      }
-      if (videoControls instanceof HTMLElement) {
-        videoControls.style.opacity = '1'
-      }
-      if (opacityOverlay instanceof HTMLElement) {
-        // Reset overlay opacity on non-homepage
-      }
-    }
+    if (!headerRef.current || isHomepage) return
+    headerRef.current.classList.remove('header-hidden')
+    headerRef.current.style.opacity = '1'
   }, [pathname, isHomepage])
 
   // Close any open menus/dropdowns on route change (covers iPad/desktop dropdowns)
@@ -824,7 +798,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
   // Handle case where both menus are undefined
   if (!leftMenu && !rightMenu) {
     return (
-      <header ref={headerRef} className={`site-header z-500 h-pad ${isHomepage ? 'header-hidden' : ''}`}>
+      <header ref={headerRef} className="site-header z-500 h-pad">
         <div className="inner-wrap row-lg">
           <nav className="left-nav col-5-12_lg">
             {/* Empty left nav */}
@@ -847,7 +821,7 @@ export default function Header({ leftMenu, rightMenu }: HeaderProps) {
 
   return (
     <>
-      <header ref={headerRef} className={`site-header z-500 h-pad ${isHomepage ? 'header-hidden' : ''}`}>
+      <header ref={headerRef} className="site-header z-500 h-pad">
         <div className="inner-wrap row-lg row-sm">
 
           <div className="col-5-12_lg col-1-5_sm">
