@@ -333,8 +333,16 @@ export const pageQuery = groq`
         src,
         title
       },
-      spacesContactForm {
-        body
+      // spacesContactForm {
+      //   body
+      // },
+      spacesForm {
+        title,
+        introduction,
+        formFields,
+        submitLabel,
+        successMessage,
+        adminNotificationEmail,
       },
       spacesCta {
         cta ${linkFragment}

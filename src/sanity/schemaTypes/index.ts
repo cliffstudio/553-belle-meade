@@ -28,7 +28,8 @@ import gallery from './sections/gallery'
 import architects from './sections/architects'
 import textWithArtefacts from './sections/textWithArtefacts'
 import imageCarousel from './sections/imageCarousel'
-import contactForm from './sections/contactForm'
+// import contactForm from './sections/contactForm'
+import form from './sections/form'
 import leasingMap from './sections/leasingMap'
 import textBlock from './sections/textBlock'
 import issuuEmbed from './sections/issuuEmbed'
@@ -69,7 +70,8 @@ export const schemaTypes = [
   architects,
   textWithArtefacts,
   imageCarousel,
-  contactForm,
+  // contactForm,
+  form,
   leasingMap,
   textBlock,
   issuuEmbed,
