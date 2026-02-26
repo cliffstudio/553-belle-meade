@@ -86,7 +86,11 @@ h3,
 .spark-registration-form button,
 .spark-registration-form .rs__control,
 .spark-registration-form .rs__option,
-.sign-in-hero-media-block form input {
+.sign-in-hero-media-block form input,
+.contact-form-block form input,
+.contact-form-block form select,
+.contact-form-block form textarea,
+.contact-form-block form button {
   font-family: 'Dia';  
   line-height: 140%;
   letter-spacing: 0.15em;
