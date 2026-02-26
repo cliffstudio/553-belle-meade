@@ -79,83 +79,130 @@
       order: 1;
     }
 
-    .newsletter-text {
-      margin-bottom: get-rem-desktop(16);
-    }
-
-    .input-wrap {
-      position: relative;
-      border-bottom: 1px solid rgba($colour-cream, 0.5);
-      @include flex;
-      margin-bottom: get-rem-desktop(16);
-
-      @media only screen and (max-width: 1440px) {
-        margin-bottom: get-rem-tablet(12);
+    #mc_embed_signup_desktop {
+      .newsletter-text {
+        margin-bottom: get-rem-desktop(16);
       }
 
-      @media only screen and (max-width: 768px) {
-        margin-bottom: get-rem-mobile(25);
-      }
-
-      input {
-        @include reset-input;
-        padding: get-rem-desktop(10) 0;
-        flex: 1;
-        min-width: 0;
-        color: $colour-cream;
-        margin-top: get-rem-desktop(-10);
+      .input-wrap {
+        position: relative;
+        border-bottom: 1px solid rgba($colour-cream, 0.5);
+        @include flex;
+        margin-bottom: get-rem-desktop(16);
 
         @media only screen and (max-width: 1440px) {
-          padding: get-rem-tablet(13) 0;
-          margin-top: get-rem-tablet(-13);
+          margin-bottom: get-rem-tablet(12);
         }
 
         @media only screen and (max-width: 768px) {
-          padding: get-rem-mobile(5) 0;
-          margin-top: get-rem-mobile(-5);
+          margin-bottom: get-rem-mobile(25);
         }
-  
-        &::placeholder {
+
+        input {
+          @include reset-input;
+          padding: get-rem-desktop(10) 0;
+          flex: 1;
+          min-width: 0;
           color: $colour-cream;
-          opacity: 1;
+          margin-top: get-rem-desktop(-10);
+
+          @media only screen and (max-width: 1440px) {
+            padding: get-rem-tablet(13) 0;
+            margin-top: get-rem-tablet(-13);
+          }
+
+          @media only screen and (max-width: 768px) {
+            padding: get-rem-mobile(5) 0;
+            margin-top: get-rem-mobile(-5);
+          }
+    
+          &::placeholder {
+            color: $colour-cream;
+            opacity: 1;
+          }
+          
+          &::-webkit-input-placeholder {
+            color: $colour-cream;
+            opacity: 1;
+          }
+          
+          &::-moz-placeholder {
+            color: $colour-cream;
+            opacity: 1;
+          }
+          
+          &:-ms-input-placeholder {
+            color: $colour-cream;
+            opacity: 1;
+          }
         }
-        
-        &::-webkit-input-placeholder {
-          color: $colour-cream;
-          opacity: 1;
-        }
-        
-        &::-moz-placeholder {
-          color: $colour-cream;
-          opacity: 1;
-        }
-        
-        &:-ms-input-placeholder {
-          color: $colour-cream;
-          opacity: 1;
-        }
+
+        button {
+          padding: 0 get-rem-desktop(10);
+          margin-right: get-rem-desktop(-10);
+
+          svg {
+            width: 7px;
+            fill: none;
+            stroke: $colour-cream;
+          }
+        }      
       }
 
-      button {
-        padding: 0 get-rem-desktop(10);
-        margin-right: get-rem-desktop(-10);
-
-        svg {
-          width: 7px;
-          fill: none;
-          stroke: $colour-cream;
+      p {
+        @media only screen and (max-width: 768px) {
+          opacity: 0.5;
+          max-width: get-rem-mobile(300);
         }
-      }      
+
+        a {
+          text-decoration: underline;
+        }
+      }
     }
 
-    p {
+    .footer-animation-wrap {
+      width: fit-content;
+      margin-top: get-rem-desktop(90);
+      margin-left: auto;
+
       @media only screen and (max-width: 768px) {
-        opacity: 0.5;
-        max-width: get-rem-mobile(300);
+        display: none;
       }
 
-      a {
-        text-decoration: underline;
+      .footer-lottie-wrapper {
+        width: fit-content;
+        margin: 0 auto;
+        will-change: opacity;
+        @include transition(opacity 1200ms cubic-bezier(0.25,0.1,0.25,1));
+
+        &.footer-lottie-wrapper--faded-out {
+          opacity: 0;
+        }
+      }
+  
+      .footer-lottie-placeholder {
+        width: get-rem-desktop(90);
+        min-height: get-rem-desktop(90);
+      }
+
+      .footer-lottie {
+        width: get-rem-desktop(90);
+      }
+  
+      .footer-lottie-text {
+        text-align: center;
+        width: get-rem-desktop(120);
+        margin: 0 auto;
+        margin-top: get-rem-desktop(5);
+        line-height: 150%;
+        opacity: 0;
+        will-change: opacity;
+        @include transition(opacity 1200ms cubic-bezier(0.25,0.1,0.25,1));
+
+        &.footer-lottie-text--visible {
+          opacity: 1;
+        }
       }
     }
   }

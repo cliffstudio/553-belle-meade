@@ -67,7 +67,8 @@ h3,
   }
 }
 
-.site-footer input {
+.site-footer input,
+.footer-lottie-text {
   font-family: 'Millionaire-Roman';  
   line-height: normal;
   @include font-size(20px, 13px, 18px);

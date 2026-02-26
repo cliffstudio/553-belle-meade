@@ -1,18 +1,26 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
+import dynamic from 'next/dynamic'
+import { useEffect, useRef } from 'react'
 import { PortableText } from '@portabletext/react'
 import Logo from './Logo'
 import type { Footer } from '../types/footerSettings'
 import StackedLogo from './StackedLogo'
 import { portableTextComponents } from '../utils/portableTextComponents'
 
+const FooterLottieAnimation = dynamic(
+  () => import('./FooterLottieAnimation'),
+  { ssr: false }
+)
+
 interface FooterProps {
   footer: Footer
 }
 
 export default function Footer({ footer }: FooterProps) {
+  const footerRef = useRef<HTMLElement>(null)
+
   useEffect(() => {
     // Add Mailchimp CSS if not already added
     if (!document.querySelector('link[href*="mailchimp.com/embedcode"]')) {
@@ -25,7 +33,7 @@ export default function Footer({ footer }: FooterProps) {
   }, [])
 
   return (
-    <footer className="site-footer h-pad">
+    <footer ref={footerRef} className="site-footer h-pad">
       <div className="top-row row-lg">
         <div className="column-1 col-3-12_lg">
           {footer.column1FooterItems && footer.column1FooterItems.map((item, index) => (
@@ -119,6 +127,8 @@ export default function Footer({ footer }: FooterProps) {
               <p>By signing up, you are agreeing to our <Link href="/privacy-policy">privacy policy</Link></p>
             </div>
           </div>
+
+          <FooterLottieAnimation footerRef={footerRef} />
         </div>
       </div>
 
