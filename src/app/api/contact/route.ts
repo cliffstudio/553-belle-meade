@@ -11,7 +11,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const RESEND_DEFAULT_FROM = 'Belle Meade <send@bmvillage.com>'
+const RESEND_DEFAULT_FROM = 'Belle Meade <onboarding@resend.dev>'
 
 const EMAIL_META_KEYS = new Set(['usercode', 'form-name', 'form-title', '_toEmailAddress', '_fromEmailAddress', '_formTitle', '_replyToEmail'])
 
