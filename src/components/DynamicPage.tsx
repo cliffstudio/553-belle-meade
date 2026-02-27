@@ -21,7 +21,8 @@ import Gallery from './Gallery'
 import Architects from './Architects'
 import TextWithArtefacts from './TextWithArtefacts'
 import ImageCarousel from './ImageCarousel'
-import ContactForm from './ContactForm'
+// import ContactForm from './ContactForm'
+import Form from './Form'
 import LeasingMap from './LeasingMap'
 import IssuuEmbed from './IssuuEmbed'
 import VirtualTourEmbed from './VirtualTourEmbed'
@@ -52,7 +53,8 @@ const sectionComponents = {
   architects: Architects,
   textWithArtefacts: TextWithArtefacts,
   imageCarousel: ImageCarousel,
-  contactForm: ContactForm,
+  // contactForm: ContactForm,
+  form: Form,
   leasingMap: LeasingMap,
   issuuEmbed: IssuuEmbed,
   virtualTourEmbed: VirtualTourEmbed,
@@ -116,7 +118,8 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.spacesLeasingMap, 'leasingMap', 'spaces-leasing-map')
         addSection(sections, page.spacesFullWidthMedia, 'fullWidthMedia', 'spaces-full-width-media')
         addSection(sections, page.spacesIssuuEmbed, 'issuuEmbed', 'spaces-issuu-embed')
-        addSection(sections, page.spacesContactForm, 'contactForm', 'spaces-contact-form')
+        // addSection(sections, page.spacesContactForm, 'contactForm', 'spaces-contact-form')
+        addSection(sections, page.spacesForm, 'form', 'spaces-form')
         addSection(sections, page.spacesCta, 'ctaBanner', 'spaces-cta')
         break
 
