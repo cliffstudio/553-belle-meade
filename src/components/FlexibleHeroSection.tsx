@@ -6,8 +6,8 @@ import { videoUrlFor } from '../sanity/utils/videoUrlBuilder'
 import { SanityImage, SanityVideo } from '../types/sanity'
 import Logo from './Logo'
 import StackedLogo from './StackedLogo'
-import Symbol from './Symbol'
 import VideoControls from './VideoControls'
+import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -100,8 +100,6 @@ export default function FlexibleHeroSection({
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
   const fullscreenVideoRef = useRef<HTMLVideoElement>(null)
   const logoRef = useRef<HTMLDivElement>(null)
-  const symbolRef = useRef<HTMLDivElement>(null)
-  const symbolSvgRef = useRef<SVGSVGElement>(null)
 
   // Use HeroMedia logic for layouts 1-3, HomeHeroMedia logic for homepage layout
   const isHomepageLayout = layout === 'homepage'
@@ -740,7 +738,7 @@ export default function FlexibleHeroSection({
         <div className="opacity-overlay opacity-overlay-home z-5" style={{ opacity: overlayDarkness }} data-overlay-darkness={overlayDarkness} />
 
         <h1 ref={logoRef} className="logo z-10 h-pad out-of-opacity">
-          <a href="/" className="block">
+          <Link href="/" className="block">
             <span className="sr-only">Belle Meade Village</span>
             <div className="desktop" aria-hidden>
               <Logo />
@@ -748,7 +746,7 @@ export default function FlexibleHeroSection({
             <div className="mobile" aria-hidden>
               <StackedLogo />
             </div>
-          </a>
+          </Link>
         </h1>
 
         <div className="down-arrow z-10 out-of-opacity" onClick={handleScrollDown}>
