@@ -139,7 +139,7 @@ export default defineType({
               title: 'Video Placeholder',
               type: 'image',
               description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
-              validation: (Rule) => Rule.custom(async (file, context) => {
+              validation: (Rule) => Rule.custom(async (file: any, context: any) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
