@@ -1,6 +1,16 @@
 // sections/imageCarousel.ts
 import { defineType, defineField } from 'sanity'
 
+/** Value passed to Rule.custom for Sanity image fields */
+interface ImageFieldValue {
+  asset?: { _ref?: string }
+}
+
+/** Context passed to Rule.custom in Sanity */
+interface CustomValidationContext {
+  getClient: (options: { apiVersion: string }) => { fetch: (query: string, params: Record<string, unknown>) => Promise<{ size?: number } | null> }
+}
+
 export default defineType({
   name: 'imageCarousel',
   title: 'Image Carousel',
@@ -139,7 +149,7 @@ export default defineType({
               title: 'Video Placeholder',
               type: 'image',
               description: 'Uploading the first frame of the video here will ensure users always see content if the video doesn\'t load immediately. Please upload image files under 1MB',
-              validation: (Rule) => Rule.custom(async (file: any, context: any) => {
+              validation: (Rule) => Rule.custom(async (file: ImageFieldValue, context: CustomValidationContext) => {
                 if (!file?.asset?._ref) {
                   return true;
                 }
