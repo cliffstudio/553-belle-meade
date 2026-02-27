@@ -27,6 +27,7 @@ interface ClickableSpot {
     title: string
     description?: PortableTextBlock[]
     image?: string
+    imageAlt?: string
     // mobileImage?: string
     details?: string[]
   }
@@ -56,6 +57,17 @@ interface Floor {
   desktopSpacesOverlayImage?: SanityFile
   // mobileSpacesOverlayImage?: SanityFile
   spots?: CMSSpot[]
+  imageAlt?: string
+}
+
+type FloorView = {
+  id: string
+  label: string
+  mobileLabel: string
+  image: string
+  desktopSpacesOverlayImage?: SanityFile
+  spots?: ClickableSpot[]
+  imageAlt?: string
 }
 
 interface LeasingMapProps {
@@ -156,16 +168,7 @@ export default function LeasingMap({
   }, [selectedSpot])
 
   // Default floors if no CMS data is provided
-  const defaultFloors: Array<{
-    id: string
-    label: string
-    mobileLabel: string
-    image: string
-    // mobileImage: string
-    desktopSpacesOverlayImage?: SanityFile
-    // mobileSpacesOverlayImage?: SanityFile
-    spots?: ClickableSpot[]
-  }> = [
+  const defaultFloors: FloorView[] = [
     { 
       id: 'floor-1', 
       label: 'First Floor', 
@@ -201,7 +204,7 @@ export default function LeasingMap({
   }
 
   // Transform CMS floors to component format
-  const floors = cmsFloors && cmsFloors.length > 0
+  const floors: FloorView[] = cmsFloors && cmsFloors.length > 0
     ? cmsFloors.map((floor, index) => {
         // Generate image URLs with fallbacks
         if (!floor.desktopImage) {
