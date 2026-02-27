@@ -108,10 +108,16 @@ export const pageType = defineType({
       type: 'issuuEmbed',
       hidden: ({ document }) => document?.pageType !== 'spaces',
     }),
+    // defineField({
+    //   name: 'spacesContactForm',
+    //   title: 'Contact',
+    //   type: 'contactForm',
+    //   hidden: ({ document }) => document?.pageType !== 'spaces',
+    // }),
     defineField({
-      name: 'spacesContactForm',
-      title: 'Contact',
-      type: 'contactForm',
+      name: 'spacesForm',
+      title: 'Form',
+      type: 'form',
       hidden: ({ document }) => document?.pageType !== 'spaces',
     }),
     defineField({

@@ -29,6 +29,7 @@
     "react-dom": "^19.1.1",
     "react-error-boundary": "^6.0.0",
     "react-select": "^5.10.2",
+    "resend": "^6.9.2",
     "sanity": "^4.6.0",
     "sanity-plugin-media": "^4.0.0",
     "vanilla-lazyload": "^19.1.3"
