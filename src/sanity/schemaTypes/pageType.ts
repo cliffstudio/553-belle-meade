@@ -186,6 +186,12 @@ export const pageType = defineType({
       type: 'gallery',
       hidden: ({ document }) => document?.pageType !== 'gallery',
     }),
+    defineField({
+      name: 'galleryCta',
+      title: 'CTA Banner',
+      type: 'ctaBanner',
+      hidden: ({ document }) => document?.pageType !== 'gallery',
+    }),
 
     // Press specific fields
     defineField({

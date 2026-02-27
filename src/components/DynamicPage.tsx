@@ -136,6 +136,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       case 'gallery':
         addSection(sections, page.galleryImages, 'gallery', 'gallery-images')
+        addSection(sections, page.galleryCta, 'ctaBanner', 'gallery-cta')
         break
 
       case 'press':
