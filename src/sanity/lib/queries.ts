@@ -528,6 +528,9 @@ export const pageQuery = groq`
           caption,
           imageSize
         }
+      },
+      galleryCta {
+        cta ${linkFragment}
       }
     },
 
