@@ -51,46 +51,50 @@ export default function Footer({ footer }: FooterProps) {
         </div>
 
         <div className="column-2 col-6-12_lg">
-          {footer.column2FooterItems && footer.column2FooterItems.map((item, index) => (
-            <div key={index}>
-              {item.heading && (
-                <div className="cta-font heading">{item.heading}</div>
-              )}
-              {item.text && (
-                <div>
-                  <PortableText value={item.text} components={portableTextComponents} />
-                </div>
-              )}
-            </div>
-          ))}
-
-          {footer.footerNav?.map((link, index) => {
-            let href = ''
-            if (link.linkType === 'external') {
-              href = link.href || ''
-            } else if (link.linkType === 'jump') {
-              href = link.jumpLink || ''
-            } else {
-              href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
-            }
-            
-            const label = link.label || link.pageLink?.title
-            
-            // Skip rendering if href is undefined
-            if (!href) return null
-            
-            return (
-              <div key={index} className="underline-link cream uppercase cta-font">
-                <Link
-                  href={href}
-                  target={link.linkType === 'external' ? '_blank' : undefined}
-                  rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
-                >
-                  {label}
-                </Link>
+          <div className="nav-wrap">
+            {footer.column2FooterItems && footer.column2FooterItems.map((item, index) => (
+              <div key={index}>
+                {item.heading && (
+                  <div className="cta-font heading">{item.heading}</div>
+                )}
+                {item.text && (
+                  <div>
+                    <PortableText value={item.text} components={portableTextComponents} />
+                  </div>
+                )}
               </div>
-            )
-          })}
+            ))}
+
+            {footer.footerNav?.map((link, index) => {
+              let href = ''
+              if (link.linkType === 'external') {
+                href = link.href || ''
+              } else if (link.linkType === 'jump') {
+                href = link.jumpLink || ''
+              } else {
+                href = link.pageLink?.slug ? `/${link.pageLink.slug}` : ''
+              }
+              
+              const label = link.label || link.pageLink?.title
+              
+              // Skip rendering if href is undefined
+              if (!href) return null
+              
+              return (
+                <div key={index} className="underline-link cream uppercase cta-font">
+                  <Link
+                    href={href}
+                    target={link.linkType === 'external' ? '_blank' : undefined}
+                    rel={link.linkType === 'external' ? 'noopener noreferrer' : undefined}
+                  >
+                    {label}
+                  </Link>
+                </div>
+              )
+            })}
+          </div>
+
+          <FooterLottieAnimation footerRef={footerRef} />
         </div>
         
         <div className="column-3 col-3-12_lg">
