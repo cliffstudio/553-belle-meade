@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     const formTitle = (body?._formTitle as string)?.trim()
     const subject = formTitle ? `New submission from website form: ${formTitle}` : 'New message from Belle Meade contact form'
     const email = findReplyToEmail(body)
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: fromEmail,
       to: toEmail,
       replyTo: email || undefined,
