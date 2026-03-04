@@ -519,6 +519,18 @@ LEASING MAP STYLES --------------------
 
 .leasing-brochure {
   background-color: #333333;
+  padding-left: get-rem-desktop(100);
+  padding-right: get-rem-desktop(100);
+
+  @media only screen and (max-width: 1440px) {
+    padding-left: get-rem-tablet(60);
+    padding-right: get-rem-tablet(60);
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding-left: get-rem-mobile(30);
+    padding-right: get-rem-mobile(30);
+  }
 
   .inner-wrap {
     position: relative;
