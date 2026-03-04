@@ -117,10 +117,14 @@ export default async function DynamicPage({ params }: PageProps) {
         addSection(sections, page.spacesHero, 'heroMedia', 'spaces-hero')
         addSection(sections, page.spacesLeasingMap, 'leasingMap', 'spaces-leasing-map')
         addSection(sections, page.spacesFullWidthMedia, 'fullWidthMedia', 'spaces-full-width-media')
-        addSection(sections, page.spacesIssuuEmbed, 'issuuEmbed', 'spaces-issuu-embed')
         // addSection(sections, page.spacesContactForm, 'contactForm', 'spaces-contact-form')
         addSection(sections, page.spacesForm, 'form', 'spaces-form')
         addSection(sections, page.spacesCta, 'ctaBanner', 'spaces-cta')
+        break
+
+      case 'brochure':
+        addSection(sections, page.brochureHero, 'heroMedia', 'brochure-hero')
+        addSection(sections, page.brochureIssuuEmbed, 'issuuEmbed', 'brochure-issuu-embed')
         break
 
       case 'heritage':
