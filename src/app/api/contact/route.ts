@@ -1,9 +1,9 @@
 /**
  * Contact form API – sends submissions via Resend.
  *
- * From: always Belle Meade <onboarding@resend.dev> (no domain verification required).
- * Reply-To: set to the submitter’s email from the form so the admin can hit Reply to respond.
- * To: admin notification email (from Sanity or CONTACT_EMAIL_TO).
+ * From: Belle Meade <onboarding@resend.dev>
+ * To: CONTACT_EMAIL_TO or the form’s “To email address” in Sanity (e.g. leasing@ajcpt.com).
+ * Reply-To: submitter’s email so the admin can hit Reply to respond.
  *
  * Required env: RESEND_API_KEY
  * Optional: CONTACT_EMAIL_TO (default recipient when form doesn’t set one)
@@ -11,7 +11,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const RESEND_DEFAULT_FROM = 'Belle Meade <onboarding@resend.dev>'
+const DEFAULT_FROM = 'Belle Meade <noreply@bmvillage.com>'
 
 const EMAIL_META_KEYS = new Set(['usercode', 'form-name', 'form-title', '_toEmailAddress', '_fromEmailAddress', '_formTitle', '_replyToEmail'])
 
@@ -51,8 +51,7 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.RESEND_API_KEY
     const toEmail = (body?._toEmailAddress as string)?.trim() || process.env.CONTACT_EMAIL_TO
-    // Always use Resend’s default sender so no domain verification is required
-    const fromEmail = RESEND_DEFAULT_FROM
+    const fromEmail = process.env.RESEND_FROM_EMAIL?.trim() || DEFAULT_FROM
 
     if (!apiKey) {
       console.error('RESEND_API_KEY is not set')
