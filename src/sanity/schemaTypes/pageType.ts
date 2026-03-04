@@ -27,6 +27,7 @@ export const pageType = defineType({
           { title: 'Sign In', value: 'sign-in' },
           { title: 'Walkthrough', value: 'walkthrough' },
           { title: 'Spaces', value: 'spaces' },
+          { title: 'Brochure', value: 'brochure' },
           { title: 'Heritage', value: 'heritage' },
           { title: 'Carousel', value: 'carousel' },
           { title: 'Gallery', value: 'gallery' },
@@ -91,6 +92,12 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'spaces',
     }),
     defineField({
+      name: 'brochureHero',
+      title: 'Hero',
+      type: 'heroMedia',
+      hidden: ({ document }) => document?.pageType !== 'brochure',
+    }),
+    defineField({
       name: 'spacesLeasingMap',
       title: 'Leasing Map',
       type: 'leasingMap',
@@ -103,10 +110,10 @@ export const pageType = defineType({
       hidden: ({ document }) => document?.pageType !== 'spaces',
     }),
     defineField({
-      name: 'spacesIssuuEmbed',
+      name: 'brochureIssuuEmbed',
       title: 'Issuu Embed',
       type: 'issuuEmbed',
-      hidden: ({ document }) => document?.pageType !== 'spaces',
+      hidden: ({ document }) => document?.pageType !== 'brochure',
     }),
     // defineField({
     //   name: 'spacesContactForm',

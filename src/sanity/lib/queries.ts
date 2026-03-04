@@ -330,10 +330,6 @@ export const pageQuery = groq`
         video ${videoFragment},
         showControls
       },
-      spacesIssuuEmbed {
-        src,
-        title
-      },
       // spacesContactForm {
       //   body
       // },
@@ -347,6 +343,27 @@ export const pageQuery = groq`
       },
       spacesCta {
         cta ${linkFragment}
+      }
+    },
+
+    // Brochure fields
+    pageType == "brochure" => {
+      brochureHero {
+        layout,
+        desktopTitle,
+        mobileTitle,
+        backgroundMediaType,
+        desktopBackgroundImage ${imageFragment},
+        mobileBackgroundImage ${imageFragment},
+        desktopBackgroundVideo ${videoFragment},
+        desktopBackgroundVideoPlaceholder ${imageFragment},
+        showControls,
+        overlayDarkness,
+        cta ${linkFragment}
+      },
+      brochureIssuuEmbed {
+        src,
+        title
       }
     },
 
