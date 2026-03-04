@@ -13,7 +13,7 @@ export default defineType({
     defineField({
       name: 'text',
       title: 'Text',
-      type: 'text'
+      type: 'richPortableText'
     }),
   ],
   preview: {
