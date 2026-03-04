@@ -5,6 +5,7 @@ import Lottie from 'lottie-react'
 import type { LottieRefCurrentProps } from 'lottie-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Link from 'next/link'
 
 const TEXT_PAUSE_MS = 2500
 const FADE_OUT_MS = 1200
@@ -105,6 +106,8 @@ export default function FooterLottieAnimation({ footerRef }: FooterLottieAnimati
       <p className={`footer-lottie-text${showLottieText ? ' footer-lottie-text--visible' : ''}`}>
         The Roots of Iris City
       </p>
+
+      <Link href="/heritage" />
     </div>
   )
 }
