@@ -29,6 +29,11 @@ body {
   @include font-size(15px, 15px, 19px);
 }
 
+ul {
+  list-style: disc;
+  margin-left: 1em;
+}
+
 p, ul, ol {
   margin-bottom: get-rem-desktop(26.6);
 
@@ -58,10 +63,11 @@ a[target=_blank] {
   cursor: alias;
 }
 
-// ::selection {
-//   background-color: $colour-cream;
-//   color: $colour-burgundy;
-// }
+p {
+  a {
+    text-decoration: underline;
+  }
+}
 
 /*
 DIV / IMG / VIDEO ------------------
