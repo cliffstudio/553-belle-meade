@@ -1,6 +1,7 @@
 import { cache } from 'react'
-import { clientNoCdn } from '../../../sanity.client'
+import { client } from '../../../sanity.client'
 import { metadataQuery } from './queries'
+import { SANITY_GLOBAL_REVALIDATE, sanityCacheTags } from './cache'
 
 export type SiteSettings = {
   _id?: string
@@ -22,7 +23,12 @@ const FALLBACK_DESCRIPTION =
  */
 export const getSiteSettings = cache(async (): Promise<SiteSettings | null> => {
   try {
-    const settings = await clientNoCdn.fetch<SiteSettings | null>(metadataQuery, {}, { next: { revalidate: 0 } })
+    const settings = await client.fetch<SiteSettings | null>(metadataQuery, {}, {
+      next: {
+        revalidate: SANITY_GLOBAL_REVALIDATE,
+        tags: [sanityCacheTags.siteSettings],
+      },
+    })
     return settings
   } catch {
     return null
