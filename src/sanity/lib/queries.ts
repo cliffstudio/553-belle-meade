@@ -708,6 +708,74 @@ export const rightMenuQuery = groq`
   }
 `
 
+// Single request for main layout (footer + both menus)
+export const globalLayoutQuery = groq`{
+  "footer": *[_type == "footer"][0] {
+    _id,
+    title,
+    newsletterText,
+    column1FooterItems[] {
+      heading,
+      text
+    },
+    column2FooterItems[] {
+      heading,
+      text
+    },
+    footerNav[] {
+      linkType,
+      label,
+      href,
+      jumpLink,
+      "isExternal": linkType == "external",
+      pageLink-> {
+        title,
+        "slug": slug.current
+      }
+    }
+  },
+  "leftMenu": *[_type == "menu" && title == "Left Menu"][0] {
+    _id,
+    title,
+    items[] {
+      itemType,
+      pageLink-> {
+        _id,
+        title,
+        "slug": slug.current
+      },
+      heading,
+      subItems[] {
+        pageLink-> {
+          _id,
+          title,
+          "slug": slug.current
+        }
+      }
+    }
+  },
+  "rightMenu": *[_type == "menu" && title == "Right Menu"][0] {
+    _id,
+    title,
+    items[] {
+      itemType,
+      pageLink-> {
+        _id,
+        title,
+        "slug": slug.current
+      },
+      heading,
+      subItems[] {
+        pageLink-> {
+          _id,
+          title,
+          "slug": slug.current
+        }
+      }
+    }
+  }
+}`
+
 // Metadata query (from Site Settings)
 export const metadataQuery = groq`
   *[_type == "siteSettings"][0] {

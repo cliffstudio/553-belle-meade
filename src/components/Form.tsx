@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import { PortableText } from '@portabletext/react';
-import { PortableTextBlock } from '../types/sanity';
-import { portableTextComponents } from '../utils/portableTextComponents';
+import React, { useState, useRef } from "react";
+import { PortableText } from "@portabletext/react";
+import { PortableTextBlock } from "../types/sanity";
+import { portableTextComponents } from "../utils/portableTextComponents";
 
 type FormFieldBase = {
   _type: string;
@@ -13,15 +13,19 @@ type FormFieldBase = {
   halfWidth?: boolean;
 };
 
-type TextInputField = FormFieldBase & { _type: 'textInput' };
-type EmailInputField = FormFieldBase & { _type: 'emailInput' };
-type TextareaField = FormFieldBase & { _type: 'textarea' };
+type TextInputField = FormFieldBase & { _type: "textInput" };
+type EmailInputField = FormFieldBase & { _type: "emailInput" };
+type TextareaField = FormFieldBase & { _type: "textarea" };
 type SelectField = FormFieldBase & {
-  _type: 'select';
+  _type: "select";
   options?: Array<{ _key?: string; option?: string } | string>;
 };
 
-export type FormField = TextInputField | EmailInputField | TextareaField | SelectField;
+export type FormField =
+  | TextInputField
+  | EmailInputField
+  | TextareaField
+  | SelectField;
 
 export type FormProps = {
   title?: string;
@@ -33,27 +37,32 @@ export type FormProps = {
 };
 
 function sanitizeFieldName(label: string | undefined): string {
-  if (!label) return '';
-  return label.toLowerCase().replace(/[^\w\s]|_/g, '').replace(/\s+/g, '-');
+  if (!label) return "";
+  return label
+    .toLowerCase()
+    .replace(/[^\w\s]|_/g, "")
+    .replace(/\s+/g, "-");
 }
 
-function getSelectOptionValue(option: { _key?: string; option?: string } | string): string {
-  return typeof option === 'string' ? option : (option?.option ?? '');
+function getSelectOptionValue(
+  option: { _key?: string; option?: string } | string,
+): string {
+  return typeof option === "string" ? option : (option?.option ?? "");
 }
 
 const Form: React.FC<FormProps> = ({
   title,
   introduction,
   formFields = [],
-  submitLabel = 'Submit',
-  successMessage = 'Thank you for getting in touch!',
+  submitLabel = "Submit",
+  successMessage = "Thank you for getting in touch!",
   adminNotificationEmail,
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [formSuccess, setFormSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
   const [formSending, setFormSending] = useState(false);
-  const [formMessage, setFormMessage] = useState('');
+  const [formMessage, setFormMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,54 +78,63 @@ const Form: React.FC<FormProps> = ({
     });
 
     // Honeypot
-    if (formDataObject['usercode']) {
+    if (formDataObject["usercode"]) {
       setFormSending(false);
       return;
     }
 
     // Pass CMS-configured title and recipient so API can use them
-    if (title) formDataObject['_formTitle'] = title;
-    if (adminNotificationEmail) formDataObject['_toEmailAddress'] = adminNotificationEmail;
+    if (title) formDataObject["_formTitle"] = title;
+    if (adminNotificationEmail)
+      formDataObject["_toEmailAddress"] = adminNotificationEmail;
     // So the recipient can hit "Reply" to respond to the submitter
-    const emailField = formFields.find((f) => f._type === 'emailInput');
+    const emailField = formFields.find((f) => f._type === "emailInput");
     const emailFieldName = emailField && sanitizeFieldName(emailField.label);
-    if (emailFieldName && formDataObject[emailFieldName]) formDataObject['_replyToEmail'] = formDataObject[emailFieldName];
+    if (emailFieldName && formDataObject[emailFieldName])
+      formDataObject["_replyToEmail"] = formDataObject[emailFieldName];
 
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formDataObject),
     })
       .then(async (response) => {
-        const data = await response.json().catch(() => ({}))
+        const data = await response.json().catch(() => ({}));
         if (!response.ok) {
-          const msg = data?.details ?? data?.error ?? 'Failed to submit form'
-          throw new Error(msg)
+          const msg = data?.details ?? data?.error ?? "Failed to submit form";
+          throw new Error(msg);
         }
-        return data
+        return data;
       })
       .then(() => {
-        if (typeof window !== 'undefined') window.scrollTo({ top: 0 })
-        setFormSuccess(true)
-        setFormMessage(successMessage)
+        if (typeof window !== "undefined") window.scrollTo({ top: 0 });
+        setFormSuccess(true);
+        setFormMessage(successMessage);
       })
       .catch((err: unknown) => {
-        setFormSending(false)
-        setFormError(true)
-        setFormMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
-      })
-  }
+        setFormSending(false);
+        setFormError(true);
+        setFormMessage(
+          err instanceof Error
+            ? err.message
+            : "Something went wrong. Please try again.",
+        );
+      });
+  };
 
   const selectClass = `[background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='15' viewBox='0 0 28 15' fill='none'%3E%3Cpath d='M27 0.999979L14 14L1.00002 0.999979' stroke='%23141313'/%3E%3C/svg%3E")]`;
 
   return (
-    <section className="contact-form-block h-pad row-lg">
+    <section id="contact-form" className="contact-form-block h-pad row-lg">
       <div className="col-3-12_lg desktop"></div>
-      
+
       <div className="col-6-12_lg out-of-view">
         {introduction && introduction.length > 0 && (
           <div className="text-wrap">
-            <PortableText value={introduction} components={portableTextComponents} />
+            <PortableText
+              value={introduction}
+              components={portableTextComponents}
+            />
           </div>
         )}
 
@@ -124,7 +142,7 @@ const Form: React.FC<FormProps> = ({
           ref={formRef}
           method="post"
           onSubmit={handleSubmit}
-          style={{ display: formSuccess ? 'none' : undefined }}
+          style={{ display: formSuccess ? "none" : undefined }}
         >
           <input
             type="text"
@@ -139,9 +157,11 @@ const Form: React.FC<FormProps> = ({
             const name = sanitizeFieldName(field.label);
             const key = field._key ?? `field-${index}`;
 
-            const fieldClassName = field.halfWidth ? 'form-field form-field--half' : 'form-field';
+            const fieldClassName = field.halfWidth
+              ? "form-field form-field--half"
+              : "form-field";
 
-            if (field._type === 'textInput') {
+            if (field._type === "textInput") {
               return (
                 <div key={key} className={fieldClassName}>
                   <input
@@ -155,7 +175,7 @@ const Form: React.FC<FormProps> = ({
               );
             }
 
-            if (field._type === 'emailInput') {
+            if (field._type === "emailInput") {
               return (
                 <div key={key} className={fieldClassName}>
                   <input
@@ -169,7 +189,7 @@ const Form: React.FC<FormProps> = ({
               );
             }
 
-            if (field._type === 'textarea') {
+            if (field._type === "textarea") {
               return (
                 <div key={key} className="form-field">
                   <textarea
@@ -183,7 +203,7 @@ const Form: React.FC<FormProps> = ({
               );
             }
 
-            if (field._type === 'select' && 'options' in field) {
+            if (field._type === "select" && "options" in field) {
               const options = field.options ?? [];
               return (
                 <div key={key} className={fieldClassName}>
@@ -193,13 +213,16 @@ const Form: React.FC<FormProps> = ({
                     aria-label={field.label}
                     className={selectClass}
                   >
-                    <option value="">
-                      {field.label ?? 'Select...'}
-                    </option>
+                    <option value="">{field.label ?? "Select..."}</option>
                     {options.map((opt, i) => {
                       const value = getSelectOptionValue(opt);
                       return (
-                        <option key={typeof opt === 'object' && opt?._key ? opt._key : i} value={value}>
+                        <option
+                          key={
+                            typeof opt === "object" && opt?._key ? opt._key : i
+                          }
+                          value={value}
+                        >
                           {value}
                         </option>
                       );

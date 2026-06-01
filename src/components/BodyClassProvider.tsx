@@ -1,6 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+
+function syncMainTemplateClass(pageType: string) {
+  const main = document.querySelector('main')
+  if (!main) return
+
+  for (const cls of [...main.classList]) {
+    if (cls.startsWith('page-template-')) {
+      main.classList.remove(cls)
+    }
+  }
+  main.classList.add(`page-template-${pageType}`)
+}
 
 interface BodyClassProviderProps {
   pageType?: string
@@ -13,6 +25,12 @@ export default function BodyClassProvider({
   slug, 
   className 
 }: BodyClassProviderProps) {
+  useLayoutEffect(() => {
+    if (pageType) {
+      syncMainTemplateClass(pageType)
+    }
+  }, [pageType])
+
   useEffect(() => {
     // Remove any existing page-specific classes
     const existingClasses = document.body.className

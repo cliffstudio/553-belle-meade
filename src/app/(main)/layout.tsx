@@ -1,5 +1,5 @@
 import '@/styles/style.scss'
-import { getFooterSettings, getLeftMenu, getRightMenu } from '../../utils/footerSettings'
+import { getGlobalLayout } from '../../utils/footerSettings'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import LazyLoadInitializer from '../../components/LazyLoadInitializer'
@@ -10,11 +10,7 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [footerSettings, leftMenu, rightMenu] = await Promise.all([
-    getFooterSettings(),
-    getLeftMenu(),
-    getRightMenu()
-  ])
+  const { footer: footerSettings, leftMenu, rightMenu } = await getGlobalLayout()
 
   return (
     <>

@@ -1,9 +1,10 @@
-import { clientNoCdn } from '../../sanity.client'
-import { footerQuery, leftMenuQuery, rightMenuQuery } from '../sanity/lib/queries'
+import { cache } from 'react'
+import { client } from '../../sanity.client'
+import { globalLayoutQuery } from '../sanity/lib/queries'
+import { SANITY_GLOBAL_REVALIDATE, sanityCacheTags } from '../sanity/lib/cache'
 import { FooterSettings } from '../types/footerSettings'
 
-// Type for menu from menuType schema
-type Menu = {
+export type Menu = {
   _id: string
   title: string
   items: {
@@ -24,41 +25,29 @@ type Menu = {
   }[]
 }
 
-export async function getFooterSettings(): Promise<FooterSettings | null> {
-  try {
-    // Use non-CDN client to ensure fresh footer content bypasses Sanity CDN caching
-    const footer = await clientNoCdn.fetch(footerQuery, {}, {
-      next: { revalidate: 0 }
-    })
-    return footer
-  } catch (error) {
-    console.error('Error fetching footer settings:', error)
-    return null
-  }
+type GlobalLayoutData = {
+  footer: FooterSettings | null
+  leftMenu: Menu | null
+  rightMenu: Menu | null
 }
 
-export async function getLeftMenu(): Promise<Menu | null> {
+/**
+ * Footer + both menus in one CDN-cached request. Dedupes within the same request.
+ */
+export const getGlobalLayout = cache(async (): Promise<GlobalLayoutData> => {
   try {
-    // Use non-CDN client to ensure fresh menu content bypasses Sanity CDN caching
-    const menu = await clientNoCdn.fetch(leftMenuQuery, {}, {
-      next: { revalidate: 0 }
-    })
-    return menu
+    return await client.fetch<GlobalLayoutData>(
+      globalLayoutQuery,
+      {},
+      {
+        next: {
+          revalidate: SANITY_GLOBAL_REVALIDATE,
+          tags: [sanityCacheTags.globalLayout],
+        },
+      },
+    )
   } catch (error) {
-    console.error('Error fetching left menu:', error)
-    return null
+    console.error('Error fetching global layout:', error)
+    return { footer: null, leftMenu: null, rightMenu: null }
   }
-}
-
-export async function getRightMenu(): Promise<Menu | null> {
-  try {
-    // Use non-CDN client to ensure fresh menu content bypasses Sanity CDN caching
-    const menu = await clientNoCdn.fetch(rightMenuQuery, {}, {
-      next: { revalidate: 0 }
-    })
-    return menu
-  } catch (error) {
-    console.error('Error fetching right menu:', error)
-    return null
-  }
-}
+})

@@ -1,69 +1,33 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import { client } from '../../sanity.client'
-import { groq } from 'next-sanity'
+import { useLayoutEffect } from 'react'
+
+function getPageClass(pathname: string) {
+  const cleanPath = pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-')
+  if (cleanPath === '') return 'page-home'
+  return `page-${cleanPath}`
+}
+
+/** Pathname-based template class for SSR; BodyClassProvider syncs the accurate value on the client. */
+function getPageTypeFromPathname(pathname: string) {
+  if (pathname === '/' || pathname === '') return 'home'
+  if (pathname.startsWith('/press/')) return 'press-post'
+  const segment = pathname.replace(/^\//, '').split('/')[0]
+  return segment || 'home'
+}
 
 export default function MainWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const [pageType, setPageType] = useState<string>('home')
-  
-  // Generate page-specific class based on pathname
-  const getPageClass = () => {
-    // Remove leading slash, trailing slash, and convert to kebab-case
-    const cleanPath = pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-')
-    
-    if (cleanPath === '') return 'page-home'
-    return `page-${cleanPath}`
-  }
 
-  // Scroll to top on route change - useLayoutEffect runs before paint/animations
   useLayoutEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
 
-  // Fetch page data to get the correct pageType
-  useEffect(() => {
-    const fetchPageType = async () => {
-      if (pathname === '/' || pathname === '') {
-        setPageType('home')
-        return
-      }
-
-      try {
-        // Remove leading slash and get the slug
-        const slug = pathname.replace(/^\//, '')
-        
-        // Fetch the page data to get the pageType
-        const pageData = await client.fetch(groq`
-          *[_type == "page" && slug.current == $slug][0] {
-            pageType
-          }
-        `, { slug })
-        
-        if (pageData?.pageType) {
-          setPageType(pageData.pageType)
-        } else {
-          // Fallback to pathname-based pageType
-          const fallbackPageType = pathname.split('/')[1] || 'home'
-          setPageType(fallbackPageType)
-        }
-      } catch (error) {
-        console.error('Error fetching page type:', error)
-        // Fallback to pathname-based pageType
-        const fallbackPageType = pathname.split('/')[1] || 'home'
-        setPageType(fallbackPageType)
-      }
-    }
-
-    fetchPageType()
-  }, [pathname])
-
-  const pageTypeClass = `page-template-${pageType}`
+  const pageTypeClass = `page-template-${getPageTypeFromPathname(pathname)}`
 
   return (
-    <main className={`${getPageClass()} ${pageTypeClass}`}>
+    <main className={`${getPageClass(pathname)} ${pageTypeClass}`}>
       {children}
     </main>
   )
