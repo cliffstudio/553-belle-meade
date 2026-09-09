@@ -2,4 +2,9 @@
 /.next
 /next-env.d.ts
 /node_modules
-.env.local
+
+# Environment variables — never commit secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
